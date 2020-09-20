@@ -1,0 +1,516 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="EiSorteeiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CategoriaProduto">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="Nome" Type="varchar(max)" Nullable="false" />
+          <Property Name="DataCadastro" Type="date" Nullable="false" />
+          <Property Name="DataAtualizacao" Type="date" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Multimidia">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="IdProduto" Type="bigint" Nullable="false" />
+          <Property Name="Caminho" Type="varchar(max)" Nullable="false" />
+          <Property Name="DataCadastro" Type="date" Nullable="false" />
+          <Property Name="DataAtualizacao" Type="date" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Permissao">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="Nome" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PermissaoUsuario">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="IdPermissao" Type="bigint" Nullable="false" />
+          <Property Name="IdUsuario" Type="bigint" Nullable="false" />
+          <Property Name="DataCadastro" Type="date" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Produto">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="IdUsuario" Type="bigint" Nullable="false" />
+          <Property Name="IdCategoria" Type="bigint" Nullable="false" />
+          <Property Name="Nome" Type="varchar(max)" Nullable="false" />
+          <Property Name="Descricao" Type="varchar(max)" Nullable="false" />
+          <Property Name="RangeCodigo" Type="int" Nullable="false" />
+          <Property Name="DataCadastro" Type="date" Nullable="false" />
+          <Property Name="DataAtualizacao" Type="date" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="varchar(max)" Nullable="false" />
+          <Property Name="SobreNome" Type="varchar(max)" Nullable="false" />
+          <Property Name="Email" Type="varchar(max)" Nullable="false" />
+          <Property Name="Senha" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="Estado" Type="varchar(max)" Nullable="false" />
+          <Property Name="Cidade" Type="varchar(max)" Nullable="false" />
+          <Property Name="Bairro" Type="varchar(max)" Nullable="false" />
+          <Property Name="Rua" Type="varchar(max)" Nullable="false" />
+          <Property Name="Numero" Type="varchar(max)" Nullable="false" />
+          <Property Name="Cpf" Type="char" MaxLength="14" Nullable="false" />
+          <Property Name="DataCadastro" Type="date" Nullable="false" />
+          <Property Name="DataAtualizacao" Type="date" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Vendedor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="IdUsuario" Type="bigint" Nullable="false" />
+          <Property Name="Codigo" Type="char" MaxLength="8" Nullable="false" />
+          <Property Name="DataCadastro" Type="date" Nullable="false" />
+          <Property Name="DataAtualizacao" Type="date" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="MultimidiaProduto">
+          <End Role="Produto" Type="Self.Produto" Multiplicity="1" />
+          <End Role="Multimidia" Type="Self.Multimidia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Produto">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Multimidia">
+              <PropertyRef Name="IdProduto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Per_Permissao">
+          <End Role="Permissao" Type="Self.Permissao" Multiplicity="1" />
+          <End Role="PermissaoUsuario" Type="Self.PermissaoUsuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Permissao">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PermissaoUsuario">
+              <PropertyRef Name="IdPermissao" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ProdutoCategoria">
+          <End Role="CategoriaProduto" Type="Self.CategoriaProduto" Multiplicity="1" />
+          <End Role="Produto" Type="Self.Produto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoriaProduto">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Produto">
+              <PropertyRef Name="IdCategoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ProdutoUsuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Produto" Type="Self.Produto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Produto">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UsuarioPermissao">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="PermissaoUsuario" Type="Self.PermissaoUsuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PermissaoUsuario">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="VendedorUsuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Vendedor" Type="Self.Vendedor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Vendedor">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EiSorteeiModelStoreContainer">
+          <EntitySet Name="CategoriaProduto" EntityType="Self.CategoriaProduto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Multimidia" EntityType="Self.Multimidia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Permissao" EntityType="Self.Permissao" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PermissaoUsuario" EntityType="Self.PermissaoUsuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Produto" EntityType="Self.Produto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vendedor" EntityType="Self.Vendedor" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="MultimidiaProduto" Association="Self.MultimidiaProduto">
+            <End Role="Produto" EntitySet="Produto" />
+            <End Role="Multimidia" EntitySet="Multimidia" />
+          </AssociationSet>
+          <AssociationSet Name="Per_Permissao" Association="Self.Per_Permissao">
+            <End Role="Permissao" EntitySet="Permissao" />
+            <End Role="PermissaoUsuario" EntitySet="PermissaoUsuario" />
+          </AssociationSet>
+          <AssociationSet Name="ProdutoCategoria" Association="Self.ProdutoCategoria">
+            <End Role="CategoriaProduto" EntitySet="CategoriaProduto" />
+            <End Role="Produto" EntitySet="Produto" />
+          </AssociationSet>
+          <AssociationSet Name="ProdutoUsuario" Association="Self.ProdutoUsuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Produto" EntitySet="Produto" />
+          </AssociationSet>
+          <AssociationSet Name="UsuarioPermissao" Association="Self.UsuarioPermissao">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="PermissaoUsuario" EntitySet="PermissaoUsuario" />
+          </AssociationSet>
+          <AssociationSet Name="VendedorUsuario" Association="Self.VendedorUsuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Vendedor" EntitySet="Vendedor" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EiSorteeiModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="EiSorteeiEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CategoriaProduto" EntityType="EiSorteeiModel.CategoriaProduto" />
+          <EntitySet Name="Multimidia" EntityType="EiSorteeiModel.Multimidia" />
+          <EntitySet Name="Permissao" EntityType="EiSorteeiModel.Permissao" />
+          <EntitySet Name="PermissaoUsuario" EntityType="EiSorteeiModel.PermissaoUsuario" />
+          <EntitySet Name="Produto" EntityType="EiSorteeiModel.Produto" />
+          <EntitySet Name="Usuario" EntityType="EiSorteeiModel.Usuario" />
+          <EntitySet Name="Vendedor" EntityType="EiSorteeiModel.Vendedor" />
+          <AssociationSet Name="ProdutoCategoria" Association="EiSorteeiModel.ProdutoCategoria">
+            <End Role="CategoriaProduto" EntitySet="CategoriaProduto" />
+            <End Role="Produto" EntitySet="Produto" />
+          </AssociationSet>
+          <AssociationSet Name="MultimidiaProduto" Association="EiSorteeiModel.MultimidiaProduto">
+            <End Role="Produto" EntitySet="Produto" />
+            <End Role="Multimidia" EntitySet="Multimidia" />
+          </AssociationSet>
+          <AssociationSet Name="Per_Permissao" Association="EiSorteeiModel.Per_Permissao">
+            <End Role="Permissao" EntitySet="Permissao" />
+            <End Role="PermissaoUsuario" EntitySet="PermissaoUsuario" />
+          </AssociationSet>
+          <AssociationSet Name="UsuarioPermissao" Association="EiSorteeiModel.UsuarioPermissao">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="PermissaoUsuario" EntitySet="PermissaoUsuario" />
+          </AssociationSet>
+          <AssociationSet Name="ProdutoUsuario" Association="EiSorteeiModel.ProdutoUsuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Produto" EntitySet="Produto" />
+          </AssociationSet>
+          <AssociationSet Name="VendedorUsuario" Association="EiSorteeiModel.VendedorUsuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Vendedor" EntitySet="Vendedor" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="CategoriaProduto">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="Nome" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DataCadastro" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DataAtualizacao" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Produto" Relationship="EiSorteeiModel.ProdutoCategoria" FromRole="CategoriaProduto" ToRole="Produto" />
+        </EntityType>
+        <EntityType Name="Multimidia">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="IdProduto" Type="Int64" Nullable="false" />
+          <Property Name="Caminho" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DataCadastro" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DataAtualizacao" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Produto" Relationship="EiSorteeiModel.MultimidiaProduto" FromRole="Multimidia" ToRole="Produto" />
+        </EntityType>
+        <EntityType Name="Permissao">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="Nome" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PermissaoUsuario" Relationship="EiSorteeiModel.Per_Permissao" FromRole="Permissao" ToRole="PermissaoUsuario" />
+        </EntityType>
+        <EntityType Name="PermissaoUsuario">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="IdPermissao" Type="Int64" Nullable="false" />
+          <Property Name="IdUsuario" Type="Int64" Nullable="false" />
+          <Property Name="DataCadastro" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Permissao" Relationship="EiSorteeiModel.Per_Permissao" FromRole="PermissaoUsuario" ToRole="Permissao" />
+          <NavigationProperty Name="Usuario" Relationship="EiSorteeiModel.UsuarioPermissao" FromRole="PermissaoUsuario" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Produto">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="IdUsuario" Type="Int64" Nullable="false" />
+          <Property Name="IdCategoria" Type="Int64" Nullable="false" />
+          <Property Name="Nome" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Descricao" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="RangeCodigo" Type="Int32" Nullable="false" />
+          <Property Name="DataCadastro" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DataAtualizacao" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CategoriaProduto" Relationship="EiSorteeiModel.ProdutoCategoria" FromRole="Produto" ToRole="CategoriaProduto" />
+          <NavigationProperty Name="Multimidia" Relationship="EiSorteeiModel.MultimidiaProduto" FromRole="Produto" ToRole="Multimidia" />
+          <NavigationProperty Name="Usuario" Relationship="EiSorteeiModel.ProdutoUsuario" FromRole="Produto" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SobreNome" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Senha" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Cidade" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Bairro" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Rua" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Numero" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Cpf" Type="String" Nullable="false" MaxLength="14" FixedLength="true" Unicode="false" />
+          <Property Name="DataCadastro" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DataAtualizacao" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="PermissaoUsuario" Relationship="EiSorteeiModel.UsuarioPermissao" FromRole="Usuario" ToRole="PermissaoUsuario" />
+          <NavigationProperty Name="Produto" Relationship="EiSorteeiModel.ProdutoUsuario" FromRole="Usuario" ToRole="Produto" />
+          <NavigationProperty Name="Vendedor" Relationship="EiSorteeiModel.VendedorUsuario" FromRole="Usuario" ToRole="Vendedor" />
+        </EntityType>
+        <EntityType Name="Vendedor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="IdUsuario" Type="Int64" Nullable="false" />
+          <Property Name="Codigo" Type="String" Nullable="false" MaxLength="8" FixedLength="true" Unicode="false" />
+          <Property Name="DataCadastro" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DataAtualizacao" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Usuario" Relationship="EiSorteeiModel.VendedorUsuario" FromRole="Vendedor" ToRole="Usuario" />
+        </EntityType>
+        <Association Name="ProdutoCategoria">
+          <End Type="EiSorteeiModel.CategoriaProduto" Role="CategoriaProduto" Multiplicity="1" />
+          <End Type="EiSorteeiModel.Produto" Role="Produto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoriaProduto">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Produto">
+              <PropertyRef Name="IdCategoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MultimidiaProduto">
+          <End Type="EiSorteeiModel.Produto" Role="Produto" Multiplicity="1" />
+          <End Type="EiSorteeiModel.Multimidia" Role="Multimidia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Produto">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Multimidia">
+              <PropertyRef Name="IdProduto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Per_Permissao">
+          <End Type="EiSorteeiModel.Permissao" Role="Permissao" Multiplicity="1" />
+          <End Type="EiSorteeiModel.PermissaoUsuario" Role="PermissaoUsuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Permissao">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PermissaoUsuario">
+              <PropertyRef Name="IdPermissao" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UsuarioPermissao">
+          <End Type="EiSorteeiModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="EiSorteeiModel.PermissaoUsuario" Role="PermissaoUsuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PermissaoUsuario">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ProdutoUsuario">
+          <End Type="EiSorteeiModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="EiSorteeiModel.Produto" Role="Produto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Produto">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="VendedorUsuario">
+          <End Type="EiSorteeiModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="EiSorteeiModel.Vendedor" Role="Vendedor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Vendedor">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EiSorteeiModelStoreContainer" CdmEntityContainer="EiSorteeiEntities">
+          <EntitySetMapping Name="CategoriaProduto">
+            <EntityTypeMapping TypeName="EiSorteeiModel.CategoriaProduto">
+              <MappingFragment StoreEntitySet="CategoriaProduto">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DataAtualizacao" ColumnName="DataAtualizacao" />
+                <ScalarProperty Name="DataCadastro" ColumnName="DataCadastro" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Multimidia">
+            <EntityTypeMapping TypeName="EiSorteeiModel.Multimidia">
+              <MappingFragment StoreEntitySet="Multimidia">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DataAtualizacao" ColumnName="DataAtualizacao" />
+                <ScalarProperty Name="DataCadastro" ColumnName="DataCadastro" />
+                <ScalarProperty Name="Caminho" ColumnName="Caminho" />
+                <ScalarProperty Name="IdProduto" ColumnName="IdProduto" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Permissao">
+            <EntityTypeMapping TypeName="EiSorteeiModel.Permissao">
+              <MappingFragment StoreEntitySet="Permissao">
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PermissaoUsuario">
+            <EntityTypeMapping TypeName="EiSorteeiModel.PermissaoUsuario">
+              <MappingFragment StoreEntitySet="PermissaoUsuario">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DataCadastro" ColumnName="DataCadastro" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="IdPermissao" ColumnName="IdPermissao" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Produto">
+            <EntityTypeMapping TypeName="EiSorteeiModel.Produto">
+              <MappingFragment StoreEntitySet="Produto">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DataAtualizacao" ColumnName="DataAtualizacao" />
+                <ScalarProperty Name="DataCadastro" ColumnName="DataCadastro" />
+                <ScalarProperty Name="RangeCodigo" ColumnName="RangeCodigo" />
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="EiSorteeiModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DataAtualizacao" ColumnName="DataAtualizacao" />
+                <ScalarProperty Name="DataCadastro" ColumnName="DataCadastro" />
+                <ScalarProperty Name="Cpf" ColumnName="Cpf" />
+                <ScalarProperty Name="Numero" ColumnName="Numero" />
+                <ScalarProperty Name="Rua" ColumnName="Rua" />
+                <ScalarProperty Name="Bairro" ColumnName="Bairro" />
+                <ScalarProperty Name="Cidade" ColumnName="Cidade" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Senha" ColumnName="Senha" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="SobreNome" ColumnName="SobreNome" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vendedor">
+            <EntityTypeMapping TypeName="EiSorteeiModel.Vendedor">
+              <MappingFragment StoreEntitySet="Vendedor">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DataAtualizacao" ColumnName="DataAtualizacao" />
+                <ScalarProperty Name="DataCadastro" ColumnName="DataCadastro" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
