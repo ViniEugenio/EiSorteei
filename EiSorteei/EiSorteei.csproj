@@ -193,8 +193,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Imagens\Cópia de Logo Verde e Branco de Curso Preparatório %281%29.png" />
     <Content Include="Imagens\download.png" />
-    <Content Include="Imagens\Logo Verde e Branco de Curso Preparatório %282%29.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <EntityDeploy Include="Data\Model1.edmx">

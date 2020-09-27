@@ -16,6 +16,27 @@
           type="image/x-icon" />
 </head>
 <body>
+    <header class="header__container">
+        <div class="center header-flex">
+            <a href="@Url.Action("Index","Home")" class="logo__nav">
+                <img src="~/Imagens/Cópia de Logo Verde e Branco de Curso Preparatório (1).png" alt="Ei Sorteei" />
+            </a>
+
+            <div class="burguer__container">
+                <div class="menu__burguer" id="menuToggle">
+                    <input type="checkbox" />
+
+                    <span></span>
+                    <span></span>
+                    <span></span>
+
+                    <ul id="menu">
+                        <a href="@Url.Action("Index","Home")"><li>Home</li></a>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
     @RenderBody()
     <section class="first__footer">
         <div class="center container__footer">
@@ -34,14 +55,14 @@
             <div class="Yellow_line"></div>
 
             <div class="redesociais__nov">
-                <a href="https://www.facebook.com/drmarcelogiovani/?ti=as" target="_blank" class="redesocial__nov"><i class="fab fa-facebook"></i></a>
-                <a href="https://instagram.com/drmarcelogiovani?igshid=1c1twy21u5aq9" target="_blank" class="redesocial__nov"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/Ei-Sorteei-109594700891331/?view_public_for=109594700891331" target="_blank" class="redesocial__nov"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.instagram.com/ei_sorteei/" target="_blank" class="redesocial__nov"><i class="fab fa-instagram"></i></a>
             </div>
         </div>
     </section>
     <footer>
         <div class="center">
-            <img src="~/Imagens/Logo Verde e Branco de Curso Preparatório (2).png" alt="Dr. Marcelo Giovani" style="width: 220px; height: 105px;"/>
+            <img src="~/Imagens/Cópia de Logo Verde e Branco de Curso Preparatório (1).png" alt="Dr. Marcelo Giovani" style="width: 220px; height: 84px;" />
             <p>Todos os direitos reservados</p>
         </div>
     </footer>
