@@ -1,43 +1,84 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Meu Aplicativo ASP.NET</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />    
+    <title>@ViewData["Title"]</title>
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+    <link rel="font" href="~/Content/fonts/Amiri-Bold.ttf" />
+    <link rel="font" href="~/Content/fonts/Amiri-BoldItalic.ttf" />
+    <link rel="font" href="~/Content/fonts/Amiri-Italic.ttf" />
+    <link rel="font" href="~/Content/fonts/Amiri-Regular.ttf" />
+    <link href="~/Content/slick.css" rel="stylesheet" />
+    <link rel="shortcut icon"
+          href="~/Images/favicon.png"
+          type="image/x-icon" />
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Nome do aplicativo", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Início", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Sobre", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contato", "Contact", "Home")</li>
-                </ul>
+    @RenderBody()
+    <section class="first__footer">
+        <div class="center container__footer">
+            <h1>Receba Novidades</h1>
+            <div class="Yellow_line"></div>
+            <p>Você gosta desse conteúdo e gostaria de ser avisado sobre nossas atualizações? Deixe seu e-mail para receber nossos alertas.</p>
+            <form class="box__nov">
+                <div class="nov_cont">
+                    <input type="text" placeholder="Digite seu e-mail" id="EmailDigitado" />
+                    <span class="erroform erronov">E-mail inválido</span>
+                </div>
+                <button type="button" id="novidades-btn-2">Enviar</button>
+            </form>
+
+            <h1>Siga nas redes sociais</h1>
+            <div class="Yellow_line"></div>
+
+            <div class="redesociais__nov">
+                <a href="https://www.facebook.com/drmarcelogiovani/?ti=as" target="_blank" class="redesocial__nov"><i class="fab fa-facebook"></i></a>
+                <a href="https://instagram.com/drmarcelogiovani?igshid=1c1twy21u5aq9" target="_blank" class="redesocial__nov"><i class="fab fa-instagram"></i></a>
             </div>
         </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Meu Aplicativo ASP.NET</p>
-        </footer>
-    </div>
+    </section>
+    <footer>
+        <div class="center">
+            <img src="~/Imagens/Logo Verde e Branco de Curso Preparatório (2).png" alt="Dr. Marcelo Giovani" />
+            <p>Todos os direitos reservados</p>
+        </div>
+    </footer>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    <a href="https://wa.me/5524993316432" class="float" target="_blank">
+        <i class="fab fa-whatsapp" my-float"></i>
+    </a>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="~/Scripts/jquery.mask.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.js"></script>
+    <script src="~/js/slick.min.js"></script>
+    <script src="~/js/site.js"></script>
+    @RenderSection("Scripts", required: false)
+
+    <div id="myModal2" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <img src="" alt="" />
+            <strong>Email Cadastrado!</strong>
+            <p>Obrigado pelo seu cadastro.</p>
+            <a class="entendi2" style="cursor:pointer;">Entendi</a>
+        </div>
+
+    </div>
 </body>
 </html>
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-176121926-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-176121926-1');
+</script>
