@@ -89,6 +89,7 @@
     <Property Name="DataCadastro" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="DataAtualizacao" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="Status" Type="Boolean" Nullable="false" />
+    <Property Name="ValorRifa" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
     <NavigationProperty Name="CategoriaProduto" Relationship="EiSorteeiModel.ProdutoCategoria" FromRole="Produto" ToRole="CategoriaProduto" />
     <NavigationProperty Name="Multimidia" Relationship="EiSorteeiModel.MultimidiaProduto" FromRole="Produto" ToRole="Multimidia" />
     <NavigationProperty Name="Usuario" Relationship="EiSorteeiModel.ProdutoUsuario" FromRole="Produto" ToRole="Usuario" />
@@ -101,7 +102,7 @@
     <Property Name="Nome" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="SobreNome" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="Email" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="Senha" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
+    <Property Name="Senha" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="Estado" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="Cidade" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="Bairro" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />

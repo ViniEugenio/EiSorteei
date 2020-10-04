@@ -51,6 +51,7 @@
     <Property Name="DataCadastro" Type="date" Nullable="false" />
     <Property Name="DataAtualizacao" Type="date" Nullable="false" />
     <Property Name="Status" Type="bit" Nullable="false" />
+    <Property Name="ValorRifa" Type="money" Nullable="false" />
   </EntityType>
   <EntityType Name="Usuario">
     <Key>
@@ -60,7 +61,7 @@
     <Property Name="Nome" Type="varchar(max)" Nullable="false" />
     <Property Name="SobreNome" Type="varchar(max)" Nullable="false" />
     <Property Name="Email" Type="varchar(max)" Nullable="false" />
-    <Property Name="Senha" Type="varchar" MaxLength="16" Nullable="false" />
+    <Property Name="Senha" Type="varchar(max)" Nullable="false" />
     <Property Name="Estado" Type="varchar(max)" Nullable="false" />
     <Property Name="Cidade" Type="varchar(max)" Nullable="false" />
     <Property Name="Bairro" Type="varchar(max)" Nullable="false" />

@@ -1,8 +1,42 @@
-﻿
+﻿@model EiSorteei.Models.LoginViewModel
 @{
     ViewBag.Title = "Index";
-    Layout = null;
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Tela de Login</h2>
+
+
+@using (Html.BeginForm("Index", "Login"))
+{
+    @Html.AntiForgeryToken()
+    <section id="Login">
+
+        <div class="card" id="box_login">
+
+            <div class="card-header">
+                <h2 class="text-center">Área Administrativa</h2>
+            </div>
+
+            <div class="card-body">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Senha, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Senha, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Senha, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group text-center">
+                    <button id="BtnLogin">Entrar</button>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+}
 

@@ -5,13 +5,13 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="2fa6d613f9424052997b453e6a9f4b31" Name="Diagram1">
-        <EntityTypeShape EntityType="EiSorteeiModel.CategoriaProduto" Width="1.5" PointX="0.75" PointY="1" />
-        <EntityTypeShape EntityType="EiSorteeiModel.Multimidia" Width="1.5" PointX="5.25" PointY="8.875" />
-        <EntityTypeShape EntityType="EiSorteeiModel.Permissao" Width="1.5" PointX="3.75" PointY="1.25" />
-        <EntityTypeShape EntityType="EiSorteeiModel.PermissaoUsuario" Width="1.5" PointX="6" PointY="4.875" />
+        <EntityTypeShape EntityType="EiSorteeiModel.CategoriaProduto" Width="1.5" PointX="0.75" PointY="1.125" />
+        <EntityTypeShape EntityType="EiSorteeiModel.Multimidia" Width="1.5" PointX="5.25" PointY="9" />
+        <EntityTypeShape EntityType="EiSorteeiModel.Permissao" Width="1.5" PointX="3.75" PointY="1.375" />
+        <EntityTypeShape EntityType="EiSorteeiModel.PermissaoUsuario" Width="1.5" PointX="6" PointY="5" />
         <EntityTypeShape EntityType="EiSorteeiModel.Produto" Width="1.5" PointX="3" PointY="4.375" />
-        <EntityTypeShape EntityType="EiSorteeiModel.Usuario" Width="1.5" PointX="0.75" PointY="3.875" />
-        <EntityTypeShape EntityType="EiSorteeiModel.Vendedor" Width="1.5" PointX="3" PointY="12.125" />
+        <EntityTypeShape EntityType="EiSorteeiModel.Usuario" Width="1.5" PointX="0.75" PointY="4" />
+        <EntityTypeShape EntityType="EiSorteeiModel.Vendedor" Width="1.5" PointX="3" PointY="12.375" />
         <AssociationConnector Association="EiSorteeiModel.ProdutoCategoria" />
         <AssociationConnector Association="EiSorteeiModel.MultimidiaProduto" />
         <AssociationConnector Association="EiSorteeiModel.Per_Permissao" />

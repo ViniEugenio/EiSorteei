@@ -29,6 +29,7 @@ namespace EiSorteei.Data
         public System.DateTime DataCadastro { get; set; }
         public System.DateTime DataAtualizacao { get; set; }
         public bool Status { get; set; }
+        public decimal ValorRifa { get; set; }
     
         public virtual CategoriaProduto CategoriaProduto { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
