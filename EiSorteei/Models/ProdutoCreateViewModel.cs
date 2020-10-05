@@ -25,5 +25,13 @@ namespace EiSorteei.Models
         [Required(ErrorMessage ="Por favor insira o Valor das Rifas")]
         public Decimal ValorRifa { get; set; }
 
+        [DisplayName("Imagem do Produto")]
+        [Required(ErrorMessage ="Por favor selecione uma imagem do Produto")]
+        public List<HttpPostedFileBase> Imagem { get; set; }
+
+        [DisplayName("Categoria do Produto")]
+        [Required(ErrorMessage ="Por favor selecione uma Categoria para o Produto")]
+        public long CategoriaProduto { get; set; }
+
     }
 }

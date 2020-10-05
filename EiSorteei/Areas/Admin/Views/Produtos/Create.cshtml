@@ -18,35 +18,42 @@
             <div class="card-body">
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                <div class="form-group">
+                    <label class="control-label">Imagem</label>
+                    <input type="file" name="Imagem" class="form-control"/>
+                </div>
+
                 <div class="form-group">
                     @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label" })
 
-                        @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
 
                 </div>
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Descricao, htmlAttributes: new { @class = "control-label" })
 
-                        @Html.EditorFor(model => model.Descricao, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Descricao, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Descricao, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Descricao, "", new { @class = "text-danger" })
 
                 </div>
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.RangeCodigo, htmlAttributes: new { @class = "control-label" })
 
-                        @Html.EditorFor(model => model.RangeCodigo, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.RangeCodigo, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.RangeCodigo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.RangeCodigo, "", new { @class = "text-danger" })
 
                 </div>
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.ValorRifa, htmlAttributes: new { @class = "control-label" })
 
-                        @Html.EditorFor(model => model.ValorRifa, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.ValorRifa, "", new { @class = "text-danger" })
+                    <input type="number" class="form-control" name="ValorRifa"/>
+                    @Html.ValidationMessageFor(model => model.ValorRifa, "", new { @class = "text-danger" })
 
                 </div>
 
