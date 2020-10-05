@@ -32,8 +32,18 @@ namespace EiSorteei.Areas.Admin.Controllers
             return View();
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(ProdutoCreateViewModel model)
         {
+            if(model.Imagem.Count()==1)
+            {
+                if(model.Imagem[0]==null)
+                {
+                    ModelState.AddModelError("Imagem", "Por favor selecione pelo menos uma imagem para o Produto");
+                }
+            }
+
             if (ModelState.IsValid)
             {
 

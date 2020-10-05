@@ -5,7 +5,8 @@
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdministrador.cshtml";
 }
 
-@using (Html.BeginForm())
+
+@using (Html.BeginForm("Create", "Produtos", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div style="display:flex; align-items:center; justify-content:center; margin-top:50px;">
         <div class="card" style="width:1200px;">
@@ -18,12 +19,6 @@
             <div class="card-body">
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-
-                <div class="form-group">
-                    <label class="control-label">Imagem</label>
-                    <input type="file" name="Imagem" class="form-control"/>
-                </div>
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label" })
@@ -52,8 +47,42 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.ValorRifa, htmlAttributes: new { @class = "control-label" })
 
-                    <input type="number" class="form-control" name="ValorRifa"/>
+                    <input type="number" class="form-control" name="ValorRifa" />
                     @Html.ValidationMessageFor(model => model.ValorRifa, "", new { @class = "text-danger" })
+
+                </div>
+
+                <div class="form-group">
+
+                    <div class="card">
+
+                        <div class="card-header">
+                            <h2>Imagens do Produto</h2>
+                            @Html.ValidationMessageFor(model => model.Imagem, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="card-body">
+
+                            <div id="Imagens" class="form-group">
+
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        <input type="file" class="form-control" name="Imagem" data-numero="1" onchange="Preview(1)" id="imagem-1" />
+                                    </div>
+
+                                    <div class="col-md-6" style="display:flex; flex-direction:row; justify-content:center;">
+                                        <img id="previewImg-1" style="height:120px; width:120px; display:none;" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <button class="btn btn-success" type="button" id="Adicionar"><i class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
+
+                    </div>
 
                 </div>
 
@@ -65,5 +94,54 @@
 
         </div>
     </div>
+
+}
+
+
+@section Scripts{
+
+    <script>
+
+        let QuantidadeImagens = 1;
+
+        function Preview(numero) {
+
+            var file = $("#imagem-" + numero).get(0).files[0];
+
+            if (file) {
+                var reader = new FileReader();
+
+                reader.onload = function () {
+                    $("#previewImg-" + numero).attr("src", reader.result);
+                    $("#previewImg-" + numero).css("display", "block");
+                }
+
+                reader.readAsDataURL(file);
+            }
+        }
+
+        $("#Adicionar").click(function () {
+            QuantidadeImagens++;
+
+            $("#Imagens").append(
+
+                "<div class='form-group row' id='GrupoImagem-" + QuantidadeImagens + "'>" +
+                "<div class='col-md-6'><input type='file' class='form-control' name='Imagem' data-numero='" + QuantidadeImagens + "' onchange='Preview(" + QuantidadeImagens + ")' id='imagem-" + QuantidadeImagens + "'/>" +
+                "<button class='btn btn-danger' style='margin-top:5px;' type='button' onclick='ExcluirImagem(" + QuantidadeImagens + ")'><i class='fa fa-trash'></i></button>" +
+                "</div>" +
+                "<div class='col-md-6' style='display: flex; flex-direction:row; justify-content: center;'><img id='previewImg-" + QuantidadeImagens + "' style='height:120px; width:120px; display:none;'/></div>" +
+                "</div>"
+
+            );
+
+        });
+
+        function ExcluirImagem(numero) {
+
+            $("#GrupoImagem-" + numero).remove();
+
+        }
+
+    </script>
 
 }
