@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="EiSorteeiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+<Schema Namespace="eisorteeiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityType Name="CategoriaProduto">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="bigint" Nullable="false" />
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Nome" Type="varchar(max)" Nullable="false" />
     <Property Name="DataCadastro" Type="date" Nullable="false" />
     <Property Name="DataAtualizacao" Type="date" Nullable="false" />
@@ -14,7 +14,7 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="bigint" Nullable="false" />
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="IdProduto" Type="bigint" Nullable="false" />
     <Property Name="Caminho" Type="varchar(max)" Nullable="false" />
     <Property Name="DataCadastro" Type="date" Nullable="false" />
@@ -25,14 +25,14 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="bigint" Nullable="false" />
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Nome" Type="varchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="PermissaoUsuario">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="bigint" Nullable="false" />
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="IdPermissao" Type="bigint" Nullable="false" />
     <Property Name="IdUsuario" Type="bigint" Nullable="false" />
     <Property Name="DataCadastro" Type="date" Nullable="false" />
@@ -42,7 +42,7 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="bigint" Nullable="false" />
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="IdUsuario" Type="bigint" Nullable="false" />
     <Property Name="IdCategoria" Type="bigint" Nullable="false" />
     <Property Name="Nome" Type="varchar(max)" Nullable="false" />
@@ -76,14 +76,14 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="bigint" Nullable="false" />
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="IdUsuario" Type="bigint" Nullable="false" />
     <Property Name="Codigo" Type="char" MaxLength="8" Nullable="false" />
     <Property Name="DataCadastro" Type="date" Nullable="false" />
     <Property Name="DataAtualizacao" Type="date" Nullable="false" />
     <Property Name="Status" Type="bit" Nullable="false" />
   </EntityType>
-  <Association Name="MultimidiaProduto">
+  <Association Name="FK__Multimidi__IdPro__31EC6D26">
     <End Role="Produto" Type="Self.Produto" Multiplicity="1" />
     <End Role="Multimidia" Type="Self.Multimidia" Multiplicity="*" />
     <ReferentialConstraint>
@@ -95,7 +95,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="Per_Permissao">
+  <Association Name="FK__Permissao__IdPer__36B12243">
     <End Role="Permissao" Type="Self.Permissao" Multiplicity="1" />
     <End Role="PermissaoUsuario" Type="Self.PermissaoUsuario" Multiplicity="*" />
     <ReferentialConstraint>
@@ -107,31 +107,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="ProdutoCategoria">
-    <End Role="CategoriaProduto" Type="Self.CategoriaProduto" Multiplicity="1" />
-    <End Role="Produto" Type="Self.Produto" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CategoriaProduto">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Produto">
-        <PropertyRef Name="IdCategoria" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ProdutoUsuario">
-    <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
-    <End Role="Produto" Type="Self.Produto" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Usuario">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Produto">
-        <PropertyRef Name="IdUsuario" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="UsuarioPermissao">
+  <Association Name="FK__Permissao__IdUsu__37A5467C">
     <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
     <End Role="PermissaoUsuario" Type="Self.PermissaoUsuario" Multiplicity="*" />
     <ReferentialConstraint>
@@ -143,7 +119,31 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="VendedorUsuario">
+  <Association Name="FK__Produto__IdCateg__2F10007B">
+    <End Role="CategoriaProduto" Type="Self.CategoriaProduto" Multiplicity="1" />
+    <End Role="Produto" Type="Self.Produto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CategoriaProduto">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Produto">
+        <PropertyRef Name="IdCategoria" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Produto__IdUsuar__2E1BDC42">
+    <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+    <End Role="Produto" Type="Self.Produto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuario">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Produto">
+        <PropertyRef Name="IdUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Vendedor__IdUsua__276EDEB3">
     <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
     <End Role="Vendedor" Type="Self.Vendedor" Multiplicity="*" />
     <ReferentialConstraint>
@@ -155,7 +155,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="EiSorteeiModelStoreContainer">
+  <EntityContainer Name="eisorteeiModelStoreContainer">
     <EntitySet Name="CategoriaProduto" EntityType="Self.CategoriaProduto" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Multimidia" EntityType="Self.Multimidia" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Permissao" EntityType="Self.Permissao" Schema="dbo" store:Type="Tables" />
@@ -163,27 +163,27 @@
     <EntitySet Name="Produto" EntityType="Self.Produto" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Vendedor" EntityType="Self.Vendedor" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="MultimidiaProduto" Association="Self.MultimidiaProduto">
+    <AssociationSet Name="FK__Multimidi__IdPro__31EC6D26" Association="Self.FK__Multimidi__IdPro__31EC6D26">
       <End Role="Produto" EntitySet="Produto" />
       <End Role="Multimidia" EntitySet="Multimidia" />
     </AssociationSet>
-    <AssociationSet Name="Per_Permissao" Association="Self.Per_Permissao">
+    <AssociationSet Name="FK__Permissao__IdPer__36B12243" Association="Self.FK__Permissao__IdPer__36B12243">
       <End Role="Permissao" EntitySet="Permissao" />
       <End Role="PermissaoUsuario" EntitySet="PermissaoUsuario" />
     </AssociationSet>
-    <AssociationSet Name="ProdutoCategoria" Association="Self.ProdutoCategoria">
-      <End Role="CategoriaProduto" EntitySet="CategoriaProduto" />
-      <End Role="Produto" EntitySet="Produto" />
-    </AssociationSet>
-    <AssociationSet Name="ProdutoUsuario" Association="Self.ProdutoUsuario">
-      <End Role="Usuario" EntitySet="Usuario" />
-      <End Role="Produto" EntitySet="Produto" />
-    </AssociationSet>
-    <AssociationSet Name="UsuarioPermissao" Association="Self.UsuarioPermissao">
+    <AssociationSet Name="FK__Permissao__IdUsu__37A5467C" Association="Self.FK__Permissao__IdUsu__37A5467C">
       <End Role="Usuario" EntitySet="Usuario" />
       <End Role="PermissaoUsuario" EntitySet="PermissaoUsuario" />
     </AssociationSet>
-    <AssociationSet Name="VendedorUsuario" Association="Self.VendedorUsuario">
+    <AssociationSet Name="FK__Produto__IdCateg__2F10007B" Association="Self.FK__Produto__IdCateg__2F10007B">
+      <End Role="CategoriaProduto" EntitySet="CategoriaProduto" />
+      <End Role="Produto" EntitySet="Produto" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Produto__IdUsuar__2E1BDC42" Association="Self.FK__Produto__IdUsuar__2E1BDC42">
+      <End Role="Usuario" EntitySet="Usuario" />
+      <End Role="Produto" EntitySet="Produto" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Vendedor__IdUsua__276EDEB3" Association="Self.FK__Vendedor__IdUsua__276EDEB3">
       <End Role="Usuario" EntitySet="Usuario" />
       <End Role="Vendedor" EntitySet="Vendedor" />
     </AssociationSet>
