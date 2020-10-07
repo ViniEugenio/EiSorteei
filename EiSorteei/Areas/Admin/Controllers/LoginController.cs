@@ -90,6 +90,7 @@ namespace EiSorteei.Areas.Admin.Controllers
 
                 if (_Context.Usuario.Any(u => u.Email.Equals(model.Email) && u.Senha.Equals(HashPassword)))
                 {
+                    Session["Usuario"] = _Context.Usuario.FirstOrDefault(u => u.Email.Equals(model.Email) && u.Senha.Equals(HashPassword));
                     return RedirectToAction("Index", "DashBoard");
                 }
 

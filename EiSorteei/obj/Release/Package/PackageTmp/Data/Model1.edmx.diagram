@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="62a33d5655bb46f38ef311b4f79dabbf" Name="Diagram1">
+        <EntityTypeShape EntityType="EiSorteeiModel.CategoriaProduto" Width="1.5" PointX="3.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="EiSorteeiModel.Multimidia" Width="1.5" PointX="8.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="EiSorteeiModel.Permissao" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EiSorteeiModel.PermissaoUsuario" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="EiSorteeiModel.Produto" Width="1.5" PointX="6" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EiSorteeiModel.Usuario" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="EiSorteeiModel.Vendedor" Width="1.5" PointX="3" PointY="12.375" IsExpanded="true" />
+        <AssociationConnector Association="EiSorteeiModel.FK__Produto__IdCateg__2F10007B" ManuallyRouted="false" />
+        <AssociationConnector Association="EiSorteeiModel.FK__Multimidi__IdPro__31EC6D26" ManuallyRouted="false" />
+        <AssociationConnector Association="EiSorteeiModel.FK__Permissao__IdPer__36B12243" ManuallyRouted="false" />
+        <AssociationConnector Association="EiSorteeiModel.FK__Permissao__IdUsu__37A5467C" ManuallyRouted="false" />
+        <AssociationConnector Association="EiSorteeiModel.FK__Produto__IdUsuar__2E1BDC42" ManuallyRouted="false" />
+        <AssociationConnector Association="EiSorteeiModel.FK__Vendedor__IdUsua__276EDEB3" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,82 @@
+﻿@model EiSorteei.Data.Produto
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutComprar.cshtml";
+}
+
+<style>
+    body {
+        background: #1F1F1F;
+    }
+
+    #Rifas{
+        width:100%;
+    }
+
+    .NumeroRifa {
+        background-color: #E0C777;
+        width:7%;
+        color:#fff;
+        margin:5px;       
+        font-size:34px;
+        text-align:center;
+        border-radius:20px;
+        transition: all .3s ease-in-out;
+        cursor:pointer;
+    }
+
+        .NumeroRifa:hover {
+            background-color: #1F1F1F;
+        }
+</style>
+
+
+<section class="blog-container">
+    <div class="center">
+        <div class="upper-box">
+            <h1>Escolha o número da sua Rifa</h1>            
+        </div>
+    </div>
+</section>
+<section class="blog-listagem">
+    <div class="center blog-border">
+        <div class="blog-list">
+
+            <div class="card-blog">
+                <img src="~/Content/ImagemProdutos/" alt="blog" />
+                <div class="card-txt__blog">
+                    <h2>@Model.Nome</h2>
+                    <p>Valor da Rifa: R$ @Math.Round(Model.ValorRifa, 2)</p>
+                </div>
+            </div>
+
+            <div id="Rifas" class="row">
+
+                @for (int x = 1; x <= Model.RangeCodigo; x++)
+                {
+                        <span class="NumeroRifa">@x</span>
+                }
+
+
+            </div>
+
+        </div>
+
+        @*<div class="pagination">
+
+                <a href="@Url.Action("Index",new {pagina = ViewBag.Pagina - 1 })"><i class="fas fa-angle-left"></i></a>
+
+                @for (int x = 1; x <= ViewBag.QuantidadeTotalPaginas; x++)
+                {
+                    <a href="@Url.Action("Index",new { pagina=x-1})" class="@(ViewBag.Pagina==x-1?"active":"")">@x</a>
+                }
+
+                <a href="@Url.Action("Index",new {pagina = ViewBag.Pagina + 1 })"><i class="fas fa-angle-right"></i></a>
+            </div>*@
+
+    </div>
+
+   
+</section>
+

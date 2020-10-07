@@ -1,0 +1,67 @@
+﻿@{
+    ViewData["Title"] = "Blog";
+}
+
+<style>
+    body {
+        background: #1F1F1F;
+    }
+</style>
+
+
+<section class="blog-container">
+    <div class="center">
+        <div class="upper-box">
+            <h1>Produtos</h1>
+            <div class="Yellow_line"></div>
+            <div class="bread"><a href="#">Home</a> <div class="ball"></div> <p>Produtos</p></div>
+        </div>
+    </div>
+</section>
+<section class="blog-listagem">
+    <div class="center blog-border">
+        <div class="blog-list">
+
+            <div class="card-blog">
+                <img src="~/Imagens/download.png" alt="blog" />
+                <div class="card-txt__blog">
+                    <h2>Produto 1</h2>
+                    <p>Produto 1</p>
+                    <a href="#">Ver mais</a>
+                </div>
+            </div>
+
+            <div class="card-blog">
+                <img src="~/Imagens/download.png" alt="blog" />
+                <div class="card-txt__blog">
+                    <h2>Produto 1</h2>
+                    <p>Produto 1</p>
+                    <a href="#">Ver mais</a>
+                </div>
+            </div>
+
+            <div class="card-blog">
+                <img src="~/Imagens/download.png" alt="blog" />
+                <div class="card-txt__blog">
+                    <h2>Produto 1</h2>
+                    <p>Produto 1</p>
+                    <a href="#">Ver mais</a>
+                </div>
+            </div>
+
+        </div>
+
+        @*<div class="pagination">
+
+            <a href="@Url.Action("Index",new {pagina = ViewBag.Pagina - 1 })"><i class="fas fa-angle-left"></i></a>
+
+            @for (int x = 1; x <= ViewBag.QuantidadeTotalPaginas; x++)
+            {
+                <a href="@Url.Action("Index",new { pagina=x-1})" class="@(ViewBag.Pagina==x-1?"active":"")">@x</a>
+            }
+
+            <a href="@Url.Action("Index",new {pagina = ViewBag.Pagina + 1 })"><i class="fas fa-angle-right"></i></a>
+        </div>*@
+
+    </div>
+</section>

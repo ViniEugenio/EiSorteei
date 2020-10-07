@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EiSorteeiModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="CategoriaProduto">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nome" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="DataCadastro" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="DataAtualizacao" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Status" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Produto" Relationship="Self.FK__Produto__IdCateg__2F10007B" FromRole="CategoriaProduto" ToRole="Produto" />
+  </EntityType>
+  <EntityType Name="Multimidia">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdProduto" Type="Int64" Nullable="false" />
+    <Property Name="Caminho" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="DataCadastro" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="DataAtualizacao" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Status" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Produto" Relationship="Self.FK__Multimidi__IdPro__31EC6D26" FromRole="Multimidia" ToRole="Produto" />
+  </EntityType>
+  <EntityType Name="Permissao">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nome" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="PermissaoUsuario" Relationship="Self.FK__Permissao__IdPer__36B12243" FromRole="Permissao" ToRole="PermissaoUsuario" />
+  </EntityType>
+  <EntityType Name="PermissaoUsuario">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdPermissao" Type="Int64" Nullable="false" />
+    <Property Name="IdUsuario" Type="Int64" Nullable="false" />
+    <Property Name="DataCadastro" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Status" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Permissao" Relationship="Self.FK__Permissao__IdPer__36B12243" FromRole="PermissaoUsuario" ToRole="Permissao" />
+    <NavigationProperty Name="Usuario" Relationship="Self.FK__Permissao__IdUsu__37A5467C" FromRole="PermissaoUsuario" ToRole="Usuario" />
+  </EntityType>
+  <EntityType Name="Produto">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdUsuario" Type="Int64" Nullable="false" />
+    <Property Name="IdCategoria" Type="Int64" Nullable="false" />
+    <Property Name="Nome" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Descricao" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="RangeCodigo" Type="Int32" Nullable="false" />
+    <Property Name="DataCadastro" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="DataAtualizacao" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Status" Type="Boolean" Nullable="false" />
+    <Property Name="ValorRifa" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <NavigationProperty Name="CategoriaProduto" Relationship="Self.FK__Produto__IdCateg__2F10007B" FromRole="Produto" ToRole="CategoriaProduto" />
+    <NavigationProperty Name="Multimidia" Relationship="Self.FK__Multimidi__IdPro__31EC6D26" FromRole="Produto" ToRole="Multimidia" />
+    <NavigationProperty Name="Usuario" Relationship="Self.FK__Produto__IdUsuar__2E1BDC42" FromRole="Produto" ToRole="Usuario" />
+  </EntityType>
+  <EntityType Name="Usuario">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nome" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="SobreNome" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Senha" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Estado" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Cidade" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Bairro" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Rua" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Numero" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Cpf" Type="String" MaxLength="14" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="DataCadastro" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="DataAtualizacao" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Status" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="PermissaoUsuario" Relationship="Self.FK__Permissao__IdUsu__37A5467C" FromRole="Usuario" ToRole="PermissaoUsuario" />
+    <NavigationProperty Name="Produto" Relationship="Self.FK__Produto__IdUsuar__2E1BDC42" FromRole="Usuario" ToRole="Produto" />
+    <NavigationProperty Name="Vendedor" Relationship="Self.FK__Vendedor__IdUsua__276EDEB3" FromRole="Usuario" ToRole="Vendedor" />
+  </EntityType>
+  <EntityType Name="Vendedor">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdUsuario" Type="Int64" Nullable="false" />
+    <Property Name="Codigo" Type="String" MaxLength="8" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="DataCadastro" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="DataAtualizacao" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Status" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Usuario" Relationship="Self.FK__Vendedor__IdUsua__276EDEB3" FromRole="Vendedor" ToRole="Usuario" />
+  </EntityType>
+  <Association Name="FK__Produto__IdCateg__2F10007B">
+    <End Role="CategoriaProduto" Type="Self.CategoriaProduto" Multiplicity="1" />
+    <End Role="Produto" Type="Self.Produto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CategoriaProduto">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Produto">
+        <PropertyRef Name="IdCategoria" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Multimidi__IdPro__31EC6D26">
+    <End Role="Produto" Type="Self.Produto" Multiplicity="1" />
+    <End Role="Multimidia" Type="Self.Multimidia" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Produto">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Multimidia">
+        <PropertyRef Name="IdProduto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Permissao__IdPer__36B12243">
+    <End Role="Permissao" Type="Self.Permissao" Multiplicity="1" />
+    <End Role="PermissaoUsuario" Type="Self.PermissaoUsuario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Permissao">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PermissaoUsuario">
+        <PropertyRef Name="IdPermissao" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Permissao__IdUsu__37A5467C">
+    <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+    <End Role="PermissaoUsuario" Type="Self.PermissaoUsuario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuario">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PermissaoUsuario">
+        <PropertyRef Name="IdUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Produto__IdUsuar__2E1BDC42">
+    <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+    <End Role="Produto" Type="Self.Produto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuario">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Produto">
+        <PropertyRef Name="IdUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Vendedor__IdUsua__276EDEB3">
+    <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+    <End Role="Vendedor" Type="Self.Vendedor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuario">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Vendedor">
+        <PropertyRef Name="IdUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="EiSorteeiEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="CategoriaProduto" EntityType="Self.CategoriaProduto" />
+    <EntitySet Name="Multimidia" EntityType="Self.Multimidia" />
+    <EntitySet Name="Permissao" EntityType="Self.Permissao" />
+    <EntitySet Name="PermissaoUsuario" EntityType="Self.PermissaoUsuario" />
+    <EntitySet Name="Produto" EntityType="Self.Produto" />
+    <EntitySet Name="Usuario" EntityType="Self.Usuario" />
+    <EntitySet Name="Vendedor" EntityType="Self.Vendedor" />
+    <AssociationSet Name="FK__Produto__IdCateg__2F10007B" Association="Self.FK__Produto__IdCateg__2F10007B">
+      <End Role="CategoriaProduto" EntitySet="CategoriaProduto" />
+      <End Role="Produto" EntitySet="Produto" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Multimidi__IdPro__31EC6D26" Association="Self.FK__Multimidi__IdPro__31EC6D26">
+      <End Role="Produto" EntitySet="Produto" />
+      <End Role="Multimidia" EntitySet="Multimidia" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Permissao__IdPer__36B12243" Association="Self.FK__Permissao__IdPer__36B12243">
+      <End Role="Permissao" EntitySet="Permissao" />
+      <End Role="PermissaoUsuario" EntitySet="PermissaoUsuario" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Permissao__IdUsu__37A5467C" Association="Self.FK__Permissao__IdUsu__37A5467C">
+      <End Role="Usuario" EntitySet="Usuario" />
+      <End Role="PermissaoUsuario" EntitySet="PermissaoUsuario" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Produto__IdUsuar__2E1BDC42" Association="Self.FK__Produto__IdUsuar__2E1BDC42">
+      <End Role="Usuario" EntitySet="Usuario" />
+      <End Role="Produto" EntitySet="Produto" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Vendedor__IdUsua__276EDEB3" Association="Self.FK__Vendedor__IdUsua__276EDEB3">
+      <End Role="Usuario" EntitySet="Usuario" />
+      <End Role="Vendedor" EntitySet="Vendedor" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

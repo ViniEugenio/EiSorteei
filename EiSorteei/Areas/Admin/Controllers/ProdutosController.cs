@@ -28,15 +28,18 @@ namespace EiSorteei.Areas.Admin.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.Categorias = _Context.CategoriaProduto.Where(c => c.Status).ToList();
+            LoadViewBags();
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
         public ActionResult Create(ProdutoCreateViewModel model)
         {
-            if(model.Imagem.Count()==1)
+            LoadViewBags();
+
+            if (model.Imagem.Count()==1)
             {
                 if(model.Imagem[0]==null)
                 {
@@ -46,6 +49,7 @@ namespace EiSorteei.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
+                Usuario UsuarioLogado = (Usuario)Session["Usuario"];
 
                 Produto NovoProduto = new Produto()
                 {
@@ -56,13 +60,14 @@ namespace EiSorteei.Areas.Admin.Controllers
                     Nome = model.Nome,
                     RangeCodigo = model.RangeCodigo,
                     Status = true,
-                    ValorRifa = model.ValorRifa
+                    ValorRifa = model.ValorRifa,
+                    IdUsuario = UsuarioLogado.Id
                 };
 
                 _Context.Produto.Add(NovoProduto);
                 _Context.SaveChanges();
 
-                string Caminho = Server.MapPath("~/Content/ImagemProdutos");
+                string Caminho = Server.MapPath("~/Content/ImagemProdutos/");
                 foreach (var imagem in model.Imagem)
                 {
                     string NomeArquivo = DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString() + DateTime.Now.Millisecond.ToString() + imagem.FileName;
@@ -93,6 +98,12 @@ namespace EiSorteei.Areas.Admin.Controllers
             }
 
             return View(model);
+        }
+
+
+        public void LoadViewBags()
+        {
+            ViewBag.Categorias = _Context.CategoriaProduto.Where(c => c.Status).ToList();
         }
     }
 }
