@@ -9,6 +9,7 @@ namespace EiSorteei.Models
 {
     public class ProdutoCreateViewModel
     {
+        public long Id { get; set; }
         [DisplayName("Nome do Produto")]
         [Required(ErrorMessage ="Por favor insira o nome do Produto")]
         public string Nome { get; set; }
