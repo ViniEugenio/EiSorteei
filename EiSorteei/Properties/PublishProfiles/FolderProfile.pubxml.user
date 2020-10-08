@@ -13,17 +13,23 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Areas/Admin/Views/Login/Index.cshtml">
       <publishTime>10/04/2020 17:51:33</publishTime>
     </File>
+    <File Include="Areas/Admin/Views/Produtos/Alterar.cshtml">
+      <publishTime>10/08/2020 00:49:22</publishTime>
+    </File>
     <File Include="Areas/Admin/Views/Produtos/Create.cshtml">
-      <publishTime>10/05/2020 02:58:10</publishTime>
+      <publishTime>10/08/2020 00:18:03</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Produtos/Details.cshtml">
+      <publishTime>10/07/2020 23:49:48</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Produtos/Index.cshtml">
-      <publishTime>10/05/2020 01:08:03</publishTime>
+      <publishTime>10/07/2020 23:55:03</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_Layout.cshtml">
-      <publishTime>10/04/2020 17:18:07</publishTime>
+      <publishTime>10/07/2020 23:09:26</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_LayoutAdministrador.cshtml">
-      <publishTime>10/05/2020 02:56:10</publishTime>
+      <publishTime>10/07/2020 23:22:45</publishTime>
     </File>
     <File Include="Areas/Admin/Views/web.config">
       <publishTime>09/20/2020 20:47:04</publishTime>
@@ -38,10 +44,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>09/10/2013 16:29:20</publishTime>
     </File>
     <File Include="bin/EiSorteei.dll">
-      <publishTime>10/06/2020 02:04:37</publishTime>
+      <publishTime>10/08/2020 00:59:22</publishTime>
     </File>
     <File Include="bin/EiSorteei.pdb">
-      <publishTime>10/06/2020 02:04:37</publishTime>
+      <publishTime>10/08/2020 00:59:22</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>10/23/2017 14:15:18</publishTime>
@@ -317,7 +323,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>09/26/2020 20:20:59</publishTime>
     </File>
     <File Include="Content/Site.css">
-      <publishTime>09/26/2020 21:40:57</publishTime>
+      <publishTime>10/07/2020 00:42:15</publishTime>
     </File>
     <File Include="Data/Model1.edmx.diagram">
       <publishTime>10/06/2020 02:00:02</publishTime>
@@ -388,14 +394,20 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Scripts/modernizr-2.8.3.js">
       <publishTime>09/20/2020 20:18:52</publishTime>
     </File>
+    <File Include="Views/Comprar/Index.cshtml">
+      <publishTime>10/07/2020 23:24:54</publishTime>
+    </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>09/26/2020 21:39:47</publishTime>
+      <publishTime>10/07/2020 00:48:56</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>09/20/2020 20:18:41</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
       <publishTime>10/04/2020 16:49:22</publishTime>
+    </File>
+    <File Include="Views/Shared/_LayoutComprar.cshtml">
+      <publishTime>10/07/2020 00:53:24</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>09/20/2020 20:18:41</publishTime>

@@ -1,24 +1,25 @@
 ﻿@model EiSorteei.Models.ProdutoCreateViewModel
 
 @{
-    ViewBag.Title = "Cadastrar Produto";
+    ViewBag.Title = "Alterar Produto";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdministrador.cshtml";
 }
 
 
-@using (Html.BeginForm("Create", "Produtos", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Alterar", "Produtos", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div style="display:flex; align-items:center; justify-content:center; margin-top:50px;">
         <div class="card" style="width:1200px;">
 
             <div class="card-header">
-                <h3>Cadastrar Novo Produto</h3>
+                <h3>Alterar Produto</h3>
             </div>
 
 
             <div class="card-body">
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.Id)
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label" })
@@ -30,7 +31,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Descricao, htmlAttributes: new { @class = "control-label" })
 
-                    <textarea name="Descricao"></textarea>
+                    <textarea name="Descricao">@Model.Descricao</textarea>
                     @Html.ValidationMessageFor(model => model.Descricao, "", new { @class = "text-danger" })
 
                 </div>
@@ -38,7 +39,7 @@
                 <div class="form-group">
                     <label class="control-label">Categoria do Produto</label>
                     <select name="CategoriaProduto" class="form-control">
-                        @foreach(var categoria in ViewBag.Categorias)
+                        @foreach (var categoria in ViewBag.Categorias)
                         {
                             <option value="@categoria.Id">@categoria.Nome</option>
                         }
@@ -56,7 +57,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.ValorRifa, htmlAttributes: new { @class = "control-label" })
 
-                    <input type="number" min="0.00" max="10000.00" step="0.01" class="form-control" name="ValorRifa"/>
+                    <input type="number" min="0.00" max="10000.00" step="0.01" value="@Convert.ToDouble(Model.ValorRifa)" class="form-control" name="ValorRifa" />
                     @Html.ValidationMessageFor(model => model.ValorRifa, "", new { @class = "text-danger" })
 
                 </div>
@@ -71,6 +72,22 @@
                         </div>
 
                         <div class="card-body">
+
+                            <div class="row form-group">
+
+                                @foreach (var x in ViewBag.Imagens)
+                                {
+                                    <div class="col-md-4" id="Imagem-@x.Id">
+
+                                        <img src="~/Content/ImagemProdutos/@x.Caminho" alt="Imagem do Prêmio" style="width:290px;height:174px;" />
+
+                                        <div class="form-group">
+                                            <button class="btn btn-danger ExcluirImagem" style="margin-top:5px;" data-id="@x.Id" type="button"><i class='fa fa-trash'></i></button>
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
 
                             <div id="Imagens" class="form-group">
 
@@ -96,7 +113,7 @@
                 </div>
 
                 <div class="form-group">
-                    <button class="btn btn-success">Cadastrar</button>
+                    <button class="btn btn-success">Alterar</button>
                 </div>
 
             </div>
@@ -151,6 +168,20 @@
             $("#GrupoImagem-" + numero).remove();
 
         }
+
+        $(".ExcluirImagem").click(function () {
+
+            let Id = $(this).attr("data-id");
+
+            $.ajax({
+                method: 'POST',
+                url: "@Url.Action("ExcluirImagem")",
+                data: { Id: Id }
+            });
+
+            $("#Imagem-" + Id).slideUp('slow');
+
+        });
 
     </script>
 

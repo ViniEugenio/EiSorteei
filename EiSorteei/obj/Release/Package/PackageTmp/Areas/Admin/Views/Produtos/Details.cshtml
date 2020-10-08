@@ -1,0 +1,40 @@
+﻿@model EiSorteei.Data.Produto
+
+@{
+    ViewBag.Title = "Detalhes do Prêmio";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdministrador.cshtml";
+}
+
+<div style="display:flex; align-items:center; justify-content:center;">
+    <div class="card" style="width:1200px;">
+
+        <div class="card-header">
+            <h3 class="text-center">Detalhes do Prêmio</h3>
+        </div>
+
+        <div class="card-body">
+
+            <div>
+
+                <div align="center" class="form-group">
+
+                    <img src="~/Content/ImagemProdutos/@ViewBag.Imagem" alt="@Model.Nome" style="width:430px; height:280px;"/>
+
+                </div>
+
+                <p>Nome do Prêmio: @Model.Nome</p>
+                <p>Descrição: @Html.Raw(Model.Descricao)</p>
+                <p>Quantidade de Rifas: @Model.RangeCodigo</p>
+                <p>Valor da Rifa: R$ @Math.Round(Model.ValorRifa,2)</p>
+                <p>Data de Cadastro: @Model.DataCadastro.ToString().Replace(" 00:00:00",string.Empty)</p>
+
+            </div>
+
+        </div>
+
+        <div class="card-footer">
+            <a class="btn btn-success" href="@Url.Action("Index")"><i class="fa fa-list"></i></a>
+            <button class="btn btn-warning" style="color:white"><i class="fa fa-edit"></i></button>            
+        </div>
+    </div>
+</div>

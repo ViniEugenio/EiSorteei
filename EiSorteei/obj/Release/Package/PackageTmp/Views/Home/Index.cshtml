@@ -22,32 +22,17 @@
     <div class="center blog-border">
         <div class="blog-list">
 
-            <div class="card-blog">
-                <img src="~/Imagens/download.png" alt="blog" />
-                <div class="card-txt__blog">
-                    <h2>Produto 1</h2>
-                    <p>Produto 1</p>
-                    <a href="#">Ver mais</a>
+            @foreach (var produto in ViewBag.Produtos)
+            {
+                <div class="card-blog">
+                    <img src="~/Content/ImagemProdutos/@produto.Imagem" alt="blog" />
+                    <div class="card-txt__blog">
+                        <h2>@produto.Nome</h2>
+                        <p>Valor da Rifa: R$ @Math.Round(produto.ValorRifa,2)</p>
+                        <a href="@Url.Action("Index","Comprar",new { IdProduto = produto.Id})" style="margin:auto;">Comprar</a>
+                    </div>
                 </div>
-            </div>
-
-            <div class="card-blog">
-                <img src="~/Imagens/download.png" alt="blog" />
-                <div class="card-txt__blog">
-                    <h2>Produto 1</h2>
-                    <p>Produto 1</p>
-                    <a href="#">Ver mais</a>
-                </div>
-            </div>
-
-            <div class="card-blog">
-                <img src="~/Imagens/download.png" alt="blog" />
-                <div class="card-txt__blog">
-                    <h2>Produto 1</h2>
-                    <p>Produto 1</p>
-                    <a href="#">Ver mais</a>
-                </div>
-            </div>
+            }
 
         </div>
 
