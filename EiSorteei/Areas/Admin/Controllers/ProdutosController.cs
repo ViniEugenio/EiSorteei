@@ -1,4 +1,5 @@
 ﻿using EiSorteei.Data;
+using EiSorteei.Helpers;
 using EiSorteei.Models;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Web.Mvc;
 
 namespace EiSorteei.Areas.Admin.Controllers
 {
-
+    [FilterLogin]
     public class ProdutosController : Controller
     {
         private readonly EiSorteeiEntities _Context;
