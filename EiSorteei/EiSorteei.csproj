@@ -175,6 +175,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\FilterLogin.cs" />
     <Compile Include="Helpers\HashPassword.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\ProdutoCreateViewModel.cs" />
@@ -265,7 +266,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Content\ImagemProdutos\" />
   </ItemGroup>
   <ItemGroup>

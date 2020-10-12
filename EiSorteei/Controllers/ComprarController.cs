@@ -19,7 +19,7 @@ namespace EiSorteei.Controllers
         public ActionResult Index(long IdProduto)
         {
             var Produto = _Context.Produto.FirstOrDefault(p => p.Id == IdProduto);
-            ViewBag.Imagens = _Context.Multimidia.Where(p => p.IdProduto.Equals(IdProduto)).ToList();
+            ViewBag.Imagens = _Context.Multimidia.Where(p => p.IdProduto.Equals(IdProduto) && p.Status).ToList();
             return View(Produto);
         }
     }

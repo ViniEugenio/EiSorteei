@@ -17,67 +17,88 @@
 
     .NumeroRifa {
         background-color: #E0C777;
-        width:7%;
-        color:#fff;
-        margin:5px;       
-        font-size:34px;
-        text-align:center;
-        border-radius:20px;
+        width: 7%;
+        color: #fff;
+        margin: 5px;
+        font-size: 34px;
+        text-align: center;
+        border-radius: 20px;
         transition: all .3s ease-in-out;
-        cursor:pointer;
+        cursor: pointer;
     }
 
         .NumeroRifa:hover {
             background-color: #1F1F1F;
         }
+
+    .carousel {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+    }
+
+    .informacoes{
+        color:#fff;
+        width:60%;
+        margin:auto;
+    }
 </style>
 
 
-<section class="blog-container">
+<section class="blog-container" style="padding-bottom:0;">
     <div class="center">
         <div class="upper-box">
-            <h1>Escolha o número da sua Rifa</h1>            
+            <h1>Escolha o número da sua Rifa</h1>
         </div>
     </div>
 </section>
-<section class="blog-listagem">
-    <div class="center blog-border">
-        <div class="blog-list">
 
-            <div class="card-blog">
-                <img src="~/Content/ImagemProdutos/" alt="blog" />
-                <div class="card-txt__blog">
-                    <h2>@Model.Nome</h2>
-                    <p>Valor da Rifa: R$ @Math.Round(Model.ValorRifa, 2)</p>
-                </div>
-            </div>
+<section>
+    <div class="carousel" align="center">
 
-            <div id="Rifas" class="row">
-
-                @for (int x = 1; x <= Model.RangeCodigo; x++)
-                {
-                        <span class="NumeroRifa">@x</span>
-                }
-
-
-            </div>
-
-        </div>
-
-        @*<div class="pagination">
-
-                <a href="@Url.Action("Index",new {pagina = ViewBag.Pagina - 1 })"><i class="fas fa-angle-left"></i></a>
-
-                @for (int x = 1; x <= ViewBag.QuantidadeTotalPaginas; x++)
-                {
-                    <a href="@Url.Action("Index",new { pagina=x-1})" class="@(ViewBag.Pagina==x-1?"active":"")">@x</a>
-                }
-
-                <a href="@Url.Action("Index",new {pagina = ViewBag.Pagina + 1 })"><i class="fas fa-angle-right"></i></a>
-            </div>*@
+        @foreach (var x in ViewBag.Imagens)
+        {
+            <div><img src="~/Content/ImagemProdutos/@x.Caminho" alt="Imagem do Produto" style="width:30%;" /></div>
+        }
 
     </div>
-
-   
 </section>
 
+<div class="informacoes">
+    <h3 align="center">@Model.Nome</h3>
+    <p>@Html.Raw(Model.Descricao)</p>
+    <h3 align="center">Valor da Rifa: R$ @Math.Round(Model.ValorRifa, 2)</h3>
+
+    <div id="Rifas" class="row">
+
+        @for (int x = 1; x <= Model.RangeCodigo; x++)
+        {
+            <span class="NumeroRifa">@x</span>
+        }
+
+
+    </div>
+</div>
+
+
+
+
+
+@section Scripts{
+
+    <script>
+
+        $(document).ready(function () {
+
+            $('.carousel').slick({
+                autoplay: true,
+                autoplaySpeed: 2000,
+            });
+
+
+        });
+
+    </script>
+
+
+}

@@ -103,5 +103,11 @@ namespace EiSorteei.Areas.Admin.Controllers
             return View(model);
         }
 
+        public ActionResult Logout()
+        {
+            Session.RemoveAll();
+            return RedirectToAction("Index", "Login");
+        }
+
     }
 }

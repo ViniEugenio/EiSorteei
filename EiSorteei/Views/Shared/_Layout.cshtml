@@ -11,6 +11,7 @@
     <link rel="font" href="~/Content/fonts/Amiri-Italic.ttf" />
     <link rel="font" href="~/Content/fonts/Amiri-Regular.ttf" />
     <link href="~/Content/slick.css" rel="stylesheet" />
+    <link href="" rel="stylesheet" />
     <link rel="shortcut icon"
           href="~/Images/favicon.png"
           type="image/x-icon" />
@@ -32,6 +33,11 @@
 
                     <ul id="menu">
                         <a href="@Url.Action("Index","Home")"><li>Home</li></a>
+                        @if (Session["Cliente"] != null)
+                        {
+                            <a href="@Url.Action("Index","Home")"><li>Meu Carrinho</li></a>
+                        }
+
                     </ul>
                 </div>
             </div>
@@ -67,7 +73,7 @@
         </div>
     </footer>
 
-    <a href="https://wa.me/5524993316432" class="float" target="_blank">
+    <a href="https://wa.me/5524999583321" class="float" target="_blank">
         <i class="fab fa-whatsapp" my-float"></i>
     </a>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -77,6 +83,7 @@
     <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.js"></script>
     <script src="~/js/slick.min.js"></script>
     <script src="~/js/site.js"></script>
+    
     @RenderSection("Scripts", required: false)
 
     <div id="myModal2" class="modal">
