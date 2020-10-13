@@ -25,7 +25,7 @@
             @foreach (var produto in ViewBag.Produtos)
             {
                 <div class="card-blog">
-                    <img src="~/Content/ImagemProdutos/@produto.Imagem" alt="blog" />
+                    <img src="~/Content/ImagemProdutos/@produto.Imagem" alt="blog" style="height:320px;"/>
                     <div class="card-txt__blog">
                         <h2>@produto.Nome</h2>
                         <p>Valor da Rifa: R$ @Math.Round(produto.ValorRifa,2)</p>

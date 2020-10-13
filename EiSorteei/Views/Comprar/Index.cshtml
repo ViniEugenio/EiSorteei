@@ -1,7 +1,7 @@
 ﻿@model EiSorteei.Data.Produto
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "EiSorteei";
     Layout = "~/Views/Shared/_LayoutComprar.cshtml";
 }
 
@@ -57,9 +57,15 @@
     }
 
     @@media only screen and (max-width: 1000px) {
-        .imagem_produto{
-           width:100% !important;
+        .imagem_produto {
+            width: 100% !important;
         }
+
+        .NumeroRifa {
+            width: 19%;
+            font-size: 14px;
+        }
+    }
     }
 </style>
 
@@ -77,13 +83,17 @@
 
         @foreach (var x in ViewBag.Imagens)
         {
-            <div><img src="~/Content/ImagemProdutos/@x.Caminho" alt="Imagem do Produto" style="width:30%;" class="imagem_produto"/></div>
+            <div><img src="~/Content/ImagemProdutos/@x.Caminho" alt="Imagem do Produto" style="width:30%;" class="imagem_produto" /></div>
         }
 
     </div>
 
 
 </section>
+
+<button class="btn btn-success" id="Pagar">Pagar</button>
+<button class="btn btn-success" id="Cadastrar">Cadastrar</button>
+<button class="btn btn-success" id="CadastrarCartao">Cadastrar</button>
 
 <div class="informacoes">
 
@@ -109,7 +119,6 @@
 
 
 
-
 @section Scripts{
 
     <script>
@@ -124,7 +133,184 @@
             });
 
 
+
+            $("#Pagar").click(function () {
+
+                let dados = JSON.stringify({
+                    token: "ffccdc4113998d77291a64e5001fc8d6",
+                    installments: 1,
+                    transaction_amount: 58.80,
+                    description: "Bilhete EiSorteei",
+                    payment_method_id: "visa",
+                    payer: {
+                        email: "vinicius_eugenio07@hotmail.com",
+                        identification: {
+                            number: "13113413664",
+                            type: "CPF"
+                        }
+                    },
+                    notification_url: "https://www.suaurl.com/notificacoes/",
+                    sponsor_id: null,
+                    binary_mode: false,
+                    external_reference: "MP0001",
+                    statement_descriptor: "MercadoPago",
+                    additional_info: {
+                        items: [
+                            {
+                                id: "PR0001",
+                                title: "Bilhete",
+                                description: "Bilhete",
+                                picture_url: "https://http2.mlstatic.com/resources/frontend/statics/growth-sellers-landings/device-mlb-point-i_medium@2x.png",
+                                category_id: "electronics",
+                                quantity: 1,
+                                unit_price: 58.80
+                            }
+                        ],
+                        payer: {
+                            first_name: "Vinícius",
+                            last_name: "Eugênio",
+                            address: {
+                                zip_code: "37350-000",
+                                street_name: "Av. Alberane Cunha",
+                                street_number: 3003
+                            },
+                            registration_date: "2019-01-01T12:01:01.000-03:00",
+                            phone: {
+                                area_code: "011",
+                                number: "987654321"
+                            }
+                        },
+                        shipments: {
+                            receiver_address: {
+                                street_name: "Av das Nacoes Unidas",
+                                street_number: 3003,
+                                zip_code: "06233200",
+                                city_name: "Buzios",
+                                state_name: "Rio de Janeiro"
+                            }
+                        }
+                    }
+                });
+
+                console.log(dados);
+
+
+                $.ajax({
+                    url: "https://api.mercadopago.com/v1/payments",
+                    method: 'POST',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Authorization', 'Bearer APP_USR-5017428128263404-072015-ddd04542ab6288891aebac5789addf33-247787081');
+                    },
+                    data: dados,
+                    success: function (retorno) {
+                        console.log(retorno);
+                    },
+                    error: function (retorno) {
+                        console.log(retorno);
+                    }
+                });
+
+            });
+
+
         });
+
+        $("#Cadastrar").click(function () {
+
+            $.ajax({
+
+                url: "https://api.mercadopago.com/v1/customers",
+                method: "POST",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'Bearer APP_USR-5017428128263404-072015-ddd04542ab6288891aebac5789addf33-247787081');
+                },
+                data: JSON.stringify({
+                    email: "bruno@gmail.com",
+                    first_name: "Bruce",
+                    last_name: "Wayne",
+                    phone: {
+                        area_code: "023",
+                        number: "12345678"
+                    },
+                    identification: {
+                        type: "DNI",
+                        number: "12345678"
+                    },
+                    address: {
+                        zip_code: "SG1 2AX",
+                        street_name: "Old Knebworth Ln"
+                    },
+                    description: "Lorem Ipsum"
+                }),
+                success: function (retorno) {
+                    console.log(retorno);
+                },
+                error: function (retorno) {
+                    console.log(retorno);
+                }
+
+            });
+
+        });
+
+        $("#CadastrarCartao").click(function () {
+
+            $.ajax({
+
+                url: "https://api.mercadopago.com/v1/customers/164226370-i02RcMSjWkgniL/cards",
+                method: "POST",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'Bearer APP_USR-5017428128263404-072015-ddd04542ab6288891aebac5789addf33-247787081');
+                },
+                data: JSON.stringify({
+                    token:"Teste"
+                }),
+                success: function (retorno) {
+                    console.log(retorno);
+                },
+                error: function (retorno) {
+                    console.log(retorno);
+                }
+
+            });
+
+        });
+
+
+        window.Mercadopago.setPublishableKey("APP_USR-4f22958e-cccd-49ac-b52d-02ae9b9697a9");
+        window.Mercadopago.getIdentificationTypes();
+
+        let teste = {
+
+            cardNumber: "4854648008588506",
+            cardExpirationMonth:"11",
+            cardExpirationYear:"21",
+            securityCode: "987",
+            cardholderName: "VINICIUS F EUGENIO",
+            docType: "CPF",
+            docNumber:"13113413664"
+
+        };
+
+
+        let essamerda = window.Mercadopago.createToken(teste, setCardTokenAndPay);
+        console.log(essamerda);
+        console.log(teste);
+
+        function setCardTokenAndPay(status, response) {
+            if (status == 200 || status == 201) {
+                let card = document.createElement('input');
+                card.setAttribute('name', 'token');
+                card.setAttribute('type', 'hidden');
+                card.setAttribute('value', response.id);
+                form.appendChild(card);
+                doSubmit = true;
+                form.submit();
+            } else {
+                alert("Verify filled data!\n" + JSON.stringify(response, null, 4));
+            }
+        };
+
 
     </script>
 

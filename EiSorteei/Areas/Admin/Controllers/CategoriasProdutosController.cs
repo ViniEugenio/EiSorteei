@@ -64,6 +64,28 @@ namespace EiSorteei.Areas.Admin.Controllers
             });
         }
 
+        public ActionResult Edit(long Id)
+        {
+            var Categoria = _Context.CategoriaProduto.FirstOrDefault(c => c.Id.Equals(Id));
+            return View(Categoria);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(CategoriaProduto model)
+        {
+            if(ModelState.IsValid)
+            {
+                model.DataAtualizacao = DateTime.Now;
+
+                _Context.Entry(model).State = System.Data.Entity.EntityState.Modified;
+                _Context.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+
+            return View(model);
+        }
 
     }
 }

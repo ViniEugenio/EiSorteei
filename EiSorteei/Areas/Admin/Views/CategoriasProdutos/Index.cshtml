@@ -37,7 +37,7 @@
                                 <td>@categoria.Nome</td>
                                 <td>@categoria.DataCadastro.Date.Day/@categoria.DataCadastro.Date.Month/@categoria.DataCadastro.Date.Year</td>
                                 <td>
-                                    <a class="btn btn-warning" style="color:white" href="@Url.Action("Alterar",new { Id=categoria.Id})"><i class="fa fa-edit"></i></a>
+                                    <a class="btn btn-warning" style="color:white" href="@Url.Action("Edit",new { Id=categoria.Id})"><i class="fa fa-edit"></i></a>
                                     <button class="btn btn-danger Excluir" data-id="@categoria.Id"><i class="fa fa-trash"></i></button>
                                 </td>
                             </tr>

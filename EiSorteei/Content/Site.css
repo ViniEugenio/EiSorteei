@@ -1051,7 +1051,7 @@ footer {
 }
 
     .card-blog img {
-        height: 233px;
+        height: 320px !important;
         width: 355px;
         border-radius: 24px;
     }
