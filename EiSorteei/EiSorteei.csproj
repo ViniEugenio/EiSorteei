@@ -144,8 +144,10 @@
     <Compile Include="Areas\Admin\Controllers\DashBoardController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProdutosController.cs" />
+    <Compile Include="Areas\Admin\Controllers\VendedorController.cs" />
     <Compile Include="Controllers\ComprarController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Data\CategoriaProduto.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -186,11 +188,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Estados.cs" />
     <Compile Include="Helpers\FilterLogin.cs" />
     <Compile Include="Helpers\HashPassword.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\ProdutoCreateViewModel.cs" />
     <Compile Include="Models\ProdutoHomeViewModel.cs" />
+    <Compile Include="Models\UsuarioViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -250,6 +254,7 @@
     <Content Include="Areas\Admin\Views\CategoriasProdutos\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CategoriasProdutos\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CategoriasProdutos\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Vendedor\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -275,6 +280,8 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Comprar\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutComprar.cshtml" />
+    <Content Include="Views\Usuario\Index.cshtml" />
+    <Content Include="Views\Usuario\CadastrarUsuario.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

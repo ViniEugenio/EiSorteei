@@ -33,24 +33,15 @@ namespace EiSorteei.Controllers
             return View(Produto);
         }
 
-        public ActionResult Pagar()
+
+        public ActionResult GetDadosUsuario()
         {
-            MercadoPago.SDK.AccessToken = "APP_USR-5017428128263404-072015-ddd04542ab6288891aebac5789addf33-247787081";
+            Usuario UsuarioLogado = (Usuario)Session["Usuario"];
 
-            Preference preference = new Preference();
-
-            preference.Items.Add(
-              new Item()
-              {
-                  Title = "Meu produto",
-                  Quantity = 1,
-                  CurrencyId = CurrencyId.BRL,
-                  UnitPrice = (decimal)75.56
-              }
-            );
-            preference.Save();
-
-            return new EmptyResult();
+            return Json(new
+            {
+                DadosUsuario = UsuarioLogado
+            });
         }
     }
 }

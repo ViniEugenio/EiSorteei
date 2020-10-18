@@ -23,7 +23,8 @@ namespace EiSorteei.Areas.Admin.Controllers
         // GET: Admin/Produtos
         public ActionResult Index()
         {
-            var Produtos = _Context.Produto.Where(p => p.Status).ToList();
+            Usuario UsuarioLogado = (Usuario)Session["Usuario"];
+            var Produtos = _Context.Produto.Where(p => p.Status && p.IdUsuario.Equals(UsuarioLogado.Id)).ToList();
             return View(Produtos);
         }
 

@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{ 
+    EiSorteei.Data.Usuario Usuario = (EiSorteei.Data.Usuario)@Session["Usuario"];
+}
+
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="utf-8" />
@@ -32,12 +36,20 @@
                     <span></span>
 
                     <ul id="menu">
-                        <a href="@Url.Action("Index","Home")"><li>Home</li></a>
-                        @if (Session["Cliente"] != null)
+                        @if (Session["Usuario"] != null)
                         {
-                            <a href="@Url.Action("Index","Home")"><li>Meu Carrinho</li></a>
+                            <a href="@Url.Action("Index","Home")"><li>@Usuario.Nome @Usuario.SobreNome</li></a>
+                        }
+                        <a href="@Url.Action("Index","Home")"><li>Home</li></a>
+                        @if (Session["Usuario"] != null)
+                        {
+                            <a href="@Url.Action("Index","Home")"><li>Sair</li></a>
                         }
 
+                        else
+                        {
+                            <a href="@Url.Action("Index","Usuario")"><li>Entrar</li></a>
+                        }
                     </ul>
                 </div>
             </div>

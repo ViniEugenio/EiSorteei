@@ -18,7 +18,7 @@
 
     .NumeroRifa {
         background-color: #E0C777;
-        width: 19%;
+        width: 14%;
         color: #fff;
         margin: 5px;
         font-size: 28px;
@@ -56,16 +56,20 @@
         cursor: pointer;
     }
 
+    .ErroComprar {
+        color: red;
+        display: none;
+    }
+
     @@media only screen and (max-width: 1000px) {
         .imagem_produto {
             width: 100% !important;
         }
 
         .NumeroRifa {
-            width: 19%;
+            width: 12%;
             font-size: 14px;
         }
-    }
     }
 </style>
 
@@ -91,10 +95,6 @@
 
 </section>
 
-<button class="btn btn-success" id="Pagar">Pagar</button>
-<button class="btn btn-success" id="Cadastrar">Cadastrar</button>
-<button class="btn btn-success" id="CadastrarCartao">Cadastrar</button>
-
 <div class="informacoes">
 
     <div align="center" id="Arrows">
@@ -110,13 +110,20 @@
 
         @for (int x = 1; x <= Model.RangeCodigo; x++)
         {
-            <span class="NumeroRifa">@x</span>
+            if (Session["Usuario"] != null)
+            {
+                <span class="NumeroRifa Comprar" data-numero="@x">@x</span>
+            }
+
+            else
+            {
+                <a class="NumeroRifa" data-numero="@x" href="@Url.Action("Index","Usuario")" style="text-decoration:none; color:white;">@x</a>
+            }
+
         }
 
     </div>
 </div>
-
-
 
 
 @section Scripts{
@@ -124,6 +131,9 @@
     <script>
 
         $(document).ready(function () {
+
+            $("#DataCartao").mask("00/00");
+            $("#CPFCartao").mask("000.000.000-00");
 
             $('.carousel').slick({
                 autoplay: true,
@@ -133,185 +143,224 @@
             });
 
 
+            $(".Comprar").click(function () {
 
-            $("#Pagar").click(function () {
+                let Numero = $(this).attr("data-numero");
+                $("#NumeroRifa").text(Numero);
 
-                let dados = JSON.stringify({
-                    token: "ffccdc4113998d77291a64e5001fc8d6",
-                    installments: 1,
-                    transaction_amount: 58.80,
-                    description: "Bilhete EiSorteei",
-                    payment_method_id: "visa",
-                    payer: {
-                        email: "vinicius_eugenio07@hotmail.com",
-                        identification: {
-                            number: "13113413664",
-                            type: "CPF"
-                        }
-                    },
-                    notification_url: "https://www.suaurl.com/notificacoes/",
-                    sponsor_id: null,
-                    binary_mode: false,
-                    external_reference: "MP0001",
-                    statement_descriptor: "MercadoPago",
-                    additional_info: {
-                        items: [
-                            {
-                                id: "PR0001",
-                                title: "Bilhete",
-                                description: "Bilhete",
-                                picture_url: "https://http2.mlstatic.com/resources/frontend/statics/growth-sellers-landings/device-mlb-point-i_medium@2x.png",
-                                category_id: "electronics",
-                                quantity: 1,
-                                unit_price: 58.80
-                            }
-                        ],
-                        payer: {
-                            first_name: "Vinícius",
-                            last_name: "Eugênio",
-                            address: {
-                                zip_code: "37350-000",
-                                street_name: "Av. Alberane Cunha",
-                                street_number: 3003
-                            },
-                            registration_date: "2019-01-01T12:01:01.000-03:00",
-                            phone: {
-                                area_code: "011",
-                                number: "987654321"
-                            }
-                        },
-                        shipments: {
-                            receiver_address: {
-                                street_name: "Av das Nacoes Unidas",
-                                street_number: 3003,
-                                zip_code: "06233200",
-                                city_name: "Buzios",
-                                state_name: "Rio de Janeiro"
-                            }
-                        }
-                    }
-                });
+                $("#ErroNumero").css("display", "none");
+                $("#ErroTitulo").css("display", "none");
+                $("#ErroData").css("display", "none");
+                $("#ErroCVV").css("display", "none");
+                $("#ErroCPF").css("display", "none");
+                $("#ErroComprador").css("display", "none");
 
-                console.log(dados);
+                $("#NumeroCartao").val("");
+                $("#TituloCartao").val("");
+                $("#DataCartao").val("");
+                $("#CVVCartao").val("");
+                $("#CPFCartao").val("");
+                $("#CodigoVendedor").val("");
 
-
-                $.ajax({
-                    url: "https://api.mercadopago.com/v1/payments",
-                    method: 'POST',
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader('Authorization', 'Bearer APP_USR-5017428128263404-072015-ddd04542ab6288891aebac5789addf33-247787081');
-                    },
-                    data: dados,
-                    success: function (retorno) {
-                        console.log(retorno);
-                    },
-                    error: function (retorno) {
-                        console.log(retorno);
-                    }
-                });
+                $("#myModal2").css('display', "block");
 
             });
 
+            $("#Fechar").click(function () {
+                $("#myModal2").css('display', "none");
+            });
 
-        });
+            $("#EfetuarCompra").click(function () {
 
-        $("#Cadastrar").click(function () {
+                let erro = false;
 
-            $.ajax({
+                let Numero = $("#NumeroCartao").val();
+                let Titulo = $("#TituloCartao").val();
+                let Data = $("#DataCartao").val();
+                let CVV = $("#CVVCartao").val();
+                let CPF = $("#CPFCartao").val();
 
-                url: "https://api.mercadopago.com/v1/customers",
-                method: "POST",
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader('Authorization', 'Bearer APP_USR-5017428128263404-072015-ddd04542ab6288891aebac5789addf33-247787081');
-                },
-                data: JSON.stringify({
-                    email: "bruno@gmail.com",
-                    first_name: "Bruce",
-                    last_name: "Wayne",
-                    phone: {
-                        area_code: "023",
-                        number: "12345678"
-                    },
-                    identification: {
-                        type: "DNI",
-                        number: "12345678"
-                    },
-                    address: {
-                        zip_code: "SG1 2AX",
-                        street_name: "Old Knebworth Ln"
-                    },
-                    description: "Lorem Ipsum"
-                }),
-                success: function (retorno) {
-                    console.log(retorno);
-                },
-                error: function (retorno) {
-                    console.log(retorno);
+                if (!Numero) {
+                    $("#ErroNumero").css("display", "block");
+                    erro = true;
+                }
+
+                else {
+                    $("#ErroNumero").css("display", "none");
+                }
+
+
+                if (!Titulo) {
+                    $("#ErroTitulo").css("display", "block");
+                    erro = true;
+                }
+
+                else {
+                    $("#ErroTitulo").css("display", "none");
+                }
+
+
+                if (!Data) {
+                    $("#ErroData").css("display", "block");
+                    erro = true;
+                }
+
+                else {
+                    $("#ErroData").css("display", "none");
+                }
+
+                if (!CVV) {
+                    $("#ErroCVV").css("display", "block");
+                    erro = true;
+                }
+
+                else {
+                    $("#ErroCVV").css("display", "none");
+                }
+
+                if (!CPF) {
+                    $("#ErroCPF").css("display", "block");
+                }
+
+                else {
+                    $("#ErroCPF").css("display", "none");
+                }
+
+
+                if (!erro) {
+
+                    let DataFormatada = Data.split("/");
+                    let CPFFormatado = CPF.replace(".", "").replace(".", "").replace("-", "");
+
+                    let MesCartao = DataFormatada[0];
+                    let AnoCartao = DataFormatada[1];
+
+                    window.Mercadopago.setPublishableKey("APP_USR-4f22958e-cccd-49ac-b52d-02ae9b9697a9");
+                    window.Mercadopago.getIdentificationTypes();
+
+                    let DadosCartao = {
+
+                        cardNumber: Numero,
+                        cardExpirationMonth: MesCartao,
+                        cardExpirationYear: AnoCartao,
+                        securityCode: CVV,
+                        cardholderName: Titulo,
+                        docType: "CPF",
+                        docNumber: CPFFormatado
+
+                    };
+
+
+                    var hash = window.Mercadopago.createToken(DadosCartao, setCardTokenAndPay);
+
+                    function setCardTokenAndPay(status, response) {
+                        if (status == 200 || status == 201) {
+
+                            let Usuario = "";
+
+                            $.ajax({
+                                url: "@Url.Action("GetDadosUsuario", "Comprar")",
+                                method: "POST",
+                                success: function (retorno) {
+                                    console.log(retorno);
+                                }
+                            });
+
+                            @*let CodigoCartao = response.id;
+
+                            let dados = JSON.stringify({
+                                token: CodigoCartao,
+                                installments: 1,
+                                transaction_amount: @Model.ValorRifa,
+                                description: "Bilhete EiSorteei - " + @Model.Nome,
+                                payment_method_id: "visa",
+                                payer: {
+                                    email: "vinicius_eugenio07@hotmail.com",
+                                    identification: {
+                                        number: CPFFormatado,
+                                        type: "CPF"
+                                    }
+                                },
+                                notification_url: "https://www.suaurl.com/notificacoes/",
+                                sponsor_id: null,
+                                binary_mode: false,
+                                external_reference: "MP0001",
+                                statement_descriptor: "MercadoPago",
+                                additional_info: {
+                                    items: [
+                                        {
+                                            id: "PR0001",
+                                            title: "Bilhete",
+                                            description: "Bilhete",
+                                            picture_url: "https://http2.mlstatic.com/resources/frontend/statics/growth-sellers-landings/device-mlb-point-i_medium@2x.png",
+                                            category_id: "Bilhete",
+                                            quantity: 1,
+                                            unit_price: @Model.ValorRifa
+                                        }
+                                    ],
+                                    payer: {
+                                        first_name: "Vinícius",
+                                        last_name: "Eugênio",
+                                        address: {
+                                            zip_code: "37350-000",
+                                            street_name: "Av. Alberane Cunha",
+                                            street_number: 3003
+                                        },
+                                        registration_date: "2019-01-01T12:01:01.000-03:00",
+                                        phone: {
+                                            area_code: "011",
+                                            number: "987654321"
+                                        }
+                                    },
+                                    shipments: {
+                                        receiver_address: {
+                                            street_name: "Av das Nacoes Unidas",
+                                            street_number: 3003,
+                                            zip_code: "06233200",
+                                            city_name: "Buzios",
+                                            state_name: "Rio de Janeiro"
+                                        }
+                                    }
+                                }
+                            });
+
+                            $.ajax({
+                                url: "https://api.mercadopago.com/v1/payments",
+                                method: 'POST',
+                                beforeSend: function (xhr) {
+                                    xhr.setRequestHeader('Authorization', 'Bearer APP_USR-5017428128263404-072015-ddd04542ab6288891aebac5789addf33-247787081');
+                                },
+                                data: dados,
+                                success: function (retorno) {
+                                    console.log(retorno);
+                                },
+                                error: function (retorno) {
+                                    console.log(retorno);
+                                }
+                            });*@
+
+
+                        }
+
+                        else {
+                            Swal.fire({
+                                title: 'Cartão Inválido',
+                                text: "Os dados do cartão informado não são válidos, por favor verifique seus dados e tente novamente!",
+                                icon: 'error',
+                                showCancelButton: false,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                cancelButtonText: 'Não',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    };
                 }
 
             });
 
-        });
-
-        $("#CadastrarCartao").click(function () {
-
-            $.ajax({
-
-                url: "https://api.mercadopago.com/v1/customers/164226370-i02RcMSjWkgniL/cards",
-                method: "POST",
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader('Authorization', 'Bearer APP_USR-5017428128263404-072015-ddd04542ab6288891aebac5789addf33-247787081');
-                },
-                data: JSON.stringify({
-                    token:"Teste"
-                }),
-                success: function (retorno) {
-                    console.log(retorno);
-                },
-                error: function (retorno) {
-                    console.log(retorno);
-                }
-
-            });
 
         });
-
-
-        window.Mercadopago.setPublishableKey("APP_USR-4f22958e-cccd-49ac-b52d-02ae9b9697a9");
-        window.Mercadopago.getIdentificationTypes();
-
-        let teste = {
-
-            cardNumber: "4854648008588506",
-            cardExpirationMonth:"11",
-            cardExpirationYear:"21",
-            securityCode: "987",
-            cardholderName: "VINICIUS F EUGENIO",
-            docType: "CPF",
-            docNumber:"13113413664"
-
-        };
-
-
-        let essamerda = window.Mercadopago.createToken(teste, setCardTokenAndPay);
-        console.log(essamerda);
-        console.log(teste);
-
-        function setCardTokenAndPay(status, response) {
-            if (status == 200 || status == 201) {
-                let card = document.createElement('input');
-                card.setAttribute('name', 'token');
-                card.setAttribute('type', 'hidden');
-                card.setAttribute('value', response.id);
-                form.appendChild(card);
-                doSubmit = true;
-                form.submit();
-            } else {
-                alert("Verify filled data!\n" + JSON.stringify(response, null, 4));
-            }
-        };
-
-
     </script>
 
 

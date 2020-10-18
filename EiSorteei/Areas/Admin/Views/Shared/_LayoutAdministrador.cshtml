@@ -17,11 +17,16 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="@Url.Action("Index","Produtos")" style="color:white;">Prêmios</a>                    
-                </li>            
-                <li class="navbar-nav mr-auto">
-                    <a class="nav-link" href="@Url.Action("Index","CategoriasProdutos")" style="color:white;">Categorias de Produto</a>
+                    <a class="nav-link" href="@Url.Action("Index","Produtos")" style="color:white;">Prêmios</a>
                 </li>
+
+                @if (Session["Permissao"].ToString() == "Administrador")
+                {
+                    <li class="navbar-nav mr-auto">
+                        <a class="nav-link" href="@Url.Action("Index","CategoriasProdutos")" style="color:white;">Categorias de Produto</a>
+                    </li>
+                }
+
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <a style="color:white;" href="@Url.Action("Logout","Login")">Sair</a>

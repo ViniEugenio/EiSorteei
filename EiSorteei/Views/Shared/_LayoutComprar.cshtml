@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    EiSorteei.Data.Usuario Usuario = (EiSorteei.Data.Usuario)@Session["Usuario"];
+}
+
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="utf-8" />
@@ -17,6 +21,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+
 </head>
 <body>
     <header class="header__container">
@@ -34,7 +39,20 @@
                     <span></span>
 
                     <ul id="menu">
+                        @if (Session["Usuario"] != null)
+                        {
+                            <a href="@Url.Action("Index","Home")"><li>@Usuario.Nome @Usuario.SobreNome</li></a>
+                        }
                         <a href="@Url.Action("Index","Home")"><li>Home</li></a>
+                        @if (Session["Usuario"] != null)
+                        {
+                            <a href="@Url.Action("Index","Home")"><li>Sair</li></a>
+                        }
+
+                        else
+                        {
+                            <a href="@Url.Action("Index","Usuario")"><li>Entrar</li></a>
+                        }
                     </ul>
                 </div>
             </div>
@@ -55,7 +73,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-    <script src="~/Scripts/jquery.mask.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.js"></script>
     <script src="~/js/slick.min.js"></script>
     <script src="~/js/site.js"></script>
@@ -63,16 +80,79 @@
     <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
     <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script src="https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
+
+
     @RenderSection("Scripts", required: false)
 
     <div id="myModal2" class="modal">
 
         <!-- Modal content -->
-        <div class="modal-content">
-            <img src="" alt="" />
-            <strong>Email Cadastrado!</strong>
-            <p>Obrigado pelo seu cadastro.</p>
-            <a class="entendi2" style="cursor:pointer;">Entendi</a>
+        <div class="modal-content" style="width:80%; justify-content:flex-start; height:89%;">
+            <i class="fas fa-times" style="float:right; align-self:flex-end; cursor:pointer;" id="Fechar"></i>
+            <div class="form-group">
+
+                <strong>Forma de Pagamento</strong>
+            </div>
+
+            <div class="form-group">
+
+                <span class="NumeroRifa" style="padding:10px; font-size: 16px;">Cartão de Crédito</span>
+                <span class="NumeroRifa" style="padding:10px; font-size: 16px; background-color:lightgray;">Boleto</span>
+
+            </div>
+
+            <div class="form-group">
+                <strong>Número do Bilhete: <span id="NumeroRifa"></span></strong>
+            </div>
+
+            <div class="form-group" style="width:80%; text-align:start;">
+
+                <div class="row">
+
+                    <div class="col-md-12 form-group">
+                        <strong>Número do Cartão</strong>
+                        <input type="text" class="form-control" placeholder="Digite o número do seu cartão" id="NumeroCartao" />
+                        <span class="ErroComprar" id="ErroNumero">Campo Obrigatório</span>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <strong>Nome do Titular</strong>
+                        <input type="text" class="form-control" placeholder="Digite o nome do Titulo do Cartão" id="TituloCartao" />
+                        <span class="ErroComprar" id="ErroTitulo">Campo Obrigatório</span>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <strong>CPF</strong>
+                        <input type="text" class="form-control" placeholder="Digite o CPF do dono do Cartão" id="CPFCartao" />
+                        <span class="ErroComprar" id="ErroCPF">Campo Obrigatório</span>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <strong>Data de Vencimento</strong>
+                        <input type="text" class="form-control" placeholder="Digite a data de Vencimento do Cartão, Ex: 11/@DateTime.Now.Year.ToString()[2]@DateTime.Now.Year.ToString()[3]" id="DataCartao" />
+                        <span class="ErroComprar" id="ErroData">Campo Obrigatório</span>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <strong>CVV</strong>
+                        <input type="text" class="form-control" placeholder="Digite o nome do Titulo do Cartão" maxlength="3" id="CVVCartao" />
+                        <span class="ErroComprar" id="ErroCVV">Campo Obrigatório</span>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <strong>Código do Vendedor</strong>
+                        <input type="text" class="form-control" placeholder="Digite o Código do Vendedor" maxlength="8" id="CodigoVendedor" />
+                        <span class="ErroComprar" id="ErroComprador">Campo Obrigatório</span>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <button class="btn btn-success" id="EfetuarCompra">Efetuar Compra</button>
+                    </div>
+
+                </div>
+
+            </div>
         </div>
 
     </div>

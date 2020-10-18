@@ -74,7 +74,7 @@ namespace EiSorteei.Areas.Admin.Controllers
                 };
 
                 _Context.PermissaoUsuario.Add(Permissao);
-                _Context.SaveChanges();                
+                _Context.SaveChanges();
             }
 
             return View();
@@ -90,7 +90,11 @@ namespace EiSorteei.Areas.Admin.Controllers
 
                 if (_Context.Usuario.Any(u => u.Email.Equals(model.Email) && u.Senha.Equals(HashPassword)))
                 {
-                    Session["Usuario"] = _Context.Usuario.FirstOrDefault(u => u.Email.Equals(model.Email) && u.Senha.Equals(HashPassword));
+                    Usuario oUsuario = _Context.Usuario.FirstOrDefault(u => u.Email.Equals(model.Email) && u.Senha.Equals(HashPassword));
+                    Session["Usuario"] = oUsuario;
+                    long IdPermissao = _Context.PermissaoUsuario.FirstOrDefault(p => p.IdUsuario.Equals(oUsuario.Id)).IdPermissao;
+                    Session["Permissao"] = _Context.Permissao.FirstOrDefault(p => p.Id.Equals(IdPermissao)).Nome;
+
                     return RedirectToAction("Index", "DashBoard");
                 }
 

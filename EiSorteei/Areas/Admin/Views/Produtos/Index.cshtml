@@ -78,38 +78,40 @@
                 cancelButtonText: 'Não',
                 confirmButtonText: 'Sim'
             }).then((result) => {
-                $.ajax({
 
-                    method: "POST",
-                    url: '@Url.Action("Excluir","Produtos")',
-                    data: { Id: Id },
-                    success: function (retorno) {
 
-                        if (retorno.Status) {
+                if (result.isConfirmed) {
+                    $.ajax({
 
-                            Swal.fire({
-                                title: 'Exclusão',
-                                text: retorno.Mensagem,
-                                icon: 'success',
-                                showCancelButton: false,
-                                confirmButtonColor: '#3085d6',
-                                confirmButtonText: 'Ok'
-                            });
+                        method: "POST",
+                        url: '@Url.Action("Excluir","Produtos")',
+                        data: { Id: Id },
+                        success: function (retorno) {
 
-                            $("#Premio-" + Id).slideUp('slow');
+                            if (retorno.Status) {
+
+                                Swal.fire({
+                                    title: 'Exclusão',
+                                    text: retorno.Mensagem,
+                                    icon: 'success',
+                                    showCancelButton: false,
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'Ok'
+                                });
+
+                                $("#Premio-" + Id).slideUp('slow');
+
+                            }
+
+                            else {
+                                console.log(retorno.Mensagem);
+                            }
 
                         }
 
-                        else {
-                            console.log(retorno.Mensagem);
-                        }
-
-                    }
-
-                });
+                    });
+                }
             });
-
-
 
         });
 
