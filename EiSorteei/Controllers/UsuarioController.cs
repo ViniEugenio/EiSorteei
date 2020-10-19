@@ -25,6 +25,38 @@ namespace EiSorteei.Controllers
             return View();
         }
 
+       [HttpPost]
+       [ValidateAntiForgeryToken]
+       public ActionResult Index(LoginViewModel model,long IdProduto=0)
+        {
+            if (ModelState.IsValid)
+            {
+                string HashPassword = Helpers.HashPassword.PasswordHash(model.Senha);
+
+                if (_Context.Usuario.Any(u => u.Email.Equals(model.Email) && u.Senha.Equals(HashPassword)))
+                {
+                    Usuario oUsuario = _Context.Usuario.FirstOrDefault(u => u.Email.Equals(model.Email) && u.Senha.Equals(HashPassword));
+                    Session["Usuario"] = oUsuario;
+                    long IdPermissao = _Context.PermissaoUsuario.FirstOrDefault(p => p.IdUsuario.Equals(oUsuario.Id)).IdPermissao;
+                    Session["Permissao"] = _Context.Permissao.FirstOrDefault(p => p.Id.Equals(IdPermissao)).Nome;
+
+                    if(IdProduto!=0)
+                    {
+                        return RedirectToAction("Index", "Comprar", new { IdProduto = IdProduto });
+                    }
+
+                    return RedirectToAction("Index", "Home");
+                }
+
+                else
+                {
+                    ModelState.AddModelError("Senha", "Email ou Senha Inválidos");
+                    return View(model);
+                }
+            }
+            return View(model);
+        }
+
         public ActionResult CadastrarUsuario(long IdProduto=0)
         {
             ViewBag.Estados = Estados.GetAllStates();
@@ -112,7 +144,7 @@ namespace EiSorteei.Controllers
 
                 if (!Valida(model.Cpf))
                 {
-                    ModelState.AddModelError("Cpf", "O cpf digitado não é válido!");
+                    ModelState.AddModelError("Cpf", "O CPF digitado não é válido!");
                     return View(model);
                 }
 
@@ -130,7 +162,9 @@ namespace EiSorteei.Controllers
                     Rua = model.Rua,
                     Senha = Helpers.HashPassword.PasswordHash(model.Senha),
                     SobreNome = model.SobreNome,
-                    Status = true
+                    Status = true,
+                    CEP = model.CEP,
+                    Telefone = model.Telefone
                 };
 
                 _Context.Usuario.Add(NovoUsuario);
@@ -187,6 +221,7 @@ namespace EiSorteei.Controllers
         public ActionResult Logout()
         {
             Session.RemoveAll();
+            Session.Clear();
             return RedirectToAction("Index", "Home");
         }
     }

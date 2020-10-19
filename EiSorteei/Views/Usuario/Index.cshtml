@@ -1,5 +1,5 @@
 ﻿@model EiSorteei.Models.LoginViewModel
-@{ 
+@{
     Layout = null;
 }
 
@@ -54,7 +54,7 @@
     </style>
 
     <div class="container body-content">
-        @using (Html.BeginForm("Index", "Login"))
+        @using (Html.BeginForm("Index", "Usuario"))
         {
             @Html.AntiForgeryToken()
             <section id="Login">
@@ -66,6 +66,7 @@
                     </div>
 
                     <div class="card-body">
+                        <input value="@ViewBag.Produto" name="IdProduto" style="display:none;" />
                         <div class="form-group">
                             @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
                             @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
@@ -83,7 +84,7 @@
                         </div>
 
                         <div class="form-group text-center">
-                            Ainda não é usuário? <a href="@Url.Action("CadastrarUsuario","Usuario")">Clique aqui</a>
+                            Ainda não é usuário? <a href="@Url.Action("CadastrarUsuario","Usuario",new { IdProduto=ViewBag.Produto})">Clique aqui</a>
                         </div>
                     </div>
 

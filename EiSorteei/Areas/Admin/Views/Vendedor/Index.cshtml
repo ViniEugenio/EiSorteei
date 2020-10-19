@@ -38,11 +38,19 @@
 
                 <div class="row">
 
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
                             @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
                             @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Telefone, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Telefone, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Telefone, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
@@ -83,13 +91,27 @@
                         </div>
                     </div>
 
+                    <div class="col-md-6">
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Bairro, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Bairro, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Bairro, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CEP, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.CEP, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.CEP, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
                 </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Bairro, htmlAttributes: new { @class = "control-label" })
-                    @Html.EditorFor(model => model.Bairro, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Bairro, "", new { @class = "text-danger" })
-                </div>
+                
 
                 <div class="row">
 
@@ -156,6 +178,8 @@
 
 
     $("#Cpf").mask("000.000.000-00");
+    $("#CEP").mask("00000-000");
+    $("#Telefone").mask("(00) 00000-0000");
 
 
 </script>

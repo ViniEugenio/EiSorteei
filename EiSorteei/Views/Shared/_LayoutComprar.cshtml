@@ -43,10 +43,10 @@
                         {
                             <a href="@Url.Action("Index","Home")"><li>@Usuario.Nome @Usuario.SobreNome</li></a>
                         }
-                        <a href="@Url.Action("Index","Home")"><li>Home</li></a>
+                            <a href="@Url.Action("Index","Home")"><li>Home</li></a>
                         @if (Session["Usuario"] != null)
                         {
-                            <a href="@Url.Action("Index","Home")"><li>Sair</li></a>
+                            <a href="@Url.Action("Logout","Usuario")"><li>Sair</li></a>
                         }
 
                         else

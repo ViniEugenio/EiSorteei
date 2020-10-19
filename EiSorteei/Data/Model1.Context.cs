@@ -32,5 +32,6 @@ namespace EiSorteei.Data
         public virtual DbSet<Produto> Produto { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
         public virtual DbSet<Vendedor> Vendedor { get; set; }
+        public virtual DbSet<Compra> Compra { get; set; }
     }
 }

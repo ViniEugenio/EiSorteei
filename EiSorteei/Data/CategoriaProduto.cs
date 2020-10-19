@@ -11,8 +11,7 @@ namespace EiSorteei.Data
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class CategoriaProduto
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,8 +21,6 @@ namespace EiSorteei.Data
         }
     
         public long Id { get; set; }
-
-        [Required(ErrorMessage ="Por favor digite o nome da Categoria")]
         public string Nome { get; set; }
         public System.DateTime DataCadastro { get; set; }
         public System.DateTime DataAtualizacao { get; set; }

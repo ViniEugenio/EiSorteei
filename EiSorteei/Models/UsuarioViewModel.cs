@@ -48,5 +48,11 @@ namespace EiSorteei.Models
 
         [Required(ErrorMessage = "Campo Obrigatório")]
         public string Cpf { get; set; }
+
+        [Required(ErrorMessage ="Campo Obrigatório")]
+        public string CEP { get; set; }
+
+        [Required(ErrorMessage ="Campo Obrigatório")]
+        public string Telefone { get; set; }
     }
 }

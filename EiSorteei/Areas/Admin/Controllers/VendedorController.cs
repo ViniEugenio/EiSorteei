@@ -120,7 +120,7 @@ namespace EiSorteei.Areas.Admin.Controllers
 
                 if(!Valida(model.Cpf))
                 {
-                    ModelState.AddModelError("Cpf", "O cpf digitado não é válido!");
+                    ModelState.AddModelError("Cpf", "O CPF digitado não é válido!");
                     return View(model);
                 }
 
@@ -138,7 +138,9 @@ namespace EiSorteei.Areas.Admin.Controllers
                     Rua = model.Rua,
                     Senha = Helpers.HashPassword.PasswordHash(model.Senha),
                     SobreNome = model.SobreNome,
-                    Status = true
+                    Status = true,
+                    CEP = model.CEP,
+                    Telefone = model.Telefone
                 };
 
                 _Context.Usuario.Add(NovoUsuario);

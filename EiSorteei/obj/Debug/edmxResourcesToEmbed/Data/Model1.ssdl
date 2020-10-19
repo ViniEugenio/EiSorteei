@@ -71,6 +71,8 @@
     <Property Name="DataCadastro" Type="date" Nullable="false" />
     <Property Name="DataAtualizacao" Type="date" Nullable="false" />
     <Property Name="Status" Type="bit" Nullable="false" />
+    <Property Name="CEP" Type="char" MaxLength="9" />
+    <Property Name="Telefone" Type="varchar(max)" />
   </EntityType>
   <EntityType Name="Vendedor">
     <Key>
@@ -83,6 +85,42 @@
     <Property Name="DataAtualizacao" Type="date" Nullable="false" />
     <Property Name="Status" Type="bit" Nullable="false" />
   </EntityType>
+  <EntityType Name="Compra">
+    <Key>
+      <PropertyRef Name="OrderID" />
+    </Key>
+    <Property Name="OrderID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UsuarioId" Type="bigint" Nullable="false" />
+    <Property Name="ProdutoId" Type="bigint" Nullable="false" />
+    <Property Name="CodigoVendedor" Type="varchar(max)" />
+    <Property Name="DataCompra" Type="date" Nullable="false" />
+    <Property Name="IdCompra" Type="varchar(max)" Nullable="false" />
+    <Property Name="NumeroRifa" Type="varchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__Compra__ProdutoI__3B75D760">
+    <End Role="Produto" Type="Self.Produto" Multiplicity="1" />
+    <End Role="Compra" Type="Self.Compra" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Produto">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Compra">
+        <PropertyRef Name="ProdutoId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Compra__UsuarioI__3A81B327">
+    <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+    <End Role="Compra" Type="Self.Compra" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuario">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Compra">
+        <PropertyRef Name="UsuarioId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__Multimidi__IdPro__31EC6D26">
     <End Role="Produto" Type="Self.Produto" Multiplicity="1" />
     <End Role="Multimidia" Type="Self.Multimidia" Multiplicity="*" />
@@ -163,6 +201,15 @@
     <EntitySet Name="Produto" EntityType="Self.Produto" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Vendedor" EntityType="Self.Vendedor" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Compra" EntityType="Self.Compra" Schema="eisorteei" store:Type="Tables" />
+    <AssociationSet Name="FK__Compra__ProdutoI__3B75D760" Association="Self.FK__Compra__ProdutoI__3B75D760">
+      <End Role="Produto" EntitySet="Produto" />
+      <End Role="Compra" EntitySet="Compra" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Compra__UsuarioI__3A81B327" Association="Self.FK__Compra__UsuarioI__3A81B327">
+      <End Role="Usuario" EntitySet="Usuario" />
+      <End Role="Compra" EntitySet="Compra" />
+    </AssociationSet>
     <AssociationSet Name="FK__Multimidi__IdPro__31EC6D26" Association="Self.FK__Multimidi__IdPro__31EC6D26">
       <End Role="Produto" EntitySet="Produto" />
       <End Role="Multimidia" EntitySet="Multimidia" />
