@@ -57,6 +57,7 @@
           <Property Name="DataAtualizacao" Type="date" Nullable="false" />
           <Property Name="Status" Type="bit" Nullable="false" />
           <Property Name="ValorRifa" Type="money" Nullable="false" />
+          <Property Name="DataSorteio" Type="date" />
         </EntityType>
         <EntityType Name="Usuario">
           <Key>
@@ -347,6 +348,7 @@
           <NavigationProperty Name="Multimidia" Relationship="EiSorteeiModel.FK__Multimidi__IdPro__31EC6D26" FromRole="Produto" ToRole="Multimidia" />
           <NavigationProperty Name="Usuario" Relationship="EiSorteeiModel.FK__Produto__IdUsuar__2E1BDC42" FromRole="Produto" ToRole="Usuario" />
           <NavigationProperty Name="Compra" Relationship="EiSorteeiModel.FK__Compra__ProdutoI__3B75D760" FromRole="Produto" ToRole="Compra" />
+          <Property Name="DataSorteio" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityType Name="Usuario">
           <Key>
@@ -546,6 +548,7 @@
           <EntitySetMapping Name="Produto">
             <EntityTypeMapping TypeName="EiSorteeiModel.Produto">
               <MappingFragment StoreEntitySet="Produto">
+                <ScalarProperty Name="DataSorteio" ColumnName="DataSorteio" />
                 <ScalarProperty Name="ValorRifa" ColumnName="ValorRifa" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="DataAtualizacao" ColumnName="DataAtualizacao" />

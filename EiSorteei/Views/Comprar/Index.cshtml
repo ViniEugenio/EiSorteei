@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/_LayoutComprar.cshtml";
 
     List<string> Comprados = ViewBag.Comprados;
+    var Usuario = ViewBag.Usuario;
 }
 
 <style>
@@ -73,6 +74,19 @@
             font-size: 14px;
         }
     }
+
+    .box_premio {
+        background-color: #535151;
+        padding: 10px;
+        border-radius: 24px;
+        margin-bottom: 10px;
+    }
+
+    .btn-default {
+        background-color: #535151;
+        border: none;
+        color: white;
+    }
 </style>
 
 
@@ -104,9 +118,68 @@
         <i class="fas fa-chevron-right fa-2x" id="next"></i>
     </div>
 
-    <h3 align="center">@Model.Nome</h3>
-    <p>@Html.Raw(Model.Descricao)</p>
-    <h3 align="center">Valor da Rifa: R$ @Math.Round(Model.ValorRifa, 2)</h3>
+    <h5 align="center">Informações Importante</h5>
+    <p align="center">Confira abaixo as formas de pagamento, regras, contatos e tudo sobre o sorteio</p>
+
+    <div class="form-group text-center">
+        <button class="btn btn-default" id="btnInformacoes" style="background-color: #E0C777"><i class="fas fa-info"></i> Informações do Item</button>
+        <button class="btn btn-default" id="btnDadosPagamento"><i class="fas fa-search-dollar"></i> Dados de Pagamento</button>
+        <button class="btn btn-default" id="btnRegulamento"><i class="fas fa-cogs"></i> Regulamento/Descrição</button>
+        <button class="btn btn-default" id="btnContato"><i class="fas fa-envelope"></i> Contato</button>
+    </div>
+
+    <div id="DadosPagamento" class="box_premio" style="display:none;">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ut nisl non ligula auctor faucibus. Vestibulum ante ipsum primis in
+        faucibus orci luctus et ultrices posuere cubilia curae; Morbi vitae turpis at purus viverra finibus. Sed suscipit orci lacus, in volutpat sapien
+        tincidunt ut. In hac habitasse platea dictumst. Aliquam laoreet aliquet odio, vel finibus risus. Orci varius natoque penatibus et magnis dis parturient montes,
+        nascetur ridiculus mus. Fusce tincidunt leo in tortor fringilla, sed pretium lorem sodales. Nam finibus volutpat mattis. Morbi gravida at justo vitae pulvinar.
+        Vivamus sed leo sed quam mattis euismod sit amet non velit.
+    </div>
+
+    <div id="Regulamento" style="display:none;" class="box_premio">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ut nisl non ligula auctor faucibus. Vestibulum ante ipsum primis in
+        faucibus orci luctus et ultrices posuere cubilia curae; Morbi vitae turpis at purus viverra finibus. Sed suscipit orci lacus, in volutpat sapien
+        tincidunt ut. In hac habitasse platea dictumst. Aliquam laoreet aliquet odio, vel finibus risus. Orci varius natoque penatibus et magnis dis parturient montes,
+        nascetur ridiculus mus. Fusce tincidunt leo in tortor fringilla, sed pretium lorem sodales. Nam finibus volutpat mattis. Morbi gravida at justo vitae pulvinar.
+        Vivamus sed leo sed quam mattis euismod sit amet non velit.
+    </div>
+
+    <div id="InformacoesItem" class="box_premio row text-center">
+        <div class="col-md-12 text-center form-group">
+            <h3><i class="fas fa-trophy"></i> Prêmio: @Model.Nome</h3>
+            <h4><i class="fas fa-tags"></i> Categoria: @ViewBag.Categoria</h4>
+        </div>
+        <div class="col-md-4 form-group">
+            <strong>Valor Unitário: R$ @Math.Round(Model.ValorRifa, 2)</strong>
+        </div>
+        <div class="col-md-4 form-group">
+            <strong>Total: @Model.RangeCodigo</strong>
+        </div>
+        <div class="col-md-4 form-group">
+            <strong><i class="fas fa-hourglass-start"></i> Reservados: 6</strong>
+        </div>
+
+        <div class="col-md-4 form-group">
+            <strong><i class="fas fa-calendar"></i> Data do Sorteio: @Model.DataSorteio.ToString().Replace(" 00:00:00",string.Empty)</strong>
+        </div>
+
+        <div class="col-md-4 form-group">
+            <strong><i class="fas fa-map-marker-alt"></i> Cidade: @Usuario.Cidade</strong>
+        </div>
+
+        <div class="col-md-4 form-group">
+            <strong><i class="far fa-map"></i> Estado: @Usuario.Estado</strong>
+        </div>
+
+    </div>
+
+    <div id="Contato" style="display:none;" class="box_premio text-center">
+
+        <p><i class="fas fa-envelope"></i> <strong>Email: @Usuario.Email</strong></p>
+
+        <p><i class="fas fa-phone"></i> <strong>Telefone: @Usuario.Telefone</strong></p>
+
+    </div>
 
     <div id="Rifas" class="row">
 
@@ -436,9 +509,68 @@
 
             });
 
+            $("#btnDadosPagamento").click(function () {
 
+                $(this).css("background-color", "#E0C777");
+                $("#btnRegulamento").css("background-color", "#535151");
+                $("#btnInformacoes").css("background-color", "#535151");
+                $("#btnContato").css("background-color", "#535151");
+
+
+                $("#DadosPagamento").slideDown(200);
+                $("#Regulamento").slideUp(200);
+                $("#InformacoesItem").slideUp(200);
+                $("#Contato").slideUp(200);
+
+            });
+
+            $("#btnRegulamento").click(function () {
+
+                $(this).css("background-color", "#E0C777");
+                $("#btnDadosPagamento").css("background-color", "#535151");
+                $("#btnInformacoes").css("background-color", "#535151");
+                $("#btnContato").css("background-color", "#535151");
+
+                $("#DadosPagamento").slideUp(200);
+                $("#Regulamento").slideDown(200);
+                $("#InformacoesItem").slideUp(200);
+                $("#Contato").slideUp(200);
+
+            });
+
+            $("#btnInformacoes").click(function () {
+
+                $(this).css("background-color", "#E0C777");
+                $("#btnRegulamento").css("background-color", "#535151");
+                $("#btnDadosPagamento").css("background-color", "#535151");
+                $("#btnContato").css("background-color", "#535151");
+
+                $("#DadosPagamento").slideUp(200);
+                $("#Regulamento").slideUp(200);
+                $("#InformacoesItem").slideDown(200);
+                $("#Contato").slideUp(200);
+
+            });
+
+            $("#btnContato").click(function () {
+
+                $(this).css("background-color", "#E0C777");
+                $("#btnRegulamento").css("background-color", "#535151");
+                $("#btnInformacoes").css("background-color", "#535151");
+                $("#btnDadosPagamento").css("background-color", "#535151");
+
+                $("#DadosPagamento").slideUp(200);
+                $("#Regulamento").slideUp(200);
+                $("#InformacoesItem").slideUp(200);
+                $("#Contato").slideDown(200);
+
+            });
         });
-    </script>
 
+
+
+
+
+    </script>
 
 }

@@ -41,13 +41,12 @@ namespace EiSorteei.Areas.Admin.Controllers
         {
             LoadViewBags();
 
-            if (model.Imagem.Count() == 0)
+
+            if (model.Imagem[0] == null)
             {
-                if (model.Imagem[0] == null)
-                {
-                    ModelState.AddModelError("Imagem", "Por favor selecione pelo menos uma imagem para o Produto");
-                }
+                ModelState.AddModelError("Imagem", "Por favor selecione pelo menos uma imagem para o Produto");
             }
+
 
             if (ModelState.IsValid)
             {
@@ -62,8 +61,9 @@ namespace EiSorteei.Areas.Admin.Controllers
                     Nome = model.Nome,
                     RangeCodigo = model.RangeCodigo,
                     Status = true,
-                    ValorRifa = model.ValorRifa,
-                    IdUsuario = UsuarioLogado.Id
+                    ValorRifa = Convert.ToDecimal(model.ValorRifa.ToString().Replace(".", ",")),
+                    IdUsuario = UsuarioLogado.Id,
+                    DataSorteio = model.DataSorteio
                 };
 
                 _Context.Produto.Add(NovoProduto);
@@ -157,8 +157,9 @@ namespace EiSorteei.Areas.Admin.Controllers
                 Descricao = produto.Descricao,
                 Nome = produto.Nome,
                 RangeCodigo = produto.RangeCodigo,
-                ValorRifa = produto.ValorRifa,
-                Id = produto.Id
+                ValorRifa = produto.ValorRifa.ToString(),
+                Id = produto.Id,
+                DataSorteio = produto.DataSorteio.Value
             };
 
             ViewBag.Imagens = _Context.Multimidia.Where(m => m.IdProduto.Equals(Id) && m.Status).ToList();
@@ -183,6 +184,7 @@ namespace EiSorteei.Areas.Admin.Controllers
         public ActionResult Alterar(ProdutoCreateViewModel model)
         {
             LoadViewBags();
+            ViewBag.Imagens = _Context.Multimidia.Where(m => m.IdProduto.Equals(model.Id) && m.Status).ToList();
 
             if (model.Imagem.Count() == 0 && _Context.Multimidia.Where(m => m.IdProduto.Equals(model.Id)).Count() == 0)
             {
@@ -200,7 +202,8 @@ namespace EiSorteei.Areas.Admin.Controllers
                 AlterarProduto.IdCategoria = model.CategoriaProduto;
                 AlterarProduto.DataAtualizacao = DateTime.Now;
                 AlterarProduto.RangeCodigo = model.RangeCodigo;
-                AlterarProduto.ValorRifa = model.ValorRifa;
+                AlterarProduto.ValorRifa = Convert.ToDecimal(model.ValorRifa.ToString().Replace(".", ","));
+                AlterarProduto.DataSorteio = model.DataSorteio;
 
                 _Context.Entry(AlterarProduto).State = System.Data.Entity.EntityState.Modified;
                 _Context.SaveChanges();

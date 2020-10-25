@@ -23,7 +23,7 @@ namespace EiSorteei.Controllers
         public ActionResult Index(long IdProduto)
         {
             var Produto = _Context.Produto.FirstOrDefault(p => p.Id == IdProduto);
-            ViewBag.Comprados = _Context.Compra.Select(c => c.NumeroRifa).ToList();
+           
 
             if (Produto == null)
             {
@@ -31,6 +31,10 @@ namespace EiSorteei.Controllers
             }
 
             ViewBag.Imagens = _Context.Multimidia.Where(p => p.IdProduto.Equals(IdProduto) && p.Status).ToList();
+            ViewBag.Usuario = _Context.Usuario.FirstOrDefault(u => u.Id.Equals(Produto.IdUsuario));
+            ViewBag.Comprados = _Context.Compra.Select(c => c.NumeroRifa).ToList();
+            ViewBag.Categoria = _Context.CategoriaProduto.FirstOrDefault(c => c.Id.Equals(Produto.IdCategoria)).Nome;
+
             return View(Produto);
         }
 

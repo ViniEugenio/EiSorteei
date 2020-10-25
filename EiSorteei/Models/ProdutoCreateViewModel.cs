@@ -24,7 +24,7 @@ namespace EiSorteei.Models
 
         [DisplayName("Valor das Rifas")]
         [Required(ErrorMessage ="Por favor insira o Valor das Rifas")]
-        public Decimal ValorRifa { get; set; }
+        public string ValorRifa { get; set; }
 
         [DisplayName("Imagem do Produto")]
         [Required(ErrorMessage ="Por favor selecione uma imagem do Produto")]
@@ -33,6 +33,10 @@ namespace EiSorteei.Models
         [DisplayName("Categoria do Produto")]
         [Required(ErrorMessage ="Por favor selecione uma Categoria para o Produto")]
         public long CategoriaProduto { get; set; }
+
+        [DisplayName("Data do Sorteio")]
+        [Required(ErrorMessage ="Por favor selecione a Data de Realização do Sorteio")]
+        public DateTime DataSorteio { get; set; }
 
     }
 }

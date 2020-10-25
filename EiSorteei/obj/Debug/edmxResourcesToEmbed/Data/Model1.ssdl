@@ -52,6 +52,7 @@
     <Property Name="DataAtualizacao" Type="date" Nullable="false" />
     <Property Name="Status" Type="bit" Nullable="false" />
     <Property Name="ValorRifa" Type="money" Nullable="false" />
+    <Property Name="DataSorteio" Type="date" />
   </EntityType>
   <EntityType Name="Usuario">
     <Key>
