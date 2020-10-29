@@ -60,14 +60,82 @@
     </header>
     @RenderBody()
 
+
+    <style>
+
+        #Quantidade {
+            position: fixed;
+            width: 100%;
+            height: 140px;
+            bottom: 0px;
+            /* right: 112px; */
+            background-color: white;
+            color: #000;
+            border-radius: 0px;
+            font-size: 20px;
+            z-index: 6;
+            margin: unset;
+            padding: 6px 5px;
+        }
+
+        #RifaEscolhida {
+            background-color: #E0C777;
+            border-radius:24px;
+            color:white;
+            padding:3px;
+            text-align:center;
+            height:40px;
+        }
+
+    </style>
+
+    <div id="Quantidade" style="padding-left:35px; display:none;">
+        <div class="row">
+            <div class="col-md-6 row" id="RifasEscolhidas">
+                
+
+            </div>
+             
+            <div class="col-md-3 text-center" id="ValorTotalRifa" style="margin-top:40px;">
+                <h4><span id="QuantidadeTotal"></span>x R$ <span id="ValorRifa"></span> = R$ <span id="ValorTotal"></span></h4>
+            </div>
+
+            <div class="col-md-3" id="FinalizarCompra" style="margin-top:40px;">
+                <button class="btn btn-success" id="AbrirModal">Finalizar Compra</button>
+            </div>
+        </div>
+    </div>
     <footer style="bottom: 0; width: 100%;margin-top: 30px;">
+        <div class="row form-group" style="width:80%; margin:auto;">
+
+            <div class="col-md-3 text-center">
+                <h4><i class="fas fa-search"></i> Escolha uma Rifa</h4>
+                <h5>Escolha o prêmio que gostaria de concorrer, verifique a descrição, regulamento do sorteio.</h5>
+            </div>
+
+            <div class="col-md-3 text-center">
+                <h4><i class="fas fa-check-square"></i> Selecione seus Números</h4>
+                <h5>Escolha quantos quiser! Quanto mais, mais chances de ganhar.</h5>
+            </div>
+
+            <div class="col-md-3 text-center">
+                <h4><i class="fas fa-money-bill-alt"></i> Faça o Pagamento</h4>
+                <h5>Escolha uma das formas de pagamento disponíveis, e realize o pagamento.</h5>
+            </div>
+
+            <div class="col-md-3 text-center">
+                <h4><i class="fas fa-clock"></i> Aguarde o sorteio</h4>
+                <h5>Agora é aguardar o sorteio pela Loteria Federal e boa sorte! Cruze os dedos, você pode ser o próximo sorteado.</h5>
+            </div>
+
+        </div>
         <div class="center">
             <img src="~/Imagens/Cópia de Logo Verde e Branco de Curso Preparatório (1).png" alt="Dr. Marcelo Giovani" style="width: 220px; height: 84px;" />
             <p>Todos os direitos reservados</p>
         </div>
     </footer>
 
-    <a href="https://wa.me/5524999583321" class="float" target="_blank">
+    <a href="https://wa.me/5524999583321" class="float" target="_blank" style="bottom:165px;">
         <i class="fab fa-whatsapp" my-float"></i>
     </a>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -88,9 +156,19 @@
     <div id="myModal2" class="modal">
 
         <!-- Modal content -->
-        <div class="modal-content" style="width:80%; justify-content:flex-start; height:89%;">
+        <div class="modal-content" style="width:50%; justify-content:flex-start; height:42%;">
             <i class="fas fa-times" style="float:right; align-self:flex-end; cursor:pointer;" id="Fechar"></i>
-            <div class="form-group">
+            <h2>Atenção <i class="fas fa-exclamation"></i></h2>
+            <p> Bilhetes Selecionadas: <span id="RifasSelecionadas"></span></p>
+            <p>A data Limite para o pagamento das suas Rifas é até 12/12/2020</p>
+            <p>Após essa data seus Bilhetes serão disponibilizadas para compra novamente</p>
+
+            <div style="margin-top:12px;">
+                <p><strong>Valor Total: R$ <span id="ValorFinal"></span></strong></p>
+                <button class="btn btn-success" id="EfetuarPagamento">Efetuar Pagamento</button>               
+            </div>
+
+            @*<div class="form-group">
 
                 <strong>Forma de Pagamento</strong>
             </div>
@@ -147,12 +225,12 @@
                     </div>
 
                     <div class="form-group col-md-12">
-                        <button class="btn btn-success" id="EfetuarCompra">Efetuar Compra</button>
+                        <button class="btn btn-success" >Efetuar Compra</button>
                     </div>
 
                 </div>
 
-            </div>
+            </div>*@
         </div>
 
     </div>

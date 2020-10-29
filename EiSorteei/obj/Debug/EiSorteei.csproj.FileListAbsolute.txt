@@ -183,3 +183,5 @@ D:\Vinícius\Repositórios\EiSorteei\EiSorteei\EiSorteei\bin\nunit.framework.dll
 D:\Vinícius\Repositórios\EiSorteei\EiSorteei\EiSorteei\bin\ObjectDumper.dll
 D:\Vinícius\Repositórios\EiSorteei\EiSorteei\EiSorteei\bin\nunit.framework.pdb
 D:\Vinícius\Repositórios\EiSorteei\EiSorteei\EiSorteei\bin\nunit.framework.xml
+D:\Vinícius\Repositórios\EiSorteei\EiSorteei\EiSorteei\bin\RestSharp.dll
+D:\Vinícius\Repositórios\EiSorteei\EiSorteei\EiSorteei\bin\RestSharp.xml

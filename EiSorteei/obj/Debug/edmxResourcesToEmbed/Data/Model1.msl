@@ -46,6 +46,7 @@
     <EntitySetMapping Name="Produto">
       <EntityTypeMapping TypeName="EiSorteeiModel.Produto">
         <MappingFragment StoreEntitySet="Produto">
+          <ScalarProperty Name="IdCartx" ColumnName="IdCartx" />
           <ScalarProperty Name="DataSorteio" ColumnName="DataSorteio" />
           <ScalarProperty Name="ValorRifa" ColumnName="ValorRifa" />
           <ScalarProperty Name="Status" ColumnName="Status" />

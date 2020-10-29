@@ -104,6 +104,7 @@
     <NavigationProperty Name="Usuario" Relationship="EiSorteeiModel.FK__Produto__IdUsuar__2E1BDC42" FromRole="Produto" ToRole="Usuario" />
     <NavigationProperty Name="Compra" Relationship="EiSorteeiModel.FK__Compra__ProdutoI__3B75D760" FromRole="Produto" ToRole="Compra" />
     <Property Name="DataSorteio" Type="DateTime" Precision="0" />
+    <Property Name="IdCartx" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="Usuario">
     <Key>

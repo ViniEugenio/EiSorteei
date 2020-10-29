@@ -8,6 +8,7 @@ using MercadoPago;
 using MercadoPago.Resources;
 using MercadoPago.DataStructures.Preference;
 using MercadoPago.Common;
+using RestSharp;
 
 namespace EiSorteei.Controllers
 {
@@ -22,20 +23,26 @@ namespace EiSorteei.Controllers
 
         public ActionResult Index(long IdProduto)
         {
-            var Produto = _Context.Produto.FirstOrDefault(p => p.Id == IdProduto);
-           
-
-            if (Produto == null)
+            GetAllOrders();
+            if (IdProduto!=null)
             {
-                return RedirectToAction("Index");
+                var Produto = _Context.Produto.FirstOrDefault(p => p.Id == IdProduto);
+
+
+                if (Produto == null)
+                {
+                    return RedirectToAction("Index");
+                }
+
+                ViewBag.Imagens = _Context.Multimidia.Where(p => p.IdProduto.Equals(IdProduto) && p.Status).ToList();
+                ViewBag.Usuario = _Context.Usuario.FirstOrDefault(u => u.Id.Equals(Produto.IdUsuario));
+                ViewBag.Comprados = _Context.Compra.Select(c => c.NumeroRifa).ToList();
+                ViewBag.Categoria = _Context.CategoriaProduto.FirstOrDefault(c => c.Id.Equals(Produto.IdCategoria)).Nome;
+
+                return View(Produto);
             }
 
-            ViewBag.Imagens = _Context.Multimidia.Where(p => p.IdProduto.Equals(IdProduto) && p.Status).ToList();
-            ViewBag.Usuario = _Context.Usuario.FirstOrDefault(u => u.Id.Equals(Produto.IdUsuario));
-            ViewBag.Comprados = _Context.Compra.Select(c => c.NumeroRifa).ToList();
-            ViewBag.Categoria = _Context.CategoriaProduto.FirstOrDefault(c => c.Id.Equals(Produto.IdCategoria)).Nome;
-
-            return View(Produto);
+            return RedirectToAction("Index", "Home");
         }
 
 
@@ -98,6 +105,17 @@ namespace EiSorteei.Controllers
             }
 
 
+        }       
+        
+        public void GetAllOrders()
+        {
+            var client = new RestClient("https://accounts.cartx.io/api/ei-sorteei/orders?created_at_min&created_at_max&updated_at_min&updated_at_max&status");
+            client.Timeout = -1;
+            var request = new RestRequest(Method.GET);
+            request.AddHeader("AUTHORIZATION", "Bearer NRw70HKslPmlUkmd8omZkGahmVdYowrg8gUnZn55BPxSefz32AavjL5i13Dl");
+            IRestResponse response = client.Execute(request);
+            Console.WriteLine(response.Content);
         }
+
     }
 }

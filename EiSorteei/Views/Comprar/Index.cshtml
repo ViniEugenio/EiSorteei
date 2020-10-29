@@ -21,7 +21,7 @@
 
     .NumeroRifa {
         background-color: #E0C777;
-        width: 14%;
+        width: 6%;
         color: #fff;
         margin: 5px;
         font-size: 28px;
@@ -43,7 +43,7 @@
 
     .informacoes {
         color: #fff;
-        width: 60%;
+        width: 90%;
         margin: auto;
     }
 
@@ -70,8 +70,8 @@
         }
 
         .NumeroRifa {
-            width: 12%;
-            font-size: 14px;
+            width: 16%;
+            font-size: 17px;
         }
     }
 
@@ -122,10 +122,10 @@
     <p align="center">Confira abaixo as formas de pagamento, regras, contatos e tudo sobre o sorteio</p>
 
     <div class="form-group text-center">
-        <button class="btn btn-default" id="btnInformacoes" style="background-color: #E0C777"><i class="fas fa-info"></i> Informações do Item</button>
-        <button class="btn btn-default" id="btnDadosPagamento"><i class="fas fa-search-dollar"></i> Dados de Pagamento</button>
-        <button class="btn btn-default" id="btnRegulamento"><i class="fas fa-cogs"></i> Regulamento/Descrição</button>
-        <button class="btn btn-default" id="btnContato"><i class="fas fa-envelope"></i> Contato</button>
+        <button class="btn btn-default" id="btnInformacoes" style="background-color: #E0C777; margin-top:10px;"><i class="fas fa-info"></i> Informações do Item</button>
+        <button class="btn btn-default" id="btnDadosPagamento" style="margin-top: 10px;"><i class="fas fa-search-dollar"></i> Dados de Pagamento</button>
+        <button class="btn btn-default" id="btnRegulamento" style="margin-top: 10px;"><i class="fas fa-cogs"></i> Regulamento/Descrição</button>
+        <button class="btn btn-default" id="btnContato" style="margin-top: 10px;"><i class="fas fa-envelope"></i> Contato</button>
     </div>
 
     <div id="DadosPagamento" class="box_premio" style="display:none;">
@@ -137,11 +137,10 @@
     </div>
 
     <div id="Regulamento" style="display:none;" class="box_premio">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ut nisl non ligula auctor faucibus. Vestibulum ante ipsum primis in
-        faucibus orci luctus et ultrices posuere cubilia curae; Morbi vitae turpis at purus viverra finibus. Sed suscipit orci lacus, in volutpat sapien
-        tincidunt ut. In hac habitasse platea dictumst. Aliquam laoreet aliquet odio, vel finibus risus. Orci varius natoque penatibus et magnis dis parturient montes,
-        nascetur ridiculus mus. Fusce tincidunt leo in tortor fringilla, sed pretium lorem sodales. Nam finibus volutpat mattis. Morbi gravida at justo vitae pulvinar.
-        Vivamus sed leo sed quam mattis euismod sit amet non velit.
+        <div style="margin-left:30px;">
+            @Html.Raw(Model.Descricao)
+        </div>
+
     </div>
 
     <div id="InformacoesItem" class="box_premio row text-center">
@@ -160,7 +159,7 @@
         </div>
 
         <div class="col-md-4 form-group">
-            <strong><i class="fas fa-calendar"></i> Data do Sorteio: @Model.DataSorteio.ToString().Replace(" 00:00:00",string.Empty)</strong>
+            <strong><i class="fas fa-calendar"></i> Data do Sorteio: @Model.DataSorteio.ToString().Replace(" 00:00:00", string.Empty)</strong>
         </div>
 
         <div class="col-md-4 form-group">
@@ -180,6 +179,11 @@
         <p><i class="fas fa-phone"></i> <strong>Telefone: @Usuario.Telefone</strong></p>
 
     </div>
+
+
+    <button class="btn btn-success" id="teste">Teste</button>
+
+
 
     <div id="Rifas" class="row">
 
@@ -207,6 +211,35 @@
 
         $(document).ready(function () {
 
+            $("#teste").click(function () {
+
+                let token = "NRw70HKslPmlUkmd8omZkGahmVdYowrg8gUnZn55BPxSefz32AavjL5i13Dl";
+                var teste = $.ajax({
+
+                    url: "https://accounts.cartx.io/api/ei-sorteei/orders",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Authorization', 'BEARER ' + token);
+                    },
+                    method: "GET",
+                    dataType: 'jsonp',
+                    success: function (retorno) {
+                        console.log(retorno);
+                    }
+
+                });
+
+                console.log(teste);
+
+        });
+
+
+
+            let Rifas = [];
+            let ValorRifa = "@Math.Round(Model.ValorRifa, 2)";
+            $("#ValorRifa").text(ValorRifa);
+            $("#QuantidadeTotal").text(Rifas.length);
+
+
             $("#DataCartao").mask("00/00");
             $("#CPFCartao").mask("000.000.000-00");
 
@@ -219,25 +252,69 @@
 
 
             $(".Comprar").click(function () {
+                let numero = $(this);
+                let background = $(this).css("background-color");
 
-                let Numero = $(this).attr("data-numero");
-                $("#NumeroRifa").text(Numero);
+                if (background == "rgb(37, 202, 23)") {
+                    $(this).css("background-color", "#E0C777");
 
-                $("#ErroNumero").css("display", "none");
-                $("#ErroTitulo").css("display", "none");
-                $("#ErroData").css("display", "none");
-                $("#ErroCVV").css("display", "none");
-                $("#ErroCPF").css("display", "none");
-                $("#ErroComprador").css("display", "none");
+                    Rifas = Rifas.filter(item => item !== numero[0].outerText);
 
-                $("#NumeroCartao").val("");
-                $("#TituloCartao").val("");
-                $("#DataCartao").val("");
-                $("#CVVCartao").val("");
-                $("#CPFCartao").val("");
-                $("#CodigoVendedor").val("");
+                    $("#RifasEscolhidas").html("");
 
-                $("#myModal2").css('display', "block");
+                    for (var i = 0; i < Rifas.length ; i++) {
+
+                        $("#RifasEscolhidas").append(
+                            "<div id='RifaEscolhida' class='col-md-1 form-group'>" +
+                                Rifas[i] +
+                            "</div>"
+                        );
+
+                    }
+
+                    if (Rifas.length == 0) {
+                        $("#Quantidade").css("display", "none");
+                    }
+
+                }
+
+                else {
+                    $(this).css("background-color", "#25CA17");
+                    Rifas.push(numero[0].outerText);
+
+                    $("#Quantidade").css("display","block");
+
+                    $("#RifasEscolhidas").append(
+                        "<div id='RifaEscolhida' class='col-md-1 form-group'>" +
+                            numero[0].outerText +
+                        "</div>"
+                    );
+
+                }
+
+                $("#QuantidadeTotal").text(Rifas.length);
+                let ValorFormatado = String((Rifas.length * Number(ValorRifa.replace(",", "."))).toFixed(2)).replace(".", ",");
+                $("#ValorTotal").text(ValorFormatado.replace(".",","));
+                $("#ValorFinal").text(ValorFormatado.replace(".",","));
+
+                //let Numero = $(this).attr("data-numero");
+                //$("#NumeroRifa").text(Numero);
+
+                //$("#ErroNumero").css("display", "none");
+                //$("#ErroTitulo").css("display", "none");
+                //$("#ErroData").css("display", "none");
+                //$("#ErroCVV").css("display", "none");
+                //$("#ErroCPF").css("display", "none");
+                //$("#ErroComprador").css("display", "none");
+
+                //$("#NumeroCartao").val("");
+                //$("#TituloCartao").val("");
+                //$("#DataCartao").val("");
+                //$("#CVVCartao").val("");
+                //$("#CPFCartao").val("");
+                //$("#CodigoVendedor").val("");
+
+                //$("#myModal2").css('display', "block");
 
             });
 
@@ -245,67 +322,93 @@
                 $("#myModal2").css('display', "none");
             });
 
-            $("#EfetuarCompra").click(function () {
+            $("#AbrirModal").click(function () {
 
-                let erro = false;
+                $("#RifasSelecionadas").html("");
+                for (var i = 0; i < Rifas.length; i++) {
 
-                let Numero = $("#NumeroCartao").val();
-                let Titulo = $("#TituloCartao").val();
-                let Data = $("#DataCartao").val();
-                let CVV = $("#CVVCartao").val();
-                let CPF = $("#CPFCartao").val();
-                let CodigoVendedor = $("#CodigoVendedor").val();
+                    if (i == 0) {
+                        $("#RifasSelecionadas").append(
+                            Rifas[i]
+                        );
+                    }
 
-                if (!Numero) {
-                    $("#ErroNumero").css("display", "block");
-                    erro = true;
-                }
+                    else {
+                        $("#RifasSelecionadas").append(
+                            ", "+Rifas[i]
+                        );
+                    }
 
-                else {
-                    $("#ErroNumero").css("display", "none");
-                }
-
-
-                if (!Titulo) {
-                    $("#ErroTitulo").css("display", "block");
-                    erro = true;
-                }
-
-                else {
-                    $("#ErroTitulo").css("display", "none");
                 }
 
 
-                if (!Data) {
-                    $("#ErroData").css("display", "block");
-                    erro = true;
-                }
-
-                else {
-                    $("#ErroData").css("display", "none");
-                }
-
-                if (!CVV) {
-                    $("#ErroCVV").css("display", "block");
-                    erro = true;
-                }
-
-                else {
-                    $("#ErroCVV").css("display", "none");
-                }
-
-                if (!CPF) {
-                    $("#ErroCPF").css("display", "block");
-                }
-
-                else {
-                    $("#ErroCPF").css("display", "none");
-                }
+                $("#myModal2").css('display', "block");
 
 
-                if (!erro) {
 
-                    let DataFormatada = Data.split("/");
+                //let erro = false;
+
+                //let Numero = $("#NumeroCartao").val();
+                //let Titulo = $("#TituloCartao").val();
+                //let Data = $("#DataCartao").val();
+                //let CVV = $("#CVVCartao").val();
+                //let CPF = $("#CPFCartao").val();
+                //let CodigoVendedor = $("#CodigoVendedor").val();
+
+                //if (!Numero) {
+                //    $("#ErroNumero").css("display", "block");
+                //    erro = true;
+                //}
+
+                //else {
+                //    $("#ErroNumero").css("display", "none");
+                //}
+
+
+                //if (!Titulo) {
+                //    $("#ErroTitulo").css("display", "block");
+                //    erro = true;
+                //}
+
+                //else {
+                //    $("#ErroTitulo").css("display", "none");
+                //}
+
+
+                //if (!Data) {
+                //    $("#ErroData").css("display", "block");
+                //    erro = true;
+                //}
+
+                //else {
+                //    $("#ErroData").css("display", "none");
+                //}
+
+                //if (!CVV) {
+                //    $("#ErroCVV").css("display", "block");
+                //    erro = true;
+                //}
+
+                //else {
+                //    $("#ErroCVV").css("display", "none");
+                //}
+
+                //if (!CPF) {
+                //    $("#ErroCPF").css("display", "block");
+                //}
+
+                //else {
+                //    $("#ErroCPF").css("display", "none");
+                //}
+
+
+                //if (!erro) {
+
+
+                //    window.open("https://ei-sorteei.oncartx.io/checkout/3411574:" + Rifas.length + "&checkout=buy_button", "_blank");
+
+
+                    @*let DataFormatada = Data.split("/");
                     let CPFFormatado = CPF.replace(".", "").replace(".", "").replace("-", "");
 
                     let MesCartao = DataFormatada[0];
@@ -504,8 +607,15 @@
                                 confirmButtonText: 'OK'
                             });
                         }
-                    };
-                }
+                    };*@
+                //}
+
+            });
+
+
+            $("#EfetuarPagamento").click(function () {
+
+                window.open("https://ei-sorteei.oncartx.io/checkout/3411574:" + Rifas.length + "&checkout=buy_button", "_blank");
 
             });
 
