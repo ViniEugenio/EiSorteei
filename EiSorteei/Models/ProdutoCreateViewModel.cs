@@ -26,7 +26,7 @@ namespace EiSorteei.Models
         [Required(ErrorMessage ="Por favor insira o Valor das Rifas")]
         public string ValorRifa { get; set; }
 
-        [DisplayName("Imagem do Produto")]
+        [DisplayName("Imagens do Produto")]
         [Required(ErrorMessage ="Por favor selecione uma imagem do Produto")]
         public List<HttpPostedFileBase> Imagem { get; set; }
 
@@ -37,6 +37,12 @@ namespace EiSorteei.Models
         [DisplayName("Data do Sorteio")]
         [Required(ErrorMessage ="Por favor selecione a Data de Realização do Sorteio")]
         public DateTime DataSorteio { get; set; }
+
+        [DisplayName("Vídeo do Produto")]
+        public HttpPostedFileBase Video { get; set; }
+
+        public string ActualyVideo { get; set; }
+        public Decimal ActualyPrice { get; set; }
 
     }
 }

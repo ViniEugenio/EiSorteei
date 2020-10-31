@@ -47,6 +47,11 @@ namespace EiSorteei.Areas.Admin.Controllers
                 ModelState.AddModelError("Imagem", "Por favor selecione pelo menos uma imagem para o Produto");
             }
 
+            if(model.DataSorteio <= DateTime.Now)
+            {
+                ModelState.AddModelError("DataSorteio", "A data do sorteio deve ser uma data futura");
+            }
+
 
             if (ModelState.IsValid)
             {
@@ -65,6 +70,22 @@ namespace EiSorteei.Areas.Admin.Controllers
                     IdUsuario = UsuarioLogado.Id,
                     DataSorteio = model.DataSorteio
                 };
+
+                if (model.Video != null)
+                {
+                    string CaminhoVideo = Server.MapPath("~/Content/VideoProdutos/");
+                    string NomeArquivo = DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString() + DateTime.Now.Millisecond.ToString() + model.Video.FileName;
+
+                    using (var stream = new FileStream(CaminhoVideo + NomeArquivo, FileMode.Create))
+                    {
+                        using (Stream inputStream = model.Video.InputStream)
+                        {
+                            inputStream.CopyTo(stream);
+                        }
+                    }
+
+                    NovoProduto.Video = NomeArquivo;
+                }
 
                 _Context.Produto.Add(NovoProduto);
                 _Context.SaveChanges();
@@ -96,12 +117,13 @@ namespace EiSorteei.Areas.Admin.Controllers
                         _Context.SaveChanges();
                     }
 
-                }
+                }               
 
                 return RedirectToAction("Index");
 
             }
 
+            ViewBag.Descricao = model.Descricao;
             return View(model);
         }
 
@@ -142,7 +164,7 @@ namespace EiSorteei.Areas.Admin.Controllers
         public ActionResult Details(long Id)
         {
             var produto = _Context.Produto.FirstOrDefault(p => p.Id.Equals(Id));
-            ViewBag.Imagem = _Context.Multimidia.FirstOrDefault(p => p.IdProduto.Equals(Id) && p.Status).Caminho;
+            ViewBag.Imagens = _Context.Multimidia.Where(p => p.IdProduto.Equals(Id) && p.Status).ToList();
             ViewBag.Categoria = _Context.CategoriaProduto.FirstOrDefault(p => p.Id.Equals(produto.IdCategoria));
             return View(produto);
 
@@ -157,9 +179,10 @@ namespace EiSorteei.Areas.Admin.Controllers
                 Descricao = produto.Descricao,
                 Nome = produto.Nome,
                 RangeCodigo = produto.RangeCodigo,
-                ValorRifa = produto.ValorRifa.ToString(),
+                ValorRifa = Math.Round(produto.ValorRifa,2).ToString().Replace(",","."),
                 Id = produto.Id,
-                DataSorteio = produto.DataSorteio.Value
+                DataSorteio = produto.DataSorteio.Value,
+                ActualyVideo = produto.Video
             };
 
             ViewBag.Imagens = _Context.Multimidia.Where(m => m.IdProduto.Equals(Id) && m.Status).ToList();
@@ -194,6 +217,11 @@ namespace EiSorteei.Areas.Admin.Controllers
                 }
             }
 
+            if (model.DataSorteio <= DateTime.Now)
+            {
+                ModelState.AddModelError("DataSorteio", "A data do sorteio deve ser uma data futura");
+            }
+
             if (ModelState.IsValid)
             {
                 Produto AlterarProduto = _Context.Produto.FirstOrDefault(p => p.Id.Equals(model.Id));
@@ -204,6 +232,33 @@ namespace EiSorteei.Areas.Admin.Controllers
                 AlterarProduto.RangeCodigo = model.RangeCodigo;
                 AlterarProduto.ValorRifa = Convert.ToDecimal(model.ValorRifa.ToString().Replace(".", ","));
                 AlterarProduto.DataSorteio = model.DataSorteio;
+
+
+                if (model.Video != null)
+                {
+                    string CaminhoVideo = Server.MapPath("~/Content/VideoProdutos/");
+
+                    if(AlterarProduto.Video!=null)
+                    {
+                        FileInfo VideoAtual = new FileInfo(CaminhoVideo + AlterarProduto.Video);
+                        if (VideoAtual.Exists)
+                        {
+                            VideoAtual.Delete();
+                        }
+                    }                    
+
+                    string NomeArquivo = DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString() + DateTime.Now.Millisecond.ToString() + model.Video.FileName;
+
+                    using (var stream = new FileStream(CaminhoVideo + NomeArquivo, FileMode.Create))
+                    {
+                        using (Stream inputStream = model.Video.InputStream)
+                        {
+                            inputStream.CopyTo(stream);
+                        }
+                    }
+
+                    AlterarProduto.Video = NomeArquivo;
+                }
 
                 _Context.Entry(AlterarProduto).State = System.Data.Entity.EntityState.Modified;
                 _Context.SaveChanges();

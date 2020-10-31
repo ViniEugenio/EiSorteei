@@ -53,7 +53,7 @@
     <Property Name="Status" Type="bit" Nullable="false" />
     <Property Name="ValorRifa" Type="money" Nullable="false" />
     <Property Name="DataSorteio" Type="date" />
-    <Property Name="IdCartx" Type="varchar(max)" />
+    <Property Name="Video" Type="varchar(max)" />
   </EntityType>
   <EntityType Name="Usuario">
     <Key>

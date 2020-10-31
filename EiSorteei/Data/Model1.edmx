@@ -58,7 +58,7 @@
           <Property Name="Status" Type="bit" Nullable="false" />
           <Property Name="ValorRifa" Type="money" Nullable="false" />
           <Property Name="DataSorteio" Type="date" />
-          <Property Name="IdCartx" Type="varchar(max)" />
+          <Property Name="Video" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="Usuario">
           <Key>
@@ -350,7 +350,7 @@
           <NavigationProperty Name="Usuario" Relationship="EiSorteeiModel.FK__Produto__IdUsuar__2E1BDC42" FromRole="Produto" ToRole="Usuario" />
           <NavigationProperty Name="Compra" Relationship="EiSorteeiModel.FK__Compra__ProdutoI__3B75D760" FromRole="Produto" ToRole="Compra" />
           <Property Name="DataSorteio" Type="DateTime" Precision="0" />
-          <Property Name="IdCartx" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Video" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Usuario">
           <Key>
@@ -550,7 +550,7 @@
           <EntitySetMapping Name="Produto">
             <EntityTypeMapping TypeName="EiSorteeiModel.Produto">
               <MappingFragment StoreEntitySet="Produto">
-                <ScalarProperty Name="IdCartx" ColumnName="IdCartx" />
+                <ScalarProperty Name="Video" ColumnName="Video" />
                 <ScalarProperty Name="DataSorteio" ColumnName="DataSorteio" />
                 <ScalarProperty Name="ValorRifa" ColumnName="ValorRifa" />
                 <ScalarProperty Name="Status" ColumnName="Status" />

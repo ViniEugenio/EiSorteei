@@ -5,8 +5,24 @@
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdministrador.cshtml";
 }
 
+
+<style>
+
+    #Arrows {
+        margin-bottom: 10px;
+    }
+
+    #next, #prev {
+        background-color: #E0C777;
+        border-radius: 50%;
+        padding: 10px 16px 10px 16px;
+        margin: 10px;
+        cursor: pointer;
+    }
+</style>
+
 <div style="display:flex; align-items:center; justify-content:center;">
-    <div class="card" style="width:1200px;">
+    <div class="card" style="width:1200px; margin-top:10px; margin-bottom:20px;">
 
         <div class="card-header">
             <h3 class="text-center">Detalhes do Prêmio</h3>
@@ -18,23 +34,67 @@
 
                 <div align="center" class="form-group">
 
-                    <img src="~/Content/ImagemProdutos/@ViewBag.Imagem" alt="@Model.Nome" style="width:430px; height:280px;"/>
+                    <div class="carousel" align="center">
 
+                        @foreach (var x in ViewBag.Imagens)
+                        {
+                            <div><img src="~/Content/ImagemProdutos/@x.Caminho" alt="Imagem do Produto" style="width:30%;" class="imagem_produto" /></div>
+                        }
+
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <div align="center" id="Arrows">
+                        <i class="fa fa-chevron-left fa-2x" id="prev"></i>
+                        <i class="fa fa-chevron-right fa-2x" id="next"></i>
+                    </div>
                 </div>
 
                 <p>Nome do Prêmio: @Model.Nome</p>
                 <p>Descrição: @Html.Raw(Model.Descricao)</p>
                 <p>Quantidade de Rifas: @Model.RangeCodigo</p>
-                <p>Valor da Rifa: R$ @Math.Round(Model.ValorRifa,2)</p>
-                <p>Data de Cadastro: @Model.DataCadastro.ToString().Replace(" 00:00:00",string.Empty)</p>
+                <p>Valor da Rifa: R$ @Math.Round(Model.ValorRifa, 2)</p>
+                <p>Data de Cadastro: @Model.DataCadastro.ToString().Replace(" 00:00:00", string.Empty)</p>
+                <p>Data do Sorteio: @Model.DataSorteio.ToString().Replace(" 00:00:00", string.Empty)</p>
+                <p>Vídeo:</p>
+
+                @if (Model.Video != null)
+                {
+                    <div align="center" class="form-group">
+                        <video controls style="width:100%;">
+                            <source src="~/Content/VideoProdutos/@Model.Video" type="video/mp4">
+                        </video>
+                    </div>
+                }
+
 
             </div>
 
         </div>
 
         <div class="card-footer">
-            <a class="btn btn-success" href="@Url.Action("Index")"><i class="fa fa-list"></i></a>
-            <button class="btn btn-warning" style="color:white"><i class="fa fa-edit"></i></button>            
+            <a class="btn btn-success" href="@Url.Action("Index")"><i class="fa fa-list"></i> Lista de Produtos</a>
+            <a class="btn btn-warning" style="color:white" href="@Url.Action("Alterar","Produtos",new { Id= Model.Id })"><i class="fa fa-edit"></i> Alterar Produto</a>
         </div>
     </div>
 </div>
+
+
+@section Scripts{
+
+    <script>
+
+        $('.carousel').slick({
+            autoplay: true,
+            autoplaySpeed: 2000,
+            nextArrow: '#next',
+            prevArrow: '#prev'
+        });
+
+    </script>
+
+
+
+} 

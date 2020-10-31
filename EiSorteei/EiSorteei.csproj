@@ -198,6 +198,9 @@
     <Compile Include="Helpers\FilterLogin.cs" />
     <Compile Include="Helpers\HashPassword.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
+    <Compile Include="Models\OrderCartX.cs" />
+    <Compile Include="Models\OrderShippingsCartX.cs" />
+    <Compile Include="Models\ProductsCartX.cs" />
     <Compile Include="Models\ProdutoCreateViewModel.cs" />
     <Compile Include="Models\ProdutoHomeViewModel.cs" />
     <Compile Include="Models\UsuarioViewModel.cs" />
@@ -349,6 +352,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\ImagemProdutos\" />
+    <Folder Include="Content\VideoProdutos\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

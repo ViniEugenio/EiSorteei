@@ -9,6 +9,11 @@ using MercadoPago.Resources;
 using MercadoPago.DataStructures.Preference;
 using MercadoPago.Common;
 using RestSharp;
+using EiSorteei.Models;
+using Newtonsoft.Json;
+using System.Net;
+using System.IO;
+using Newtonsoft.Json.Linq;
 
 namespace EiSorteei.Controllers
 {
@@ -23,7 +28,7 @@ namespace EiSorteei.Controllers
 
         public ActionResult Index(long IdProduto)
         {
-            GetAllOrders();
+            GetAllOrders(IdProduto);
             if (IdProduto!=null)
             {
                 var Produto = _Context.Produto.FirstOrDefault(p => p.Id == IdProduto);
@@ -107,14 +112,24 @@ namespace EiSorteei.Controllers
 
         }       
         
-        public void GetAllOrders()
+        public void GetAllOrders(long IdProduto)
         {
-            var client = new RestClient("https://accounts.cartx.io/api/ei-sorteei/orders?created_at_min&created_at_max&updated_at_min&updated_at_max&status");
-            client.Timeout = -1;
-            var request = new RestRequest(Method.GET);
-            request.AddHeader("AUTHORIZATION", "Bearer NRw70HKslPmlUkmd8omZkGahmVdYowrg8gUnZn55BPxSefz32AavjL5i13Dl");
-            IRestResponse response = client.Execute(request);
-            Console.WriteLine(response.Content);
+
+            ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
+            WebRequest request = WebRequest.Create("https://accounts.cartx.io/api/ei-sorteei/orders");
+            request.Headers.Add("AUTHORIZATION", "Bearer NRw70HKslPmlUkmd8omZkGahmVdYowrg8gUnZn55BPxSefz32AavjL5i13Dl");
+            request.Method = "GET";
+            var response = (HttpWebResponse)request.GetResponse();
+            var streamReader = new StreamReader(response.GetResponseStream());
+            var result = streamReader.ReadToEnd();            
+
+            var Objeto = JObject.Parse(result);
+            var JOrders = Objeto["orders"]["data"];
+
+            List<OrderCartX> Orders = JsonConvert.DeserializeObject<List<OrderCartX>>(JOrders.ToString());
+
+
+
         }
 
     }

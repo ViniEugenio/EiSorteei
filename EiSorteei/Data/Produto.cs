@@ -32,7 +32,7 @@ namespace EiSorteei.Data
         public bool Status { get; set; }
         public decimal ValorRifa { get; set; }
         public Nullable<System.DateTime> DataSorteio { get; set; }
-        public string IdCartx { get; set; }
+        public string Video { get; set; }
     
         public virtual CategoriaProduto CategoriaProduto { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

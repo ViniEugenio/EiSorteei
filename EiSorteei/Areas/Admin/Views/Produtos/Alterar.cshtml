@@ -8,7 +8,7 @@
 
 @using (Html.BeginForm("Alterar", "Produtos", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    <div style="display:flex; align-items:center; justify-content:center; margin-top:50px;">
+    <div style="display:flex; align-items:center; justify-content:center;margin-top:10px; margin-bottom:20px;">
         <div class="card" style="width:1200px;">
 
             <div class="card-header">
@@ -36,35 +36,55 @@
 
                 </div>
 
-                <div class="form-group">
-                    <label class="control-label">Categoria do Produto</label>
-                    <select name="CategoriaProduto" class="form-control">
-                        @foreach (var categoria in ViewBag.Categorias)
-                        {
-                            <option value="@categoria.Id">@categoria.Nome</option>
-                        }
-                    </select>
+
+                <div class="row">
+
+                    <div class="col-md-6">
+
+                        <div class="form-group">
+                            <label class="control-label">Categoria do Produto</label>
+                            <select name="CategoriaProduto" class="form-control">
+                                @foreach (var categoria in ViewBag.Categorias)
+                                {
+                                    <option value="@categoria.Id" @(Model.CategoriaProduto == categoria.Id ? "selected" : "")>@categoria.Nome</option>
+                                }
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.RangeCodigo, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.RangeCodigo, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.RangeCodigo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
                 </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.RangeCodigo, htmlAttributes: new { @class = "control-label" })
+                <div class="row">
 
-                    @Html.EditorFor(model => model.RangeCodigo, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.RangeCodigo, "", new { @class = "text-danger" })
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ValorRifa, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.ValorRifa, new { htmlAttributes = new { @class = "form-control", type = "number", min = "0.00", max = "10000.00", step = "0.01" } })
+                            @Html.ValidationMessageFor(model => model.ValorRifa, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Data do Sorteio</label>
+                            @Html.EditorFor(model => model.DataSorteio, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.DataSorteio, "", new { @class = "text-danger" })
+                            <p class="text-danger">A Data do Sorteio deve ser uma data maior que a de hoje!</p>
+                        </div>
+                    </div>
 
                 </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.ValorRifa, htmlAttributes: new { @class = "control-label" })
-                    <input type="number" min="0.00" max="10000.00" step="0.01" value="@Model.ValorRifa.ToString().Replace(",",".")" class="form-control" name="ValorRifa" />
-                    @Html.ValidationMessageFor(model => model.ValorRifa, "", new { @class = "text-danger" })
 
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label">Data do Sorteio</label>
-                    <input id="DataSorteio" value="@Model.DataSorteio" class="form-control date-picker" name="DataSorteio"/>
-                </div>
 
                 <div class="form-group">
 
@@ -110,6 +130,40 @@
                             <div class="form-group">
                                 <button class="btn btn-success" type="button" id="Adicionar"><i class="fa fa-plus"></i></button>
                             </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+
+                    <div class="card">
+
+                        <div class="card-header">
+                            <h2>Vídeo do Produto</h2>
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="form-group">
+
+                                <div class="form-group">
+
+                                    <div align="center" class="form-group">
+                                        <video controls style="width:100%;">
+                                            <source src="~/Content/VideoProdutos/@Model.ActualyVideo" type="video/mp4">
+                                        </video>
+                                    </div>
+
+                                    <div align="center" class="form-group">
+                                        <input type="file" class="form-control" name="Video" accept="video/*" />
+                                        <p class="text-danger">Escolhendo outro vídeo o anterior será excluído permanentemente.</p>
+                                    </div>
+                                </div>
+
+                            </div>
+
                         </div>
 
                     </div>

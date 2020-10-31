@@ -93,23 +93,44 @@
 <section class="blog-container" style="padding-bottom:0;">
     <div class="center">
         <div class="upper-box">
-            <h1>Escolha o número da sua Rifa</h1>
+            <h1>Escolha os números dos seus Bilhetes e boa sorte</h1>
         </div>
     </div>
 </section>
 
 <section>
-    <div class="carousel" align="center">
 
-        @foreach (var x in ViewBag.Imagens)
+    @if (Model.Video != null)
+    {
+        <div class="form-group" style="margin-top:20px;" align="center">
+            <button class="btn btn-default" id="btnImagens" style="background-color: #E0C777; margin-top:10px;"><i class="fas fa-images"></i> Imagens</button>
+            <button class="btn btn-default" id="btnVideo" style="margin-top: 10px;"><i class="fas fa-video"></i> Vídeo</button>
+        </div>
+    }
+
+        <div class="carousel form-group" align="center" style="margin-top:20px;" id="Imagens">
+
+            @foreach (var x in ViewBag.Imagens)
+            {
+                <div><img src="~/Content/ImagemProdutos/@x.Caminho" alt="Imagem do Produto" style="width:30%;" class="imagem_produto" /></div>
+            }
+
+        </div>
+
+        @if (Model.Video != null)
         {
-            <div><img src="~/Content/ImagemProdutos/@x.Caminho" alt="Imagem do Produto" style="width:30%;" class="imagem_produto" /></div>
+            <div class="form-group" align="center" style="margin-top:20px; display:none;" id="Video">
+                <div align="center" class="form-group">
+                    <video controls style="width:70%;">
+                        <source src="~/Content/VideoProdutos/@Model.Video" type="video/mp4">
+                    </video>
+                </div>
+            </div>
         }
 
-    </div>
 
 
-</section>
+    </section>
 
 <div class="informacoes">
 
@@ -180,11 +201,6 @@
 
     </div>
 
-
-    <button class="btn btn-success" id="teste">Teste</button>
-
-
-
     <div id="Rifas" class="row">
 
         @for (int x = 1; x <= Model.RangeCodigo; x++)
@@ -210,29 +226,6 @@
     <script>
 
         $(document).ready(function () {
-
-            $("#teste").click(function () {
-
-                let token = "NRw70HKslPmlUkmd8omZkGahmVdYowrg8gUnZn55BPxSefz32AavjL5i13Dl";
-                var teste = $.ajax({
-
-                    url: "https://accounts.cartx.io/api/ei-sorteei/orders",
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader('Authorization', 'BEARER ' + token);
-                    },
-                    method: "GET",
-                    dataType: 'jsonp',
-                    success: function (retorno) {
-                        console.log(retorno);
-                    }
-
-                });
-
-                console.log(teste);
-
-        });
-
-
 
             let Rifas = [];
             let ValorRifa = "@Math.Round(Model.ValorRifa, 2)";
@@ -273,7 +266,15 @@
                     }
 
                     if (Rifas.length == 0) {
-                        $("#Quantidade").css("display", "none");
+                        $("#Quantidade").slideUp(200);
+                    }
+
+                    if (Rifas.length <= 24) {
+                        $("#Quantidade").css("height", "106")
+                    }
+
+                    if (Rifas.length > 24) {
+                        $("#Quantidade").css("height", "160")
                     }
 
                 }
@@ -282,7 +283,16 @@
                     $(this).css("background-color", "#25CA17");
                     Rifas.push(numero[0].outerText);
 
-                    $("#Quantidade").css("display","block");
+                    if (Rifas.length < 24) {
+                        $("#Quantidade").css("height", "106")
+                    }
+
+                    if (Rifas.length > 24) {
+                        $("#Quantidade").css("height","160")
+                    }
+
+
+                    $("#Quantidade").slideDown(200);
 
                     $("#RifasEscolhidas").append(
                         "<div id='RifaEscolhida' class='col-md-1 form-group'>" +
@@ -296,25 +306,6 @@
                 let ValorFormatado = String((Rifas.length * Number(ValorRifa.replace(",", "."))).toFixed(2)).replace(".", ",");
                 $("#ValorTotal").text(ValorFormatado.replace(".",","));
                 $("#ValorFinal").text(ValorFormatado.replace(".",","));
-
-                //let Numero = $(this).attr("data-numero");
-                //$("#NumeroRifa").text(Numero);
-
-                //$("#ErroNumero").css("display", "none");
-                //$("#ErroTitulo").css("display", "none");
-                //$("#ErroData").css("display", "none");
-                //$("#ErroCVV").css("display", "none");
-                //$("#ErroCPF").css("display", "none");
-                //$("#ErroComprador").css("display", "none");
-
-                //$("#NumeroCartao").val("");
-                //$("#TituloCartao").val("");
-                //$("#DataCartao").val("");
-                //$("#CVVCartao").val("");
-                //$("#CPFCartao").val("");
-                //$("#CodigoVendedor").val("");
-
-                //$("#myModal2").css('display', "block");
 
             });
 
@@ -675,6 +666,26 @@
                 $("#Contato").slideDown(200);
 
             });
+
+
+            $("#btnImagens").click(function () {
+                $(this).css("background-color", "#E0C777");
+                $("#btnVideo").css("background-color", "#535151");
+                $("#Imagens").css("display", "block");
+                $("#next").trigger("click");
+                $("#Arrows").css("display", "block");
+                $("#Video").css("display", "none");
+
+            });
+
+            $("#btnVideo").click(function () {
+                $(this).css("background-color", "#E0C777");
+                $("#btnImagens").css("background-color", "#535151");
+                $("#Video").css("display", "block");
+                $("#Imagens").css("display", "none");
+                $("#Arrows").css("display", "none");
+            });
+
         });
 
 
