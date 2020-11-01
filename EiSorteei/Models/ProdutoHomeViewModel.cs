@@ -9,7 +9,7 @@ namespace EiSorteei.Models
     {
         public long Id { get; set; }
         public string Nome { get; set; }
-        public string Imagem { get; set; }
+        public List<string> Imagem { get; set; }
         public decimal ValorRifa { get; set; }
     }
 }

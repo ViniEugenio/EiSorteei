@@ -1041,9 +1041,9 @@ footer {
     flex-direction: column;
     border-radius: 24px;
     background: #333333;
-    max-width: 355px;
-    width: 355px;
-    height: 500px;
+    max-width: 100%;
+    width: 100%;
+    height: 670px;
     box-shadow: 0 0 10px rgba(0,0,0,0.16);
     margin: 0 12px;
     z-index: 2;
@@ -1051,8 +1051,8 @@ footer {
 }
 
     .card-blog img {
-        height: 320px !important;
-        width: 355px;
+        height: 410px !important;
+        width: 100%;
         border-radius: 24px;
     }
 

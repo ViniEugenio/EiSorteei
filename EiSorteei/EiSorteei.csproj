@@ -230,6 +230,8 @@
     <Content Include="Content\Site.css" />
     <Content Include="Imagens\Cópia de Logo Verde e Branco de Curso Preparatório %281%29.png" />
     <Content Include="Imagens\download.png" />
+    <Content Include="Imagens\shopping-cart.png" />
+    <Content Include="Imagens\user.png" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

@@ -27,7 +27,7 @@ namespace EiSorteei.Controllers
                 ProdutoHomeViewModel data = new ProdutoHomeViewModel()
                 {
                     Id = x.Id,
-                    Imagem = _Context.Multimidia.FirstOrDefault(p => p.IdProduto.Equals(x.Id)).Caminho,
+                    Imagem = _Context.Multimidia.Where(p => p.IdProduto.Equals(x.Id)).Select(p=>p.Caminho).ToList(),
                     Nome = x.Nome,
                     ValorRifa = x.ValorRifa
                 };
