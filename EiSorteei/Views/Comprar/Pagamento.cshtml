@@ -1,0 +1,347 @@
+﻿@model EiSorteei.Models.PagamentoViewModel
+
+@{
+    ViewBag.Title = "Ei Sorteei";
+    Layout = null;
+    long IdUsuarioLogado = Model.Usuario != null ? Model.Usuario.Id : 0;
+    string[] Bilhetes = Model.Bilhetes.Split(',');
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EiSorteei</title>
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+    <link rel="font" href="~/Content/fonts/Amiri-Bold.ttf" />
+    <link rel="font" href="~/Content/fonts/Amiri-BoldItalic.ttf" />
+    <link rel="font" href="~/Content/fonts/Amiri-Italic.ttf" />
+    <link rel="font" href="~/Content/fonts/Amiri-Regular.ttf" />
+    <link href="~/Content/slick.css" rel="stylesheet" />
+    <link rel="shortcut icon"
+          href="~/Images/favicon.png"
+          type="image/x-icon" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+
+
+    <style>
+        body {
+            background: #1F1F1F;
+        }
+
+        #RifaEscolhida {
+            background-color: rgb(37, 202, 23);
+            border-radius: 24px;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            height: 40px;
+            width:70px;
+            margin-top:2px;
+        }
+
+        #Bilhetes{
+            display:flex;
+            flex-direction:row;
+            flex-wrap:wrap;
+            align-items:center;
+            justify-content:center;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div style="width:80%;margin:auto; margin-top:50px;">
+        <div class="card" style="border-radius:24px;">
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-6" style="width:100%;">
+                        <div class="carousel form-group" style="margin-top:20px;" id="Imagens" align="center">
+
+                            @foreach (var x in Model.Imagens)
+                            {
+                                <div><img src="~/Content/ImagemProdutos/@x.Caminho" alt="Imagem do Produto" style="width:80%;" class="imagem_produto" /></div>
+                            }
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="text-center row">
+                                    <div class="form-group text-center col-md-6">
+                                        <a href="@Url.Action("Index","Home")">
+                                            <img src="~/Imagens/Cópia de Logo Verde e Branco de Curso Preparatório (1).png" alt="Logo do Site" id="brand" />
+                                        </a>
+                                    </div>
+                                    <div class="form-group text-center col-md-6" style="margin-top:20px;">
+                                        <p><strong>@Model.Produto.Nome</strong></p>
+                                        <p><strong>R$ @Math.Round(Model.Produto.ValorRifa, 2)</strong></p>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <hr />
+                                        <strong>Bilhetes Escolhidos:</strong>
+                                        <div id="Bilhetes">
+                                            @for (int x = 0; x < Bilhetes.Length; x++)
+                                            {
+                                                <div id="RifaEscolhida" style="margin-right:2px;">
+                                                    @x
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row text-center">
+                                <div class="form-group col-md-6">
+                                    <p><strong>Valor Unitário: R$ @Math.Round(Model.Produto.ValorRifa, 2)</strong></p>
+                                    <p><strong>Entrega: ---</strong></p>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <p><strong>SubTotal: R$ @Math.Round(Model.Produto.ValorRifa, 2) X @Model.Bilhetes.Split(',').Count() =  R$ @Model.ValorTotal</strong></p>
+                                    <p><strong>Descontos: - R$ 0,00</strong></p>
+                                </div>
+                            </div>
+                            <h3 class="text-center">Valor Total: R$ @Model.ValorTotal</h3>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                @if (IdUsuarioLogado == 0)
+                {
+                    <div class="row">
+
+                        <div class="col-md-4" id="Login" style="margin:auto;">
+                            <div class="card form-group" style="margin-top:5px;">
+                                <div class="card-header">
+                                    <h3 class="text-center">Fazer Login</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group">
+
+                                        <div class="form-group">
+                                            <label class="control-label">Email</label>
+                                            <input class="form-control" id="EmailLogin" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label">Senha</label>
+                                            <input class="form-control" id="SenhaLogin" type="password" />
+                                        </div>
+                                        <div class="form-group text-center">
+                                            <button class="btn btn-success"><i class="fas fa-sign-in-alt"></i> Entrar</button>
+                                        </div>
+
+                                        <div class="form-group text-center">
+                                            <button class="btn btn-primary" id="CriarConta"><i class="fa fa-user"></i> Criar sua conta</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-12" id="CadastrarUsuario" style="display:none;">
+                            <div class="card" style="margin-top:5px;">
+
+                                <div class="card-header">
+                                    <h3>Cadastro de Usuário</h3>
+                                </div>
+
+                                <div class="card-body">
+
+                                    <div class="row">
+
+                                        <input value="@ViewBag.Produto" name="IdProduto" style="display:none;" />
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Email</label>
+                                                <input class="form-control" id="EmailLogin" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Email</label>
+                                                <input class="form-control" id="EmailLogin" />
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label">Email</label>
+                                                <input class="form-control" id="EmailLogin" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Email</label>
+                                                <input class="form-control" id="EmailLogin" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Email</label>
+                                                <input class="form-control" id="EmailLogin" />
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Email</label>
+                                                <input class="form-control" id="EmailLogin" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Email</label>
+                                                <input class="form-control" id="EmailLogin" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+
+                                            <div class="form-group">
+                                                <label class="control-label">Email</label>
+                                                <input class="form-control" id="EmailLogin" />
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Email</label>
+                                                <input class="form-control" id="EmailLogin" />
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Email</label>
+                                                <input class="form-control" id="EmailLogin" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Email</label>
+                                                <input class="form-control" id="EmailLogin" />
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Email</label>
+                                                <input class="form-control" id="EmailLogin" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Email</label>
+                                                <input class="form-control" id="EmailLogin" />
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="card-footer">
+                                    <div class="form-group">
+                                        <button class="btn btn-success"><i class="fa fa-user"></i> Realizar Cadastro</button>
+                                        <button class="btn btn-primary text-white" id="FazerLogin"><i class="fa fa-lock"></i> Fazer Login</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                   
+                }
+
+                </div>
+
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.js"></script>
+    <script src="~/js/slick.min.js"></script>
+    <script src="~/js/site.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script src="https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $('.carousel').slick({
+                autoplay: true,
+                autoplaySpeed: 4000,
+                nextArrow: '#next',
+                prevArrow: '#prev'
+            });
+
+            $("#CriarConta").click(function () {
+
+                $("#Login").slideUp(200);
+                $("#CadastrarUsuario").slideDown(200);
+
+            });
+
+            $("#FazerLogin").click(function () {
+
+                $("#CadastrarUsuario").slideUp(200);
+                $("#Login").slideDown(200);
+
+            });
+        });
+
+
+    </script>
+</body>
+
+</html>
+
+
+
+

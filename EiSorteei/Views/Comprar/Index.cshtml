@@ -73,6 +73,15 @@
             width: 16%;
             font-size: 17px;
         }
+
+        #MercadoPagoImagem {
+            width: 90% !important;
+        }
+
+        .modal-content {
+            height: 50% !important;
+            width: 90% !important;
+        }
     }
 
     .box_premio {
@@ -108,29 +117,29 @@
         </div>
     }
 
-        <div class="carousel form-group" align="center" style="margin-top:20px;" id="Imagens">
+    <div class="carousel form-group" align="center" style="margin-top:20px;" id="Imagens">
 
-            @foreach (var x in ViewBag.Imagens)
-            {
-                <div><img src="~/Content/ImagemProdutos/@x.Caminho" alt="Imagem do Produto" style="width:30%;" class="imagem_produto" /></div>
-            }
-
-        </div>
-
-        @if (Model.Video != null)
+        @foreach (var x in ViewBag.Imagens)
         {
-            <div class="form-group" align="center" style="margin-top:20px; display:none;" id="Video">
-                <div align="center" class="form-group">
-                    <video controls style="width:70%;">
-                        <source src="~/Content/VideoProdutos/@Model.Video" type="video/mp4">
-                    </video>
-                </div>
-            </div>
+            <div><img src="~/Content/ImagemProdutos/@x.Caminho" alt="Imagem do Produto" style="width:30%;" class="imagem_produto" /></div>
         }
 
+    </div>
+
+    @if (Model.Video != null)
+    {
+        <div class="form-group" align="center" style="margin-top:20px; display:none;" id="Video">
+            <div align="center" class="form-group">
+                <video controls style="width:70%;">
+                    <source src="~/Content/VideoProdutos/@Model.Video" type="video/mp4">
+                </video>
+            </div>
+        </div>
+    }
 
 
-    </section>
+
+</section>
 
 <div class="informacoes">
 
@@ -205,16 +214,7 @@
 
         @for (int x = 1; x <= Model.RangeCodigo; x++)
         {
-            if (Session["Usuario"] != null)
-            {
-                <span class="NumeroRifa @(Comprados.Contains(x.ToString())?"":"Comprar")" data-numero="@x" style="@(Comprados.Contains(x.ToString())?"background-color:red;":"")">@x</span>
-            }
-
-            else
-            {
-                <a class="NumeroRifa" data-numero="@x" href="@Url.Action("Index","Usuario",new { IdProduto = Model.Id})" style="text-decoration:none; color:white; @(Comprados.Contains(x.ToString())?"background-color:red;":"")">@x</a>
-            }
-
+            <span class="NumeroRifa @(Comprados.Contains(x.ToString())?"":"Comprar")" data-numero="@x" style="@(Comprados.Contains(x.ToString())?"background-color:red;":"")">@x</span>
         }
 
     </div>
@@ -606,8 +606,28 @@
 
             $("#EfetuarPagamento").click(function () {
 
-                window.open("https://ei-sorteei.oncartx.io/checkout/3411574:" + Rifas.length + "&checkout=buy_button", "_blank");
+                let data = {
+                    Bilhete: Rifas,
+                    IdProduto: "@Model.Id",
+                    ValorRifa: $("#ValorTotal").text()
+                };
 
+                console.log(data);
+
+                $.ajax({
+                    url: "@Url.Action("RegistrarCompra", "Comprar")",
+                    method: "POST",
+                    data: data,
+                    success: function (retorno) {
+                        console.log(retorno);
+                        if (retorno) {
+                            window.open("@Url.Action("Pagamento","Comprar",new { Id=Model.Id })", "_blank");
+                        }
+                    },
+                    error: function (retorno) {
+                        console.log(retorno);
+                    }
+                })
             });
 
             $("#btnDadosPagamento").click(function () {

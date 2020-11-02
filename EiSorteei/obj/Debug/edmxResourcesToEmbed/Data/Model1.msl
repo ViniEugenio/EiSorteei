@@ -95,6 +95,27 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="BilhetesCarrinho">
+      <EntityTypeMapping TypeName="EiSorteeiModel.BilhetesCarrinho">
+        <MappingFragment StoreEntitySet="BilhetesCarrinho">
+          <ScalarProperty Name="DataCadastro" ColumnName="DataCadastro" />
+          <ScalarProperty Name="NumeroBilhete" ColumnName="NumeroBilhete" />
+          <ScalarProperty Name="IdCarrinho" ColumnName="IdCarrinho" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Carrinho">
+      <EntityTypeMapping TypeName="EiSorteeiModel.Carrinho">
+        <MappingFragment StoreEntitySet="Carrinho">
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="DataCadastro" ColumnName="DataCadastro" />
+          <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+          <ScalarProperty Name="IdProduto" ColumnName="IdProduto" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Compra">
       <EntityTypeMapping TypeName="EiSorteeiModel.Compra">
         <MappingFragment StoreEntitySet="Compra">

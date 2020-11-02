@@ -113,6 +113,9 @@
         #container {
             background-color: #000;
             height: 92px;
+            position: fixed;
+            z-index: 1;
+            width:100%;
         }
     </style>
 
@@ -203,7 +206,7 @@
 
             <div class="col-md-3 text-center">
                 <h4><i class="fas fa-clock"></i> Aguarde o sorteio</h4>
-                <h5>Agora é aguardar o sorteio pela Loteria Federal e boa sorte! Cruze os dedos, você pode ser o próximo sorteado.</h5>
+                <h5>Agora é aguardar o sorteio, cruze os dedos e acompanhe a página para saber as novidades.</h5>
             </div>
 
         </div>
@@ -234,81 +237,80 @@
     <div id="myModal2" class="modal">
 
         <!-- Modal content -->
-        <div class="modal-content" style="width:50%; justify-content:flex-start; height:42%;">
+        <div class="modal-content" style=" width: 57%; justify-content: flex-start; height: 50%;">
             <i class="fas fa-times" style="float:right; align-self:flex-end; cursor:pointer;" id="Fechar"></i>
             <h2>Atenção <i class="fas fa-exclamation"></i></h2>
             <p> Bilhetes Selecionadas: <span id="RifasSelecionadas"></span></p>
-            <p>A data Limite para o pagamento das suas Rifas é até 12/12/2020</p>
-            <p>Após essa data seus Bilhetes serão disponibilizadas para compra novamente</p>
-
-            <div style="margin-top:12px;">
-                <p><strong>Valor Total: R$ <span id="ValorFinal"></span></strong></p>
-                <button class="btn btn-success" id="EfetuarPagamento">Efetuar Pagamento</button>
-            </div>
 
             @*<div class="form-group">
 
-                    <strong>Forma de Pagamento</strong>
-                </div>
+                <strong>Forma de Pagamento</strong>
+            </div>
 
-                <div class="form-group">
+            <div class="form-group">
 
-                    <span class="NumeroRifa" style="padding:10px; font-size: 16px;">Cartão de Crédito</span>
-                    <span class="NumeroRifa" style="padding:10px; font-size: 16px; background-color:lightgray;">Boleto</span>
+                <span class="NumeroRifa" style="padding:10px; font-size: 16px;">Cartão de Crédito</span>
+                <span class="NumeroRifa" style="padding:10px; font-size: 16px; background-color:lightgray;">Boleto</span>
 
-                </div>
+            </div>
 
-                <div class="form-group">
-                    <strong>Número do Bilhete: <span id="NumeroRifa"></span></strong>
-                </div>
+            <div class="form-group" style="width:80%; text-align:start;">
 
-                <div class="form-group" style="width:80%; text-align:start;">
+                <div class="row">
 
-                    <div class="row">
-
-                        <div class="col-md-12 form-group">
-                            <strong>Número do Cartão</strong>
-                            <input type="text" class="form-control" placeholder="Digite o número do seu cartão" id="NumeroCartao" />
-                            <span class="ErroComprar" id="ErroNumero">Campo Obrigatório</span>
-                        </div>
-
-                        <div class="col-md-6 form-group">
-                            <strong>Nome do Titular</strong>
-                            <input type="text" class="form-control" placeholder="Digite o nome do Titulo do Cartão" id="TituloCartao" />
-                            <span class="ErroComprar" id="ErroTitulo">Campo Obrigatório</span>
-                        </div>
-
-                        <div class="col-md-6 form-group">
-                            <strong>CPF</strong>
-                            <input type="text" class="form-control" placeholder="Digite o CPF do dono do Cartão" id="CPFCartao" />
-                            <span class="ErroComprar" id="ErroCPF">Campo Obrigatório</span>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <strong>Data de Vencimento</strong>
-                            <input type="text" class="form-control" placeholder="Digite a data de Vencimento do Cartão, Ex: 11/@DateTime.Now.Year.ToString()[2]@DateTime.Now.Year.ToString()[3]" id="DataCartao" />
-                            <span class="ErroComprar" id="ErroData">Campo Obrigatório</span>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <strong>CVV</strong>
-                            <input type="text" class="form-control" placeholder="Digite o nome do Titulo do Cartão" maxlength="3" id="CVVCartao" />
-                            <span class="ErroComprar" id="ErroCVV">Campo Obrigatório</span>
-                        </div>
-
-                        <div class="form-group col-md-12">
-                            <strong>Código do Vendedor</strong>
-                            <input type="text" class="form-control" placeholder="Digite o Código do Vendedor" maxlength="8" id="CodigoVendedor" />
-                            <span class="ErroComprar" id="ErroComprador">Campo Obrigatório</span>
-                        </div>
-
-                        <div class="form-group col-md-12">
-                            <button class="btn btn-success" >Efetuar Compra</button>
-                        </div>
-
+                    <div class="col-md-12 form-group">
+                        <strong>Número do Cartão</strong>
+                        <input type="text" class="form-control" placeholder="Digite o número do seu cartão" id="NumeroCartao" />
+                        <span class="ErroComprar" id="ErroNumero">Campo Obrigatório</span>
                     </div>
 
-                </div>*@
+                    <div class="col-md-6 form-group">
+                        <strong>Nome do Titular</strong>
+                        <input type="text" class="form-control" placeholder="Digite o nome do Titulo do Cartão" id="TituloCartao" />
+                        <span class="ErroComprar" id="ErroTitulo">Campo Obrigatório</span>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <strong>CPF</strong>
+                        <input type="text" class="form-control" placeholder="Digite o CPF do dono do Cartão" id="CPFCartao" />
+                        <span class="ErroComprar" id="ErroCPF">Campo Obrigatório</span>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <strong>Data de Vencimento</strong>
+                        <input type="text" class="form-control" placeholder="Digite a data de Vencimento do Cartão, Ex: 11/@DateTime.Now.Year.ToString()[2]@DateTime.Now.Year.ToString()[3]" id="DataCartao" />
+                        <span class="ErroComprar" id="ErroData">Campo Obrigatório</span>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <strong>CVV</strong>
+                        <input type="text" class="form-control" placeholder="Digite o nome do Titulo do Cartão" maxlength="3" id="CVVCartao" />
+                        <span class="ErroComprar" id="ErroCVV">Campo Obrigatório</span>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <strong>Código do Vendedor</strong>
+                        <input type="text" class="form-control" placeholder="Digite o Código do Vendedor" maxlength="8" id="CodigoVendedor" />
+                        <span class="ErroComprar" id="ErroComprador">Campo Obrigatório</span>
+                    </div>
+
+                </div>
+
+            </div>*@
+
+            <div class="row form-group">
+                <div style="margin-top:12px;" class="col-md-6">
+                    <p><strong>Valor Total: R$ <span id="ValorFinal"></span></strong></p>
+                    <button class="btn btn-success" id="EfetuarPagamento" style="width:50%;">Efetuar Pagamento</button>
+                </div>
+
+                <div style="width:20%;" id="MercadoPagoImagem" class="col-md-6">
+                    <img src="~/Imagens/pagamento-seguro.png" style="width:100%;" />
+                </div>
+            </div>
+           
+
+
         </div>
 
     </div>

@@ -118,6 +118,7 @@
 
                         <div class="card-header">
                             <h2>Vídeo do Produto</h2>
+                            @Html.ValidationMessageFor(model => model.Video, "", new { @class = "text-danger" })
                         </div>
 
                         <div class="card-body">

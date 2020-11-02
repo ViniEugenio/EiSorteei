@@ -47,9 +47,22 @@ namespace EiSorteei.Areas.Admin.Controllers
                 ModelState.AddModelError("Imagem", "Por favor selecione pelo menos uma imagem para o Produto");
             }
 
-            if(model.DataSorteio <= DateTime.Now)
+            if (model.DataSorteio <= DateTime.Now)
             {
                 ModelState.AddModelError("DataSorteio", "A data do sorteio deve ser uma data futura");
+            }
+
+            if (model.Video != null)
+            {
+                if (!model.Video.FileName.Contains("mp4"))
+                {
+                    ModelState.AddModelError("Video", "O arquivo de vídeo deve ser do tipo .mp4");
+                }
+
+                if (model.Video.ContentLength > 52428800)
+                {
+                    ModelState.AddModelError("Video", "O tamanho máximo do arquivo deve ser 50MB");
+                }
             }
 
 
@@ -117,7 +130,7 @@ namespace EiSorteei.Areas.Admin.Controllers
                         _Context.SaveChanges();
                     }
 
-                }               
+                }
 
                 return RedirectToAction("Index");
 
@@ -179,7 +192,7 @@ namespace EiSorteei.Areas.Admin.Controllers
                 Descricao = produto.Descricao,
                 Nome = produto.Nome,
                 RangeCodigo = produto.RangeCodigo,
-                ValorRifa = Math.Round(produto.ValorRifa,2).ToString().Replace(",","."),
+                ValorRifa = Math.Round(produto.ValorRifa, 2).ToString().Replace(",", "."),
                 Id = produto.Id,
                 DataSorteio = produto.DataSorteio.Value,
                 ActualyVideo = produto.Video
@@ -222,6 +235,19 @@ namespace EiSorteei.Areas.Admin.Controllers
                 ModelState.AddModelError("DataSorteio", "A data do sorteio deve ser uma data futura");
             }
 
+            if (model.Video != null)
+            {
+                if (!model.Video.FileName.Contains("mp4"))
+                {
+                    ModelState.AddModelError("Video", "O arquivo de vídeo deve ser do tipo .mp4");
+                }
+
+                if (model.Video.ContentLength > 52428800)
+                {
+                    ModelState.AddModelError("Video", "O tamanho máximo do arquivo deve ser 50MB");
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 Produto AlterarProduto = _Context.Produto.FirstOrDefault(p => p.Id.Equals(model.Id));
@@ -238,14 +264,14 @@ namespace EiSorteei.Areas.Admin.Controllers
                 {
                     string CaminhoVideo = Server.MapPath("~/Content/VideoProdutos/");
 
-                    if(AlterarProduto.Video!=null)
+                    if (AlterarProduto.Video != null)
                     {
                         FileInfo VideoAtual = new FileInfo(CaminhoVideo + AlterarProduto.Video);
                         if (VideoAtual.Exists)
                         {
                             VideoAtual.Delete();
                         }
-                    }                    
+                    }
 
                     string NomeArquivo = DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString() + DateTime.Now.Millisecond.ToString() + model.Video.FileName;
 

@@ -18,6 +18,7 @@ namespace EiSorteei.Data
         public Produto()
         {
             this.Multimidia = new HashSet<Multimidia>();
+            this.Carrinho = new HashSet<Carrinho>();
             this.Compra = new HashSet<Compra>();
         }
     
@@ -37,8 +38,10 @@ namespace EiSorteei.Data
         public virtual CategoriaProduto CategoriaProduto { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Multimidia> Multimidia { get; set; }
-        public virtual Usuario Usuario { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Carrinho> Carrinho { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Compra> Compra { get; set; }
+        public virtual Usuario Usuario { get; set; }
     }
 }

@@ -8,7 +8,6 @@ using MercadoPago;
 using MercadoPago.Resources;
 using MercadoPago.DataStructures.Preference;
 using MercadoPago.Common;
-using RestSharp;
 using EiSorteei.Models;
 using Newtonsoft.Json;
 using System.Net;
@@ -29,7 +28,7 @@ namespace EiSorteei.Controllers
         public ActionResult Index(long IdProduto)
         {
             GetAllOrders(IdProduto);
-            if (IdProduto!=null)
+            if (IdProduto != null)
             {
                 var Produto = _Context.Produto.FirstOrDefault(p => p.Id == IdProduto);
 
@@ -76,42 +75,115 @@ namespace EiSorteei.Controllers
             });
         }
 
-        public ActionResult RegistrarCompra(long IdProduto, string CodigoVendedor,string IdCompra,string NumeroRifa)
+        //public ActionResult RegistrarCompra(long IdProduto, string CodigoVendedor,string IdCompra,string NumeroRifa)
+        //{
+        //    try
+        //    {
+        //        Usuario UsuarioLogado = (Usuario)Session["Usuario"];
+
+        //        Compra NovaCompra = new Compra()
+        //        {
+        //            CodigoVendedor = CodigoVendedor,
+        //            DataCompra = DateTime.Now,
+        //            ProdutoId = IdProduto,
+        //            UsuarioId = UsuarioLogado.Id,
+        //            IdCompra = IdCompra,
+        //            NumeroRifa = NumeroRifa
+        //        };
+
+        //        _Context.Compra.Add(NovaCompra);
+        //        _Context.SaveChanges();
+
+        //        return Json(new
+        //        {
+        //            Status = true,
+        //        });
+        //    }
+
+        //    catch (Exception e)
+        //    {
+        //        return Json(new
+        //        {
+        //            Status = false,
+        //        });
+        //    }
+
+
+        //}       
+
+
+
+
+        public ActionResult Pagamento(long Id)
+        {
+            HttpCookie FindedCookie = Request.Cookies["Carrinho"];
+
+            if (FindedCookie == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            //else
+            //{
+            //    if (Convert.ToDateTime(FindedCookie["Validade"]) <= DateTime.Now)
+            //    {
+            //        return RedirectToAction("Index", "Home");
+            //    }
+            //}
+
+            Usuario UsuarioLogado = (Usuario)Session["Usuario"];
+            long IdProduto = Convert.ToInt64(FindedCookie["IdProduto"]);
+            Produto FindedProduto = _Context.Produto.FirstOrDefault(p => p.Id.Equals(IdProduto));
+
+            PagamentoViewModel model = new PagamentoViewModel()
+            {
+                Bilhetes = FindedCookie["Bilhetes"],
+                Usuario = UsuarioLogado,
+                Produto = FindedProduto,
+                Imagens = _Context.Multimidia.Where(m => m.IdProduto.Equals(FindedProduto.Id)).ToList(),
+                ValorTotal = FindedCookie["ValorTotal"]
+            };
+
+            return View(model);
+        }
+
+
+        public JsonResult RegistrarCompra(int[] Bilhete, int IdProduto,string ValorRifa)
         {
             try
             {
-                Usuario UsuarioLogado = (Usuario)Session["Usuario"];
 
-                Compra NovaCompra = new Compra()
+                HttpCookie FindedCookie = Request.Cookies["Carrinho"];
+                if (FindedCookie != null)
                 {
-                    CodigoVendedor = CodigoVendedor,
-                    DataCompra = DateTime.Now,
-                    ProdutoId = IdProduto,
-                    UsuarioId = UsuarioLogado.Id,
-                    IdCompra = IdCompra,
-                    NumeroRifa = NumeroRifa
-                };
+                    FindedCookie.Expires = DateTime.Now.AddYears(-1);
+                    Response.Cookies.Set(FindedCookie);
+                }
 
-                _Context.Compra.Add(NovaCompra);
-                _Context.SaveChanges();
+                string BilhetesFormatados = "";
 
-                return Json(new
+                for (int x = 0; x < Bilhete.Length; x++)
                 {
-                    Status = true,
-                });
+                    BilhetesFormatados = +x == Bilhete.Length - 1 ? BilhetesFormatados + Bilhete[x].ToString() : BilhetesFormatados + Bilhete[x].ToString() + ", ";
+                }
+
+                HttpCookie NovoCookie = new HttpCookie("Carrinho");
+                NovoCookie.Values.Add("Bilhetes", BilhetesFormatados);
+                NovoCookie.Values.Add("IdProduto", IdProduto.ToString());
+                NovoCookie.Values.Add("Validade", DateTime.Now.AddMinutes(1).ToString("dd/MM/yyyy HH:mm:ss"));
+                NovoCookie.Values.Add("ValorTotal", ValorRifa);
+                Response.Cookies.Add(NovoCookie);
+
+                return Json(true);
+
             }
-
             catch (Exception e)
             {
-                return Json(new
-                {
-                    Status = false,
-                });
+                return Json(false);
             }
+        }
 
 
-        }       
-        
         public void GetAllOrders(long IdProduto)
         {
 
@@ -121,7 +193,7 @@ namespace EiSorteei.Controllers
             request.Method = "GET";
             var response = (HttpWebResponse)request.GetResponse();
             var streamReader = new StreamReader(response.GetResponseStream());
-            var result = streamReader.ReadToEnd();            
+            var result = streamReader.ReadToEnd();
 
             var Objeto = JObject.Parse(result);
             var JOrders = Objeto["orders"]["data"];
