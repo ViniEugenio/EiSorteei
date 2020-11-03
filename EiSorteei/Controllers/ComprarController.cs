@@ -204,5 +204,54 @@ namespace EiSorteei.Controllers
 
         }
 
+
+        public JsonResult LoginPagamento(string Email,string Senha)
+        {
+            try
+            {
+                string HashPassword = Helpers.HashPassword.PasswordHash(Senha);
+
+                if (_Context.Usuario.Any(u => u.Email.Equals(Email) && u.Senha.Equals(HashPassword)))
+                {
+                    Usuario oUsuario = _Context.Usuario.FirstOrDefault(u => u.Email.Equals(Email) && u.Senha.Equals(HashPassword));
+                    Session["Usuario"] = oUsuario;
+                    long IdPermissao = _Context.PermissaoUsuario.FirstOrDefault(p => p.IdUsuario.Equals(oUsuario.Id)).IdPermissao;
+                    Session["Permissao"] = _Context.Permissao.FirstOrDefault(p => p.Id.Equals(IdPermissao)).Nome;
+
+                    return Json(new
+                    {
+                        Status = true,
+                        Mensagem = "Usuário Logado",
+                        NomeLogado = oUsuario.Nome+" "+oUsuario.SobreNome,
+                        EmailLogado = oUsuario.Email,
+                        TelefoneLogado = oUsuario.Telefone,
+                        CPFLogado = oUsuario.Cpf,
+                        CEPLogado = oUsuario.CEP,
+                        EstadoLogado = oUsuario.Estado,
+                        CidadeLogado = oUsuario.Cidade,
+                        BairroLogado = oUsuario.Bairro,
+                        RuaLogado = oUsuario.Rua,
+                        NumeroLogado = oUsuario.Numero
+                    });
+                }
+
+                return Json(new
+                {
+                    Status = true,
+                    Mensagem = "Usuário não encontrado"
+                });
+            }
+
+            catch(Exception e)
+            {
+                return Json(new
+                {
+                    Status = false,
+                    Mensagem = "Erro"
+                });
+            }
+           
+        }
+
     }
 }

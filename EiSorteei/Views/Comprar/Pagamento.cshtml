@@ -41,16 +41,21 @@
             padding: 10px;
             text-align: center;
             height: 40px;
-            width:70px;
-            margin-top:2px;
+            width: 70px;
+            margin-top: 2px;
         }
 
-        #Bilhetes{
-            display:flex;
-            flex-direction:row;
-            flex-wrap:wrap;
-            align-items:center;
-            justify-content:center;
+        #Bilhetes {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .erro {
+            color: red;
+            display: none;
         }
     </style>
 
@@ -58,7 +63,7 @@
 
 <body>
 
-    <div style="width:80%;margin:auto; margin-top:50px;">
+    <div style="width:80%;margin:auto; margin-top:50px; margin-bottom:50px;">
         <div class="card" style="border-radius:24px;">
 
             <div class="card-body">
@@ -123,7 +128,7 @@
 
                 @if (IdUsuarioLogado == 0)
                 {
-                    <div class="row">
+                    <div class="row" id="InformacoesPessoais">
 
                         <div class="col-md-4" id="Login" style="margin:auto;">
                             <div class="card form-group" style="margin-top:5px;">
@@ -136,14 +141,16 @@
                                         <div class="form-group">
                                             <label class="control-label">Email</label>
                                             <input class="form-control" id="EmailLogin" />
+                                            <span id="EmailLoginErro" class="erro"></span>
                                         </div>
 
                                         <div class="form-group">
                                             <label class="control-label">Senha</label>
                                             <input class="form-control" id="SenhaLogin" type="password" />
+                                            <span class="erro" id="SenhaLoginErro"></span>
                                         </div>
                                         <div class="form-group text-center">
-                                            <button class="btn btn-success"><i class="fas fa-sign-in-alt"></i> Entrar</button>
+                                            <button class="btn btn-success" id="Entrar"><i class="fas fa-sign-in-alt"></i> Entrar</button>
                                         </div>
 
                                         <div class="form-group text-center">
@@ -159,7 +166,7 @@
                             <div class="card" style="margin-top:5px;">
 
                                 <div class="card-header">
-                                    <h3>Cadastro de Usuário</h3>
+                                    <h3><i class="fa fa-user"></i> Informações Pessoais</h3>
                                 </div>
 
                                 <div class="card-body">
@@ -169,15 +176,17 @@
                                         <input value="@ViewBag.Produto" name="IdProduto" style="display:none;" />
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="control-label">Email</label>
-                                                <input class="form-control" id="EmailLogin" />
+                                                <label class="control-label">Nome</label>
+                                                <input class="form-control" id="NomeLogin" />
+                                                <span class="erro" id="NomeErro"></span>
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="control-label">Email</label>
-                                                <input class="form-control" id="EmailLogin" />
+                                                <label class="control-label">SobreNome</label>
+                                                <input class="form-control" id="SobreNomeLogin" />
+                                                <span class="erro" id="SobreNomeErro"></span>
                                             </div>
                                         </div>
 
@@ -188,55 +197,24 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label class="control-label">Email</label>
-                                                <input class="form-control" id="EmailLogin" />
+                                                <input class="form-control" id="EmailCadastrar" />
+                                                <span class="erro" id="EmailErro"></span>
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="control-label">Email</label>
-                                                <input class="form-control" id="EmailLogin" />
+                                                <label class="control-label">Telefone</label>
+                                                <input class="form-control" id="TelefoneLogin" />
+                                                <span class="erro" id="TelefoneErro"></span>
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="control-label">Email</label>
-                                                <input class="form-control" id="EmailLogin" />
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="row">
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label">Email</label>
-                                                <input class="form-control" id="EmailLogin" />
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label">Email</label>
-                                                <input class="form-control" id="EmailLogin" />
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-
-                                            <div class="form-group">
-                                                <label class="control-label">Email</label>
-                                                <input class="form-control" id="EmailLogin" />
-                                            </div>
-
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label">Email</label>
-                                                <input class="form-control" id="EmailLogin" />
+                                                <label class="control-label">CPF</label>
+                                                <input class="form-control" id="CPFLogin" />
+                                                <span class="erro" id="CPFErro"></span>
                                             </div>
                                         </div>
 
@@ -246,15 +224,55 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="control-label">Email</label>
-                                                <input class="form-control" id="EmailLogin" />
+                                                <label class="control-label">Estado</label>
+                                                <input class="form-control" id="EstadoLogin" />
+                                                <span class="erro" id="EstadoErro"></span>
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="control-label">Email</label>
-                                                <input class="form-control" id="EmailLogin" />
+                                                <label class="control-label">Cidade</label>
+                                                <input class="form-control" id="CidadeLogin" />
+                                                <span class="erro" id="CidadeErro"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+
+                                            <div class="form-group">
+                                                <label class="control-label">Bairro</label>
+                                                <input class="form-control" id="BairroLogin" />
+                                                <span class="erro" id="BairroErro"></span>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">CEP</label>
+                                                <input class="form-control" id="CEPLogin" />
+                                                <span class="erro" id="CEPErro"></span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Rua</label>
+                                                <input class="form-control" id="RuaLogin" />
+                                                <span class="erro" id="RuaErro"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Número</label>
+                                                <input class="form-control" id="NumeroLogin" />
+                                                <span class="erro" id="NumeroErro"></span>
                                             </div>
                                         </div>
 
@@ -265,15 +283,17 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="control-label">Email</label>
-                                                <input class="form-control" id="EmailLogin" />
+                                                <label class="control-label">Senha</label>
+                                                <input class="form-control" id="SenhaCadastrar" />
+                                                <span class="erro" id="SenhaErro"></span>
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="control-label">Email</label>
-                                                <input class="form-control" id="EmailLogin" />
+                                                <label class="control-label">Confirmar Senha</label>
+                                                <input class="form-control" id="ConfirmarLogin" />
+                                                <span class="erro" id="ConfirmarErro"></span>
                                             </div>
                                         </div>
 
@@ -292,10 +312,116 @@
                         </div>
 
                     </div>
-                   
+
                 }
 
+
+            <div class="row col-md-12 row" id="UsuarioLogado" style="display:none; margin-top:5px;">
+
+                <div class="col-md-6" style="margin-top:5px; margin:auto;">
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fa fa-user"></i> Informações Pessoais</h3>
+                        </div>
+                        <div class="card-body">
+                            <p><strong id="NomeLogado"></strong></p>
+                            <p><strong id="EmailLogado"></strong></p>
+                            <p><strong id="TelefoneLogado"></strong></p>
+                            <p><strong id="CPFLogado"></strong></p>
+                        </div>
+                    </div>
+
                 </div>
+
+                <div class="col-md-6" style="margin-top:5px; margin:auto;">
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-map-marked-alt"></i> Informações de Entrega</h3>
+                        </div>
+                        <div class="card-body row">
+                            <div class="col-md-6">
+                                <p><strong id="CEPLogado"></strong></p>
+                                <p><strong id="EstadoLogado"></strong></p>
+                                <p><strong id="CidadeLogado"></strong></p>
+                                <p><strong id="BairroLogado"></strong></p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong id="RuaLogado"></strong></p>
+                                <p><strong id="NumeroLogado"></strong></p>
+                            </div>
+                           
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div id="Pagamento" style="margin-top:5px; @(IdUsuarioLogado==0?"display:none;":"")">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-money-bill-alt"></i> Forma de Pagamento</h3>
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="form-group text-center">
+                            <strong>Selecione a Forma de Pagamento: </strong>
+                            <div class="form-group">
+                                <input type="radio" name="FormaPagamento" checked /> Cartão de Crédito
+                                <input type="radio" name="FormaPagamento" /> Boleto
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-12 form-group">
+                                <strong>Número do Cartão</strong>
+                                <input type="text" class="form-control" placeholder="Digite o número do seu cartão" id="NumeroCartao" />
+                                <span class="erro" id="ErroNumero">Campo Obrigatório</span>
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <strong>Nome do Titular</strong>
+                                <input type="text" class="form-control" placeholder="Digite o nome do Titulo do Cartão" id="TituloCartao" />
+                                <span class="erro" id="ErroTitulo">Campo Obrigatório</span>
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <strong>CPF</strong>
+                                <input type="text" class="form-control" placeholder="Digite o CPF do dono do Cartão" id="CPFCartao" />
+                                <span class="erro" id="ErroCPF">Campo Obrigatório</span>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <strong>Data de Vencimento</strong>
+                                <input type="text" class="form-control" placeholder="Digite a data de Vencimento do Cartão, Ex: 11/@DateTime.Now.Year.ToString()[2]@DateTime.Now.Year.ToString()[3]" id="DataCartao" />
+                                <span class="erro" id="ErroData">Campo Obrigatório</span>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <strong>CVV</strong>
+                                <input type="text" class="form-control" placeholder="Digite o nome do Titulo do Cartão" maxlength="3" id="CVVCartao" />
+                                <span class="erro" id="ErroCVV">Campo Obrigatório</span>
+                            </div>
+
+                            <div class="form-group col-md-12">
+                                <strong>Código do Vendedor</strong>
+                                <input type="text" class="form-control" placeholder="Digite o Código do Vendedor" maxlength="8" id="CodigoVendedor" />
+                                <span class="erro" id="ErroVendedor"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-success" id="EfetuarPagamento"><i class="fas fa-shopping-cart"></i> Efetuar Pagamento</button>
+                    </div>
+                </div>
+            </div>
+
+
+            </div>
 
         </div>
     </div>
@@ -314,6 +440,11 @@
     <script>
 
         $(document).ready(function () {
+
+            $("#CPFCartao").mask("000.000.000-00");
+            $("#DataCartao").mask("00/00");
+            $("#CVVCartao").mask("000");
+
             $('.carousel').slick({
                 autoplay: true,
                 autoplaySpeed: 4000,
@@ -334,8 +465,350 @@
                 $("#Login").slideDown(200);
 
             });
-        });
 
+
+            $("#Entrar").click(function () {
+
+                let erro = false;
+
+                if (!$("#EmailLogin").val()) {
+
+                    erro = true;
+                    $("#EmailLoginErro").text("Por favor preencha o seu email");
+                    $("#EmailLoginErro").css("display", "block");
+                }
+
+                else {
+                    $("#EmailLoginErro").css("display", "none");
+                }
+
+                if (!$("#SenhaLogin").val()) {
+
+                    erro = true;
+                    $("#SenhaLoginErro").text("Por favor preencha o seu email");
+                    $("#SenhaLoginErro").css("display", "block");
+                }
+
+                else {
+                    $("#SenhaLoginErro").css("display", "none");
+                }
+
+
+                if (!erro) {
+
+                    let data = {
+                        Email: $("#EmailLogin").val(),
+                        Senha: $("#SenhaLogin").val()
+                    };
+
+                    $.ajax({
+                        url: "@Url.Action("LoginPagamento","Comprar")",
+                        method: "POST",
+                        data: data,
+                        success: function (retorno) {
+
+                            if (retorno.Status) {
+                                if (retorno.Mensagem == "Usuário Logado") {
+                                    $("#InformacoesPessoais").slideUp(200);
+                                    $("#NomeLogado").text("Nome: " + retorno.NomeLogado);
+                                    $("#EmailLogado").text("Email: " + retorno.EmailLogado);
+                                    $("#TelefoneLogado").text("Telefone: " + retorno.TelefoneLogado);
+                                    $("#CPFLogado").text("CPF: " + retorno.CPFLogado);
+                                    $("#CEPLogado").text("CEP: " + retorno.CEPLogado);
+                                    $("#EstadoLogado").text("Estado: " + retorno.EstadoLogado);
+                                    $("#CidadeLogado").text("Cidade: " + retorno.CidadeLogado);
+                                    $("#BairroLogado").text("Bairro: " + retorno.BairroLogado);
+                                    $("#RuaLogado").text("Rua: " + retorno.RuaLogado);
+                                    $("#NumeroLogado").text("Número: " + retorno.NumeroLogado);
+                                    $("#UsuarioLogado").slideDown(200);
+                                    $("#Pagamento").slideDown(200);
+                                }
+
+                                else {
+                                    $("#SenhaLoginErro").text("Email e/ou Senha erradas!");
+                                    $("#SenhaLoginErro").css("display", "block");
+                                }
+                            }
+
+                        },
+                        error: function (retorno) {
+                            console.log(retorno);
+                        }
+                    });
+                }
+
+            });
+
+
+            $("#EfetuarPagamento").click(function () {
+
+
+                let erro = false;
+
+                let Numero = $("#NumeroCartao").val();
+                let Titulo = $("#TituloCartao").val();
+                let Data = $("#DataCartao").val();
+                let CVV = $("#CVVCartao").val();
+                let CPF = $("#CPFCartao").val();
+                let CodigoVendedor = $("#CodigoVendedor").val();
+
+                if (!Numero) {
+                    $("#ErroNumero").css("display", "block");
+                    erro = true;
+                }
+
+                else {
+                    $("#ErroNumero").css("display", "none");
+                }
+
+
+                if (!Titulo) {
+                    $("#ErroTitulo").css("display", "block");
+                    erro = true;
+                }
+
+                else {
+                    $("#ErroTitulo").css("display", "none");
+                }
+
+
+                if (!Data) {
+                    $("#ErroData").css("display", "block");
+                    erro = true;
+                }
+
+                else {
+                    $("#ErroData").css("display", "none");
+                }
+
+                if (!CVV) {
+                    $("#ErroCVV").css("display", "block");
+                    erro = true;
+                }
+
+                else {
+                    $("#ErroCVV").css("display", "none");
+                }
+
+                if (!CPF) {
+                    $("#ErroCPF").css("display", "block");
+                }
+
+                else {
+                    $("#ErroCPF").css("display", "none");
+                }
+
+
+                if (!erro) {
+
+
+                    window.open("https://ei-sorteei.oncartx.io/checkout/3411574:" + Rifas.length + "&checkout=buy_button", "_blank");
+
+
+                    let DataFormatada = Data.split("/");
+                    let CPFFormatado = CPF.replace(".", "").replace(".", "").replace("-", "");
+
+                    let MesCartao = DataFormatada[0];
+                    let AnoCartao = DataFormatada[1];
+
+                    window.Mercadopago.setPublishableKey("APP_USR-4f22958e-cccd-49ac-b52d-02ae9b9697a9");
+                    window.Mercadopago.getIdentificationTypes();
+
+                    let DadosCartao = {
+
+                        cardNumber: Numero,
+                        cardExpirationMonth: MesCartao,
+                        cardExpirationYear: AnoCartao,
+                        securityCode: CVV,
+                        cardholderName: Titulo,
+                        docType: "CPF",
+                        docNumber: CPFFormatado
+
+                    };
+
+
+                    var hash = window.Mercadopago.createToken(DadosCartao, setCardTokenAndPay);
+
+                    function setCardTokenAndPay(status, response) {
+                        if (status == 200 || status == 201) {
+
+                            let IdProduto = "@Model.Produto.Id";
+
+                            let Usuario = "";
+
+                            $.ajax({
+                                url: "@Url.Action("GetDadosUsuario", "Comprar")",
+                                method: "POST",
+                                data: { IdProduto: IdProduto },
+                                success: function (retorno) {
+                                    Usuario = retorno;
+                                },
+                                complete: function () {
+
+                                    let CodigoCartao = response.id;
+
+                                    let Telefone = Usuario.Telefone;
+                                    Telefone = Telefone.replace("(", "").replace(')', "");
+                                    let TelefoneFormatado = Telefone.split(" ");
+
+                                    let dados = JSON.stringify({
+                                        token: CodigoCartao,
+                                        installments: 1,
+                                        transaction_amount: Usuario.ValorRifa,
+                                        description: "Bilhete EiSorteei - " + Usuario.NomeProduto,
+                                        payment_method_id: "credit_card",
+                                        payer: {
+                                            email: Usuario.Email,
+                                            identification: {
+                                                number: CPFFormatado,
+                                                type: "CPF"
+                                            }
+                                        },
+                                        notification_url: "https://www.suaurl.com/notificacoes/",
+                                        sponsor_id: null,
+                                        binary_mode: false,
+                                        external_reference: "Bilhete " + Usuario.IdProduto,
+                                        statement_descriptor: "Bilhete EiSorteei",
+                                        additional_info: {
+                                            items: [
+                                                {
+                                                    id: "PR0001",
+                                                    title: "Bilhete EiSorteei - Código do Produto: " + Usuario.IdProduto,
+                                                    description: "Bilhete EiSorteei",
+                                                    picture_url: "https://http2.mlstatic.com/resources/frontend/statics/growth-sellers-landings/device-mlb-point-i_medium@2x.png",
+                                                    category_id: "Bilhete",
+                                                    quantity: 1,
+                                                    unit_price: Usuario.ValorRifa
+                                                }
+                                            ],
+                                            payer: {
+                                                first_name: Usuario.Nome,
+                                                last_name: Usuario.SobreNome,
+                                                address: {
+                                                    zip_code: Usuario.CEP,
+                                                    street_name: Usuario.Rua,
+                                                    street_number: Usuario.Numero
+                                                },
+                                                registration_date: Usuario.DataCadastro,
+                                                phone: {
+                                                    area_code: TelefoneFormatado[0],
+                                                    number: TelefoneFormatado[1]
+                                                }
+                                            },
+                                            shipments: {
+                                                receiver_address: {
+                                                    street_name: "Av. Alberane Cunha",
+                                                    street_number: 81,
+                                                    zip_code: "37350000",
+                                                    city_name: "Liberdade",
+                                                    state_name: "Minas Gerais"
+                                                }
+                                            }
+                                        }
+                                    });
+
+                                    $.ajax({
+                                        url: "https://api.mercadopago.com/v1/payments",
+                                        method: 'POST',
+                                        beforeSend: function (xhr) {
+                                            xhr.setRequestHeader('Authorization', 'Bearer APP_USR-5017428128263404-072015-ddd04542ab6288891aebac5789addf33-247787081');
+                                        },
+                                        data: dados,
+                                        success: function (retorno) {
+
+                                            if (retorno.status == "approved" || retorno.status == "in_process") {
+
+                                                let NumeroRifa = $("#NumeroRifa").text();
+
+                                                $.ajax({
+                                                    url: "@Url.Action("RegistrarCompra","Comprar")",
+                                                    method: "POST",
+                                                    data: { IdProduto: Usuario.IdProduto, CodigoVendedor: CodigoVendedor, IdCompra: retorno.id, NumeroRifa: NumeroRifa },
+                                                    success: function (data) {
+                                                        if (data.Status) {
+
+                                                            if (retorno.status == "approved") {
+                                                                Swal.fire({
+                                                                    title: 'Pagamento Efetuado',
+                                                                    text: "Seu pagamento foi aceito, obrigado pela sua compra fique atento para a data do sorteio e boa sorte.",
+                                                                    icon: 'success',
+                                                                    showCancelButton: false,
+                                                                    confirmButtonColor: '#3085d6',
+                                                                    cancelButtonColor: '#d33',
+                                                                    cancelButtonText: 'Não',
+                                                                    confirmButtonText: 'OK'
+                                                                });
+                                                            }
+
+                                                            if (retorno.status == "in_process") {
+                                                                Swal.fire({
+                                                                    title: 'Pagamento em Análise',
+                                                                    text: "Seu pagamento está sendo analisado, quando seu pagamento for aprovado você receberá um email confirmando seu pagamento.",
+                                                                    icon: 'success',
+                                                                    showCancelButton: false,
+                                                                    confirmButtonColor: '#3085d6',
+                                                                    cancelButtonColor: '#d33',
+                                                                    cancelButtonText: 'Não',
+                                                                    confirmButtonText: 'OK'
+                                                                });
+                                                            }
+
+                                                            $("#myModal2").css('display', "none");
+                                                        }
+                                                    }
+                                                });
+                                            }
+
+                                            else {
+                                                Swal.fire({
+                                                    title: 'Pagamento não efetuado',
+                                                    text: "Seu pagamento não foi aceito, entre em contato com o distribuinte do seu cartão e tente novamente mais tarde.",
+                                                    icon: 'error',
+                                                    showCancelButton: false,
+                                                    confirmButtonColor: '#3085d6',
+                                                    cancelButtonColor: '#d33',
+                                                    cancelButtonText: 'Não',
+                                                    confirmButtonText: 'OK'
+                                                });
+                                            }
+                                        },
+                                        error: function (retorno) {
+                                            Swal.fire({
+                                                title: 'Cartão Inválido',
+                                                text: "Os dados do cartão informado não são inválidos, por favor verifique seus dados e tente novamente!",
+                                                icon: 'error',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#3085d6',
+                                                cancelButtonColor: '#d33',
+                                                cancelButtonText: 'Não',
+                                                confirmButtonText: 'OK'
+                                            });
+                                        }
+                                    });
+
+
+                                }
+                            });
+
+                        }
+
+                        else {
+                            Swal.fire({
+                                title: 'Cartão Inválido',
+                                text: "Os dados do cartão informado não são inválidos, por favor verifique seus dados e tente novamente!",
+                                icon: 'error',
+                                showCancelButton: false,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                cancelButtonText: 'Não',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    };
+                }
+
+            });
+        });
 
     </script>
 </body>
