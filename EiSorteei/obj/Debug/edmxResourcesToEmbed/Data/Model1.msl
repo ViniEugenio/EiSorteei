@@ -116,16 +116,23 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Compra">
-      <EntityTypeMapping TypeName="EiSorteeiModel.Compra">
-        <MappingFragment StoreEntitySet="Compra">
-          <ScalarProperty Name="NumeroRifa" ColumnName="NumeroRifa" />
-          <ScalarProperty Name="IdCompra" ColumnName="IdCompra" />
+    <EntitySetMapping Name="Compras">
+      <EntityTypeMapping TypeName="EiSorteeiModel.Compras">
+        <MappingFragment StoreEntitySet="Compras">
+          <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="DataCompra" ColumnName="DataCompra" />
-          <ScalarProperty Name="CodigoVendedor" ColumnName="CodigoVendedor" />
-          <ScalarProperty Name="ProdutoId" ColumnName="ProdutoId" />
-          <ScalarProperty Name="UsuarioId" ColumnName="UsuarioId" />
-          <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+          <ScalarProperty Name="CarrinhoId" ColumnName="CarrinhoId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TempBilhetes">
+      <EntityTypeMapping TypeName="EiSorteeiModel.TempBilhetes">
+        <MappingFragment StoreEntitySet="TempBilhetes">
+          <ScalarProperty Name="NumeroBilhete" ColumnName="NumeroBilhete" />
+          <ScalarProperty Name="DataCadastro" ColumnName="DataCadastro" />
+          <ScalarProperty Name="IdProduto" ColumnName="IdProduto" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

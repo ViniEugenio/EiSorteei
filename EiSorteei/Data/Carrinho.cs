@@ -18,6 +18,7 @@ namespace EiSorteei.Data
         public Carrinho()
         {
             this.BilhetesCarrinho = new HashSet<BilhetesCarrinho>();
+            this.Compras = new HashSet<Compras>();
         }
     
         public long Id { get; set; }
@@ -30,5 +31,7 @@ namespace EiSorteei.Data
         public virtual Usuario Usuario { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BilhetesCarrinho> BilhetesCarrinho { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Compras> Compras { get; set; }
     }
 }

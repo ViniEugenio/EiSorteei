@@ -4,7 +4,7 @@
     ViewBag.Title = "EiSorteei";
     Layout = "~/Views/Shared/_LayoutComprar.cshtml";
 
-    List<string> Comprados = ViewBag.Comprados;
+    string[] Comprados = ViewBag.Comprados;
     var Usuario = ViewBag.Usuario;
 }
 
@@ -620,8 +620,23 @@
                     data: data,
                     success: function (retorno) {
                         console.log(retorno);
-                        if (retorno) {
+                        if (retorno.Status) {
                             window.open("@Url.Action("Pagamento","Comprar",new { Id=Model.Id })", "_blank");
+                        }
+
+                        else {
+                            if (retorno.Mensagem == "Bilhetes Inválidos") {
+                                Swal.fire({
+                                    title: 'Bilhetes Inválidos',
+                                    text: "Os seguintes Bilhetes que você escolheu acabaram de ser reservados " + retorno.BilhetesInvalidosMessage+", ele foi retirado dos seus bilhetes selecionados.",
+                                    icon: 'error',
+                                    showCancelButton: false,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    cancelButtonText: 'Não',
+                                    confirmButtonText: 'OK'
+                                });
+                            }
                         }
                     },
                     error: function (retorno) {

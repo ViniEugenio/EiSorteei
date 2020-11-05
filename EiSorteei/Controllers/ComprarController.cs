@@ -27,12 +27,9 @@ namespace EiSorteei.Controllers
 
         public ActionResult Index(long IdProduto)
         {
-            GetAllOrders(IdProduto);
             if (IdProduto != null)
             {
                 var Produto = _Context.Produto.FirstOrDefault(p => p.Id == IdProduto);
-
-
                 if (Produto == null)
                 {
                     return RedirectToAction("Index");
@@ -40,8 +37,9 @@ namespace EiSorteei.Controllers
 
                 ViewBag.Imagens = _Context.Multimidia.Where(p => p.IdProduto.Equals(IdProduto) && p.Status).ToList();
                 ViewBag.Usuario = _Context.Usuario.FirstOrDefault(u => u.Id.Equals(Produto.IdUsuario));
-                ViewBag.Comprados = _Context.Compra.Select(c => c.NumeroRifa).ToList();
                 ViewBag.Categoria = _Context.CategoriaProduto.FirstOrDefault(c => c.Id.Equals(Produto.IdCategoria)).Nome;
+                string[] Comprados = { "41" };
+                ViewBag.Comprados = Comprados;
 
                 return View(Produto);
             }
@@ -72,26 +70,16 @@ namespace EiSorteei.Controllers
                 oProduto.ValorRifa,
                 NomeProduto = oProduto.Nome,
                 DataCadastro = DateTime.Now,
+                UsuarioLogado.Cpf
             });
         }
 
-        //public ActionResult RegistrarCompra(long IdProduto, string CodigoVendedor,string IdCompra,string NumeroRifa)
+        //public ActionResult RegistrarCompra(long IdProduto, string CodigoVendedor, string IdCompra, string StatusPagamento, string NumeroRifa[])
         //{
         //    try
         //    {
         //        Usuario UsuarioLogado = (Usuario)Session["Usuario"];
 
-        //        Compra NovaCompra = new Compra()
-        //        {
-        //            CodigoVendedor = CodigoVendedor,
-        //            DataCompra = DateTime.Now,
-        //            ProdutoId = IdProduto,
-        //            UsuarioId = UsuarioLogado.Id,
-        //            IdCompra = IdCompra,
-        //            NumeroRifa = NumeroRifa
-        //        };
-
-        //        _Context.Compra.Add(NovaCompra);
         //        _Context.SaveChanges();
 
         //        return Json(new
@@ -109,7 +97,7 @@ namespace EiSorteei.Controllers
         //    }
 
 
-        //}       
+        //}
 
 
 
@@ -148,10 +136,97 @@ namespace EiSorteei.Controllers
         }
 
 
-        public JsonResult RegistrarCompra(int[] Bilhete, int IdProduto,string ValorRifa)
+        public JsonResult RegistrarCompra(int[] Bilhete, int IdProduto, string ValorRifa)
         {
             try
             {
+                List<int> BilhetesRepetidos = new List<int>();
+
+                for (int x = 0; x < Bilhete.Length; x++)
+                {
+                    string BilheteIndex = Bilhete[x].ToString();
+                    if (_Context.TempBilhetes.Any(b => b.IdProduto.Equals(IdProduto) && b.NumeroBilhete == BilheteIndex))
+                    {
+                        var FindedBilhete = _Context.TempBilhetes.FirstOrDefault(b => b.IdProduto == IdProduto && b.NumeroBilhete == BilheteIndex);
+                        DateTime DataBilhete = Convert.ToDateTime(FindedBilhete.DataCadastro);
+
+                        var DiferencaDatas = DateTime.Now.Subtract(DataBilhete);
+                        if (DiferencaDatas.Hours < 1)
+                        {
+                            BilhetesRepetidos.Add(Bilhete[x]);
+                        }
+                    }
+                }
+
+                string BilhetesInvalidosMessage = "";
+                if (BilhetesRepetidos.Count > 0)
+                {
+                    foreach (var x in BilhetesRepetidos)
+                    {
+                        BilhetesInvalidosMessage = BilhetesRepetidos.IndexOf(x) == BilhetesRepetidos.Count - 1 ? BilhetesInvalidosMessage + x : BilhetesInvalidosMessage + ", " + x;
+                    }
+                }
+
+                if (BilhetesRepetidos.Count > 0)
+                {
+                    return Json(new
+                    {
+                        Status = false,
+                        Mensagem = "Bilhetes Inválidos",
+                        BilhetesInvalidosMessage,
+                        BilhetesInvalidos = BilhetesRepetidos.ToArray()
+                    });
+                }
+
+                BilhetesRepetidos = null;
+                List<Carrinho> Carrinhos = _Context.Carrinho.Where(c => c.IdProduto.Equals(IdProduto) && c.Status).ToList();
+                foreach (var carrinho in Carrinhos)
+                {
+
+                    List<BilhetesCarrinho> BilhetesDoCarrinho = _Context.BilhetesCarrinho.Where(b => b.IdCarrinho.Equals(carrinho.Id)).ToList();
+                    foreach (var bilhete in BilhetesDoCarrinho)
+                    {
+                        if (Bilhete.Contains(bilhete.NumeroBilhete))
+                        {
+                            Compras FindedCompra = _Context.Compras.FirstOrDefault(c => c.CarrinhoId.Equals(bilhete.IdCarrinho));
+                            if (FindedCompra.Status == "Compra Fechada")
+                            {
+                                BilhetesRepetidos.Append(bilhete.NumeroBilhete);
+                            }
+                        }
+                    }
+                }
+
+                if (BilhetesRepetidos.Count > 0)
+                {
+                    foreach (var x in BilhetesRepetidos)
+                    {
+                        BilhetesInvalidosMessage = BilhetesRepetidos.IndexOf(x) == BilhetesRepetidos.Count - 1 ? BilhetesInvalidosMessage + x : BilhetesInvalidosMessage + ", " + x;
+                    }
+                }
+                if (BilhetesRepetidos.Count > 0)
+                {
+                    return Json(new
+                    {
+                        Status = false,
+                        Mensagem = "Bilhetes Inválidos",
+                        BilhetesInvalidosMessage
+                    });
+                }
+
+
+                for (int x = 0; x < Bilhete.Length; x++)
+                {
+                    TempBilhetes NovoBilheteTemporario = new TempBilhetes()
+                    {
+                        DataCadastro = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"),
+                        IdProduto = IdProduto,
+                        NumeroBilhete = Bilhete[x].ToString(),
+                    };
+
+                    _Context.TempBilhetes.Add(NovoBilheteTemporario);
+                    _Context.SaveChanges();
+                }
 
                 HttpCookie FindedCookie = Request.Cookies["Carrinho"];
                 if (FindedCookie != null)
@@ -174,12 +249,21 @@ namespace EiSorteei.Controllers
                 NovoCookie.Values.Add("ValorTotal", ValorRifa);
                 Response.Cookies.Add(NovoCookie);
 
-                return Json(true);
+
+                return Json(new
+                {
+                    Status = true,
+                    Mensagem = "Compra Válidada"
+                });
 
             }
             catch (Exception e)
             {
-                return Json(false);
+                return Json(new
+                {
+                    Status = false,
+                    Mensagem = "Erro no processamento"
+                });
             }
         }
 
@@ -205,7 +289,7 @@ namespace EiSorteei.Controllers
         }
 
 
-        public JsonResult LoginPagamento(string Email,string Senha)
+        public JsonResult LoginPagamento(string Email, string Senha)
         {
             try
             {
@@ -222,7 +306,7 @@ namespace EiSorteei.Controllers
                     {
                         Status = true,
                         Mensagem = "Usuário Logado",
-                        NomeLogado = oUsuario.Nome+" "+oUsuario.SobreNome,
+                        NomeLogado = oUsuario.Nome + " " + oUsuario.SobreNome,
                         EmailLogado = oUsuario.Email,
                         TelefoneLogado = oUsuario.Telefone,
                         CPFLogado = oUsuario.Cpf,
@@ -242,7 +326,7 @@ namespace EiSorteei.Controllers
                 });
             }
 
-            catch(Exception e)
+            catch (Exception e)
             {
                 return Json(new
                 {
@@ -250,7 +334,7 @@ namespace EiSorteei.Controllers
                     Mensagem = "Erro"
                 });
             }
-           
+
         }
 
     }

@@ -106,17 +106,23 @@
     <Property Name="DataCadastro" Type="date" Nullable="false" />
     <Property Name="Status" Type="bit" Nullable="false" />
   </EntityType>
-  <EntityType Name="Compra">
+  <EntityType Name="Compras">
     <Key>
-      <PropertyRef Name="OrderID" />
+      <PropertyRef Name="Id" />
     </Key>
-    <Property Name="OrderID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="UsuarioId" Type="bigint" Nullable="false" />
-    <Property Name="ProdutoId" Type="bigint" Nullable="false" />
-    <Property Name="CodigoVendedor" Type="varchar(max)" />
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CarrinhoId" Type="bigint" Nullable="false" />
     <Property Name="DataCompra" Type="date" Nullable="false" />
-    <Property Name="IdCompra" Type="varchar(max)" Nullable="false" />
-    <Property Name="NumeroRifa" Type="varchar(max)" Nullable="false" />
+    <Property Name="Status" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="TempBilhetes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdProduto" Type="bigint" Nullable="false" />
+    <Property Name="DataCadastro" Type="varchar(max)" Nullable="false" />
+    <Property Name="NumeroBilhete" Type="varchar(max)" Nullable="false" />
   </EntityType>
   <Association Name="FK__BilhetesC__IdCar__4D94879B">
     <End Role="Carrinho" Type="Self.Carrinho" Multiplicity="1" />
@@ -154,27 +160,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Compra__ProdutoI__3B75D760">
-    <End Role="Produto" Type="Self.Produto" Multiplicity="1" />
-    <End Role="Compra" Type="Self.Compra" Multiplicity="*" />
+  <Association Name="FK__Compras__Carrinh__5070F446">
+    <End Role="Carrinho" Type="Self.Carrinho" Multiplicity="1" />
+    <End Role="Compras" Type="Self.Compras" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Produto">
+      <Principal Role="Carrinho">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="Compra">
-        <PropertyRef Name="ProdutoId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__Compra__UsuarioI__3A81B327">
-    <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
-    <End Role="Compra" Type="Self.Compra" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Usuario">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Compra">
-        <PropertyRef Name="UsuarioId" />
+      <Dependent Role="Compras">
+        <PropertyRef Name="CarrinhoId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -238,6 +232,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK__TempBilhe__IdPro__5441852A">
+    <End Role="Produto" Type="Self.Produto" Multiplicity="1" />
+    <End Role="TempBilhetes" Type="Self.TempBilhetes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Produto">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TempBilhetes">
+        <PropertyRef Name="IdProduto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__Vendedor__IdUsua__276EDEB3">
     <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
     <End Role="Vendedor" Type="Self.Vendedor" Multiplicity="*" />
@@ -260,7 +266,8 @@
     <EntitySet Name="Vendedor" EntityType="Self.Vendedor" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="BilhetesCarrinho" EntityType="Self.BilhetesCarrinho" Schema="eisorteei" store:Type="Tables" />
     <EntitySet Name="Carrinho" EntityType="Self.Carrinho" Schema="eisorteei" store:Type="Tables" />
-    <EntitySet Name="Compra" EntityType="Self.Compra" Schema="eisorteei" store:Type="Tables" />
+    <EntitySet Name="Compras" EntityType="Self.Compras" Schema="eisorteei" store:Type="Tables" />
+    <EntitySet Name="TempBilhetes" EntityType="Self.TempBilhetes" Schema="eisorteei" store:Type="Tables" />
     <AssociationSet Name="FK__BilhetesC__IdCar__4D94879B" Association="Self.FK__BilhetesC__IdCar__4D94879B">
       <End Role="Carrinho" EntitySet="Carrinho" />
       <End Role="BilhetesCarrinho" EntitySet="BilhetesCarrinho" />
@@ -273,13 +280,9 @@
       <End Role="Usuario" EntitySet="Usuario" />
       <End Role="Carrinho" EntitySet="Carrinho" />
     </AssociationSet>
-    <AssociationSet Name="FK__Compra__ProdutoI__3B75D760" Association="Self.FK__Compra__ProdutoI__3B75D760">
-      <End Role="Produto" EntitySet="Produto" />
-      <End Role="Compra" EntitySet="Compra" />
-    </AssociationSet>
-    <AssociationSet Name="FK__Compra__UsuarioI__3A81B327" Association="Self.FK__Compra__UsuarioI__3A81B327">
-      <End Role="Usuario" EntitySet="Usuario" />
-      <End Role="Compra" EntitySet="Compra" />
+    <AssociationSet Name="FK__Compras__Carrinh__5070F446" Association="Self.FK__Compras__Carrinh__5070F446">
+      <End Role="Carrinho" EntitySet="Carrinho" />
+      <End Role="Compras" EntitySet="Compras" />
     </AssociationSet>
     <AssociationSet Name="FK__Multimidi__IdPro__31EC6D26" Association="Self.FK__Multimidi__IdPro__31EC6D26">
       <End Role="Produto" EntitySet="Produto" />
@@ -300,6 +303,10 @@
     <AssociationSet Name="FK__Produto__IdUsuar__2E1BDC42" Association="Self.FK__Produto__IdUsuar__2E1BDC42">
       <End Role="Usuario" EntitySet="Usuario" />
       <End Role="Produto" EntitySet="Produto" />
+    </AssociationSet>
+    <AssociationSet Name="FK__TempBilhe__IdPro__5441852A" Association="Self.FK__TempBilhe__IdPro__5441852A">
+      <End Role="Produto" EntitySet="Produto" />
+      <End Role="TempBilhetes" EntitySet="TempBilhetes" />
     </AssociationSet>
     <AssociationSet Name="FK__Vendedor__IdUsua__276EDEB3" Association="Self.FK__Vendedor__IdUsua__276EDEB3">
       <End Role="Usuario" EntitySet="Usuario" />

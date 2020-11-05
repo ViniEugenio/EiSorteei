@@ -20,7 +20,6 @@ namespace EiSorteei.Data
             this.PermissaoUsuario = new HashSet<PermissaoUsuario>();
             this.Produto = new HashSet<Produto>();
             this.Carrinho = new HashSet<Carrinho>();
-            this.Compra = new HashSet<Compra>();
             this.Vendedor = new HashSet<Vendedor>();
         }
     
@@ -47,8 +46,6 @@ namespace EiSorteei.Data
         public virtual ICollection<Produto> Produto { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Carrinho> Carrinho { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Compra> Compra { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Vendedor> Vendedor { get; set; }
     }

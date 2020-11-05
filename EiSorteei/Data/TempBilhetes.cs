@@ -12,17 +12,13 @@ namespace EiSorteei.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Compra
+    public partial class TempBilhetes
     {
-        public long OrderID { get; set; }
-        public long UsuarioId { get; set; }
-        public long ProdutoId { get; set; }
-        public string CodigoVendedor { get; set; }
-        public System.DateTime DataCompra { get; set; }
-        public string IdCompra { get; set; }
-        public string NumeroRifa { get; set; }
+        public long Id { get; set; }
+        public long IdProduto { get; set; }
+        public string DataCadastro { get; set; }
+        public string NumeroBilhete { get; set; }
     
         public virtual Produto Produto { get; set; }
-        public virtual Usuario Usuario { get; set; }
     }
 }

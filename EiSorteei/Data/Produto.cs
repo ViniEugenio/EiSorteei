@@ -19,7 +19,7 @@ namespace EiSorteei.Data
         {
             this.Multimidia = new HashSet<Multimidia>();
             this.Carrinho = new HashSet<Carrinho>();
-            this.Compra = new HashSet<Compra>();
+            this.TempBilhetes = new HashSet<TempBilhetes>();
         }
     
         public long Id { get; set; }
@@ -40,8 +40,8 @@ namespace EiSorteei.Data
         public virtual ICollection<Multimidia> Multimidia { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Carrinho> Carrinho { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Compra> Compra { get; set; }
         public virtual Usuario Usuario { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TempBilhetes> TempBilhetes { get; set; }
     }
 }
