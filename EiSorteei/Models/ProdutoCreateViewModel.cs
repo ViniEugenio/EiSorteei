@@ -36,7 +36,7 @@ namespace EiSorteei.Models
 
         [DisplayName("Data do Sorteio")]
         [Required(ErrorMessage ="Por favor selecione a Data de Realização do Sorteio")]
-        public DateTime DataSorteio { get; set; }
+        public string DataSorteio { get; set; }
 
         [DisplayName("Vídeo do Produto")]
         public HttpPostedFileBase Video { get; set; }

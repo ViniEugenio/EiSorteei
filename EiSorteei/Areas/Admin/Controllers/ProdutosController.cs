@@ -47,7 +47,7 @@ namespace EiSorteei.Areas.Admin.Controllers
                 ModelState.AddModelError("Imagem", "Por favor selecione pelo menos uma imagem para o Produto");
             }
 
-            if (model.DataSorteio <= DateTime.Now)
+            if (Convert.ToDateTime(model.DataSorteio) <= DateTime.Now)
             {
                 ModelState.AddModelError("DataSorteio", "A data do sorteio deve ser uma data futura");
             }
@@ -81,7 +81,7 @@ namespace EiSorteei.Areas.Admin.Controllers
                     Status = true,
                     ValorRifa = Convert.ToDecimal(model.ValorRifa.ToString().Replace(".", ",")),
                     IdUsuario = UsuarioLogado.Id,
-                    DataSorteio = model.DataSorteio
+                    DataSorteio = Convert.ToDateTime(model.DataSorteio)
                 };
 
                 if (model.Video != null)
@@ -194,7 +194,7 @@ namespace EiSorteei.Areas.Admin.Controllers
                 RangeCodigo = produto.RangeCodigo,
                 ValorRifa = Math.Round(produto.ValorRifa, 2).ToString().Replace(",", "."),
                 Id = produto.Id,
-                DataSorteio = produto.DataSorteio.Value,
+                DataSorteio = produto.DataSorteio.Value.ToString(),
                 ActualyVideo = produto.Video
             };
 
@@ -230,7 +230,7 @@ namespace EiSorteei.Areas.Admin.Controllers
                 }
             }
 
-            if (model.DataSorteio <= DateTime.Now)
+            if (Convert.ToDateTime(model.DataSorteio) <= DateTime.Now)
             {
                 ModelState.AddModelError("DataSorteio", "A data do sorteio deve ser uma data futura");
             }
@@ -257,7 +257,7 @@ namespace EiSorteei.Areas.Admin.Controllers
                 AlterarProduto.DataAtualizacao = DateTime.Now;
                 AlterarProduto.RangeCodigo = model.RangeCodigo;
                 AlterarProduto.ValorRifa = Convert.ToDecimal(model.ValorRifa.ToString().Replace(".", ","));
-                AlterarProduto.DataSorteio = model.DataSorteio;
+                AlterarProduto.DataSorteio = Convert.ToDateTime(model.DataSorteio);
 
 
                 if (model.Video != null)

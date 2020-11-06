@@ -27,7 +27,7 @@ namespace EiSorteei.Controllers
 
         public ActionResult Index(long IdProduto)
         {
-            if (IdProduto != null)
+            if (IdProduto != 0)
             {
                 var Produto = _Context.Produto.FirstOrDefault(p => p.Id == IdProduto);
                 if (Produto == null)
@@ -38,8 +38,32 @@ namespace EiSorteei.Controllers
                 ViewBag.Imagens = _Context.Multimidia.Where(p => p.IdProduto.Equals(IdProduto) && p.Status).ToList();
                 ViewBag.Usuario = _Context.Usuario.FirstOrDefault(u => u.Id.Equals(Produto.IdUsuario));
                 ViewBag.Categoria = _Context.CategoriaProduto.FirstOrDefault(c => c.Id.Equals(Produto.IdCategoria)).Nome;
-                string[] Comprados = { "41" };
+                string[] Comprados = { "" };
                 ViewBag.Comprados = Comprados;
+
+
+                List<TempBilhetes> BilhetesReservados = _Context.TempBilhetes.Where(p => p.IdProduto.Equals(IdProduto)).ToList();
+                List<string> NumerosReservados = new List<string>();
+
+                foreach(var x in BilhetesReservados)
+                {
+                    DateTime DataBilhete = Convert.ToDateTime(x.DataCadastro);
+
+                    var DiferencaDatas = DateTime.Now.Subtract(DataBilhete);
+                    if (DiferencaDatas.Hours < 1)
+                    {
+                        NumerosReservados.Add(x.NumeroBilhete);
+                    }
+
+                    else
+                    {
+                        _Context.Entry(x).State = System.Data.Entity.EntityState.Deleted;
+                        _Context.SaveChanges();
+                    }
+                }
+
+                ViewBag.BilhetesReservados = NumerosReservados.ToArray();
+
 
                 return View(Produto);
             }
@@ -155,6 +179,12 @@ namespace EiSorteei.Controllers
                         {
                             BilhetesRepetidos.Add(Bilhete[x]);
                         }
+
+                        else
+                        {
+                            _Context.Entry(FindedBilhete).State = System.Data.Entity.EntityState.Deleted;
+                            _Context.SaveChanges();
+                        }
                     }
                 }
 
@@ -163,12 +193,9 @@ namespace EiSorteei.Controllers
                 {
                     foreach (var x in BilhetesRepetidos)
                     {
-                        BilhetesInvalidosMessage = BilhetesRepetidos.IndexOf(x) == BilhetesRepetidos.Count - 1 ? BilhetesInvalidosMessage + x : BilhetesInvalidosMessage + ", " + x;
+                        BilhetesInvalidosMessage = BilhetesRepetidos.IndexOf(x) != BilhetesRepetidos.Count - 1 ? BilhetesInvalidosMessage + x + ", " : BilhetesInvalidosMessage + x.ToString();
                     }
-                }
 
-                if (BilhetesRepetidos.Count > 0)
-                {
                     return Json(new
                     {
                         Status = false,
@@ -178,7 +205,7 @@ namespace EiSorteei.Controllers
                     });
                 }
 
-                BilhetesRepetidos = null;
+                BilhetesRepetidos.Clear();
                 List<Carrinho> Carrinhos = _Context.Carrinho.Where(c => c.IdProduto.Equals(IdProduto) && c.Status).ToList();
                 foreach (var carrinho in Carrinhos)
                 {
@@ -191,21 +218,20 @@ namespace EiSorteei.Controllers
                             Compras FindedCompra = _Context.Compras.FirstOrDefault(c => c.CarrinhoId.Equals(bilhete.IdCarrinho));
                             if (FindedCompra.Status == "Compra Fechada")
                             {
-                                BilhetesRepetidos.Append(bilhete.NumeroBilhete);
+                                BilhetesRepetidos.Add(bilhete.NumeroBilhete);
                             }
                         }
                     }
                 }
 
+                BilhetesInvalidosMessage = "";
                 if (BilhetesRepetidos.Count > 0)
                 {
                     foreach (var x in BilhetesRepetidos)
                     {
                         BilhetesInvalidosMessage = BilhetesRepetidos.IndexOf(x) == BilhetesRepetidos.Count - 1 ? BilhetesInvalidosMessage + x : BilhetesInvalidosMessage + ", " + x;
                     }
-                }
-                if (BilhetesRepetidos.Count > 0)
-                {
+
                     return Json(new
                     {
                         Status = false,

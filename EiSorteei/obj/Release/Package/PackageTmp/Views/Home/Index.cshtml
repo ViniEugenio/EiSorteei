@@ -1,10 +1,18 @@
 ﻿@{
-    ViewData["Title"] = "Blog";
+    ViewData["Title"] = "Ei Sorteei";
 }
 
 <style>
     body {
         background: #1F1F1F;
+    }
+
+    #next, #prev {
+        background-color: #E0C777;
+        border-radius: 50%;
+        padding: 10px 16px 10px 16px;
+        margin: 10px;
+        cursor: pointer;
     }
 </style>
 
@@ -12,9 +20,7 @@
 <section class="blog-container">
     <div class="center">
         <div class="upper-box">
-            <h1>Produtos</h1>
-            <div class="Yellow_line"></div>
-            <div class="bread"><a href="#">Home</a> <div class="ball"></div> <p>Produtos</p></div>
+            <h1>Ei Sorteei</h1>
         </div>
     </div>
 </section>
@@ -25,11 +31,21 @@
             @foreach (var produto in ViewBag.Produtos)
             {
                 <div class="card-blog">
-                    <img src="~/Content/ImagemProdutos/@produto.Imagem" alt="blog" />
+                    <div class="carousel">
+                        @foreach (var imagem in produto.Imagem)
+                        {
+                            <img src="~/Content/ImagemProdutos/@imagem"/>
+
+                        }
+                    </div>
                     <div class="card-txt__blog">
-                        <h2>@produto.Nome</h2>
-                        <p>Valor da Rifa: R$ @Math.Round(produto.ValorRifa,2)</p>
-                        <a href="@Url.Action("Index","Comprar",new { IdProduto = produto.Id})" style="margin:auto;">Comprar</a>
+                        <div align="center" id="Arrows">
+                            <i class="fas fa-chevron-left fa-2x" id="prev"></i>
+                            <i class="fas fa-chevron-right fa-2x" id="next"></i>
+                        </div>
+                        <h1 class="text-center">@produto.Nome</h1>
+                        <h2 class="text-center">Valor do Bilhete: R$ @Math.Round(produto.ValorRifa, 2)</h2>
+                        <a href="@Url.Action("Index","Comprar",new { IdProduto = produto.Id})" style="margin:auto; background-color:rgb(37, 202, 23); border:none; color:#fff;">Escolher Bilhete</a>
                     </div>
                 </div>
             }

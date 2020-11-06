@@ -1,0 +1,46 @@
+﻿@model EiSorteei.Data.CategoriaProduto
+
+@{
+    ViewBag.Title = "Editar Categoria";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdministrador.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(c => c.Id)
+    @Html.HiddenFor(c => c.DataCadastro)
+    @Html.HiddenFor(c => c.DataAtualizacao)
+    @Html.HiddenFor(c => c.Status)
+
+    <div style="display:flex; align-items:center; justify-content:center; margin-top:50px;">
+        <div class="card" style="width:1200px;">
+
+            <div class="card-header">
+                <h3>Alterar Categoria</h3>
+            </div>
+
+
+            <div class="card-body">
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+                </div>
+
+
+                <div class="form-group">
+                    <button class="btn btn-success">Alterar</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+}
+
+

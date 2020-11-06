@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/_LayoutComprar.cshtml";
 
     string[] Comprados = ViewBag.Comprados;
+    string[] Reservados = ViewBag.BilhetesReservados;
     var Usuario = ViewBag.Usuario;
 }
 
@@ -214,7 +215,21 @@
 
         @for (int x = 1; x <= Model.RangeCodigo; x++)
         {
-            <span class="NumeroRifa @(Comprados.Contains(x.ToString())?"":"Comprar")" data-numero="@x" style="@(Comprados.Contains(x.ToString())?"background-color:red;":"")">@x</span>
+            if (Comprados.Contains(x.ToString()))
+            {
+                <span class="NumeroRifa" data-numero="@x" style="background-color:red;">@x</span>
+            }
+
+            else if (Reservados.Contains(x.ToString()))
+            {
+                <span class="NumeroRifa" data-numero="@x" style="background-color:gray;">@x</span>
+            }
+
+            else
+            {
+                <span class="NumeroRifa Comprar" data-numero="@x" id="RifaNumero-@x">@x</span>
+            }
+
         }
 
     </div>
@@ -335,276 +350,27 @@
 
                 $("#myModal2").css('display', "block");
 
-
-
-                //let erro = false;
-
-                //let Numero = $("#NumeroCartao").val();
-                //let Titulo = $("#TituloCartao").val();
-                //let Data = $("#DataCartao").val();
-                //let CVV = $("#CVVCartao").val();
-                //let CPF = $("#CPFCartao").val();
-                //let CodigoVendedor = $("#CodigoVendedor").val();
-
-                //if (!Numero) {
-                //    $("#ErroNumero").css("display", "block");
-                //    erro = true;
-                //}
-
-                //else {
-                //    $("#ErroNumero").css("display", "none");
-                //}
-
-
-                //if (!Titulo) {
-                //    $("#ErroTitulo").css("display", "block");
-                //    erro = true;
-                //}
-
-                //else {
-                //    $("#ErroTitulo").css("display", "none");
-                //}
-
-
-                //if (!Data) {
-                //    $("#ErroData").css("display", "block");
-                //    erro = true;
-                //}
-
-                //else {
-                //    $("#ErroData").css("display", "none");
-                //}
-
-                //if (!CVV) {
-                //    $("#ErroCVV").css("display", "block");
-                //    erro = true;
-                //}
-
-                //else {
-                //    $("#ErroCVV").css("display", "none");
-                //}
-
-                //if (!CPF) {
-                //    $("#ErroCPF").css("display", "block");
-                //}
-
-                //else {
-                //    $("#ErroCPF").css("display", "none");
-                //}
-
-
-                //if (!erro) {
-
-
-                //    window.open("https://ei-sorteei.oncartx.io/checkout/3411574:" + Rifas.length + "&checkout=buy_button", "_blank");
-
-
-                    @*let DataFormatada = Data.split("/");
-                    let CPFFormatado = CPF.replace(".", "").replace(".", "").replace("-", "");
-
-                    let MesCartao = DataFormatada[0];
-                    let AnoCartao = DataFormatada[1];
-
-                    window.Mercadopago.setPublishableKey("APP_USR-4f22958e-cccd-49ac-b52d-02ae9b9697a9");
-                    window.Mercadopago.getIdentificationTypes();
-
-                    let DadosCartao = {
-
-                        cardNumber: Numero,
-                        cardExpirationMonth: MesCartao,
-                        cardExpirationYear: AnoCartao,
-                        securityCode: CVV,
-                        cardholderName: Titulo,
-                        docType: "CPF",
-                        docNumber: CPFFormatado
-
-                    };
-
-
-                    var hash = window.Mercadopago.createToken(DadosCartao, setCardTokenAndPay);
-
-                    function setCardTokenAndPay(status, response) {
-                        if (status == 200 || status == 201) {
-
-                            let IdProduto = "@Model.Id";
-
-                            let Usuario = "";
-
-                            $.ajax({
-                                url: "@Url.Action("GetDadosUsuario", "Comprar")",
-                                method: "POST",
-                                data: { IdProduto: IdProduto },
-                                success: function (retorno) {
-                                    Usuario = retorno;
-                                },
-                                complete: function () {
-
-                                    let CodigoCartao = response.id;
-
-                                    let Telefone = Usuario.Telefone;
-                                    Telefone = Telefone.replace("(", "").replace(')', "");
-                                    let TelefoneFormatado = Telefone.split(" ");
-
-                                    let dados = JSON.stringify({
-                                        token: CodigoCartao,
-                                        installments: 1,
-                                        transaction_amount: Usuario.ValorRifa,
-                                        description: "Bilhete EiSorteei - " + Usuario.NomeProduto,
-                                        payment_method_id: "visa",
-                                        payer: {
-                                            email: Usuario.Email,
-                                            identification: {
-                                                number: CPFFormatado,
-                                                type: "CPF"
-                                            }
-                                        },
-                                        notification_url: "https://www.suaurl.com/notificacoes/",
-                                        sponsor_id: null,
-                                        binary_mode: false,
-                                        external_reference: "Bilhete " + Usuario.IdProduto,
-                                        statement_descriptor: "Bilhete EiSorteei",
-                                        additional_info: {
-                                            items: [
-                                                {
-                                                    id: "PR0001",
-                                                    title: "Bilhete EiSorteei - Código do Produto: " + Usuario.IdProduto,
-                                                    description: "Bilhete EiSorteei",
-                                                    picture_url: "https://http2.mlstatic.com/resources/frontend/statics/growth-sellers-landings/device-mlb-point-i_medium@2x.png",
-                                                    category_id: "Bilhete",
-                                                    quantity: 1,
-                                                    unit_price: Usuario.ValorRifa
-                                                }
-                                            ],
-                                            payer: {
-                                                first_name: Usuario.Nome,
-                                                last_name: Usuario.SobreNome,
-                                                address: {
-                                                    zip_code: Usuario.CEP,
-                                                    street_name: Usuario.Rua,
-                                                    street_number: Usuario.Numero
-                                                },
-                                                registration_date: Usuario.DataCadastro,
-                                                phone: {
-                                                    area_code: TelefoneFormatado[0],
-                                                    number: TelefoneFormatado[1]
-                                                }
-                                            },
-                                            shipments: {
-                                                receiver_address: {
-                                                    street_name: "Av. Alberane Cunha",
-                                                    street_number: 81,
-                                                    zip_code: "37350000",
-                                                    city_name: "Liberdade",
-                                                    state_name: "Minas Gerais"
-                                                }
-                                            }
-                                        }
-                                    });
-
-                                    $.ajax({
-                                        url: "https://api.mercadopago.com/v1/payments",
-                                        method: 'POST',
-                                        beforeSend: function (xhr) {
-                                            xhr.setRequestHeader('Authorization', 'Bearer APP_USR-5017428128263404-072015-ddd04542ab6288891aebac5789addf33-247787081');
-                                        },
-                                        data: dados,
-                                        success: function (retorno) {
-
-                                            if (retorno.status == "approved" || retorno.status == "in_process") {
-
-                                                let NumeroRifa = $("#NumeroRifa").text();
-
-                                                $.ajax({
-                                                    url: "@Url.Action("RegistrarCompra","Comprar")",
-                                                    method: "POST",
-                                                    data: { IdProduto: Usuario.IdProduto, CodigoVendedor: CodigoVendedor, IdCompra: retorno.id, NumeroRifa: NumeroRifa },
-                                                    success: function (data) {
-                                                        if (data.Status) {
-
-                                                            if (retorno.status == "approved") {
-                                                                Swal.fire({
-                                                                    title: 'Pagamento Efetuado',
-                                                                    text: "Seu pagamento foi aceito, obrigado pela sua compra fique atento para a data do sorteio e boa sorte.",
-                                                                    icon: 'success',
-                                                                    showCancelButton: false,
-                                                                    confirmButtonColor: '#3085d6',
-                                                                    cancelButtonColor: '#d33',
-                                                                    cancelButtonText: 'Não',
-                                                                    confirmButtonText: 'OK'
-                                                                });
-                                                            }
-
-                                                            if (retorno.status == "in_process") {
-                                                                Swal.fire({
-                                                                    title: 'Pagamento em Análise',
-                                                                    text: "Seu pagamento está sendo analisado, quando seu pagamento for aprovado você receberá um email confirmando seu pagamento.",
-                                                                    icon: 'success',
-                                                                    showCancelButton: false,
-                                                                    confirmButtonColor: '#3085d6',
-                                                                    cancelButtonColor: '#d33',
-                                                                    cancelButtonText: 'Não',
-                                                                    confirmButtonText: 'OK'
-                                                                });
-                                                            }
-
-                                                            $("#myModal2").css('display', "none");
-                                                        }
-                                                    }
-                                                });
-                                            }
-
-                                            else {
-                                                Swal.fire({
-                                                    title: 'Pagamento não efetuado',
-                                                    text: "Seu pagamento não foi aceito, entre em contato com o distribuinte do seu cartão e tente novamente mais tarde.",
-                                                    icon: 'error',
-                                                    showCancelButton: false,
-                                                    confirmButtonColor: '#3085d6',
-                                                    cancelButtonColor: '#d33',
-                                                    cancelButtonText: 'Não',
-                                                    confirmButtonText: 'OK'
-                                                });
-                                            }
-                                        },
-                                        error: function (retorno) {
-                                            Swal.fire({
-                                                title: 'Cartão Inválido',
-                                                text: "Os dados do cartão informado não são inválidos, por favor verifique seus dados e tente novamente!",
-                                                icon: 'error',
-                                                showCancelButton: false,
-                                                confirmButtonColor: '#3085d6',
-                                                cancelButtonColor: '#d33',
-                                                cancelButtonText: 'Não',
-                                                confirmButtonText: 'OK'
-                                            });
-                                        }
-                                    });
-
-
-                                }
-                            });
-
-                        }
-
-                        else {
-                            Swal.fire({
-                                title: 'Cartão Inválido',
-                                text: "Os dados do cartão informado não são inválidos, por favor verifique seus dados e tente novamente!",
-                                icon: 'error',
-                                showCancelButton: false,
-                                confirmButtonColor: '#3085d6',
-                                cancelButtonColor: '#d33',
-                                cancelButtonText: 'Não',
-                                confirmButtonText: 'OK'
-                            });
-                        }
-                    };*@
-                //}
-
             });
 
 
             $("#EfetuarPagamento").click(function () {
+
+                if (Rifas.length == 0) {
+
+                    Swal.fire({
+                        title: 'Bilhetes',
+                        text: "Por favor selecione ao menos um Bilhete.",
+                        icon: 'error',
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        cancelButtonText: 'Não',
+                        confirmButtonText: 'OK'
+                    });
+
+                    return;
+
+                }
 
                 let data = {
                     Bilhete: Rifas,
@@ -612,23 +378,68 @@
                     ValorRifa: $("#ValorTotal").text()
                 };
 
-                console.log(data);
-
                 $.ajax({
                     url: "@Url.Action("RegistrarCompra", "Comprar")",
                     method: "POST",
                     data: data,
                     success: function (retorno) {
-                        console.log(retorno);
+
                         if (retorno.Status) {
                             window.open("@Url.Action("Pagamento","Comprar",new { Id=Model.Id })", "_blank");
                         }
 
                         else {
+
+                            let BilhetesInvalidos = retorno.BilhetesInvalidos;
+
+                            for (var x = 0; x < BilhetesInvalidos.length; x++) {
+                                Rifas = Rifas.filter(item => item != BilhetesInvalidos[x]);
+                                $("#RifaNumero-" + BilhetesInvalidos[x]).css("background-color", "gray");
+                            }
+
+                            $("#RifasEscolhidas").html("");
+
+                            for (var i = 0; i < Rifas.length; i++) {
+
+                                $("#RifasEscolhidas").append(
+                                    "<div id='RifaEscolhida' class='col-md-1 form-group'>" +
+                                    Rifas[i] +
+                                    "</div>"
+                                );
+
+                            }
+
+                            $("#RifasSelecionadas").html("");
+                            for (var i = 0; i < Rifas.length; i++) {
+
+                                if (i == 0) {
+                                    $("#RifasSelecionadas").append(
+                                        Rifas[i]
+                                    );
+                                }
+
+                                else {
+                                    $("#RifasSelecionadas").append(
+                                        ", " + Rifas[i]
+                                    );
+                                }
+
+                            }
+
+                            $("#QuantidadeTotal").text(Rifas.length);
+                            let ValorFormatado = String((Rifas.length * Number(ValorRifa.replace(",", "."))).toFixed(2)).replace(".", ",");
+                            $("#ValorTotal").text(ValorFormatado.replace(".", ","));
+                            $("#ValorFinal").text(ValorFormatado.replace(".", ","));
+
+                            if (Rifas.length == 0) {
+                                $("#Quantidade").slideUp(200);
+                                $("#myModal2").css('display', "none");
+                            }
+
                             if (retorno.Mensagem == "Bilhetes Inválidos") {
                                 Swal.fire({
                                     title: 'Bilhetes Inválidos',
-                                    text: "Os seguintes Bilhetes que você escolheu acabaram de ser reservados " + retorno.BilhetesInvalidosMessage+", ele foi retirado dos seus bilhetes selecionados.",
+                                    text: "Os seguintes Bilhetes que você escolheu acabaram de ser reservados " + retorno.BilhetesInvalidosMessage+". Os Bilhetes Inválidos foram retirados das suas escolhas.",
                                     icon: 'error',
                                     showCancelButton: false,
                                     confirmButtonColor: '#3085d6',

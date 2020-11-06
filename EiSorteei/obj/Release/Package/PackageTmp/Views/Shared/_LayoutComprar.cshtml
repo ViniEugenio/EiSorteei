@@ -1,9 +1,13 @@
-﻿<!DOCTYPE html>
+﻿@{
+    EiSorteei.Data.Usuario Usuario = (EiSorteei.Data.Usuario)@Session["Usuario"];
+}
+
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"]</title>
+    <title>EiSorteei</title>
     <link href="~/Content/Site.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
     <link rel="font" href="~/Content/fonts/Amiri-Bold.ttf" />
@@ -16,71 +20,305 @@
           type="image/x-icon" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <style>
+
+        container {
+            display: grid;
+            grid-template-columns: 20% 80%;
+            grid-template-areas: "cabecalho cabecalho" "conteudo  image" "footer    footer";
+            width: 80%;
+            margin: 25px auto;
+        }
+
+        header {
+            grid-area: cabecalho;
+            height: 40px;
+            display: flex;
+        }
+
+        nav {
+            flex-grow: 1;
+        }
+
+        #brand {
+            height: 100px;
+            padding: 10px;
+        }
+
+        #navigation {
+            background-color: #000;
+            margin: 30px 40px;
+        }
+
+            #navigation > ul > li {
+                display: inline-block;
+            }
+
+                #navigation > ul > li > a {
+                    text-decoration: none;
+                    color: #fff;
+                    line-height: 40px;
+                    font-weight: bold;
+                    font-size: 15px;
+                    padding: 0 5px;
+                    transition: all .3s ease-in-out;
+                    -webkit-transition: all .3s ease-in-out;
+                }
+
+                    #navigation > ul > li > a:hover {
+                        color: #535151;
+                        padding: 10px 15px;
+                    }
+
+        .button {
+            width: 150px;
+            height: 40px;
+            border-radius: 23px;
+            box-shadow: 3px 3px 3px 0 rgba(0,0,0,0.16);
+            -webkit-box-shadow: 3px 3px 3px 0 rgba(0,0,0,0.16);
+            background-color: #E0C777;
+            color: #fff;
+            cursor: pointer;
+            border: none;
+            font-size: 12px;
+            margin-left: 5px;
+            font-weight: bold;
+            transition: all .3s ease-in-out;
+            -webkit-transition: all .3s ease-in-out;
+            margin-top: 30px;
+            margin-right: 30px;
+        }
+
+            .button:hover {
+                background-color: #535151;
+            }
+
+            .button > img {
+                height: 20px;
+                vertical-align: middle;
+            }
+
+        #bag {
+            background-color: #488cf5;
+            transition: all .3s ease-in-out;
+            -webkit-transition: all .3s ease-in-out;
+        }
+
+            #bag:hover {
+                background-color: #8a378d;
+            }
+
+        #container {
+            background-color: #000;
+            height: 92px;
+            position: fixed;
+            z-index: 1;
+            width:100%;
+        }
+    </style>
+
 </head>
 <body>
-    <header class="header__container">
-        <div class="center header-flex">
-            <a href="@Url.Action("Index","Home")" class="logo__nav">
-                <img src="~/Imagens/Cópia de Logo Verde e Branco de Curso Preparatório (1).png" alt="Ei Sorteei" />
+    <section id="container">
+        <header>
+            <a href="@Url.Action("Index","Home")">
+                <img src="~/Imagens/Cópia de Logo Verde e Branco de Curso Preparatório (1).png" alt="Logo do Site" id="brand" />
             </a>
 
-            <div class="burguer__container">
-                <div class="menu__burguer" id="menuToggle">
-                    <input type="checkbox" />
+            <nav id="navigation">
+                <ul>
+                    <li>
+                        <a href="#">Política de Uso</a>
+                    </li>
+                </ul>
+            </nav>
+            <button id="login" class="button">
+                @(Usuario!=null?Usuario.Nome:"Login") <img src="~/Imagens/user.png" alt="Login" />
+            </button>
+        </header>
+    </section>
 
-                    <span></span>
-                    <span></span>
-                    <span></span>
-
-                    <ul id="menu">
-                        <a href="@Url.Action("Index","Home")"><li>Home</li></a>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </header>
     @RenderBody()
 
-    <footer style="position: absolute; bottom: 0; width: 100%; position: initial;margin-top: 30px;">
+
+    <style>
+
+        #Quantidade {
+            position: fixed;
+            width: 100%;
+            height: 106px;
+            bottom: 0px;
+            /* right: 112px; */
+            background-color: white;
+            color: #000;
+            border-radius: 0px;
+            font-size: 20px;
+            z-index: 6;
+            margin: unset;
+            padding: 6px 5px;
+        }
+
+        #RifaEscolhida {
+            background-color: rgb(37, 202, 23);
+            border-radius: 24px;
+            color: white;
+            padding: 3px;
+            text-align: center;
+            height: 40px;
+        }
+    </style>
+
+    <div id="Quantidade" style="padding-left:35px; display:none;">
+        <div class="row">
+            <div class="col-md-6 row" id="RifasEscolhidas">
+
+
+            </div>
+
+            <div class="col-md-3 text-center" id="ValorTotalRifa" style="margin-top:40px;">
+                <h4><span id="QuantidadeTotal"></span>x R$ <span id="ValorRifa"></span> = R$ <span id="ValorTotal"></span></h4>
+            </div>
+
+            <div class="col-md-3" id="FinalizarCompra" style="margin-top:40px;">
+                <button class="btn btn-success" id="AbrirModal">Finalizar Compra</button>
+            </div>
+        </div>
+    </div>
+    <footer style="bottom: 0; width: 100%;margin-top: 30px;">
+        <div class="row form-group" style="width:80%; margin:auto;">
+
+            <div class="col-md-3 text-center">
+                <h4><i class="fas fa-search"></i> Escolha uma Rifa</h4>
+                <h5>Escolha o prêmio que gostaria de concorrer, verifique a descrição, regulamento do sorteio.</h5>
+            </div>
+
+            <div class="col-md-3 text-center">
+                <h4><i class="fas fa-check-square"></i> Selecione seus Números</h4>
+                <h5>Escolha quantos quiser! Quanto mais, mais chances de ganhar.</h5>
+            </div>
+
+            <div class="col-md-3 text-center">
+                <h4><i class="fas fa-money-bill-alt"></i> Faça o Pagamento</h4>
+                <h5>Escolha uma das formas de pagamento disponíveis, e realize o pagamento.</h5>
+            </div>
+
+            <div class="col-md-3 text-center">
+                <h4><i class="fas fa-clock"></i> Aguarde o sorteio</h4>
+                <h5>Agora é aguardar o sorteio, cruze os dedos e acompanhe a página para saber as novidades.</h5>
+            </div>
+
+        </div>
         <div class="center">
             <img src="~/Imagens/Cópia de Logo Verde e Branco de Curso Preparatório (1).png" alt="Dr. Marcelo Giovani" style="width: 220px; height: 84px;" />
             <p>Todos os direitos reservados</p>
         </div>
     </footer>
 
-    <a href="https://wa.me/5524993316432" class="float" target="_blank">
-        <i class="fab fa-whatsapp" my-float"></i>
-    </a>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-    <script src="~/Scripts/jquery.mask.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.js"></script>
     <script src="~/js/slick.min.js"></script>
     <script src="~/js/site.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script src="https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
+
+
     @RenderSection("Scripts", required: false)
 
     <div id="myModal2" class="modal">
 
         <!-- Modal content -->
-        <div class="modal-content">
-            <img src="" alt="" />
-            <strong>Email Cadastrado!</strong>
-            <p>Obrigado pelo seu cadastro.</p>
-            <a class="entendi2" style="cursor:pointer;">Entendi</a>
+        <div class="modal-content" style=" width: 57%; justify-content: flex-start; height: 50%;">
+            <i class="fas fa-times" style="float:right; align-self:flex-end; cursor:pointer;" id="Fechar"></i>
+            <h2>Atenção <i class="fas fa-exclamation"></i></h2>
+            <p> Bilhetes Selecionadas: <span id="RifasSelecionadas"></span></p>
+
+            @*<div class="form-group">
+
+                <strong>Forma de Pagamento</strong>
+            </div>
+
+            <div class="form-group">
+
+                <span class="NumeroRifa" style="padding:10px; font-size: 16px;">Cartão de Crédito</span>
+                <span class="NumeroRifa" style="padding:10px; font-size: 16px; background-color:lightgray;">Boleto</span>
+
+            </div>
+
+            <div class="form-group" style="width:80%; text-align:start;">
+
+                <div class="row">
+
+                    <div class="col-md-12 form-group">
+                        <strong>Número do Cartão</strong>
+                        <input type="text" class="form-control" placeholder="Digite o número do seu cartão" id="NumeroCartao" />
+                        <span class="ErroComprar" id="ErroNumero">Campo Obrigatório</span>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <strong>Nome do Titular</strong>
+                        <input type="text" class="form-control" placeholder="Digite o nome do Titulo do Cartão" id="TituloCartao" />
+                        <span class="ErroComprar" id="ErroTitulo">Campo Obrigatório</span>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <strong>CPF</strong>
+                        <input type="text" class="form-control" placeholder="Digite o CPF do dono do Cartão" id="CPFCartao" />
+                        <span class="ErroComprar" id="ErroCPF">Campo Obrigatório</span>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <strong>Data de Vencimento</strong>
+                        <input type="text" class="form-control" placeholder="Digite a data de Vencimento do Cartão, Ex: 11/@DateTime.Now.Year.ToString()[2]@DateTime.Now.Year.ToString()[3]" id="DataCartao" />
+                        <span class="ErroComprar" id="ErroData">Campo Obrigatório</span>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <strong>CVV</strong>
+                        <input type="text" class="form-control" placeholder="Digite o nome do Titulo do Cartão" maxlength="3" id="CVVCartao" />
+                        <span class="ErroComprar" id="ErroCVV">Campo Obrigatório</span>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <strong>Código do Vendedor</strong>
+                        <input type="text" class="form-control" placeholder="Digite o Código do Vendedor" maxlength="8" id="CodigoVendedor" />
+                        <span class="ErroComprar" id="ErroComprador">Campo Obrigatório</span>
+                    </div>
+
+                </div>
+
+            </div>*@
+
+            <div class="row form-group">
+                <div style="margin-top:12px;" class="col-md-6">
+                    <p><strong>Valor Total: R$ <span id="ValorFinal"></span></strong></p>
+                    <button class="btn btn-success" id="EfetuarPagamento" style="width:50%;">Efetuar Pagamento</button>
+                </div>
+
+                <div style="width:20%;" id="MercadoPagoImagem" class="col-md-6">
+                    <img src="~/Imagens/pagamento-seguro.png" style="width:100%;" />
+                </div>
+            </div>
+           
+
+
         </div>
 
     </div>
 </body>
 </html>
 
-
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-176121926-1"></script>
 <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
 
-    gtag('config', 'UA-176121926-1');
+    $("#login").click(function () {
+        let url = "@(Usuario==null? Url.Action("Index", "Usuario") : Url.Action("Details","Usuario"))";
+        window.location.href = url;
+    });
+
 </script>

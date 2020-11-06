@@ -1,8 +1,12 @@
 ﻿@model EiSorteei.Data.Produto
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "EiSorteei";
     Layout = "~/Views/Shared/_LayoutComprar.cshtml";
+
+    string[] Comprados = ViewBag.Comprados;
+    string[] Reservados = ViewBag.BilhetesReservados;
+    var Usuario = ViewBag.Usuario;
 }
 
 <style>
@@ -13,71 +17,527 @@
     #Rifas {
         width: 100%;
         justify-content: center;
+        margin: auto;
     }
 
     .NumeroRifa {
         background-color: #E0C777;
-        width:7%;
-        color:#fff;
-        margin:5px;       
-        font-size:34px;
-        text-align:center;
-        border-radius:20px;
+        width: 6%;
+        color: #fff;
+        margin: 5px;
+        font-size: 28px;
+        text-align: center;
+        border-radius: 20px;
         transition: all .3s ease-in-out;
-        cursor:pointer;
+        cursor: pointer;
     }
 
         .NumeroRifa:hover {
             background-color: #1F1F1F;
         }
+
+    .carousel {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+    }
+
+    .informacoes {
+        color: #fff;
+        width: 90%;
+        margin: auto;
+    }
+
+    #Arrows {
+        margin-bottom: 10px;
+    }
+
+    #next, #prev {
+        background-color: #E0C777;
+        border-radius: 50%;
+        padding: 10px 16px 10px 16px;
+        margin: 10px;
+        cursor: pointer;
+    }
+
+    .ErroComprar {
+        color: red;
+        display: none;
+    }
+
+    @@media only screen and (max-width: 1000px) {
+        .imagem_produto {
+            width: 100% !important;
+        }
+
+        .NumeroRifa {
+            width: 16%;
+            font-size: 17px;
+        }
+
+        #MercadoPagoImagem {
+            width: 90% !important;
+        }
+
+        .modal-content {
+            height: 50% !important;
+            width: 90% !important;
+        }
+    }
+
+    .box_premio {
+        background-color: #535151;
+        padding: 10px;
+        border-radius: 24px;
+        margin-bottom: 10px;
+    }
+
+    .btn-default {
+        background-color: #535151;
+        border: none;
+        color: white;
+    }
 </style>
 
 
-<section class="blog-container">
+<section class="blog-container" style="padding-bottom:0;">
     <div class="center">
         <div class="upper-box">
-            <h1>Escolha o número da sua Rifa</h1>            
+            <h1>Escolha os números dos seus Bilhetes e boa sorte</h1>
         </div>
     </div>
 </section>
-<section class="blog-listagem">
-    <div class="center blog-border">
-        <div class="blog-list">
 
-            <div class="card-blog">
-                <img src="~/Content/ImagemProdutos/" alt="blog" />
-                <div class="card-txt__blog">
-                    <h2>@Model.Nome</h2>
-                    <p>Valor da Rifa: R$ @Math.Round(Model.ValorRifa, 2)</p>
-                </div>
-            </div>
+<section>
 
-            <div id="Rifas" class="row">
-
-                @for (int x = 1; x <= Model.RangeCodigo; x++)
-                {
-                        <span class="NumeroRifa">@x</span>
-                }
-
-
-            </div>
-
+    @if (Model.Video != null)
+    {
+        <div class="form-group" style="margin-top:20px;" align="center">
+            <button class="btn btn-default" id="btnImagens" style="background-color: #E0C777; margin-top:10px;"><i class="fas fa-images"></i> Imagens</button>
+            <button class="btn btn-default" id="btnVideo" style="margin-top: 10px;"><i class="fas fa-video"></i> Vídeo</button>
         </div>
+    }
 
-        @*<div class="pagination">
+    <div class="carousel form-group" align="center" style="margin-top:20px;" id="Imagens">
 
-                <a href="@Url.Action("Index",new {pagina = ViewBag.Pagina - 1 })"><i class="fas fa-angle-left"></i></a>
-
-                @for (int x = 1; x <= ViewBag.QuantidadeTotalPaginas; x++)
-                {
-                    <a href="@Url.Action("Index",new { pagina=x-1})" class="@(ViewBag.Pagina==x-1?"active":"")">@x</a>
-                }
-
-                <a href="@Url.Action("Index",new {pagina = ViewBag.Pagina + 1 })"><i class="fas fa-angle-right"></i></a>
-            </div>*@
+        @foreach (var x in ViewBag.Imagens)
+        {
+            <div><img src="~/Content/ImagemProdutos/@x.Caminho" alt="Imagem do Produto" style="width:30%;" class="imagem_produto" /></div>
+        }
 
     </div>
 
-   
+    @if (Model.Video != null)
+    {
+        <div class="form-group" align="center" style="margin-top:20px; display:none;" id="Video">
+            <div align="center" class="form-group">
+                <video controls style="width:70%;">
+                    <source src="~/Content/VideoProdutos/@Model.Video" type="video/mp4">
+                </video>
+            </div>
+        </div>
+    }
+
+
+
 </section>
 
+<div class="informacoes">
+
+    <div align="center" id="Arrows">
+        <i class="fas fa-chevron-left fa-2x" id="prev"></i>
+        <i class="fas fa-chevron-right fa-2x" id="next"></i>
+    </div>
+
+    <h5 align="center">Informações Importante</h5>
+    <p align="center">Confira abaixo as formas de pagamento, regras, contatos e tudo sobre o sorteio</p>
+
+    <div class="form-group text-center">
+        <button class="btn btn-default" id="btnInformacoes" style="background-color: #E0C777; margin-top:10px;"><i class="fas fa-info"></i> Informações do Item</button>
+        <button class="btn btn-default" id="btnDadosPagamento" style="margin-top: 10px;"><i class="fas fa-search-dollar"></i> Dados de Pagamento</button>
+        <button class="btn btn-default" id="btnRegulamento" style="margin-top: 10px;"><i class="fas fa-cogs"></i> Regulamento/Descrição</button>
+        <button class="btn btn-default" id="btnContato" style="margin-top: 10px;"><i class="fas fa-envelope"></i> Contato</button>
+    </div>
+
+    <div id="DadosPagamento" class="box_premio" style="display:none;">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ut nisl non ligula auctor faucibus. Vestibulum ante ipsum primis in
+        faucibus orci luctus et ultrices posuere cubilia curae; Morbi vitae turpis at purus viverra finibus. Sed suscipit orci lacus, in volutpat sapien
+        tincidunt ut. In hac habitasse platea dictumst. Aliquam laoreet aliquet odio, vel finibus risus. Orci varius natoque penatibus et magnis dis parturient montes,
+        nascetur ridiculus mus. Fusce tincidunt leo in tortor fringilla, sed pretium lorem sodales. Nam finibus volutpat mattis. Morbi gravida at justo vitae pulvinar.
+        Vivamus sed leo sed quam mattis euismod sit amet non velit.
+    </div>
+
+    <div id="Regulamento" style="display:none;" class="box_premio">
+        <div style="margin-left:30px;">
+            @Html.Raw(Model.Descricao)
+        </div>
+
+    </div>
+
+    <div id="InformacoesItem" class="box_premio row text-center">
+        <div class="col-md-12 text-center form-group">
+            <h3><i class="fas fa-trophy"></i> Prêmio: @Model.Nome</h3>
+            <h4><i class="fas fa-tags"></i> Categoria: @ViewBag.Categoria</h4>
+        </div>
+        <div class="col-md-4 form-group">
+            <strong>Valor Unitário: R$ @Math.Round(Model.ValorRifa, 2)</strong>
+        </div>
+        <div class="col-md-4 form-group">
+            <strong>Total: @Model.RangeCodigo</strong>
+        </div>
+        <div class="col-md-4 form-group">
+            <strong><i class="fas fa-hourglass-start"></i> Reservados: 6</strong>
+        </div>
+
+        <div class="col-md-4 form-group">
+            <strong><i class="fas fa-calendar"></i> Data do Sorteio: @Model.DataSorteio.ToString().Replace(" 00:00:00", string.Empty)</strong>
+        </div>
+
+        <div class="col-md-4 form-group">
+            <strong><i class="fas fa-map-marker-alt"></i> Cidade: @Usuario.Cidade</strong>
+        </div>
+
+        <div class="col-md-4 form-group">
+            <strong><i class="far fa-map"></i> Estado: @Usuario.Estado</strong>
+        </div>
+
+    </div>
+
+    <div id="Contato" style="display:none;" class="box_premio text-center">
+
+        <p><i class="fas fa-envelope"></i> <strong>Email: @Usuario.Email</strong></p>
+
+        <p><i class="fas fa-phone"></i> <strong>Telefone: @Usuario.Telefone</strong></p>
+
+    </div>
+
+    <div id="Rifas" class="row">
+
+        @for (int x = 1; x <= Model.RangeCodigo; x++)
+        {
+            if (Comprados.Contains(x.ToString()))
+            {
+                <span class="NumeroRifa" data-numero="@x" style="background-color:red;">@x</span>
+            }
+
+            else if (Reservados.Contains(x.ToString()))
+            {
+                <span class="NumeroRifa" data-numero="@x" style="background-color:gray;">@x</span>
+            }
+
+            else
+            {
+                <span class="NumeroRifa Comprar" data-numero="@x" id="RifaNumero-@x">@x</span>
+            }
+
+        }
+
+    </div>
+</div>
+
+
+@section Scripts{
+
+    <script>
+
+        $(document).ready(function () {
+
+            let Rifas = [];
+            let ValorRifa = "@Math.Round(Model.ValorRifa, 2)";
+            $("#ValorRifa").text(ValorRifa);
+            $("#QuantidadeTotal").text(Rifas.length);
+
+
+            $("#DataCartao").mask("00/00");
+            $("#CPFCartao").mask("000.000.000-00");
+
+            $('.carousel').slick({
+                autoplay: true,
+                autoplaySpeed: 4000,
+                nextArrow: '#next',
+                prevArrow: '#prev'
+            });
+
+
+            $(".Comprar").click(function () {
+                let numero = $(this);
+                let background = $(this).css("background-color");
+
+                if (background == "rgb(37, 202, 23)") {
+                    $(this).css("background-color", "#E0C777");
+
+                    Rifas = Rifas.filter(item => item !== numero[0].outerText);
+
+                    $("#RifasEscolhidas").html("");
+
+                    for (var i = 0; i < Rifas.length ; i++) {
+
+                        $("#RifasEscolhidas").append(
+                            "<div id='RifaEscolhida' class='col-md-1 form-group'>" +
+                                Rifas[i] +
+                            "</div>"
+                        );
+
+                    }
+
+                    if (Rifas.length == 0) {
+                        $("#Quantidade").slideUp(200);
+                    }
+
+                    if (Rifas.length <= 24) {
+                        $("#Quantidade").css("height", "106")
+                    }
+
+                    if (Rifas.length > 24) {
+                        $("#Quantidade").css("height", "160")
+                    }
+
+                }
+
+                else {
+                    $(this).css("background-color", "#25CA17");
+                    Rifas.push(numero[0].outerText);
+
+                    if (Rifas.length < 24) {
+                        $("#Quantidade").css("height", "106")
+                    }
+
+                    if (Rifas.length > 24) {
+                        $("#Quantidade").css("height","160")
+                    }
+
+
+                    $("#Quantidade").slideDown(200);
+
+                    $("#RifasEscolhidas").append(
+                        "<div id='RifaEscolhida' class='col-md-1 form-group'>" +
+                            numero[0].outerText +
+                        "</div>"
+                    );
+
+                }
+
+                $("#QuantidadeTotal").text(Rifas.length);
+                let ValorFormatado = String((Rifas.length * Number(ValorRifa.replace(",", "."))).toFixed(2)).replace(".", ",");
+                $("#ValorTotal").text(ValorFormatado.replace(".",","));
+                $("#ValorFinal").text(ValorFormatado.replace(".",","));
+
+            });
+
+            $("#Fechar").click(function () {
+                $("#myModal2").css('display', "none");
+            });
+
+            $("#AbrirModal").click(function () {
+
+                $("#RifasSelecionadas").html("");
+                for (var i = 0; i < Rifas.length; i++) {
+
+                    if (i == 0) {
+                        $("#RifasSelecionadas").append(
+                            Rifas[i]
+                        );
+                    }
+
+                    else {
+                        $("#RifasSelecionadas").append(
+                            ", "+Rifas[i]
+                        );
+                    }
+
+                }
+
+
+                $("#myModal2").css('display', "block");
+
+            });
+
+
+            $("#EfetuarPagamento").click(function () {
+
+                if (Rifas.length == 0) {
+
+                    Swal.fire({
+                        title: 'Bilhetes',
+                        text: "Por favor selecione ao menos um Bilhete.",
+                        icon: 'error',
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        cancelButtonText: 'Não',
+                        confirmButtonText: 'OK'
+                    });
+
+                    return;
+
+                }
+
+                let data = {
+                    Bilhete: Rifas,
+                    IdProduto: "@Model.Id",
+                    ValorRifa: $("#ValorTotal").text()
+                };
+
+                $.ajax({
+                    url: "@Url.Action("RegistrarCompra", "Comprar")",
+                    method: "POST",
+                    data: data,
+                    success: function (retorno) {
+
+                        if (retorno.Status) {
+                            window.open("@Url.Action("Pagamento","Comprar",new { Id=Model.Id })", "_blank");
+                        }
+
+                        else {
+
+                            let BilhetesInvalidos = retorno.BilhetesInvalidos;
+
+                            for (var x = 0; x < BilhetesInvalidos.length; x++) {
+                                Rifas = Rifas.filter(item => item != BilhetesInvalidos[x]);
+                                $("#RifaNumero-" + BilhetesInvalidos[x]).css("background-color", "gray");
+                            }
+
+                            $("#RifasEscolhidas").html("");
+
+                            for (var i = 0; i < Rifas.length; i++) {
+
+                                $("#RifasEscolhidas").append(
+                                    "<div id='RifaEscolhida' class='col-md-1 form-group'>" +
+                                    Rifas[i] +
+                                    "</div>"
+                                );
+
+                            }
+
+                            $("#RifasSelecionadas").html("");
+                            for (var i = 0; i < Rifas.length; i++) {
+
+                                if (i == 0) {
+                                    $("#RifasSelecionadas").append(
+                                        Rifas[i]
+                                    );
+                                }
+
+                                else {
+                                    $("#RifasSelecionadas").append(
+                                        ", " + Rifas[i]
+                                    );
+                                }
+
+                            }
+
+                            $("#QuantidadeTotal").text(Rifas.length);
+                            let ValorFormatado = String((Rifas.length * Number(ValorRifa.replace(",", "."))).toFixed(2)).replace(".", ",");
+                            $("#ValorTotal").text(ValorFormatado.replace(".", ","));
+                            $("#ValorFinal").text(ValorFormatado.replace(".", ","));
+
+                            if (Rifas.length == 0) {
+                                $("#Quantidade").slideUp(200);
+                                $("#myModal2").css('display', "none");
+                            }
+
+                            if (retorno.Mensagem == "Bilhetes Inválidos") {
+                                Swal.fire({
+                                    title: 'Bilhetes Inválidos',
+                                    text: "Os seguintes Bilhetes que você escolheu acabaram de ser reservados " + retorno.BilhetesInvalidosMessage+". Os Bilhetes Inválidos foram retirados das suas escolhas.",
+                                    icon: 'error',
+                                    showCancelButton: false,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    cancelButtonText: 'Não',
+                                    confirmButtonText: 'OK'
+                                });
+                            }
+                        }
+                    },
+                    error: function (retorno) {
+                        console.log(retorno);
+                    }
+                })
+            });
+
+            $("#btnDadosPagamento").click(function () {
+
+                $(this).css("background-color", "#E0C777");
+                $("#btnRegulamento").css("background-color", "#535151");
+                $("#btnInformacoes").css("background-color", "#535151");
+                $("#btnContato").css("background-color", "#535151");
+
+
+                $("#DadosPagamento").slideDown(200);
+                $("#Regulamento").slideUp(200);
+                $("#InformacoesItem").slideUp(200);
+                $("#Contato").slideUp(200);
+
+            });
+
+            $("#btnRegulamento").click(function () {
+
+                $(this).css("background-color", "#E0C777");
+                $("#btnDadosPagamento").css("background-color", "#535151");
+                $("#btnInformacoes").css("background-color", "#535151");
+                $("#btnContato").css("background-color", "#535151");
+
+                $("#DadosPagamento").slideUp(200);
+                $("#Regulamento").slideDown(200);
+                $("#InformacoesItem").slideUp(200);
+                $("#Contato").slideUp(200);
+
+            });
+
+            $("#btnInformacoes").click(function () {
+
+                $(this).css("background-color", "#E0C777");
+                $("#btnRegulamento").css("background-color", "#535151");
+                $("#btnDadosPagamento").css("background-color", "#535151");
+                $("#btnContato").css("background-color", "#535151");
+
+                $("#DadosPagamento").slideUp(200);
+                $("#Regulamento").slideUp(200);
+                $("#InformacoesItem").slideDown(200);
+                $("#Contato").slideUp(200);
+
+            });
+
+            $("#btnContato").click(function () {
+
+                $(this).css("background-color", "#E0C777");
+                $("#btnRegulamento").css("background-color", "#535151");
+                $("#btnInformacoes").css("background-color", "#535151");
+                $("#btnDadosPagamento").css("background-color", "#535151");
+
+                $("#DadosPagamento").slideUp(200);
+                $("#Regulamento").slideUp(200);
+                $("#InformacoesItem").slideUp(200);
+                $("#Contato").slideDown(200);
+
+            });
+
+
+            $("#btnImagens").click(function () {
+                $(this).css("background-color", "#E0C777");
+                $("#btnVideo").css("background-color", "#535151");
+                $("#Imagens").css("display", "block");
+                $("#next").trigger("click");
+                $("#Arrows").css("display", "block");
+                $("#Video").css("display", "none");
+
+            });
+
+            $("#btnVideo").click(function () {
+                $(this).css("background-color", "#E0C777");
+                $("#btnImagens").css("background-color", "#535151");
+                $("#Video").css("display", "block");
+                $("#Imagens").css("display", "none");
+                $("#Arrows").css("display", "none");
+            });
+
+        });
+
+
+
+
+
+    </script>
+
+}
