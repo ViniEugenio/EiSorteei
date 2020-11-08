@@ -14,6 +14,7 @@ using System.Net;
 using System.IO;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
+using EiSorteei.Helpers;
 
 namespace EiSorteei.Controllers
 {
@@ -28,6 +29,7 @@ namespace EiSorteei.Controllers
 
         public ActionResult Index(long IdProduto)
         {
+
             if (IdProduto != 0)
             {
                 var Produto = _Context.Produto.FirstOrDefault(p => p.Id == IdProduto);
@@ -65,7 +67,7 @@ namespace EiSorteei.Controllers
                 foreach (var x in BilhetesReservados)
                 {
                     DateTime DataBilhete = Convert.ToDateTime(x.DataCadastro);
-                    DateTime DataAtual = Convert.ToDateTime(DateTime.Now.ToString("dd/MM/yyyy"));
+                    DateTime DataAtual = Convert.ToDateTime(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
 
                     var DiferencaDatas = DataAtual.Subtract(DataBilhete);
 
@@ -162,6 +164,8 @@ namespace EiSorteei.Controllers
 
         public ActionResult Pagamento(long Id)
         {
+            ViewBag.Estados = Estados.GetAllStates();
+
             HttpCookie FindedCookie = Request.Cookies["Carrinho"];
 
             if (FindedCookie == null)
@@ -169,13 +173,13 @@ namespace EiSorteei.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            else
-            {
-                if (Convert.ToDateTime(FindedCookie["Validade"]) <= Convert.ToDateTime(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")))
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-            }
+            //else
+            //{
+            //    if (Convert.ToDateTime(FindedCookie["Validade"]) <= Convert.ToDateTime(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")))
+            //    {
+            //        return RedirectToAction("Index", "Home");
+            //    }
+            //}
 
             Usuario UsuarioLogado = (Usuario)Session["Usuario"];
             long IdProduto = Convert.ToInt64(FindedCookie["IdProduto"]);
@@ -569,6 +573,72 @@ namespace EiSorteei.Controllers
                     JsonRequestBehavior.AllowGet
                 });
             }
+        }
+
+
+        public JsonResult CadastrarUsuario(UsuarioViewModel model)
+        {
+
+            try
+            {
+
+                if(_Context.Usuario.Any(u=>u.Email.Equals(model.Email)))
+                {
+                    return Json(new
+                    {
+                        Status = false,
+                        Mensagem = "O email informado já está sendo usado por outro usuário."
+                    });
+                }
+
+                Usuario oUsuario = new Usuario()
+                {
+                    Bairro = model.Bairro,
+                    Cidade = model.Cidade,
+                    Cpf = model.Cpf,
+                    DataAtualizacao = DateTime.Now,
+                    DataCadastro = DateTime.Now,
+                    Email = model.Email,
+                    Estado = model.Estado,
+                    Nome = model.Nome,
+                    Numero = model.Numero,
+                    Rua = model.Rua,
+                    Senha = Helpers.HashPassword.PasswordHash(model.Senha),
+                    SobreNome = model.SobreNome,
+                    Status = true,
+                    CEP = model.CEP,
+                    Telefone = model.Telefone
+                };
+
+                _Context.Usuario.Add(oUsuario);
+                _Context.SaveChanges();
+
+                return Json(new
+                {
+                    Status = true,
+                    Mensagem = "Usuário Logado",
+                    NomeLogado = oUsuario.Nome + " " + oUsuario.SobreNome,
+                    EmailLogado = oUsuario.Email,
+                    TelefoneLogado = oUsuario.Telefone,
+                    CPFLogado = oUsuario.Cpf,
+                    CEPLogado = oUsuario.CEP,
+                    EstadoLogado = oUsuario.Estado,
+                    CidadeLogado = oUsuario.Cidade,
+                    BairroLogado = oUsuario.Bairro,
+                    RuaLogado = oUsuario.Rua,
+                    NumeroLogado = oUsuario.Numero
+                });
+            }
+
+            catch(Exception e)
+            {
+                return Json(new
+                {
+                    Status = false,
+                    Mensagem = "Não foi possível realizar o cadastro."
+                });
+            }
+
         }
 
     }

@@ -27,6 +27,7 @@
         <AssociationConnector Association="EiSorteeiModel.FK__Compras__Carrinh__5070F446" />
         <EntityTypeShape EntityType="EiSorteeiModel.TempBilhetes" Width="1.5" PointX="7.75" PointY="2.25" />
         <AssociationConnector Association="EiSorteeiModel.FK__TempBilhe__IdPro__5441852A" />
+        <EntityTypeShape EntityType="EiSorteeiModel.OrderBump" Width="1.5" PointX="3.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

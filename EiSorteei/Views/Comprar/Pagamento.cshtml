@@ -57,6 +57,13 @@
             color: red;
             display: none;
         }
+
+        @@media only screen and (max-width: 1000px) {
+            #EfetuarPagamento {
+                font-size: 32px !important;
+                border-radius: 44px !important;
+            }
+        }
     </style>
 
 </head>
@@ -79,6 +86,234 @@
                             }
 
                         </div>
+
+                        @if (IdUsuarioLogado == 0)
+                        {
+                            <div class="row" id="InformacoesPessoais">
+
+                                <div class="col-md-12" id="Login" style="margin:auto;">
+                                    <div class="card form-group" style="margin-top:5px;">
+                                        <div class="card-header">
+                                            <h3 class="text-center">Fazer Login</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="form-group">
+
+                                                <div class="form-group">
+                                                    <label class="control-label">Email</label>
+                                                    <input class="form-control" id="EmailLogin" />
+                                                    <span id="EmailLoginErro" class="erro"></span>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="control-label">Senha</label>
+                                                    <input class="form-control" id="SenhaLogin" type="password" />
+                                                    <span class="erro" id="SenhaLoginErro"></span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="card-footer">
+                                            <button class="btn btn-success" id="Entrar"><i class="fas fa-sign-in-alt"></i> Entrar</button>
+                                            <button class="btn btn-primary" id="CriarConta"><i class="fa fa-user"></i> Criar sua conta</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-12" id="CadastrarUsuario" style="display:none;">
+                                    <div class="card" style="margin-top:5px;">
+
+                                        <div class="card-header">
+                                            <h3><i class="fa fa-user"></i> Informações Pessoais</h3>
+                                        </div>
+
+                                        <div class="card-body">
+
+                                            <div class="row">
+
+                                                <input value="@ViewBag.Produto" name="IdProduto" style="display:none;" />
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Nome</label>
+                                                        <input class="form-control" id="NomeLogin" />
+                                                        <span class="erro" id="NomeErro"></span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">SobreNome</label>
+                                                        <input class="form-control" id="SobreNomeLogin" />
+                                                        <span class="erro" id="SobreNomeErro"></span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row">
+
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Email</label>
+                                                        <input class="form-control" id="EmailCadastrar" />
+                                                        <span class="erro" id="EmailErro"></span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Telefone</label>
+                                                        <input class="form-control" id="TelefoneLogin" />
+                                                        <span class="erro" id="TelefoneErro"></span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">CPF</label>
+                                                        <input class="form-control" id="CPFLogin" />
+                                                        <span class="erro" id="CPFErro"></span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row">
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Estado</label>
+                                                        <select name="Estado" class="form-control" id="EstadoLogin">
+                                                            @foreach (var estado in ViewBag.Estados)
+                                                            {
+                                                                <option value="@estado.Name">@estado.Name</option>
+                                                            }
+                                                        </select>
+                                                        <span class="erro" id="EstadoErro"></span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Cidade</label>
+                                                        <input class="form-control" id="CidadeLogin" />
+                                                        <span class="erro" id="CidadeErro"></span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+
+                                                    <div class="form-group">
+                                                        <label class="control-label">Bairro</label>
+                                                        <input class="form-control" id="BairroLogin" />
+                                                        <span class="erro" id="BairroErro"></span>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">CEP</label>
+                                                        <input class="form-control" id="CEPLogin" />
+                                                        <span class="erro" id="CEPErro"></span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row">
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Rua</label>
+                                                        <input class="form-control" id="RuaLogin" />
+                                                        <span class="erro" id="RuaErro"></span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Número</label>
+                                                        <input class="form-control" id="NumeroLogin" />
+                                                        <span class="erro" id="NumeroErro"></span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="row">
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Senha</label>
+                                                        <input class="form-control" id="SenhaCadastrar" type="password" />
+                                                        <span class="erro" id="SenhaErro"></span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Confirmar Senha</label>
+                                                        <input class="form-control" id="ConfirmarLogin" type="password" />
+                                                        <span class="erro" id="ConfirmarErro"></span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="card-footer">
+                                            <div class="form-group">
+                                                <button class="btn btn-success" id="RealizarCadastro"><i class="fa fa-user"></i> Realizar Cadastro</button>
+                                                <button class="btn btn-primary text-white" id="FazerLogin"><i class="fa fa-lock"></i> Fazer Login</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        }
+
+                        <div class="card" id="DadosUsuario" style="display:none;">
+                            <div class="card-header">
+                                <h3><i class="fa fa-user"></i> Informações Pessoais</h3>
+                            </div>
+                            <div class="card-body">
+                                <p><strong id="NomeLogado"></strong></p>
+                                <p><strong id="EmailLogado"></strong></p>
+                                <p><strong id="TelefoneLogado"></strong></p>
+                                <p><strong id="CPFLogado"></strong></p>
+                                <p><strong>Seu comprovante será enviado para o email de cadstro após a confirmaçao do pagamento</strong></p>
+                            </div>
+                        </div>
+
+                        @*<div class="col-md-6" style="margin-top:5px; margin:auto; margin-top:5px;">
+
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3><i class="fas fa-map-marked-alt"></i> Informações de Entrega</h3>
+                                    </div>
+                                    <div class="card-body row">
+                                        <div class="col-md-6">
+                                            <p><strong id="CEPLogado"></strong></p>
+                                            <p><strong id="EstadoLogado"></strong></p>
+                                            <p><strong id="CidadeLogado"></strong></p>
+                                            <p><strong id="BairroLogado"></strong></p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p><strong id="RuaLogado"></strong></p>
+                                            <p><strong id="NumeroLogado"></strong></p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>*@
+
                     </div>
 
                     <div class="col-md-6">
@@ -86,13 +321,12 @@
                             <div class="card-body">
                                 <div class="text-center row">
                                     <div class="form-group text-center col-md-6">
-                                        <a href="@Url.Action("Index","Home")">
-                                            <img src="~/Imagens/Cópia de Logo Verde e Branco de Curso Preparatório (1).png" alt="Logo do Site" id="brand" />
-                                        </a>
+
+                                        <img src="~/Imagens/Cópia de Logo Verde e Branco de Curso Preparatório (1).png" alt="Logo do Site" id="brand" />
+
                                     </div>
                                     <div class="form-group text-center col-md-6" style="margin-top:20px;">
-                                        <p><strong>@Model.Produto.Nome</strong></p>
-                                        <p><strong>R$ @Math.Round(Model.Produto.ValorRifa, 2)</strong></p>
+                                        <p><strong>@Model.Produto.Nome</strong></p>                                       
                                     </div>
 
                                     <div class="col-md-12">
@@ -110,249 +344,19 @@
                                 </div>
                             </div>
                             <div class="row text-center">
-                                <div class="form-group col-md-6">
-                                    <p><strong>Valor Unitário: R$ @Math.Round(Model.Produto.ValorRifa, 2)</strong></p>
-                                    <p><strong>Entrega: ---</strong></p>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <p><strong>SubTotal: R$ @Math.Round(Model.Produto.ValorRifa, 2) X @Model.Bilhetes.Split(',').Count() =  R$ @Model.ValorTotal</strong></p>
-                                    <p><strong>Descontos: - R$ 0,00</strong></p>
+                                @*<div class="form-group col-md-6">
+                                        <p><strong>Valor Unitário: R$ @Math.Round(Model.Produto.ValorRifa, 2)</strong></p>
+                                        <p><strong>Entrega: ---</strong></p>
+                                    </div>*@
+                                <div class="form-group col-md-12">
+                                    <p><strong>Valor Unitário: R$ @Math.Round(Model.Produto.ValorRifa, 2) X @Model.Bilhetes.Split(',').Count() =  R$ @Model.ValorTotal</strong></p>
                                 </div>
                             </div>
                             <h3 class="text-center">Valor Total: R$ @Model.ValorTotal</h3>
                         </div>
-                    </div>
 
-                </div>
-
-
-                @if (IdUsuarioLogado == 0)
-                {
-                    <div class="row" id="InformacoesPessoais">
-
-                        <div class="col-md-4" id="Login" style="margin:auto;">
-                            <div class="card form-group" style="margin-top:5px;">
-                                <div class="card-header">
-                                    <h3 class="text-center">Fazer Login</h3>
-                                </div>
-                                <div class="card-body">
-                                    <div class="form-group">
-
-                                        <div class="form-group">
-                                            <label class="control-label">Email</label>
-                                            <input class="form-control" id="EmailLogin" />
-                                            <span id="EmailLoginErro" class="erro"></span>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label class="control-label">Senha</label>
-                                            <input class="form-control" id="SenhaLogin" type="password" />
-                                            <span class="erro" id="SenhaLoginErro"></span>
-                                        </div>
-                                        <div class="form-group text-center">
-                                            <button class="btn btn-success" id="Entrar"><i class="fas fa-sign-in-alt"></i> Entrar</button>
-                                        </div>
-
-                                        <div class="form-group text-center">
-                                            <button class="btn btn-primary" id="CriarConta"><i class="fa fa-user"></i> Criar sua conta</button>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-md-12" id="CadastrarUsuario" style="display:none;">
-                            <div class="card" style="margin-top:5px;">
-
-                                <div class="card-header">
-                                    <h3><i class="fa fa-user"></i> Informações Pessoais</h3>
-                                </div>
-
-                                <div class="card-body">
-
-                                    <div class="row">
-
-                                        <input value="@ViewBag.Produto" name="IdProduto" style="display:none;" />
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label">Nome</label>
-                                                <input class="form-control" id="NomeLogin" />
-                                                <span class="erro" id="NomeErro"></span>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label">SobreNome</label>
-                                                <input class="form-control" id="SobreNomeLogin" />
-                                                <span class="erro" id="SobreNomeErro"></span>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="row">
-
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="control-label">Email</label>
-                                                <input class="form-control" id="EmailCadastrar" />
-                                                <span class="erro" id="EmailErro"></span>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label">Telefone</label>
-                                                <input class="form-control" id="TelefoneLogin" />
-                                                <span class="erro" id="TelefoneErro"></span>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label">CPF</label>
-                                                <input class="form-control" id="CPFLogin" />
-                                                <span class="erro" id="CPFErro"></span>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="row">
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label">Estado</label>
-                                                <input class="form-control" id="EstadoLogin" />
-                                                <span class="erro" id="EstadoErro"></span>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label">Cidade</label>
-                                                <input class="form-control" id="CidadeLogin" />
-                                                <span class="erro" id="CidadeErro"></span>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-
-                                            <div class="form-group">
-                                                <label class="control-label">Bairro</label>
-                                                <input class="form-control" id="BairroLogin" />
-                                                <span class="erro" id="BairroErro"></span>
-                                            </div>
-
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label">CEP</label>
-                                                <input class="form-control" id="CEPLogin" />
-                                                <span class="erro" id="CEPErro"></span>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="row">
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label">Rua</label>
-                                                <input class="form-control" id="RuaLogin" />
-                                                <span class="erro" id="RuaErro"></span>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label">Número</label>
-                                                <input class="form-control" id="NumeroLogin" />
-                                                <span class="erro" id="NumeroErro"></span>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-
-                                    <div class="row">
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label">Senha</label>
-                                                <input class="form-control" id="SenhaCadastrar" />
-                                                <span class="erro" id="SenhaErro"></span>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label">Confirmar Senha</label>
-                                                <input class="form-control" id="ConfirmarLogin" />
-                                                <span class="erro" id="ConfirmarErro"></span>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                                <div class="card-footer">
-                                    <div class="form-group">
-                                        <button class="btn btn-success"><i class="fa fa-user"></i> Realizar Cadastro</button>
-                                        <button class="btn btn-primary text-white" id="FazerLogin"><i class="fa fa-lock"></i> Fazer Login</button>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div>
-
-                }
-
-
-                <div class="row col-md-12 row" id="UsuarioLogado" style="display:none; margin-top:5px;">
-
-                    <div class="col-md-6" style="margin-top:5px; margin:auto;">
-
-                        <div class="card">
-                            <div class="card-header">
-                                <h3><i class="fa fa-user"></i> Informações Pessoais</h3>
-                            </div>
-                            <div class="card-body">
-                                <p><strong id="NomeLogado"></strong></p>
-                                <p><strong id="EmailLogado"></strong></p>
-                                <p><strong id="TelefoneLogado"></strong></p>
-                                <p><strong id="CPFLogado"></strong></p>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="col-md-6" style="margin-top:5px; margin:auto; margin-top:5px;">
-
-                        <div class="card">
-                            <div class="card-header">
-                                <h3><i class="fas fa-map-marked-alt"></i> Informações de Entrega</h3>
-                            </div>
-                            <div class="card-body row">
-                                <div class="col-md-6">
-                                    <p><strong id="CEPLogado"></strong></p>
-                                    <p><strong id="EstadoLogado"></strong></p>
-                                    <p><strong id="CidadeLogado"></strong></p>
-                                    <p><strong id="BairroLogado"></strong></p>
-                                </div>
-                                <div class="col-md-6">
-                                    <p><strong id="RuaLogado"></strong></p>
-                                    <p><strong id="NumeroLogado"></strong></p>
-                                </div>
-
-                            </div>
+                        <div class="bg-danger text-white text-center col-md-12 form-group card" style="height:150px; margin-top:10px;">
+                            <strong style="font-size: 30px; margin-top: 20px;"><span id="QuantidadePessoas">2</span> Pessoas estão escolhendo os seus bilhetes agora. Garanta logo o seu.</strong>
                         </div>
                     </div>
 
@@ -362,98 +366,125 @@
                 <div id="Pagamento" style="margin-top:5px; @(IdUsuarioLogado==0?"display:none;":"")">
                     <div class="card">
                         <div class="card-header">
-                            <h3><i class="fas fa-money-bill-alt"></i> Forma de Pagamento</h3>
+                            <h3><i class="fas fa-money-bill-alt"></i> Pagamento</h3>
                         </div>
 
                         <div class="card-body">
+                            <input type="radio" name="FormaPagamento" checked id="FormaPagamentoCartao" /> Cartão de Crédito
+                            @*<div class="form-group text-center">
+                                    <strong>Selecione a Forma de Pagamento: </strong>
+                                    <div class="form-group">
 
-                            <div class="form-group text-center">
-                                <strong>Selecione a Forma de Pagamento: </strong>
-                                <div class="form-group">
-                                    <input type="radio" name="FormaPagamento" checked id="FormaPagamentoCartao" /> Cartão de Crédito
+                                        <input type="radio" name="FormaPagamento" id="FormaPagamentoBoleto" /> Boleto
+                                    </div>
+                                </div>*@
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div id="TipoCartao" class="row">
+                                        <div class="col-md-12 form-group">
+                                            <strong>Número do Cartão</strong>
+                                            <input type="text" class="form-control" placeholder="Digite o número do seu cartão" id="NumeroCartao" />
+                                            <span class="erro" id="ErroNumero">Campo Obrigatório</span>
+                                        </div>
+
+                                        <div class="col-md-6 form-group">
+                                            <strong>Nome do Titular</strong>
+                                            <input type="text" class="form-control" placeholder="Digite o nome do Titulo do Cartão" id="TituloCartao" />
+                                            <span class="erro" id="ErroTitulo">Campo Obrigatório</span>
+                                        </div>
+
+                                        <div class="col-md-6 form-group">
+                                            <strong>CPF</strong>
+                                            <input type="text" class="form-control" placeholder="Digite o CPF do dono do Cartão" id="CPFCartao" />
+                                            <span class="erro" id="ErroCPF">Campo Obrigatório</span>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <strong>Data de Vencimento</strong>
+                                            <input type="text" class="form-control" placeholder="Ex: 11/@DateTime.Now.Year.ToString()[2]@DateTime.Now.Year.ToString()[3]" id="DataCartao" />
+                                            <span class="erro" id="ErroData">Campo Obrigatório</span>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <strong>CVV</strong>
+                                            <input type="text" class="form-control" placeholder="Digite o nome do Titulo do Cartão" maxlength="3" id="CVVCartao" />
+                                            <span class="erro" id="ErroCVV">Campo Obrigatório</span>
+                                        </div>
+
+                                    </div>
+
                                     <input type="radio" name="FormaPagamento" id="FormaPagamentoBoleto" /> Boleto
+                                    <div id="TipoBoleto" class="form-group" style="margin-left:20px; display:none;">
+                                        <p><strong>Clique em "Efetuar Pagamento" para gerar seu boleto.</strong></p>
+                                        <p><strong>Informações sobre o pagamento via boleto:</strong></p>
+                                        <ul>
+                                            <li>Valor à vista R$ @Model.ValorTotal</li>
+                                            <li>Não pode ser parcelado! Use cartão de crédito para parcelar sua compra</li>
+                                            <li>Fique atento a prazo de vencimento do seu boleto</li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <strong>Código do Vendedor</strong>
+                                        <input type="text" class="form-control" placeholder="Digite o Código do Vendedor" maxlength="8" id="CodigoVendedor" />
+                                        <span class="erro" id="ErroVendedor"></span>
+                                        <span class="text-danger">* Caso você tenha adquirido seu bilhete por intermédio de algum vendedor, por favor informe o código do mesmo no campo acima.</span>
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="form-group col-md-12">
+                                            <div align="center">
+                                                <img src="~/Imagens/Cópia de Logo Verde e Branco de Curso Preparatório (1).png" alt="Logo do Site" id="brand" />
+                                            </div>
 
-                            <div>
-                                <div id="TipoCartao" class="row">
-                                    <div class="col-md-12 form-group">
-                                        <strong>Número do Cartão</strong>
-                                        <input type="text" class="form-control" placeholder="Digite o número do seu cartão" id="NumeroCartao" />
-                                        <span class="erro" id="ErroNumero">Campo Obrigatório</span>
-                                    </div>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <button class="btn btn-success" style="width: 100%; height: 200px; font-size: 44px; border-radius: 115px;" id="EfetuarPagamento">Efetuar Pagamento</button>
+                                        </div>
 
-                                    <div class="col-md-6 form-group">
-                                        <strong>Nome do Titular</strong>
-                                        <input type="text" class="form-control" placeholder="Digite o nome do Titulo do Cartão" id="TituloCartao" />
-                                        <span class="erro" id="ErroTitulo">Campo Obrigatório</span>
-                                    </div>
-
-                                    <div class="col-md-6 form-group">
-                                        <strong>CPF</strong>
-                                        <input type="text" class="form-control" placeholder="Digite o CPF do dono do Cartão" id="CPFCartao" />
-                                        <span class="erro" id="ErroCPF">Campo Obrigatório</span>
-                                    </div>
-
-                                    <div class="form-group col-md-6">
-                                        <strong>Data de Vencimento</strong>
-                                        <input type="text" class="form-control" placeholder="Digite a data de Vencimento do Cartão, Ex: 11/@DateTime.Now.Year.ToString()[2]@DateTime.Now.Year.ToString()[3]" id="DataCartao" />
-                                        <span class="erro" id="ErroData">Campo Obrigatório</span>
-                                    </div>
-
-                                    <div class="form-group col-md-6">
-                                        <strong>CVV</strong>
-                                        <input type="text" class="form-control" placeholder="Digite o nome do Titulo do Cartão" maxlength="3" id="CVVCartao" />
-                                        <span class="erro" id="ErroCVV">Campo Obrigatório</span>
                                     </div>
 
                                 </div>
-
-                                <div id="TipoBoleto" class="form-group" style="margin-left:20px; display:none;">
-                                    <p><strong>Clique em "Efetuar Pagamento" para gerar seu boleto.</strong></p>
-                                    <p><strong>Informações sobre o pagamento via boleto:</strong></p>
-                                    <ul>
-                                        <li>Valor à vista R$ @Model.ValorTotal</li>
-                                        <li>Não pode ser parcelado! Use cartão de crédito para parcelar sua compra</li>
-                                        <li>Fique atento a prazo de vencimento do seu boleto</li>
-                                    </ul>
-                                </div>
-
-                                <div class="form-group">
-                                    <strong>Código do Vendedor</strong>
-                                    <input type="text" class="form-control" placeholder="Digite o Código do Vendedor" maxlength="8" id="CodigoVendedor" />
-                                    <span class="erro" id="ErroVendedor"></span>
-                                </div>
-
                             </div>
-                        </div>
-                        <div class="card-footer">
-                            <button class="btn btn-success" id="EfetuarPagamento"><i class="fas fa-shopping-cart"></i> Efetuar Pagamento</button>
                         </div>
                     </div>
+
+
                 </div>
 
-
             </div>
-
         </div>
-    </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.js"></script>
-    <script src="~/js/slick.min.js"></script>
-    <script src="~/js/site.js"></script>
-    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-    <script src="https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
-    <script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+        <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.js"></script>
+        <script src="~/js/slick.min.js"></script>
+        <script src="~/js/site.js"></script>
+        <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+        <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+        <script src="https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
+
+        <script>
 
         $(document).ready(function () {
 
+            var QuantidadePessoas = setInterval(myTimer, 4000);
+            function myTimer() {
+                let Quantidade = Math.floor(Math.random() * 20);
+                if (Quantidade > 0) {
+                    $("#QuantidadePessoas").text(Quantidade);
+                }
+            }
+
+
+            $("#CPFLogin").mask("000.000.000-00");
+            $("#CEPLogin").mask("00000-000");
+            $("#TelefoneLogin").mask("(00) 00000-0000");
 
             let Logado = "@IdUsuarioLogado";
             let Bilhetes = "@Model.Bilhetes";
@@ -473,7 +504,7 @@
 
                             if (retorno.Status) {
                                 if (retorno.Mensagem == "Usuário Logado") {
-                                    $("#InformacoesPessoais").slideUp(200);
+                                    $("#DadosUsuario").slideDown(200);
                                     $("#NomeLogado").text("Nome: " + retorno.NomeLogado);
                                     $("#EmailLogado").text("Email: " + retorno.EmailLogado);
                                     $("#TelefoneLogado").text("Telefone: " + retorno.TelefoneLogado);
@@ -484,7 +515,7 @@
                                     $("#BairroLogado").text("Bairro: " + retorno.BairroLogado);
                                     $("#RuaLogado").text("Rua: " + retorno.RuaLogado);
                                     $("#NumeroLogado").text("Número: " + retorno.NumeroLogado);
-                                    $("#UsuarioLogado").slideDown(200);
+                                    $("#DadosUsuario").slideDown(200);
                                     $("#Pagamento").slideDown(200);
                                 }
                             }
@@ -579,7 +610,7 @@
                                     $("#BairroLogado").text("Bairro: " + retorno.BairroLogado);
                                     $("#RuaLogado").text("Rua: " + retorno.RuaLogado);
                                     $("#NumeroLogado").text("Número: " + retorno.NumeroLogado);
-                                    $("#UsuarioLogado").slideDown(200);
+                                    $("#DadosUsuario").slideDown(200);
                                     $("#Pagamento").slideDown(200);
                                 }
 
@@ -1065,9 +1096,298 @@
             });
 
 
+            $("#RealizarCadastro").click(function () {
+
+                let erro = false;
+
+                let Nome = $("#NomeLogin").val();
+                let SobreNome = $("#SobreNomeLogin").val();
+                let Email = $("#EmailCadastrar").val();
+                let Telefone = $("#TelefoneLogin").val();
+                let CPF = $("#CPFLogin").val();
+                let Estado = $("#EstadoLogin").val();
+                let Cidade = $("#CidadeLogin").val();
+                let Bairro = $("#BairroLogin").val();
+                let CEP = $("#CEPLogin").val();
+                let Rua = $("#RuaLogin").val();
+                let Numero = $("#NumeroLogin").val();
+                let Senha = $("#SenhaCadastrar").val();
+                let Confirmar = $("#ConfirmarLogin").val();
+
+                if (!Nome) {
+                    $("#NomeErro").text("Campo Obrigatório");
+                    $("#NomeErro").css("display", "block");
+                    erro = true;
+                }
+
+                else {
+                    $("#NomeErro").css("display", "none");
+                }
+
+                if (!SobreNome) {
+                    $("#SobreNomeErro").text("Campo Obrigatório");
+                    $("#SobreNomeErro").css("display", "block");
+                    erro = true;
+                }
+
+                else {
+                    $("#SobreNomeErro").css("display", "none");
+                }
+
+                if (!Email) {
+                    $("#EmailErro").text("Campo Obrigatório");
+                    $("#EmailErro").css("display", "block");
+                    erro = true;
+                }
+
+                else {
+
+                    if (!validaEmail(Email)) {
+                        $("#EmailErro").text("Email Inválido");
+                        $("#EmailErro").css("display", "block");
+                        erro = true;
+                    }
+
+                    else {
+                        $("#EmailErro").css("display", "none");
+                    }
+
+                }
+
+                if (!Telefone) {
+                    $("#TelefoneErro").text("Campo Obrigatório");
+                    $("#TelefoneErro").css("display", "block");
+                    erro = true;
+                }
+
+                else {
+                    $("#TelefoneErro").css("display", "none");
+                }
+
+                if (!CPF) {
+                    $("#CPFErro").text("Campo Obrigatório");
+                    $("#CPFErro").css("display", "block");
+                    erro = true;
+                }
+
+                else {
+
+                    if (!ValidaCPF(CPF)) {
+                        $("#CPFErro").text("CPF Inválido");
+                        $("#CPFErro").css("display", "block");
+                        erro = true;
+                    }
+
+                    else {
+                        $("#CPFErro").css("display", "none");
+                    }
+
+                }
+
+                if (!Estado) {
+                    $("#EstadoErro").text("Campo Obrigatório");
+                    $("#EstadoErro").css("display", "block");
+                    erro = true;
+                }
+
+                else {
+                    $("#EstadoErro").css("display", "none");
+                }
+
+                if (!Cidade) {
+                    $("#CidadeErro").text("Campo Obrigatório");
+                    $("#CidadeErro").css("display", "block");
+                    erro = true;
+                }
+
+                else {
+                    $("#CidadeErro").css("display", "none");
+                }
+
+                if (!Bairro) {
+                    $("#BairroErro").text("Campo Obrigatório");
+                    $("#BairroErro").css("display", "block");
+                    erro = true;
+                }
+
+                else {
+                    $("#BairroErro").css("display", "none");
+                }
+
+                if (!CEP) {
+                    $("#CEPErro").text("Campo Obrigatório");
+                    $("#CEPErro").css("display", "block");
+                    erro = true;
+                }
+
+                else {
+                    $("#CEPErro").css("display", "none");
+                }
+
+                if (!Rua) {
+                    $("#RuaErro").text("Campo Obrigatório");
+                    $("#RuaErro").css("display", "block");
+                    erro = true;
+                }
+
+                else {
+                    $("#RuaErro").css("display", "none");
+                }
+
+                if (!Numero) {
+                    $("#NumeroErro").text("Campo Obrigatório");
+                    $("#NumeroErro").css("display", "block");
+                    erro = true;
+                }
+
+                else {
+                    $("#NumeroErro").css("display","none")
+                }
+
+                if (!Senha) {
+                    $("#SenhaErro").text("Campo Obrigatório");
+                    $("#SenhaErro").css("display", "block");
+                    erro = true;
+                }
+
+                else {
+                    $("#SenhaErro").css("display", "none");
+                }
+
+                if (!Confirmar) {
+                    $("#ConfirmarErro").text("Campo Obrigatório");
+                    $("#ConfirmarErro").css("display", "block");
+                    erro = true;
+                }
+
+                else {
+
+                    if (Confirmar != Senha) {
+                        $("#ConfirmarErro").text("As senha digitadas não correspondem");
+                        $("#ConfirmarErro").css("display", "block");
+                        erro = true;
+                    }
+
+                    else {
+                        $("#ConfirmarErro").css("display", "none");
+                    }
+                }
+
+                if (!erro) {
+
+
+                    let data = {
+                        Nome,
+                        SobreNome,
+                        Email,
+                        Telefone,
+                        CPF,
+                        Estado,
+                        Cidade,
+                        Bairro,
+                        CEP,
+                        Rua,
+                        Numero,
+                        Senha,
+                        Confirmar
+                    };
+
+                    $, ajax({
+
+                        url: "@Url.Action("CadastrarUsuario","Comprar")",
+                        method: "POST",
+                        data: data,
+                        success: function (retorno) {
+
+                            if (retorno.Status) {
+
+                                $("#InformacoesPessoais").slideUp(200);
+                                $("#NomeLogado").text("Nome: " + retorno.NomeLogado);
+                                $("#EmailLogado").text("Email: " + retorno.EmailLogado);
+                                $("#TelefoneLogado").text("Telefone: " + retorno.TelefoneLogado);
+                                $("#CPFLogado").text("CPF: " + retorno.CPFLogado);
+                                $("#CEPLogado").text("CEP: " + retorno.CEPLogado);
+                                $("#EstadoLogado").text("Estado: " + retorno.EstadoLogado);
+                                $("#CidadeLogado").text("Cidade: " + retorno.CidadeLogado);
+                                $("#BairroLogado").text("Bairro: " + retorno.BairroLogado);
+                                $("#RuaLogado").text("Rua: " + retorno.RuaLogado);
+                                $("#NumeroLogado").text("Número: " + retorno.NumeroLogado);
+                                $("#UsuarioLogado").slideDown(200);
+                                $("#Pagamento").slideDown(200);
+
+                                Swal.fire({
+                                    title: 'Cadastrar realizado com sucesso!',
+                                    text: "Estamos muito felizes de tê-lo conosco, continue suas compras e boa sorte.",
+                                    icon: 'success',
+                                    showCancelButton: false,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    cancelButtonText: 'Não',
+                                    confirmButtonText: 'OK'
+                                });
+                            }
+
+                            else {
+                                $("#EmailErro").text(retorno.Mensagem);
+                                $("#EmailErro").css("display", "block");
+                            }
+
+                        }
+
+                    });
+
+                }
+
+            });
+
+            function ValidaCPF(cpf) {
+                cpf = cpf.replace(/[^\d]+/g, '');
+                if (cpf == '') return false;
+
+                if (cpf.length != 11 ||
+                    cpf == "00000000000" ||
+                    cpf == "11111111111" ||
+                    cpf == "22222222222" ||
+                    cpf == "33333333333" ||
+                    cpf == "44444444444" ||
+                    cpf == "55555555555" ||
+                    cpf == "66666666666" ||
+                    cpf == "77777777777" ||
+                    cpf == "88888888888" ||
+                    cpf == "99999999999")
+                    return false;
+
+                add = 0;
+                for (i = 0; i < 9; i++)
+                    add += parseInt(cpf.charAt(i)) * (10 - i);
+                rev = 11 - (add % 11);
+                if (rev == 10 || rev == 11)
+                    rev = 0;
+                if (rev != parseInt(cpf.charAt(9)))
+                    return false;
+
+                add = 0;
+                for (i = 0; i < 10; i++)
+                    add += parseInt(cpf.charAt(i)) * (11 - i);
+                rev = 11 - (add % 11);
+                if (rev == 10 || rev == 11)
+                    rev = 0;
+                if (rev != parseInt(cpf.charAt(10)))
+                    return false;
+                return true;
+            }
+
+
+            function validaEmail(email) {
+                var regex = /^([\w-]+(?:\.[\w-]+)*)@@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+                return regex.test(email);
+            }
+
+
+
         });
 
-    </script>
+        </script>
 </body>
 
 </html>

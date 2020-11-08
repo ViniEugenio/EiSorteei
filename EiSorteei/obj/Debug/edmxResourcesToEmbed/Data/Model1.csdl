@@ -56,6 +56,7 @@
       <End Role="Produto" EntitySet="Produto" />
       <End Role="TempBilhetes" EntitySet="TempBilhetes" />
     </AssociationSet>
+    <EntitySet Name="OrderBump" EntityType="EiSorteeiModel.OrderBump" />
   </EntityContainer>
   <EntityType Name="CategoriaProduto">
     <Key>
@@ -338,4 +339,16 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="OrderBump">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nome" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Descricao" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Imagem" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Valor" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="Status" Type="Boolean" Nullable="false" />
+    <Property Name="DataCadastro" Type="DateTime" Nullable="false" Precision="0" />
+  </EntityType>
 </Schema>

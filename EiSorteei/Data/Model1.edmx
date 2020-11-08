@@ -123,6 +123,18 @@
           <Property Name="CodigoVendedor" Type="varchar(max)" Nullable="false" />
           <Property Name="UrlBoleto" Type="varchar(max)" Nullable="false" />
         </EntityType>
+        <EntityType Name="OrderBump">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="varchar(max)" Nullable="false" />
+          <Property Name="Descricao" Type="varchar(max)" Nullable="false" />
+          <Property Name="Imagem" Type="varchar(max)" />
+          <Property Name="Valor" Type="money" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="DataCadastro" Type="date" Nullable="false" />
+        </EntityType>
         <EntityType Name="TempBilhetes">
           <Key>
             <PropertyRef Name="Id" />
@@ -275,6 +287,7 @@
           <EntitySet Name="BilhetesCarrinho" EntityType="Self.BilhetesCarrinho" Schema="eisorteei" store:Type="Tables" />
           <EntitySet Name="Carrinho" EntityType="Self.Carrinho" Schema="eisorteei" store:Type="Tables" />
           <EntitySet Name="Compras" EntityType="Self.Compras" Schema="eisorteei" store:Type="Tables" />
+          <EntitySet Name="OrderBump" EntityType="Self.OrderBump" Schema="eisorteei" store:Type="Tables" />
           <EntitySet Name="TempBilhetes" EntityType="Self.TempBilhetes" Schema="eisorteei" store:Type="Tables" />
           <AssociationSet Name="FK__BilhetesC__IdCar__4D94879B" Association="Self.FK__BilhetesC__IdCar__4D94879B">
             <End Role="Carrinho" EntitySet="Carrinho" />
@@ -381,6 +394,7 @@
             <End Role="Produto" EntitySet="Produto" />
             <End Role="TempBilhetes" EntitySet="TempBilhetes" />
           </AssociationSet>
+          <EntitySet Name="OrderBump" EntityType="EiSorteeiModel.OrderBump" />
         </EntityContainer>
         <EntityType Name="CategoriaProduto">
           <Key>
@@ -663,6 +677,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="OrderBump">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Descricao" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Imagem" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Valor" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="DataCadastro" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -803,6 +829,19 @@
                 <ScalarProperty Name="NumeroBilhete" ColumnName="NumeroBilhete" />
                 <ScalarProperty Name="DataCadastro" ColumnName="DataCadastro" />
                 <ScalarProperty Name="IdProduto" ColumnName="IdProduto" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderBump">
+            <EntityTypeMapping TypeName="EiSorteeiModel.OrderBump">
+              <MappingFragment StoreEntitySet="OrderBump">
+                <ScalarProperty Name="DataCadastro" ColumnName="DataCadastro" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="Imagem" ColumnName="Imagem" />
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

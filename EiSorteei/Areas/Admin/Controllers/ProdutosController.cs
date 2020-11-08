@@ -72,7 +72,7 @@ namespace EiSorteei.Areas.Admin.Controllers
             {
                 Usuario UsuarioLogado = (Usuario)Session["Usuario"];
 
-                Decimal ValorFormatado = Decimal.Parse(model.ValorRifa.Replace('.', ','));
+                Decimal ValorFormatado = Convert.ToDecimal(model.ValorRifa, new CultureInfo("en-Us"));
 
                 Produto NovoProduto = new Produto()
                 {
@@ -83,7 +83,7 @@ namespace EiSorteei.Areas.Admin.Controllers
                     Nome = model.Nome,
                     RangeCodigo = model.RangeCodigo,
                     Status = true,
-                    ValorRifa = ValorFormatado,
+                    ValorRifa = Math.Round(ValorFormatado, 2),
                     IdUsuario = UsuarioLogado.Id,
                     DataSorteio = DataConvertida
                 };

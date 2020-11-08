@@ -118,6 +118,18 @@
     <Property Name="CodigoVendedor" Type="varchar(max)" Nullable="false" />
     <Property Name="UrlBoleto" Type="varchar(max)" Nullable="false" />
   </EntityType>
+  <EntityType Name="OrderBump">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nome" Type="varchar(max)" Nullable="false" />
+    <Property Name="Descricao" Type="varchar(max)" Nullable="false" />
+    <Property Name="Imagem" Type="varchar(max)" />
+    <Property Name="Valor" Type="money" Nullable="false" />
+    <Property Name="Status" Type="bit" Nullable="false" />
+    <Property Name="DataCadastro" Type="date" Nullable="false" />
+  </EntityType>
   <EntityType Name="TempBilhetes">
     <Key>
       <PropertyRef Name="Id" />
@@ -270,6 +282,7 @@
     <EntitySet Name="BilhetesCarrinho" EntityType="Self.BilhetesCarrinho" Schema="eisorteei" store:Type="Tables" />
     <EntitySet Name="Carrinho" EntityType="Self.Carrinho" Schema="eisorteei" store:Type="Tables" />
     <EntitySet Name="Compras" EntityType="Self.Compras" Schema="eisorteei" store:Type="Tables" />
+    <EntitySet Name="OrderBump" EntityType="Self.OrderBump" Schema="eisorteei" store:Type="Tables" />
     <EntitySet Name="TempBilhetes" EntityType="Self.TempBilhetes" Schema="eisorteei" store:Type="Tables" />
     <AssociationSet Name="FK__BilhetesC__IdCar__4D94879B" Association="Self.FK__BilhetesC__IdCar__4D94879B">
       <End Role="Carrinho" EntitySet="Carrinho" />

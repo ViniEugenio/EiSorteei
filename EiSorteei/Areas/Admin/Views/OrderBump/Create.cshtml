@@ -1,0 +1,65 @@
+﻿@model EiSorteei.Models.OrderBumpViewModel
+
+@{
+    ViewBag.Title = "Cadastrar Order Bump";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdministrador.cshtml";
+}
+
+
+@using (Html.BeginForm("Create", "OrderBump", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div style="display:flex; align-items:center; justify-content:center; margin-top:50px;">
+        <div class="card" style="width:1200px;">
+
+            <div class="card-header">
+                <h3>Cadastrar Novo Order Bump</h3>
+            </div>
+
+            <div class="card-body">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Descricao, htmlAttributes: new { @class = "control-label" })
+                    <textarea name="Descricao">@ViewBag.Descricao</textarea>
+                    @Html.ValidationMessageFor(model => model.Descricao, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Valor, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Valor, new { htmlAttributes = new { @class = "form-control", type = "number", min = "0.00", max = "10000.00", step = "0.01", placeholder = "Ex: 50,99/50.99" } })
+                    @Html.ValidationMessageFor(model => model.Valor, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Imagem, htmlAttributes: new { @class = "control-label" })
+                    <input type="file" class="form-control" name="Imagem" />
+                    @Html.ValidationMessageFor(model => model.Imagem, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+
+            <div class="card-footer">
+                <div class="form-group">
+                    <button class="btn btn-success">Cadastrar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+}
+
+<script src="https://cdn.ckeditor.com/4.15.0/standard/ckeditor.js"></script>
+@section Scripts{
+
+    <script>
+        CKEDITOR.replace('Descricao');
+    </script>
+}
+
