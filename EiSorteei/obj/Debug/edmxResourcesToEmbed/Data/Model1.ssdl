@@ -114,6 +114,9 @@
     <Property Name="CarrinhoId" Type="bigint" Nullable="false" />
     <Property Name="DataCompra" Type="date" Nullable="false" />
     <Property Name="Status" Type="varchar(max)" />
+    <Property Name="IdCompra" Type="varchar(max)" Nullable="false" />
+    <Property Name="CodigoVendedor" Type="varchar(max)" Nullable="false" />
+    <Property Name="UrlBoleto" Type="varchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="TempBilhetes">
     <Key>

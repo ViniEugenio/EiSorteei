@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json.Linq;
+using System.Globalization;
 
 namespace EiSorteei.Controllers
 {
@@ -30,6 +31,7 @@ namespace EiSorteei.Controllers
             if (IdProduto != 0)
             {
                 var Produto = _Context.Produto.FirstOrDefault(p => p.Id == IdProduto);
+
                 if (Produto == null)
                 {
                     return RedirectToAction("Index");
@@ -38,18 +40,35 @@ namespace EiSorteei.Controllers
                 ViewBag.Imagens = _Context.Multimidia.Where(p => p.IdProduto.Equals(IdProduto) && p.Status).ToList();
                 ViewBag.Usuario = _Context.Usuario.FirstOrDefault(u => u.Id.Equals(Produto.IdUsuario));
                 ViewBag.Categoria = _Context.CategoriaProduto.FirstOrDefault(c => c.Id.Equals(Produto.IdCategoria)).Nome;
-                string[] Comprados = { "" };
-                ViewBag.Comprados = Comprados;
 
+                List<Compras> TodasCompras = _Context.Compras.Join(_Context.Carrinho.Where(carrinho => carrinho.IdProduto.Equals(IdProduto)),
+                                                                        compra => compra.CarrinhoId, carrinho => carrinho.Id, (compra, carrinho) => compra).Where(c => c.Status != "cancelled").ToList();
 
-                List<TempBilhetes> BilhetesReservados = _Context.TempBilhetes.Where(p => p.IdProduto.Equals(IdProduto)).ToList();
+                List<Compras> ComprasAprovadas = TodasCompras.Join(_Context.Carrinho.Where(carrinho => carrinho.IdProduto.Equals(IdProduto)),
+                                                                        compra => compra.CarrinhoId, carrinho => carrinho.Id, (compra, carrinho) => compra)
+                                                                        .Where(c => c.Status == "approved").ToList();
+
+                List<string> NumeroComprados = new List<string>();
+
+                foreach (var x in ComprasAprovadas)
+                {
+                    List<BilhetesCarrinho> Bilhetes = _Context.BilhetesCarrinho.Where(b => b.IdCarrinho.Equals(x.CarrinhoId)).ToList();
+                    foreach (var bilhete in Bilhetes)
+                    {
+                        NumeroComprados.Add(bilhete.NumeroBilhete.ToString());
+                    }
+                }
+
+                List<TempBilhetes> BilhetesReservados = _Context.TempBilhetes.Where(p => p.IdProduto == IdProduto).ToList();
                 List<string> NumerosReservados = new List<string>();
 
-                foreach(var x in BilhetesReservados)
+                foreach (var x in BilhetesReservados)
                 {
                     DateTime DataBilhete = Convert.ToDateTime(x.DataCadastro);
+                    DateTime DataAtual = Convert.ToDateTime(DateTime.Now.ToString("dd/MM/yyyy"));
 
-                    var DiferencaDatas = DateTime.Now.Subtract(DataBilhete);
+                    var DiferencaDatas = DataAtual.Subtract(DataBilhete);
+
                     if (DiferencaDatas.Hours < 1)
                     {
                         NumerosReservados.Add(x.NumeroBilhete);
@@ -62,8 +81,41 @@ namespace EiSorteei.Controllers
                     }
                 }
 
-                ViewBag.BilhetesReservados = NumerosReservados.ToArray();
+                List<Compras> ComprasPendentes = TodasCompras.Join(_Context.Carrinho.Where(carrinho => carrinho.IdProduto.Equals(IdProduto)),
+                                                                        compra => compra.CarrinhoId, carrinho => carrinho.Id, (compra, carrinho) => compra)
+                                                                        .Where(c => c.Status == "pending" || c.Status == "in_process").ToList();
+                foreach (var x in ComprasPendentes)
+                {
+                    string retorno = GetOrder(x.IdCompra);
+                    if (retorno == "pending" || retorno == "in_process")
+                    {
+                        List<BilhetesCarrinho> Bilhetes = _Context.BilhetesCarrinho.Where(b => b.IdCarrinho.Equals(x.CarrinhoId)).ToList();
+                        foreach (var bilhete in Bilhetes)
+                        {
+                            NumerosReservados.Add(bilhete.NumeroBilhete.ToString());
+                        }
+                    }
 
+                    else if (retorno == "cancelled" || retorno == "rejected")
+                    {
+                        x.Status = retorno;
+                        _Context.Entry(x).State = System.Data.Entity.EntityState.Modified;
+                        _Context.SaveChanges();
+                    }
+
+                    else if (retorno == "approved")
+                    {
+                        List<BilhetesCarrinho> Bilhetes = _Context.BilhetesCarrinho.Where(b => b.IdCarrinho.Equals(x.CarrinhoId)).ToList();
+                        foreach (var bilhete in Bilhetes)
+                        {
+                            NumeroComprados.Add(bilhete.NumeroBilhete.ToString());
+                        }
+                    }
+                }
+
+                ViewBag.BilhetesReservados = NumerosReservados.ToArray();
+                string[] Comprados = NumeroComprados.ToArray();
+                ViewBag.Comprados = Comprados;
 
                 return View(Produto);
             }
@@ -78,53 +130,35 @@ namespace EiSorteei.Controllers
             Produto oProduto = _Context.Produto.FirstOrDefault(p => p.Id.Equals(IdProduto));
             Usuario UsuarioLogado = (Usuario)Session["Usuario"];
 
+            if (UsuarioLogado != null)
+            {
+                return Json(new
+                {
+                    Status = true,
+                    UsuarioLogado.Nome,
+                    UsuarioLogado.SobreNome,
+                    UsuarioLogado.Email,
+                    UsuarioLogado.Estado,
+                    UsuarioLogado.Cidade,
+                    UsuarioLogado.Bairro,
+                    UsuarioLogado.Rua,
+                    UsuarioLogado.Numero,
+                    UsuarioLogado.Telefone,
+                    UsuarioLogado.CEP,
+                    IdProduto = oProduto.Id,
+                    oProduto.ValorRifa,
+                    NomeProduto = oProduto.Nome,
+                    DataCadastro =DateTime.Now,
+                    UsuarioLogado.Cpf
+                });
+            }
+
             return Json(new
             {
-                UsuarioLogado.Nome,
-                UsuarioLogado.SobreNome,
-                UsuarioLogado.Email,
-                UsuarioLogado.Estado,
-                UsuarioLogado.Cidade,
-                UsuarioLogado.Bairro,
-                UsuarioLogado.Rua,
-                UsuarioLogado.Numero,
-                UsuarioLogado.Telefone,
-                UsuarioLogado.CEP,
-                IdProduto = oProduto.Id,
-                oProduto.ValorRifa,
-                NomeProduto = oProduto.Nome,
-                DataCadastro = DateTime.Now,
-                UsuarioLogado.Cpf
+                Status = false
             });
+
         }
-
-        //public ActionResult RegistrarCompra(long IdProduto, string CodigoVendedor, string IdCompra, string StatusPagamento, string NumeroRifa[])
-        //{
-        //    try
-        //    {
-        //        Usuario UsuarioLogado = (Usuario)Session["Usuario"];
-
-        //        _Context.SaveChanges();
-
-        //        return Json(new
-        //        {
-        //            Status = true,
-        //        });
-        //    }
-
-        //    catch (Exception e)
-        //    {
-        //        return Json(new
-        //        {
-        //            Status = false,
-        //        });
-        //    }
-
-
-        //}
-
-
-
 
         public ActionResult Pagamento(long Id)
         {
@@ -135,13 +169,13 @@ namespace EiSorteei.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            //else
-            //{
-            //    if (Convert.ToDateTime(FindedCookie["Validade"]) <= DateTime.Now)
-            //    {
-            //        return RedirectToAction("Index", "Home");
-            //    }
-            //}
+            else
+            {
+                if (Convert.ToDateTime(FindedCookie["Validade"]) <= Convert.ToDateTime(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")))
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+            }
 
             Usuario UsuarioLogado = (Usuario)Session["Usuario"];
             long IdProduto = Convert.ToInt64(FindedCookie["IdProduto"]);
@@ -172,9 +206,12 @@ namespace EiSorteei.Controllers
                     if (_Context.TempBilhetes.Any(b => b.IdProduto.Equals(IdProduto) && b.NumeroBilhete == BilheteIndex))
                     {
                         var FindedBilhete = _Context.TempBilhetes.FirstOrDefault(b => b.IdProduto == IdProduto && b.NumeroBilhete == BilheteIndex);
-                        DateTime DataBilhete = Convert.ToDateTime(FindedBilhete.DataCadastro);
 
-                        var DiferencaDatas = DateTime.Now.Subtract(DataBilhete);
+                        DateTime DataBilhete =DateTime.ParseExact(FindedBilhete.DataCadastro,"dd/MM/yyyy",CultureInfo.InvariantCulture);
+                        DateTime DataAtual = DateTime.Now;
+
+                        var DiferencaDatas = DataAtual.Subtract(DataBilhete);
+
                         if (DiferencaDatas.Hours < 1)
                         {
                             BilhetesRepetidos.Add(Bilhete[x]);
@@ -206,22 +243,31 @@ namespace EiSorteei.Controllers
                 }
 
                 BilhetesRepetidos.Clear();
-                List<Carrinho> Carrinhos = _Context.Carrinho.Where(c => c.IdProduto.Equals(IdProduto) && c.Status).ToList();
-                foreach (var carrinho in Carrinhos)
-                {
 
-                    List<BilhetesCarrinho> BilhetesDoCarrinho = _Context.BilhetesCarrinho.Where(b => b.IdCarrinho.Equals(carrinho.Id)).ToList();
-                    foreach (var bilhete in BilhetesDoCarrinho)
+                List<Carrinho> Carrinhos = _Context.Carrinho.Where(c => c.IdProduto == IdProduto && c.Status).ToList();
+
+                foreach (var x in Carrinhos)
+                {
+                    Compras FindedCompra = _Context.Compras.FirstOrDefault(c => c.CarrinhoId.Equals(x.Id));
+                    if (FindedCompra != null)
                     {
-                        if (Bilhete.Contains(bilhete.NumeroBilhete))
+                        if (FindedCompra.Status == "approved" || FindedCompra.Status == "pending" || FindedCompra.Status == "in_process")
                         {
-                            Compras FindedCompra = _Context.Compras.FirstOrDefault(c => c.CarrinhoId.Equals(bilhete.IdCarrinho));
-                            if (FindedCompra.Status == "Compra Fechada")
+                            List<BilhetesCarrinho> BilhetesDoCarrinho = _Context.BilhetesCarrinho.Where(b => b.IdCarrinho.Equals(x.Id)).ToList();
+                            foreach (var bilhete in BilhetesDoCarrinho)
                             {
-                                BilhetesRepetidos.Add(bilhete.NumeroBilhete);
+                                for (int y = 0; y < Bilhete.Length; y++)
+                                {
+                                    if (bilhete.NumeroBilhete == Bilhete[y])
+                                    {
+                                        BilhetesRepetidos.Add(bilhete.NumeroBilhete);
+                                    }
+                                }
                             }
                         }
+
                     }
+
                 }
 
                 BilhetesInvalidosMessage = "";
@@ -236,7 +282,8 @@ namespace EiSorteei.Controllers
                     {
                         Status = false,
                         Mensagem = "Bilhetes Inválidos",
-                        BilhetesInvalidosMessage
+                        BilhetesInvalidosMessage,
+                        BilhetesInvalidos = BilhetesRepetidos.ToArray()
                     });
                 }
 
@@ -255,6 +302,7 @@ namespace EiSorteei.Controllers
                 }
 
                 HttpCookie FindedCookie = Request.Cookies["Carrinho"];
+
                 if (FindedCookie != null)
                 {
                     FindedCookie.Expires = DateTime.Now.AddYears(-1);
@@ -294,24 +342,18 @@ namespace EiSorteei.Controllers
         }
 
 
-        public void GetAllOrders(long IdProduto)
+        public string GetOrder(string IdCompra)
         {
 
             ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
-            WebRequest request = WebRequest.Create("https://accounts.cartx.io/api/ei-sorteei/orders");
-            request.Headers.Add("AUTHORIZATION", "Bearer NRw70HKslPmlUkmd8omZkGahmVdYowrg8gUnZn55BPxSefz32AavjL5i13Dl");
+            WebRequest request = WebRequest.Create("https://api.mercadopago.com/v1/payments/search?id=" + IdCompra);
+            request.Headers.Add("AUTHORIZATION", "Bearer APP_USR-5017428128263404-072015-ddd04542ab6288891aebac5789addf33-247787081");
             request.Method = "GET";
             var response = (HttpWebResponse)request.GetResponse();
             var streamReader = new StreamReader(response.GetResponseStream());
             var result = streamReader.ReadToEnd();
-
-            var Objeto = JObject.Parse(result);
-            var JOrders = Objeto["orders"]["data"];
-
-            List<OrderCartX> Orders = JsonConvert.DeserializeObject<List<OrderCartX>>(JOrders.ToString());
-
-
-
+            JObject Objeto = JObject.Parse(result);
+            return (string)Objeto["results"][0]["status"];
         }
 
 
@@ -361,6 +403,172 @@ namespace EiSorteei.Controllers
                 });
             }
 
+        }
+
+        public JsonResult GetInformacoesUsuario(long IdUsuario)
+        {
+            try
+            {
+                if (_Context.Usuario.Any(u => u.Id.Equals(IdUsuario)))
+                {
+                    Usuario oUsuario = _Context.Usuario.FirstOrDefault(u => u.Id.Equals(IdUsuario));
+
+                    return Json(new
+                    {
+                        Status = true,
+                        Mensagem = "Usuário Logado",
+                        NomeLogado = oUsuario.Nome + " " + oUsuario.SobreNome,
+                        EmailLogado = oUsuario.Email,
+                        TelefoneLogado = oUsuario.Telefone,
+                        CPFLogado = oUsuario.Cpf,
+                        CEPLogado = oUsuario.CEP,
+                        EstadoLogado = oUsuario.Estado,
+                        CidadeLogado = oUsuario.Cidade,
+                        BairroLogado = oUsuario.Bairro,
+                        RuaLogado = oUsuario.Rua,
+                        NumeroLogado = oUsuario.Numero
+                    });
+                }
+
+                return Json(new
+                {
+                    Status = true,
+                    Mensagem = "Usuário não encontrado"
+                });
+            }
+
+            catch (Exception e)
+            {
+                return Json(new
+                {
+                    Status = false,
+                    Mensagem = "Erro"
+                });
+            }
+        }
+
+
+        public JsonResult CompraRealizada(string Status, long IdProduto, string IdCompra, string TipoPagamento, string Bilhetes, string CodigoVendedor, string UrlBoleto)
+        {
+            try
+            {
+                string[] BilhetesFormatados = Bilhetes.Split(',');
+
+                List<int> BilhetesRepetidos = new List<int>();
+
+                List<Carrinho> Carrinhos = _Context.Carrinho.Where(c => c.IdProduto == IdProduto && c.Status).ToList();
+
+                foreach (var x in Carrinhos)
+                {
+                    Compras FindedCompra = _Context.Compras.FirstOrDefault(c => c.CarrinhoId.Equals(x.Id));
+                    if (FindedCompra != null)
+                    {
+                        if (FindedCompra.Status == "approved" || FindedCompra.Status == "pending" || FindedCompra.Status == "in_process")
+                        {
+                            List<BilhetesCarrinho> BilhetesDoCarrinho = _Context.BilhetesCarrinho.Where(b => b.IdCarrinho.Equals(x.Id)).ToList();
+                            foreach (var bilhete in BilhetesDoCarrinho)
+                            {
+                                if (BilhetesFormatados.Contains(bilhete.NumeroBilhete.ToString()))
+                                {
+                                    BilhetesRepetidos.Add(bilhete.NumeroBilhete);
+                                }
+                            }
+                        }
+
+                    }
+
+                }
+
+                string BilhetesInvalidosMessage = "";
+                if (BilhetesRepetidos.Count > 0)
+                {
+                    foreach (var x in BilhetesRepetidos)
+                    {
+                        BilhetesInvalidosMessage = BilhetesRepetidos.IndexOf(x) == BilhetesRepetidos.Count - 1 ? BilhetesInvalidosMessage + x : BilhetesInvalidosMessage + ", " + x;
+                    }
+
+                    return Json(new
+                    {
+                        Status = false,
+                        Mensagem = "Bilhetes Inválidos",
+                        BilhetesInvalidosMessage,
+                        JsonRequestBehavior.AllowGet
+                    });
+                }
+
+                Usuario UsuarioLogado = (Usuario)Session["Usuario"];
+                Carrinho NovoCarrinho = new Carrinho()
+                {
+                    DataCadastro = DateTime.Now,
+                    IdProduto = IdProduto,
+                    IdUsuario = UsuarioLogado.Id,
+                    Status = true
+                };
+
+                _Context.Carrinho.Add(NovoCarrinho);
+                _Context.SaveChanges();
+
+                for (int x = 0; x < BilhetesFormatados.Count(); x++)
+                {
+                    int NumeroBilhete = Convert.ToInt32(BilhetesFormatados[x]);
+                    BilhetesCarrinho NovoBilhete = new BilhetesCarrinho()
+                    {
+                        DataCadastro = DateTime.Now,
+                        IdCarrinho = NovoCarrinho.Id,
+                        NumeroBilhete = NumeroBilhete,
+                    };
+
+                    _Context.BilhetesCarrinho.Add(NovoBilhete);
+
+
+                    TempBilhetes FindedBilhete = _Context.TempBilhetes.FirstOrDefault(b => b.NumeroBilhete == NumeroBilhete.ToString() && b.IdProduto == IdProduto);
+                    _Context.Entry(FindedBilhete).State = System.Data.Entity.EntityState.Deleted;
+
+                    _Context.SaveChanges();
+                }
+
+                Compras NovaCompra = new Compras()
+                {
+                    CarrinhoId = NovoCarrinho.Id,
+                    DataCompra = DateTime.Now,
+                    Status = Status,
+                    IdCompra = IdCompra,
+                    CodigoVendedor = CodigoVendedor,
+                    UrlBoleto = UrlBoleto
+                };
+
+                _Context.Compras.Add(NovaCompra);
+                _Context.SaveChanges();
+
+
+                string Mensagem = "Obrigado por comprar conosco, seus Bilhetes foram reservados,";
+                if (Status == "pending" && TipoPagamento == "Boleto")
+                {
+                    Mensagem = Mensagem + " efetue o pagamento do boleto para que o seus bilhetes fiquem válidos para o sorteio.";
+                }
+
+                else if (Status == "pending" && TipoPagamento != "Boleto")
+                {
+                    Mensagem = Mensagem + " sua compra está sendo analisada e em breve entraremos em contato com você para mais informações.";
+                }
+
+                return Json(new
+                {
+                    Status = true,
+                    Mensagem,
+                    JsonRequestBehavior.AllowGet
+                });
+            }
+
+            catch (Exception e)
+            {
+                return Json(new
+                {
+                    Status = false,
+                    Mensagem = "Não foi possível realizar sua compra tente novamente mais tarde",
+                    JsonRequestBehavior.AllowGet
+                });
+            }
         }
 
     }

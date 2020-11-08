@@ -3,6 +3,7 @@ using EiSorteei.Helpers;
 using EiSorteei.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -41,13 +42,14 @@ namespace EiSorteei.Areas.Admin.Controllers
         {
             LoadViewBags();
 
+            DateTime DataConvertida = DateTime.ParseExact(model.DataSorteio, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
             if (model.Imagem[0] == null)
             {
                 ModelState.AddModelError("Imagem", "Por favor selecione pelo menos uma imagem para o Produto");
             }
 
-            if (Convert.ToDateTime(model.DataSorteio) <= DateTime.Now)
+            if (DataConvertida <= DateTime.Now)
             {
                 ModelState.AddModelError("DataSorteio", "A data do sorteio deve ser uma data futura");
             }
@@ -70,6 +72,8 @@ namespace EiSorteei.Areas.Admin.Controllers
             {
                 Usuario UsuarioLogado = (Usuario)Session["Usuario"];
 
+                Decimal ValorFormatado = Decimal.Parse(model.ValorRifa.Replace('.', ','));
+
                 Produto NovoProduto = new Produto()
                 {
                     IdCategoria = model.CategoriaProduto,
@@ -79,9 +83,9 @@ namespace EiSorteei.Areas.Admin.Controllers
                     Nome = model.Nome,
                     RangeCodigo = model.RangeCodigo,
                     Status = true,
-                    ValorRifa = Convert.ToDecimal(model.ValorRifa.ToString().Replace(".", ",")),
+                    ValorRifa = ValorFormatado,
                     IdUsuario = UsuarioLogado.Id,
-                    DataSorteio = Convert.ToDateTime(model.DataSorteio)
+                    DataSorteio = DataConvertida
                 };
 
                 if (model.Video != null)
@@ -194,7 +198,7 @@ namespace EiSorteei.Areas.Admin.Controllers
                 RangeCodigo = produto.RangeCodigo,
                 ValorRifa = Math.Round(produto.ValorRifa, 2).ToString().Replace(",", "."),
                 Id = produto.Id,
-                DataSorteio = produto.DataSorteio.Value.ToString(),
+                DataSorteio = produto.DataSorteio.Value.ToString("dd/MM/yyyy"),
                 ActualyVideo = produto.Video
             };
 
@@ -221,6 +225,7 @@ namespace EiSorteei.Areas.Admin.Controllers
         {
             LoadViewBags();
             ViewBag.Imagens = _Context.Multimidia.Where(m => m.IdProduto.Equals(model.Id) && m.Status).ToList();
+            DateTime DataConvertida = DateTime.ParseExact(model.DataSorteio, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
             if (model.Imagem.Count() == 0 && _Context.Multimidia.Where(m => m.IdProduto.Equals(model.Id)).Count() == 0)
             {
@@ -230,7 +235,7 @@ namespace EiSorteei.Areas.Admin.Controllers
                 }
             }
 
-            if (Convert.ToDateTime(model.DataSorteio) <= DateTime.Now)
+            if (DataConvertida <= DateTime.Now)
             {
                 ModelState.AddModelError("DataSorteio", "A data do sorteio deve ser uma data futura");
             }
@@ -256,8 +261,9 @@ namespace EiSorteei.Areas.Admin.Controllers
                 AlterarProduto.IdCategoria = model.CategoriaProduto;
                 AlterarProduto.DataAtualizacao = DateTime.Now;
                 AlterarProduto.RangeCodigo = model.RangeCodigo;
-                AlterarProduto.ValorRifa = Convert.ToDecimal(model.ValorRifa.ToString().Replace(".", ","));
-                AlterarProduto.DataSorteio = Convert.ToDateTime(model.DataSorteio);
+                Decimal ValorFormatado = Convert.ToDecimal(model.ValorRifa, new CultureInfo("en-Us"));
+                AlterarProduto.ValorRifa = Math.Round(ValorFormatado, 2);
+                AlterarProduto.DataSorteio = DataConvertida;
 
 
                 if (model.Video != null)

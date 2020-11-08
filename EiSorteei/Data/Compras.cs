@@ -18,6 +18,9 @@ namespace EiSorteei.Data
         public long CarrinhoId { get; set; }
         public System.DateTime DataCompra { get; set; }
         public string Status { get; set; }
+        public string IdCompra { get; set; }
+        public string CodigoVendedor { get; set; }
+        public string UrlBoleto { get; set; }
     
         public virtual Carrinho Carrinho { get; set; }
     }

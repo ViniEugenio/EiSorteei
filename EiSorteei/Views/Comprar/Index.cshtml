@@ -6,6 +6,7 @@
 
     string[] Comprados = ViewBag.Comprados;
     string[] Reservados = ViewBag.BilhetesReservados;
+    int BilhetesIndisponiveis = Comprados.Count() + Reservados.Count();
     var Usuario = ViewBag.Usuario;
 }
 
@@ -82,6 +83,23 @@
         .modal-content {
             height: 50% !important;
             width: 90% !important;
+        }
+
+        #Quantidade {
+            font-size: 12px !important;
+            padding-left: 5px !important;
+            margin-bottom:3px;
+        }
+
+        #RifasEscolhidas{
+            width:53% !important;
+        }
+
+        #RifaEscolhida {
+
+            font-size: 13px !important;
+            height: 22px !important;
+            width: 32px !important;
         }
     }
 
@@ -186,11 +204,11 @@
             <strong>Total: @Model.RangeCodigo</strong>
         </div>
         <div class="col-md-4 form-group">
-            <strong><i class="fas fa-hourglass-start"></i> Reservados: 6</strong>
+            <strong><i class="fas fa-hourglass-start"></i> Reservados/Comprados: @BilhetesIndisponiveis</strong>
         </div>
 
         <div class="col-md-4 form-group">
-            <strong><i class="fas fa-calendar"></i> Data do Sorteio: @Model.DataSorteio.ToString().Replace(" 00:00:00", string.Empty)</strong>
+            <strong><i class="fas fa-calendar"></i> Data do Sorteio: @Model.DataSorteio.Value.ToString("dd/MM/yyyy")</strong>
         </div>
 
         <div class="col-md-4 form-group">
@@ -208,6 +226,27 @@
         <p><i class="fas fa-envelope"></i> <strong>Email: @Usuario.Email</strong></p>
 
         <p><i class="fas fa-phone"></i> <strong>Telefone: @Usuario.Telefone</strong></p>
+
+    </div>
+
+    <div style="display:flex; flex-direction:row; align-items:center; justify-content:center; width:20%; margin:auto; margin-bottom:50px;">
+        <div style="margin:auto; width:100%; margin-right:20px; display:flex; flex-direction:column;">
+            <strong class="text-center">Comprados</strong>
+            <div class="NumeroRifa" style="height:40px; width:100%; background-color:red;">
+            </div>
+        </div>
+
+        <div style="margin:auto; width:100%; margin-right:20px; display:flex; flex-direction:column;">
+            <strong class="text-center">Reservados</strong>
+            <div class="NumeroRifa" style="height:40px; width:100%; background-color:gray;">
+            </div>
+        </div>
+
+        <div style="margin: auto; width: 100%; margin-right: 20px; display: flex; flex-direction: column;">
+            <strong class="text-center">Selecionados</strong>
+            <div class="NumeroRifa" style="height:40px; width:100%; background-color:rgb(37, 202, 23);">
+            </div>
+        </div>
 
     </div>
 
@@ -273,7 +312,7 @@
                     for (var i = 0; i < Rifas.length ; i++) {
 
                         $("#RifasEscolhidas").append(
-                            "<div id='RifaEscolhida' class='col-md-1 form-group'>" +
+                            "<div id='RifaEscolhida' style='margin-right:2px; margin-top:5px;'>"+
                                 Rifas[i] +
                             "</div>"
                         );
@@ -282,35 +321,19 @@
 
                     if (Rifas.length == 0) {
                         $("#Quantidade").slideUp(200);
-                    }
-
-                    if (Rifas.length <= 24) {
-                        $("#Quantidade").css("height", "106")
-                    }
-
-                    if (Rifas.length > 24) {
-                        $("#Quantidade").css("height", "160")
-                    }
+                    }                   
 
                 }
 
                 else {
                     $(this).css("background-color", "#25CA17");
-                    Rifas.push(numero[0].outerText);
-
-                    if (Rifas.length < 24) {
-                        $("#Quantidade").css("height", "106")
-                    }
-
-                    if (Rifas.length > 24) {
-                        $("#Quantidade").css("height","160")
-                    }
+                    Rifas.push(numero[0].outerText);                   
 
 
                     $("#Quantidade").slideDown(200);
 
                     $("#RifasEscolhidas").append(
-                        "<div id='RifaEscolhida' class='col-md-1 form-group'>" +
+                        "<div id='RifaEscolhida' style='margin-right:2px; margin-top:5px;'>" +
                             numero[0].outerText +
                         "</div>"
                     );
@@ -402,7 +425,7 @@
                             for (var i = 0; i < Rifas.length; i++) {
 
                                 $("#RifasEscolhidas").append(
-                                    "<div id='RifaEscolhida' class='col-md-1 form-group'>" +
+                                    "<div id='RifaEscolhida' style='margin-right:2px; margin-top:5px;'>" +
                                     Rifas[i] +
                                     "</div>"
                                 );

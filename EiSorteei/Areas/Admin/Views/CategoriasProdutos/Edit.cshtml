@@ -10,8 +10,8 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(c => c.Id)
-    @Html.HiddenFor(c => c.DataCadastro)
-    @Html.HiddenFor(c => c.DataAtualizacao)
+    @Html.HiddenFor(c => c.DataCadastro.ToString("dd/MM/yyyy"))
+    @Html.HiddenFor(c => c.DataAtualizacao.ToString("dd/MM/yyyy"))
     @Html.HiddenFor(c => c.Status)
 
     <div style="display:flex; align-items:center; justify-content:center; margin-top:50px;">

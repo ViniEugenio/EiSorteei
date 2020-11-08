@@ -119,6 +119,9 @@
           <Property Name="CarrinhoId" Type="bigint" Nullable="false" />
           <Property Name="DataCompra" Type="date" Nullable="false" />
           <Property Name="Status" Type="varchar(max)" />
+          <Property Name="IdCompra" Type="varchar(max)" Nullable="false" />
+          <Property Name="CodigoVendedor" Type="varchar(max)" Nullable="false" />
+          <Property Name="UrlBoleto" Type="varchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="TempBilhetes">
           <Key>
@@ -514,6 +517,9 @@
           <Property Name="DataCompra" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Carrinho" Relationship="EiSorteeiModel.FK__Compras__Carrinh__5070F446" FromRole="Compras" ToRole="Carrinho" />
+          <Property Name="IdCompra" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CodigoVendedor" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="UrlBoleto" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK__Produto__IdCateg__2F10007B">
           <End Type="EiSorteeiModel.CategoriaProduto" Role="CategoriaProduto" Multiplicity="1" />
@@ -781,6 +787,9 @@
           <EntitySetMapping Name="Compras">
             <EntityTypeMapping TypeName="EiSorteeiModel.Compras">
               <MappingFragment StoreEntitySet="Compras">
+                <ScalarProperty Name="UrlBoleto" ColumnName="UrlBoleto" />
+                <ScalarProperty Name="CodigoVendedor" ColumnName="CodigoVendedor" />
+                <ScalarProperty Name="IdCompra" ColumnName="IdCompra" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="DataCompra" ColumnName="DataCompra" />
                 <ScalarProperty Name="CarrinhoId" ColumnName="CarrinhoId" />

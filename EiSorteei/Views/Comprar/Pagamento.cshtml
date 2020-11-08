@@ -334,7 +334,7 @@
 
                     </div>
 
-                    <div class="col-md-6" style="margin-top:5px; margin:auto;">
+                    <div class="col-md-6" style="margin-top:5px; margin:auto; margin-top:5px;">
 
                         <div class="card">
                             <div class="card-header">
@@ -370,8 +370,8 @@
                             <div class="form-group text-center">
                                 <strong>Selecione a Forma de Pagamento: </strong>
                                 <div class="form-group">
-                                    <input type="radio" name="FormaPagamento" checked id="FormaPagamentoCartao"/> Cartão de Crédito
-                                    <input type="radio" name="FormaPagamento" id="FormaPagamentoBoleto"/> Boleto
+                                    <input type="radio" name="FormaPagamento" checked id="FormaPagamentoCartao" /> Cartão de Crédito
+                                    <input type="radio" name="FormaPagamento" id="FormaPagamentoBoleto" /> Boleto
                                 </div>
                             </div>
 
@@ -407,11 +407,6 @@
                                         <span class="erro" id="ErroCVV">Campo Obrigatório</span>
                                     </div>
 
-                                    <div class="form-group col-md-12">
-                                        <strong>Código do Vendedor</strong>
-                                        <input type="text" class="form-control" placeholder="Digite o Código do Vendedor" maxlength="8" id="CodigoVendedor" />
-                                        <span class="erro" id="ErroVendedor"></span>
-                                    </div>
                                 </div>
 
                                 <div id="TipoBoleto" class="form-group" style="margin-left:20px; display:none;">
@@ -423,7 +418,13 @@
                                         <li>Fique atento a prazo de vencimento do seu boleto</li>
                                     </ul>
                                 </div>
-                                
+
+                                <div class="form-group">
+                                    <strong>Código do Vendedor</strong>
+                                    <input type="text" class="form-control" placeholder="Digite o Código do Vendedor" maxlength="8" id="CodigoVendedor" />
+                                    <span class="erro" id="ErroVendedor"></span>
+                                </div>
+
                             </div>
                         </div>
                         <div class="card-footer">
@@ -452,6 +453,49 @@
     <script>
 
         $(document).ready(function () {
+
+
+            let Logado = "@IdUsuarioLogado";
+            let Bilhetes = "@Model.Bilhetes";
+            let BilhetesFormatados = Bilhetes.split(", ");
+            let ValorTotal = "@Model.ValorTotal";
+            ValorTotal = ValorTotal.replace(',', '.');
+            let ValorTotalFormatado = parseFloat(ValorTotal);
+            console.log(ValorTotalFormatado);
+
+            if (Logado != "0") {
+
+                $.ajax({
+                    url: "@Url.Action("GetInformacoesUsuario","Comprar")",
+                    method: "POST",
+                    data: { IdUsuario: Logado },
+                        success: function (retorno) {
+
+                            if (retorno.Status) {
+                                if (retorno.Mensagem == "Usuário Logado") {
+                                    $("#InformacoesPessoais").slideUp(200);
+                                    $("#NomeLogado").text("Nome: " + retorno.NomeLogado);
+                                    $("#EmailLogado").text("Email: " + retorno.EmailLogado);
+                                    $("#TelefoneLogado").text("Telefone: " + retorno.TelefoneLogado);
+                                    $("#CPFLogado").text("CPF: " + retorno.CPFLogado);
+                                    $("#CEPLogado").text("CEP: " + retorno.CEPLogado);
+                                    $("#EstadoLogado").text("Estado: " + retorno.EstadoLogado);
+                                    $("#CidadeLogado").text("Cidade: " + retorno.CidadeLogado);
+                                    $("#BairroLogado").text("Bairro: " + retorno.BairroLogado);
+                                    $("#RuaLogado").text("Rua: " + retorno.RuaLogado);
+                                    $("#NumeroLogado").text("Número: " + retorno.NumeroLogado);
+                                    $("#UsuarioLogado").slideDown(200);
+                                    $("#Pagamento").slideDown(200);
+                                }
+                            }
+
+                        },
+                        error: function (retorno) {
+                            console.log(retorno);
+                        }
+                    });
+
+            }
 
 
             let TipoPagamento = "Cartão de Crédito";
@@ -575,7 +619,7 @@
                             let TelefoneFormatado = Telefone.split(" ");
 
                             let dados = JSON.stringify({
-                                transaction_amount: Usuario.ValorRifa,
+                                transaction_amount: ValorTotalFormatado,
                                 description: "Bilhete EiSorteei - " + Usuario.NomeProduto,
                                 payment_method_id: "bolbradesco",
                                 payer: {
@@ -640,27 +684,55 @@
                                 success: function (retorno) {
 
                                     let BoletoUrl = retorno.transaction_details.external_resource_url;
+                                    let CodigoVendedor = $("#CodigoVendedor").val();
 
-                                    Swal.fire({
-                                        title: 'Quase lá...',
-                                        text: "Obrigado por comprar conosco, seus Bilhetes foram reservados, efetue o pagamento do boleto para que o seus bilhetes fiquem válidos para o sorteio.",
-                                        icon: 'success',
-                                        showCancelButton: true,
-                                        confirmButtonColor: '#02B2F4',
-                                        cancelButtonColor: '#25CA17',
-                                        cancelButtonText: 'OK',
-                                        confirmButtonText: 'Visualizar Boleto'
-                                    }).then((result) => {
+                                    $.ajax({
+                                        url: "@Url.Action("CompraRealizada", "Comprar")",
+                                        method:"POST",
+                                        data: {
+                                            Status: retorno.status,
+                                            IdProduto: IdProduto,
+                                            IdCompra: retorno.id,
+                                            TipoPagamento: "Boleto",
+                                            CodigoVendedor: CodigoVendedor,
+                                            Bilhetes: Bilhetes,
+                                            UrlBoleto: BoletoUrl
+                                        },
+                                        success: function (retorno) {
 
-                                        if (result.isConfirmed) {
-                                            window.open(BoletoUrl, "_blank");
+                                            if (retorno.Status) {
+
+                                                $("#EfetuarPagamento").prop("disabled", "disabled");
+
+                                                Swal.fire({
+                                                    title: 'Quase lá...',
+                                                    text: retorno.Mensagem,
+                                                    icon: 'success',
+                                                    showCancelButton: true,
+                                                    confirmButtonColor: '#02B2F4',
+                                                    cancelButtonColor: '#25CA17',
+                                                    cancelButtonText: 'OK',
+                                                    confirmButtonText: 'Visualizar Boleto'
+                                                }).then((result) => {
+
+                                                    if (result.isConfirmed) {
+                                                        window.open(BoletoUrl, "_blank");
+                                                    }
+
+                                                });
+                                            }
+
+                                            else {
+                                                console.log(retorno.Mensagem);
+                                            }
+
                                         }
-
                                     });
 
                                 },
 
                                 error: function (retorno) {
+
                                     Swal.fire({
                                         title: 'Boleto',
                                         text: "Não foi possível gerar seu boleto, tente novamente mais tarde.",
@@ -868,21 +940,33 @@
                                         data: dados,
                                         success: function (retorno) {
 
+                                            $("#EfetuarPagamento").prop("disabled", "disabled");
+
+                                            let CodigoVendedor = $("#CodigoVendedor").val();
+
                                             if (retorno.status == "approved" || retorno.status == "in_process") {
 
-                                                let NumeroRifa = $("#NumeroRifa").text();
-
                                                 $.ajax({
-                                                    url: "@Url.Action("RegistrarCompra","Comprar")",
+                                                    url: "@Url.Action("CompraRealizada", "Comprar")",
                                                     method: "POST",
-                                                    data: { IdProduto: Usuario.IdProduto, CodigoVendedor: CodigoVendedor, IdCompra: retorno.id, NumeroRifa: NumeroRifa },
+                                                    data: {
+                                                        Status: retorno.status,
+                                                        IdProduto: IdProduto,
+                                                        IdCompra: retorno.id,
+                                                        TipoPagamento: "Cartão de Crédito",
+                                                        CodigoVendedor: CodigoVendedor,
+                                                        Bilhetes: Bilhetes,
+                                                        UrlBoleto: ""
+                                                    },
                                                     success: function (data) {
+
+
                                                         if (data.Status) {
 
                                                             if (retorno.status == "approved") {
                                                                 Swal.fire({
                                                                     title: 'Pagamento Efetuado',
-                                                                    text: "Seu pagamento foi aceito, obrigado pela sua compra fique atento para a data do sorteio e boa sorte.",
+                                                                    text: data.Mensagem,
                                                                     icon: 'success',
                                                                     showCancelButton: false,
                                                                     confirmButtonColor: '#3085d6',
@@ -895,7 +979,7 @@
                                                             if (retorno.status == "in_process") {
                                                                 Swal.fire({
                                                                     title: 'Pagamento em Análise',
-                                                                    text: "Seu pagamento está sendo analisado, quando seu pagamento for aprovado você receberá um email confirmando seu pagamento.",
+                                                                    text: data.Mensagem,
                                                                     icon: 'success',
                                                                     showCancelButton: false,
                                                                     confirmButtonColor: '#3085d6',
@@ -904,8 +988,6 @@
                                                                     confirmButtonText: 'OK'
                                                                 });
                                                             }
-
-                                                            $("#myModal2").css('display', "none");
                                                         }
                                                     }
                                                 });
@@ -924,7 +1006,7 @@
                                                 });
                                             }
                                         },
-                                        error: function (retorno) {                                            
+                                        error: function (retorno) {
                                             Swal.fire({
                                                 title: 'Cartão Inválido',
                                                 text: "Os dados do cartão informado não são inválidos, por favor verifique seus dados e tente novamente!",

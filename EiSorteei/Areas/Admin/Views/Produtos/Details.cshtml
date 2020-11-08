@@ -56,8 +56,8 @@
                 <p>Descrição: @Html.Raw(Model.Descricao)</p>
                 <p>Quantidade de Rifas: @Model.RangeCodigo</p>
                 <p>Valor da Rifa: R$ @Math.Round(Model.ValorRifa, 2)</p>
-                <p>Data de Cadastro: @Model.DataCadastro.ToString().Replace(" 00:00:00", string.Empty)</p>
-                <p>Data do Sorteio: @Model.DataSorteio.ToString().Replace(" 00:00:00", string.Empty)</p>
+                <p>Data de Cadastro: @Model.DataCadastro.ToString("dd/MM/yyyy")</p>
+                <p>Data do Sorteio: @Model.DataSorteio.Value.ToString("dd/MM/yyyy")</p>
                 <p>Vídeo:</p>
 
                 @if (Model.Video != null)

@@ -2,6 +2,7 @@
 using EiSorteei.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -37,8 +38,8 @@ namespace EiSorteei.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                model.DataCadastro = DateTime.Now;
-                model.DataAtualizacao = DateTime.Now;
+                model.DataCadastro = DateTime.ParseExact(DateTime.Now.ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                model.DataAtualizacao = DateTime.ParseExact(DateTime.Now.ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
                 model.Status = true;
 
                 _Context.CategoriaProduto.Add(model);
@@ -76,7 +77,7 @@ namespace EiSorteei.Areas.Admin.Controllers
         {
             if(ModelState.IsValid)
             {
-                model.DataAtualizacao = DateTime.Now;
+                model.DataAtualizacao = DateTime.ParseExact(DateTime.Now.ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
                 _Context.Entry(model).State = System.Data.Entity.EntityState.Modified;
                 _Context.SaveChanges();

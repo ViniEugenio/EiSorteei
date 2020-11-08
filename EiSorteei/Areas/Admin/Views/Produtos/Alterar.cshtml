@@ -151,15 +151,22 @@
 
                                 <div class="form-group">
 
-                                    <div align="center" class="form-group">
-                                        <video controls style="width:100%;">
-                                            <source src="~/Content/VideoProdutos/@Model.ActualyVideo" type="video/mp4">
-                                        </video>
-                                    </div>
+                                    @if (Model.ActualyVideo != null)
+                                    {
+                                        <div align="center" class="form-group">
+                                            <video controls style="width:100%;">
+                                                <source src="~/Content/VideoProdutos/@Model.ActualyVideo" type="video/mp4">
+                                            </video>
+                                        </div>
+                                    }
+
 
                                     <div align="center" class="form-group">
                                         <input type="file" class="form-control" name="Video" accept="video/*" />
-                                        <p class="text-danger">Escolhendo outro vídeo o anterior será excluído permanentemente.</p>
+                                        @if (Model.ActualyVideo != null)
+                                        {
+                                            <p class="text-danger">Escolhendo outro vídeo o anterior será excluído permanentemente.</p>
+                                        }
                                     </div>
                                 </div>
 
