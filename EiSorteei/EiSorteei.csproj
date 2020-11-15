@@ -186,6 +186,9 @@
     <Compile Include="Data\OrderBump.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\OrderBumps_Produto.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\Permissao.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

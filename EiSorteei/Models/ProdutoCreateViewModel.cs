@@ -44,5 +44,7 @@ namespace EiSorteei.Models
         public string ActualyVideo { get; set; }
         public Decimal ActualyPrice { get; set; }
 
+        public List<long> OrderBumps { get; set; }
+
     }
 }

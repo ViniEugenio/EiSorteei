@@ -135,6 +135,16 @@
           <Property Name="Status" Type="bit" Nullable="false" />
           <Property Name="DataCadastro" Type="date" Nullable="false" />
         </EntityType>
+        <EntityType Name="OrderBumps_Produto">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdOrderBump" Type="bigint" Nullable="false" />
+          <Property Name="IdProduto" Type="bigint" Nullable="false" />
+          <Property Name="DataCadastro" Type="date" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="TempBilhetes">
           <Key>
             <PropertyRef Name="Id" />
@@ -200,6 +210,30 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Multimidia">
+              <PropertyRef Name="IdProduto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderBump__IdOrd__59063A47">
+          <End Role="OrderBump" Type="Self.OrderBump" Multiplicity="1" />
+          <End Role="OrderBumps_Produto" Type="Self.OrderBumps_Produto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderBump">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderBumps_Produto">
+              <PropertyRef Name="IdOrderBump" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderBump__IdPro__59FA5E80">
+          <End Role="Produto" Type="Self.Produto" Multiplicity="1" />
+          <End Role="OrderBumps_Produto" Type="Self.OrderBumps_Produto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Produto">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderBumps_Produto">
               <PropertyRef Name="IdProduto" />
             </Dependent>
           </ReferentialConstraint>
@@ -288,6 +322,7 @@
           <EntitySet Name="Carrinho" EntityType="Self.Carrinho" Schema="eisorteei" store:Type="Tables" />
           <EntitySet Name="Compras" EntityType="Self.Compras" Schema="eisorteei" store:Type="Tables" />
           <EntitySet Name="OrderBump" EntityType="Self.OrderBump" Schema="eisorteei" store:Type="Tables" />
+          <EntitySet Name="OrderBumps_Produto" EntityType="Self.OrderBumps_Produto" Schema="eisorteei" store:Type="Tables" />
           <EntitySet Name="TempBilhetes" EntityType="Self.TempBilhetes" Schema="eisorteei" store:Type="Tables" />
           <AssociationSet Name="FK__BilhetesC__IdCar__4D94879B" Association="Self.FK__BilhetesC__IdCar__4D94879B">
             <End Role="Carrinho" EntitySet="Carrinho" />
@@ -308,6 +343,14 @@
           <AssociationSet Name="FK__Multimidi__IdPro__31EC6D26" Association="Self.FK__Multimidi__IdPro__31EC6D26">
             <End Role="Produto" EntitySet="Produto" />
             <End Role="Multimidia" EntitySet="Multimidia" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderBump__IdOrd__59063A47" Association="Self.FK__OrderBump__IdOrd__59063A47">
+            <End Role="OrderBump" EntitySet="OrderBump" />
+            <End Role="OrderBumps_Produto" EntitySet="OrderBumps_Produto" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderBump__IdPro__59FA5E80" Association="Self.FK__OrderBump__IdPro__59FA5E80">
+            <End Role="Produto" EntitySet="Produto" />
+            <End Role="OrderBumps_Produto" EntitySet="OrderBumps_Produto" />
           </AssociationSet>
           <AssociationSet Name="FK__Permissao__IdPer__36B12243" Association="Self.FK__Permissao__IdPer__36B12243">
             <End Role="Permissao" EntitySet="Permissao" />
@@ -395,6 +438,15 @@
             <End Role="TempBilhetes" EntitySet="TempBilhetes" />
           </AssociationSet>
           <EntitySet Name="OrderBump" EntityType="EiSorteeiModel.OrderBump" />
+          <EntitySet Name="OrderBumps_Produto" EntityType="EiSorteeiModel.OrderBumps_Produto" />
+          <AssociationSet Name="FK__OrderBump__IdPro__59FA5E80" Association="EiSorteeiModel.FK__OrderBump__IdPro__59FA5E80">
+            <End Role="Produto" EntitySet="Produto" />
+            <End Role="OrderBumps_Produto" EntitySet="OrderBumps_Produto" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderBump__IdOrd__59063A47" Association="EiSorteeiModel.FK__OrderBump__IdOrd__59063A47">
+            <End Role="OrderBump" EntitySet="OrderBump" />
+            <End Role="OrderBumps_Produto" EntitySet="OrderBumps_Produto" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="CategoriaProduto">
           <Key>
@@ -460,6 +512,7 @@
           <NavigationProperty Name="Carrinho" Relationship="EiSorteeiModel.FK__Carrinho__IdProd__49C3F6B7" FromRole="Produto" ToRole="Carrinho" />
           <NavigationProperty Name="Usuario" Relationship="EiSorteeiModel.FK__Produto__IdUsuar__2E1BDC42" FromRole="Produto" ToRole="Usuario" />
           <NavigationProperty Name="TempBilhetes" Relationship="EiSorteeiModel.FK__TempBilhe__IdPro__5441852A" FromRole="Produto" ToRole="TempBilhetes" />
+          <NavigationProperty Name="OrderBumps_Produto" Relationship="EiSorteeiModel.FK__OrderBump__IdPro__59FA5E80" FromRole="Produto" ToRole="OrderBumps_Produto" />
         </EntityType>
         <EntityType Name="Usuario">
           <Key>
@@ -688,7 +741,44 @@
           <Property Name="Valor" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
           <Property Name="Status" Type="Boolean" Nullable="false" />
           <Property Name="DataCadastro" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="OrderBumps_Produto" Relationship="EiSorteeiModel.FK__OrderBump__IdOrd__59063A47" FromRole="OrderBump" ToRole="OrderBumps_Produto" />
         </EntityType>
+        <EntityType Name="OrderBumps_Produto">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdOrderBump" Type="Int64" Nullable="false" />
+          <Property Name="IdProduto" Type="Int64" Nullable="false" />
+          <Property Name="DataCadastro" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Produto" Relationship="EiSorteeiModel.FK__OrderBump__IdPro__59FA5E80" FromRole="OrderBumps_Produto" ToRole="Produto" />
+          <NavigationProperty Name="OrderBump" Relationship="EiSorteeiModel.FK__OrderBump__IdOrd__59063A47" FromRole="OrderBumps_Produto" ToRole="OrderBump" />
+        </EntityType>
+        <Association Name="FK__OrderBump__IdPro__59FA5E80">
+          <End Type="EiSorteeiModel.Produto" Role="Produto" Multiplicity="1" />
+          <End Type="EiSorteeiModel.OrderBumps_Produto" Role="OrderBumps_Produto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Produto">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderBumps_Produto">
+              <PropertyRef Name="IdProduto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderBump__IdOrd__59063A47">
+          <End Type="EiSorteeiModel.OrderBump" Role="OrderBump" Multiplicity="1" />
+          <End Type="EiSorteeiModel.OrderBumps_Produto" Role="OrderBumps_Produto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderBump">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderBumps_Produto">
+              <PropertyRef Name="IdOrderBump" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -842,6 +932,17 @@
                 <ScalarProperty Name="Imagem" ColumnName="Imagem" />
                 <ScalarProperty Name="Descricao" ColumnName="Descricao" />
                 <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderBumps_Produto">
+            <EntityTypeMapping TypeName="EiSorteeiModel.OrderBumps_Produto">
+              <MappingFragment StoreEntitySet="OrderBumps_Produto">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DataCadastro" ColumnName="DataCadastro" />
+                <ScalarProperty Name="IdProduto" ColumnName="IdProduto" />
+                <ScalarProperty Name="IdOrderBump" ColumnName="IdOrderBump" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

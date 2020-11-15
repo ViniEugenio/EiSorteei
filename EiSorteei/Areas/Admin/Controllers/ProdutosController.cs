@@ -42,17 +42,20 @@ namespace EiSorteei.Areas.Admin.Controllers
         {
             LoadViewBags();
 
-            DateTime DataConvertida = DateTime.ParseExact(model.DataSorteio, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-
             if (model.Imagem[0] == null)
             {
                 ModelState.AddModelError("Imagem", "Por favor selecione pelo menos uma imagem para o Produto");
             }
 
-            if (DataConvertida <= DateTime.Now)
+            if (model.DataSorteio != null)
             {
-                ModelState.AddModelError("DataSorteio", "A data do sorteio deve ser uma data futura");
+                DateTime DataConvertida = DateTime.ParseExact(model.DataSorteio, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                if (DataConvertida <= DateTime.Now)
+                {
+                    ModelState.AddModelError("DataSorteio", "A data do sorteio deve ser uma data futura");
+                }
             }
+
 
             if (model.Video != null)
             {
@@ -70,6 +73,8 @@ namespace EiSorteei.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
+                DateTime DataConvertida = DateTime.ParseExact(model.DataSorteio, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
                 Usuario UsuarioLogado = (Usuario)Session["Usuario"];
 
                 Decimal ValorFormatado = Convert.ToDecimal(model.ValorRifa, new CultureInfo("en-Us"));
@@ -136,9 +141,31 @@ namespace EiSorteei.Areas.Admin.Controllers
 
                 }
 
+
+                foreach(var OrderBump in model.OrderBumps)
+                {
+                    OrderBumps_Produto NovoOrderBump = new OrderBumps_Produto()
+                    {
+                        DataCadastro = DateTime.Now,
+                        IdOrderBump = OrderBump,
+                        IdProduto = NovoProduto.Id,
+                        Status = true
+                    };
+
+                    _Context.OrderBumps_Produto.Add(NovoOrderBump);
+                    _Context.SaveChanges();
+                }
+
+
                 return RedirectToAction("Index");
 
             }
+
+            if(model.OrderBumps!=null)
+            {
+                ViewBag.OrderBumps = _Context.OrderBump.Where(o => model.OrderBumps.Contains(o.Id)).ToList();
+            }
+
 
             ViewBag.Descricao = model.Descricao;
             return View(model);
@@ -198,10 +225,10 @@ namespace EiSorteei.Areas.Admin.Controllers
                 RangeCodigo = produto.RangeCodigo,
                 ValorRifa = Math.Round(produto.ValorRifa, 2).ToString().Replace(",", "."),
                 Id = produto.Id,
-                DataSorteio = produto.DataSorteio.Value.ToString("dd/MM/yyyy"),
-                ActualyVideo = produto.Video
+                DataSorteio = produto.DataSorteio.Value.ToString("dd/MM/yyyy"),                               
             };
 
+            ViewBag.OrderBumps = _Context.OrderBump.Join(_Context.OrderBumps_Produto.Where(o=>o.Status), o => o.Id, op => op.IdOrderBump, (o, op) => o).Where(o => o.Status).ToList();
             ViewBag.Imagens = _Context.Multimidia.Where(m => m.IdProduto.Equals(Id) && m.Status).ToList();
 
             LoadViewBags();
@@ -324,7 +351,33 @@ namespace EiSorteei.Areas.Admin.Controllers
                     }
                 }
 
+                List<OrderBumps_Produto> ActualyOrderBumps = _Context.OrderBumps_Produto.Where(o => o.IdProduto.Equals(model.Id) && o.Status).ToList();
+                foreach(var x in ActualyOrderBumps)
+                {
+                    if(!model.OrderBumps.Contains(x.IdOrderBump))
+                    {
+                        x.Status = false;
+                        _Context.Entry(x).State = System.Data.Entity.EntityState.Modified;
+                    }
+                }
 
+                foreach (var x in model.OrderBumps)
+                {
+                    if (!ActualyOrderBumps.Any(o=>o.IdOrderBump.Equals(x)))
+                    {
+                        OrderBumps_Produto order = new OrderBumps_Produto()
+                        {
+                            DataCadastro = DateTime.Now,
+                            IdOrderBump = x,
+                            IdProduto = model.Id,
+                            Status = true
+                        };
+
+                        _Context.OrderBumps_Produto.Add(order);
+                    }
+                }
+
+                _Context.SaveChanges();
 
                 return RedirectToAction("Index");
 
@@ -332,6 +385,24 @@ namespace EiSorteei.Areas.Admin.Controllers
 
             return View(model);
         }
+
+
+
+        public JsonResult GetOrderBumps()
+        {
+            var Dados = _Context.OrderBump.Where(o => o.Status).OrderBy(o => o.Nome).Select(o => new
+            {
+                o.Nome,
+                o.Id,
+                o.Imagem
+            });
+
+            return Json(new
+            {
+                OrderBumps = Dados
+            },JsonRequestBehavior.AllowGet);
+        }
+
 
 
     }

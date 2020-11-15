@@ -14,6 +14,12 @@ namespace EiSorteei.Data
     
     public partial class OrderBump
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public OrderBump()
+        {
+            this.OrderBumps_Produto = new HashSet<OrderBumps_Produto>();
+        }
+    
         public long Id { get; set; }
         public string Nome { get; set; }
         public string Descricao { get; set; }
@@ -21,5 +27,8 @@ namespace EiSorteei.Data
         public decimal Valor { get; set; }
         public bool Status { get; set; }
         public System.DateTime DataCadastro { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderBumps_Produto> OrderBumps_Produto { get; set; }
     }
 }

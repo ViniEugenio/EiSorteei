@@ -37,5 +37,6 @@ namespace EiSorteei.Data
         public virtual DbSet<Compras> Compras { get; set; }
         public virtual DbSet<TempBilhetes> TempBilhetes { get; set; }
         public virtual DbSet<OrderBump> OrderBump { get; set; }
+        public virtual DbSet<OrderBumps_Produto> OrderBumps_Produto { get; set; }
     }
 }

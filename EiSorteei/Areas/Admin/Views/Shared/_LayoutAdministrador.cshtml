@@ -6,7 +6,7 @@
     <title>EiSorteei</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous">
     <link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
@@ -46,8 +46,21 @@
         </div>
     </nav>
     <div class="container body-content">
-
         @RenderBody()
+
+        <div id="myModal2" class="modal">
+
+            <div class="modal-content" style=" width: 90%; justify-content: flex-start; height: 109%; margin-top: -90px;">
+                <i class="fa fa-times" style="float:right; align-self:flex-end; cursor:pointer;" id="Fechar"></i>               
+
+                <h2 class="text-center">Order Bumps</h2>
+                <div id="Orders" class="row">                    
+
+                </div>
+            </div>
+
+        </div>
+
     </div>
 
     <script src="https://cdn.ckeditor.com/4.15.0/standard/ckeditor.js"></script>
@@ -61,6 +74,17 @@
     <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script>
+
+        $(document).ready(function () {
+
+            $("#Fechar").click(function () {
+                $("#myModal2").css("display", "none");
+            });
+
+        })
+
+    </script>
 
 </body>
 </html>
