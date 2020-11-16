@@ -52,6 +52,8 @@
     <Property Name="DataAtualizacao" Type="date" Nullable="false" />
     <Property Name="Status" Type="bit" Nullable="false" />
     <Property Name="ValorRifa" Type="money" Nullable="false" />
+    <Property Name="DataSorteio" Type="date" />
+    <Property Name="Video" Type="varchar(max)" />
   </EntityType>
   <EntityType Name="Usuario">
     <Key>
@@ -71,6 +73,8 @@
     <Property Name="DataCadastro" Type="date" Nullable="false" />
     <Property Name="DataAtualizacao" Type="date" Nullable="false" />
     <Property Name="Status" Type="bit" Nullable="false" />
+    <Property Name="CEP" Type="char" MaxLength="9" />
+    <Property Name="Telefone" Type="varchar(max)" />
   </EntityType>
   <EntityType Name="Vendedor">
     <Key>
@@ -83,6 +87,116 @@
     <Property Name="DataAtualizacao" Type="date" Nullable="false" />
     <Property Name="Status" Type="bit" Nullable="false" />
   </EntityType>
+  <EntityType Name="BilhetesCarrinho">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdCarrinho" Type="bigint" Nullable="false" />
+    <Property Name="NumeroBilhete" Type="int" Nullable="false" />
+    <Property Name="DataCadastro" Type="date" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Carrinho">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdProduto" Type="bigint" Nullable="false" />
+    <Property Name="IdUsuario" Type="bigint" Nullable="false" />
+    <Property Name="DataCadastro" Type="date" Nullable="false" />
+    <Property Name="Status" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Compras">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CarrinhoId" Type="bigint" Nullable="false" />
+    <Property Name="DataCompra" Type="date" Nullable="false" />
+    <Property Name="Status" Type="varchar(max)" />
+    <Property Name="IdCompra" Type="varchar(max)" Nullable="false" />
+    <Property Name="CodigoVendedor" Type="varchar(max)" Nullable="false" />
+    <Property Name="UrlBoleto" Type="varchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="OrderBump">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nome" Type="varchar(max)" Nullable="false" />
+    <Property Name="Descricao" Type="varchar(max)" Nullable="false" />
+    <Property Name="Imagem" Type="varchar(max)" />
+    <Property Name="Valor" Type="money" Nullable="false" />
+    <Property Name="Status" Type="bit" Nullable="false" />
+    <Property Name="DataCadastro" Type="date" Nullable="false" />
+  </EntityType>
+  <EntityType Name="OrderBumps_Produto">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdOrderBump" Type="bigint" Nullable="false" />
+    <Property Name="IdProduto" Type="bigint" Nullable="false" />
+    <Property Name="DataCadastro" Type="date" Nullable="false" />
+    <Property Name="Status" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TempBilhetes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdProduto" Type="bigint" Nullable="false" />
+    <Property Name="DataCadastro" Type="varchar(max)" Nullable="false" />
+    <Property Name="NumeroBilhete" Type="varchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__BilhetesC__IdCar__4D94879B">
+    <End Role="Carrinho" Type="Self.Carrinho" Multiplicity="1" />
+    <End Role="BilhetesCarrinho" Type="Self.BilhetesCarrinho" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Carrinho">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BilhetesCarrinho">
+        <PropertyRef Name="IdCarrinho" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Carrinho__IdProd__49C3F6B7">
+    <End Role="Produto" Type="Self.Produto" Multiplicity="1" />
+    <End Role="Carrinho" Type="Self.Carrinho" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Produto">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Carrinho">
+        <PropertyRef Name="IdProduto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Carrinho__IdUsua__4AB81AF0">
+    <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+    <End Role="Carrinho" Type="Self.Carrinho" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuario">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Carrinho">
+        <PropertyRef Name="IdUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Compras__Carrinh__5070F446">
+    <End Role="Carrinho" Type="Self.Carrinho" Multiplicity="1" />
+    <End Role="Compras" Type="Self.Compras" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Carrinho">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Compras">
+        <PropertyRef Name="CarrinhoId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__Multimidi__IdPro__31EC6D26">
     <End Role="Produto" Type="Self.Produto" Multiplicity="1" />
     <End Role="Multimidia" Type="Self.Multimidia" Multiplicity="*" />
@@ -91,6 +205,30 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="Multimidia">
+        <PropertyRef Name="IdProduto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__OrderBump__IdOrd__59063A47">
+    <End Role="OrderBump" Type="Self.OrderBump" Multiplicity="1" />
+    <End Role="OrderBumps_Produto" Type="Self.OrderBumps_Produto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OrderBump">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OrderBumps_Produto">
+        <PropertyRef Name="IdOrderBump" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__OrderBump__IdPro__59FA5E80">
+    <End Role="Produto" Type="Self.Produto" Multiplicity="1" />
+    <End Role="OrderBumps_Produto" Type="Self.OrderBumps_Produto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Produto">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OrderBumps_Produto">
         <PropertyRef Name="IdProduto" />
       </Dependent>
     </ReferentialConstraint>
@@ -143,6 +281,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK__TempBilhe__IdPro__5441852A">
+    <End Role="Produto" Type="Self.Produto" Multiplicity="1" />
+    <End Role="TempBilhetes" Type="Self.TempBilhetes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Produto">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TempBilhetes">
+        <PropertyRef Name="IdProduto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__Vendedor__IdUsua__276EDEB3">
     <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
     <End Role="Vendedor" Type="Self.Vendedor" Multiplicity="*" />
@@ -163,9 +313,39 @@
     <EntitySet Name="Produto" EntityType="Self.Produto" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Vendedor" EntityType="Self.Vendedor" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BilhetesCarrinho" EntityType="Self.BilhetesCarrinho" Schema="eisorteei" store:Type="Tables" />
+    <EntitySet Name="Carrinho" EntityType="Self.Carrinho" Schema="eisorteei" store:Type="Tables" />
+    <EntitySet Name="Compras" EntityType="Self.Compras" Schema="eisorteei" store:Type="Tables" />
+    <EntitySet Name="OrderBump" EntityType="Self.OrderBump" Schema="eisorteei" store:Type="Tables" />
+    <EntitySet Name="OrderBumps_Produto" EntityType="Self.OrderBumps_Produto" Schema="eisorteei" store:Type="Tables" />
+    <EntitySet Name="TempBilhetes" EntityType="Self.TempBilhetes" Schema="eisorteei" store:Type="Tables" />
+    <AssociationSet Name="FK__BilhetesC__IdCar__4D94879B" Association="Self.FK__BilhetesC__IdCar__4D94879B">
+      <End Role="Carrinho" EntitySet="Carrinho" />
+      <End Role="BilhetesCarrinho" EntitySet="BilhetesCarrinho" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Carrinho__IdProd__49C3F6B7" Association="Self.FK__Carrinho__IdProd__49C3F6B7">
+      <End Role="Produto" EntitySet="Produto" />
+      <End Role="Carrinho" EntitySet="Carrinho" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Carrinho__IdUsua__4AB81AF0" Association="Self.FK__Carrinho__IdUsua__4AB81AF0">
+      <End Role="Usuario" EntitySet="Usuario" />
+      <End Role="Carrinho" EntitySet="Carrinho" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Compras__Carrinh__5070F446" Association="Self.FK__Compras__Carrinh__5070F446">
+      <End Role="Carrinho" EntitySet="Carrinho" />
+      <End Role="Compras" EntitySet="Compras" />
+    </AssociationSet>
     <AssociationSet Name="FK__Multimidi__IdPro__31EC6D26" Association="Self.FK__Multimidi__IdPro__31EC6D26">
       <End Role="Produto" EntitySet="Produto" />
       <End Role="Multimidia" EntitySet="Multimidia" />
+    </AssociationSet>
+    <AssociationSet Name="FK__OrderBump__IdOrd__59063A47" Association="Self.FK__OrderBump__IdOrd__59063A47">
+      <End Role="OrderBump" EntitySet="OrderBump" />
+      <End Role="OrderBumps_Produto" EntitySet="OrderBumps_Produto" />
+    </AssociationSet>
+    <AssociationSet Name="FK__OrderBump__IdPro__59FA5E80" Association="Self.FK__OrderBump__IdPro__59FA5E80">
+      <End Role="Produto" EntitySet="Produto" />
+      <End Role="OrderBumps_Produto" EntitySet="OrderBumps_Produto" />
     </AssociationSet>
     <AssociationSet Name="FK__Permissao__IdPer__36B12243" Association="Self.FK__Permissao__IdPer__36B12243">
       <End Role="Permissao" EntitySet="Permissao" />
@@ -182,6 +362,10 @@
     <AssociationSet Name="FK__Produto__IdUsuar__2E1BDC42" Association="Self.FK__Produto__IdUsuar__2E1BDC42">
       <End Role="Usuario" EntitySet="Usuario" />
       <End Role="Produto" EntitySet="Produto" />
+    </AssociationSet>
+    <AssociationSet Name="FK__TempBilhe__IdPro__5441852A" Association="Self.FK__TempBilhe__IdPro__5441852A">
+      <End Role="Produto" EntitySet="Produto" />
+      <End Role="TempBilhetes" EntitySet="TempBilhetes" />
     </AssociationSet>
     <AssociationSet Name="FK__Vendedor__IdUsua__276EDEB3" Association="Self.FK__Vendedor__IdUsua__276EDEB3">
       <End Role="Usuario" EntitySet="Usuario" />

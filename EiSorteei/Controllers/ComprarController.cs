@@ -66,8 +66,8 @@ namespace EiSorteei.Controllers
 
                 foreach (var x in BilhetesReservados)
                 {
-                    DateTime DataBilhete = Convert.ToDateTime(x.DataCadastro);
-                    DateTime DataAtual = Convert.ToDateTime(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
+                    DateTime DataBilhete = DateTime.ParseExact(x.DataCadastro, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                    DateTime DataAtual = DateTime.Now;
 
                     var DiferencaDatas = DataAtual.Subtract(DataBilhete);
 
@@ -150,7 +150,7 @@ namespace EiSorteei.Controllers
                     IdProduto = oProduto.Id,
                     oProduto.ValorRifa,
                     NomeProduto = oProduto.Nome,
-                    DataCadastro =DateTime.Now,
+                    DataCadastro = DateTime.Now,
                     UsuarioLogado.Cpf
                 });
             }
@@ -173,13 +173,13 @@ namespace EiSorteei.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            //else
-            //{
-            //    if (Convert.ToDateTime(FindedCookie["Validade"]) <= Convert.ToDateTime(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")))
-            //    {
-            //        return RedirectToAction("Index", "Home");
-            //    }
-            //}
+            else
+            {
+                if (DateTime.ParseExact(FindedCookie["Validade"], "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture) <= DateTime.Now)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+            }
 
             Usuario UsuarioLogado = (Usuario)Session["Usuario"];
             long IdProduto = Convert.ToInt64(FindedCookie["IdProduto"]);
@@ -191,7 +191,8 @@ namespace EiSorteei.Controllers
                 Usuario = UsuarioLogado,
                 Produto = FindedProduto,
                 Imagens = _Context.Multimidia.Where(m => m.IdProduto.Equals(FindedProduto.Id)).ToList(),
-                ValorTotal = FindedCookie["ValorTotal"]
+                ValorTotal = FindedCookie["ValorTotal"],
+                OrderBumps = _Context.OrderBump.Join(_Context.OrderBumps_Produto.Where(o => o.Status && o.IdProduto.Equals(IdProduto)), o => o.Id, op => op.IdOrderBump, (o, op) => o).Where(o => o.Status).ToList()
             };
 
             return View(model);
@@ -211,7 +212,7 @@ namespace EiSorteei.Controllers
                     {
                         var FindedBilhete = _Context.TempBilhetes.FirstOrDefault(b => b.IdProduto == IdProduto && b.NumeroBilhete == BilheteIndex);
 
-                        DateTime DataBilhete =DateTime.ParseExact(FindedBilhete.DataCadastro,"dd/MM/yyyy",CultureInfo.InvariantCulture);
+                        DateTime DataBilhete = DateTime.ParseExact(FindedBilhete.DataCadastro, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                         DateTime DataAtual = DateTime.Now;
 
                         var DiferencaDatas = DataAtual.Subtract(DataBilhete);
@@ -582,7 +583,7 @@ namespace EiSorteei.Controllers
             try
             {
 
-                if(_Context.Usuario.Any(u=>u.Email.Equals(model.Email)))
+                if (_Context.Usuario.Any(u => u.Email.Equals(model.Email)))
                 {
                     return Json(new
                     {
@@ -630,7 +631,7 @@ namespace EiSorteei.Controllers
                 });
             }
 
-            catch(Exception e)
+            catch (Exception e)
             {
                 return Json(new
                 {

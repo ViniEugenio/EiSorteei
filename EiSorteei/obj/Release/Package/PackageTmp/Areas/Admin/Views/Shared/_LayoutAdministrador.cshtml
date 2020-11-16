@@ -19,31 +19,74 @@
 
 <body>
 
-    <nav class="navbar navbar-expand-lg bg-dark" style="color:white;">
-
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">            
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item active">
                     <a class="nav-link" href="@Url.Action("Index","Produtos")" style="color:white;">Prêmios</a>
                 </li>
-
                 @if (Session["Permissao"].ToString() == "Administrador")
                 {
-                    <li class="navbar-nav mr-auto">
-                        <a class="nav-link" href="@Url.Action("Index","CategoriasProdutos")" style="color:white;">Categorias de Produto</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "CategoriasProdutos")" style="color:white;">Categorias de Produto</a>
                     </li>
                 }
-
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index","OrderBump")" style="color:white;">Order Bumps</a>
+                </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <a style="color:white;" href="@Url.Action("Logout","Login")">Sair</a>
             </form>
         </div>
     </nav>
-    <div class="container body-content">
 
+
+    @*<nav class="navbar navbar-expand-lg bg-dark" style="color:white;">
+
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="@Url.Action("Index","Produtos")" style="color:white;">Prêmios</a>
+                    </li>
+
+                    @if (Session["Permissao"].ToString() == "Administrador")
+                    {
+                        <li class="navbar-nav mr-auto">
+                            <a class="nav-link" href="@Url.Action("Index","CategoriasProdutos")" style="color:white;">Categorias de Produto</a>
+                        </li>
+                    }
+
+                    <li class="nav-item active">
+                        <a class="nav-link" href="@Url.Action("Index","OrderBump")" style="color:white;">Order Bumps</a>
+                    </li>
+
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <a style="color:white;" href="@Url.Action("Logout","Login")">Sair</a>
+                </form>
+            </div>
+        </nav>*@
+    <div class="container body-content">
         @RenderBody()
+
+        <div id="myModal2" class="modal">
+
+            <div class="modal-content" style=" width: 90%; justify-content: flex-start; height: 109%; margin-top: -90px;">
+                <i class="fa fa-times" style="float:right; align-self:flex-end; cursor:pointer;" id="Fechar"></i>
+
+                <h2 class="text-center">Order Bumps</h2>
+                <div id="Orders" class="row">
+
+                </div>
+            </div>
+
+        </div>
+
     </div>
 
     <script src="https://cdn.ckeditor.com/4.15.0/standard/ckeditor.js"></script>
@@ -57,6 +100,17 @@
     <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script>
+
+        $(document).ready(function () {
+
+            $("#Fechar").click(function () {
+                $("#myModal2").css("display", "none");
+            });
+
+        })
+
+    </script>
 
 </body>
 </html>

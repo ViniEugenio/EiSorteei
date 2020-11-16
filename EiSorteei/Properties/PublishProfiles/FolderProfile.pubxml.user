@@ -8,13 +8,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
   </PropertyGroup>
   <ItemGroup>
     <File Include="Areas/Admin/Views/CategoriasProdutos/Create.cshtml">
-      <publishTime>11/05/2020 14:56:47</publishTime>
+      <publishTime>11/08/2020 19:23:44</publishTime>
     </File>
     <File Include="Areas/Admin/Views/CategoriasProdutos/Edit.cshtml">
-      <publishTime>11/05/2020 14:56:47</publishTime>
+      <publishTime>11/07/2020 18:24:40</publishTime>
     </File>
     <File Include="Areas/Admin/Views/CategoriasProdutos/Index.cshtml">
-      <publishTime>11/05/2020 14:56:47</publishTime>
+      <publishTime>11/08/2020 19:00:59</publishTime>
     </File>
     <File Include="Areas/Admin/Views/DashBoard/Index.cshtml">
       <publishTime>11/05/2020 14:56:47</publishTime>
@@ -22,14 +22,26 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Areas/Admin/Views/Login/Index.cshtml">
       <publishTime>11/05/2020 14:56:47</publishTime>
     </File>
+    <File Include="Areas/Admin/Views/OrderBump/Alterar.cshtml">
+      <publishTime>11/08/2020 20:07:57</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/OrderBump/Create.cshtml">
+      <publishTime>11/08/2020 19:30:32</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/OrderBump/Details.cshtml">
+      <publishTime>11/08/2020 19:43:03</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/OrderBump/Index.cshtml">
+      <publishTime>11/08/2020 19:48:33</publishTime>
+    </File>
     <File Include="Areas/Admin/Views/Produtos/Alterar.cshtml">
-      <publishTime>11/05/2020 14:56:47</publishTime>
+      <publishTime>11/14/2020 22:42:39</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Produtos/Create.cshtml">
-      <publishTime>11/05/2020 14:56:47</publishTime>
+      <publishTime>11/14/2020 22:33:42</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Produtos/Details.cshtml">
-      <publishTime>11/05/2020 14:56:47</publishTime>
+      <publishTime>11/07/2020 18:06:13</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Produtos/Index.cshtml">
       <publishTime>11/05/2020 14:56:47</publishTime>
@@ -38,7 +50,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/05/2020 14:56:47</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_LayoutAdministrador.cshtml">
-      <publishTime>11/05/2020 14:56:47</publishTime>
+      <publishTime>11/16/2020 00:24:24</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Vendedor/Index.cshtml">
       <publishTime>11/05/2020 14:56:47</publishTime>
@@ -56,10 +68,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/05/2020 14:56:47</publishTime>
     </File>
     <File Include="bin/EiSorteei.dll">
-      <publishTime>11/05/2020 23:49:55</publishTime>
+      <publishTime>11/16/2020 00:51:24</publishTime>
     </File>
     <File Include="bin/EiSorteei.pdb">
-      <publishTime>11/05/2020 23:49:55</publishTime>
+      <publishTime>11/16/2020 00:51:24</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>11/05/2020 14:56:48</publishTime>
@@ -359,7 +371,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/05/2020 14:56:47</publishTime>
     </File>
     <File Include="Data/Model1.edmx.diagram">
-      <publishTime>11/05/2020 14:56:47</publishTime>
+      <publishTime>11/14/2020 22:16:34</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>11/05/2020 14:56:47</publishTime>
@@ -602,22 +614,22 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/05/2020 14:56:47</publishTime>
     </File>
     <File Include="Views/Comprar/Index.cshtml">
-      <publishTime>11/05/2020 23:24:59</publishTime>
+      <publishTime>11/16/2020 00:47:12</publishTime>
     </File>
     <File Include="Views/Comprar/Pagamento.cshtml">
-      <publishTime>11/05/2020 23:46:38</publishTime>
+      <publishTime>11/15/2020 20:56:07</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>11/05/2020 14:56:47</publishTime>
+      <publishTime>11/16/2020 00:45:41</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>11/05/2020 14:56:47</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>11/05/2020 14:56:47</publishTime>
+      <publishTime>11/16/2020 00:44:48</publishTime>
     </File>
     <File Include="Views/Shared/_LayoutComprar.cshtml">
-      <publishTime>11/05/2020 22:52:56</publishTime>
+      <publishTime>11/16/2020 00:47:32</publishTime>
     </File>
     <File Include="Views/Usuario/CadastrarUsuario.cshtml">
       <publishTime>11/05/2020 14:56:47</publishTime>

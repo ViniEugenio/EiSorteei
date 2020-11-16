@@ -228,7 +228,7 @@ namespace EiSorteei.Areas.Admin.Controllers
                 DataSorteio = produto.DataSorteio.Value.ToString("dd/MM/yyyy"),                               
             };
 
-            ViewBag.OrderBumps = _Context.OrderBump.Join(_Context.OrderBumps_Produto.Where(o=>o.Status), o => o.Id, op => op.IdOrderBump, (o, op) => o).Where(o => o.Status).ToList();
+            ViewBag.OrderBumps = _Context.OrderBump.Join(_Context.OrderBumps_Produto.Where(o=>o.Status && o.IdProduto.Equals(Id)), o => o.Id, op => op.IdOrderBump, (o, op) => o).Where(o => o.Status).ToList();
             ViewBag.Imagens = _Context.Multimidia.Where(m => m.IdProduto.Equals(Id) && m.Status).ToList();
 
             LoadViewBags();
@@ -252,6 +252,8 @@ namespace EiSorteei.Areas.Admin.Controllers
         {
             LoadViewBags();
             ViewBag.Imagens = _Context.Multimidia.Where(m => m.IdProduto.Equals(model.Id) && m.Status).ToList();
+            ViewBag.OrderBumps = _Context.OrderBump.Join(_Context.OrderBumps_Produto.Where(o => o.Status && o.IdProduto.Equals(model.Id)), o => o.Id, op => op.IdOrderBump, (o, op) => o).Where(o => o.Status).ToList();
+
             DateTime DataConvertida = DateTime.ParseExact(model.DataSorteio, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
             if (model.Imagem.Count() == 0 && _Context.Multimidia.Where(m => m.IdProduto.Equals(model.Id)).Count() == 0)

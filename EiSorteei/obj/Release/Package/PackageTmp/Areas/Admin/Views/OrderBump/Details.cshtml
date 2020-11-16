@@ -1,0 +1,41 @@
+﻿@model EiSorteei.Data.OrderBump
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdministrador.cshtml";
+}
+
+
+<div style="display:flex; align-items:center; justify-content:center;">
+    <div class="card" style="width:1200px; margin-top:10px; margin-bottom:20px;">
+
+        <div class="card-header">
+            <h3 class="text-center">Detalhes do Order Bump</h3>
+        </div>
+
+        <div class="card-body">
+
+            <div>
+
+                <div align="center" class="form-group">
+
+                    <div class="carousel" align="center">
+                        <div><img src="~/Content/ImagensOrderBumps/@Model.Imagem" alt="Imagem do Produto" style="width:30%;" class="imagem_produto" /></div>
+                    </div>
+
+                </div>
+
+                <p>Nome: @Model.Nome</p>
+                <p>Descrição: @Html.Raw(Model.Descricao)</p>
+                <p>Valor: R$ @Math.Round(Model.Valor,2)</p>
+                <p>Data de Cadastro: @Model.DataCadastro.ToString("dd/MM/yyyy")</p>
+            </div>
+
+        </div>
+
+        <div class="card-footer">
+            <a class="btn btn-success" href="@Url.Action("Index")"><i class="fa fa-list"></i> Lista de Order Bumps</a>
+            <a class="btn btn-warning" style="color:white" href="@Url.Action("Alterar","OrderBump",new { Id= Model.Id })"><i class="fa fa-edit"></i> Alterar Produto</a>
+        </div>
+    </div>
+</div>

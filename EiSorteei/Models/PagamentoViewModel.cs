@@ -13,5 +13,6 @@ namespace EiSorteei.Models
         public Usuario Usuario { get; set; }
         public string Bilhetes { get; set; }
         public string ValorTotal { get; set; }
+        public List<OrderBump> OrderBumps { get; set; }
     }
 }

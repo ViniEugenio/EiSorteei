@@ -126,7 +126,7 @@
     </div>
 </section>
 
-<section>
+<section style="z-index:0;">
 
     @if (Model.Video != null)
     {
@@ -136,7 +136,7 @@
         </div>
     }
 
-    <div class="carousel form-group" align="center" style="margin-top:20px;" id="Imagens">
+    <div class="carousel form-group" align="center" style="margin-top:20px; z-index:0;" id="Imagens">
 
         @foreach (var x in ViewBag.Imagens)
         {

@@ -10,7 +10,7 @@
         <EntityTypeShape EntityType="EiSorteeiModel.Permissao" Width="1.5" PointX="3.75" PointY="3.75" />
         <EntityTypeShape EntityType="EiSorteeiModel.PermissaoUsuario" Width="1.5" PointX="6" PointY="7.375" />
         <EntityTypeShape EntityType="EiSorteeiModel.Produto" Width="1.5" PointX="3" PointY="6.5" />
-        <EntityTypeShape EntityType="EiSorteeiModel.Usuario" Width="1.5" PointX="0.75" PointY="6.125" />
+        <EntityTypeShape EntityType="EiSorteeiModel.Usuario" Width="1.5" PointX="0.75" PointY="7.125" />
         <EntityTypeShape EntityType="EiSorteeiModel.Vendedor" Width="1.5" PointX="3" PointY="15.375" />
         <EntityTypeShape EntityType="EiSorteeiModel.BilhetesCarrinho" Width="1.5" PointX="10.5" PointY="8.875" />
         <EntityTypeShape EntityType="EiSorteeiModel.Carrinho" Width="1.5" PointX="8.25" PointY="7.125" />
@@ -27,6 +27,10 @@
         <AssociationConnector Association="EiSorteeiModel.FK__Compras__Carrinh__5070F446" />
         <EntityTypeShape EntityType="EiSorteeiModel.TempBilhetes" Width="1.5" PointX="7.75" PointY="2.25" />
         <AssociationConnector Association="EiSorteeiModel.FK__TempBilhe__IdPro__5441852A" />
+        <EntityTypeShape EntityType="EiSorteeiModel.OrderBump" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="EiSorteeiModel.OrderBumps_Produto" Width="1.5" PointX="10.625" PointY="2.625" />
+        <AssociationConnector Association="EiSorteeiModel.FK__OrderBump__IdPro__59FA5E80" />
+        <AssociationConnector Association="EiSorteeiModel.FK__OrderBump__IdOrd__59063A47" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

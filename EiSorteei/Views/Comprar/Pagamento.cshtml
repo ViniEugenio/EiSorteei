@@ -13,17 +13,16 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>EiSorteei</title>
-    <link href="~/Content/Site.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+
+
     <link rel="font" href="~/Content/fonts/Amiri-Bold.ttf" />
     <link rel="font" href="~/Content/fonts/Amiri-BoldItalic.ttf" />
     <link rel="font" href="~/Content/fonts/Amiri-Italic.ttf" />
     <link rel="font" href="~/Content/fonts/Amiri-Regular.ttf" />
-    <link href="~/Content/slick.css" rel="stylesheet" />
     <link rel="shortcut icon"
           href="~/Images/favicon.png"
           type="image/x-icon" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
@@ -45,7 +44,7 @@
             margin-top: 2px;
         }
 
-        #Bilhetes {
+        .Bilhetes {
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
@@ -64,6 +63,8 @@
                 border-radius: 44px !important;
             }
         }
+
+               
     </style>
 
 </head>
@@ -326,13 +327,13 @@
 
                                     </div>
                                     <div class="form-group text-center col-md-6" style="margin-top:20px;">
-                                        <p><strong>@Model.Produto.Nome</strong></p>                                       
+                                        <p><strong>@Model.Produto.Nome</strong></p>
                                     </div>
 
                                     <div class="col-md-12">
                                         <hr />
                                         <strong>Bilhetes Escolhidos:</strong>
-                                        <div id="Bilhetes">
+                                        <div class="Bilhetes">
                                             @for (int x = 0; x < Bilhetes.Length; x++)
                                             {
                                                 <div id="RifaEscolhida" style="margin-right:2px;">
@@ -343,16 +344,41 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row text-center">
+                            <div class="row">
                                 @*<div class="form-group col-md-6">
                                         <p><strong>Valor Unitário: R$ @Math.Round(Model.Produto.ValorRifa, 2)</strong></p>
                                         <p><strong>Entrega: ---</strong></p>
                                     </div>*@
-                                <div class="form-group col-md-12">
+                                <div class="form-group col-md-12 text-center">
                                     <p><strong>Valor Unitário: R$ @Math.Round(Model.Produto.ValorRifa, 2) X @Model.Bilhetes.Split(',').Count() =  R$ @Model.ValorTotal</strong></p>
                                 </div>
+
+                                <div class="form-group col-md-12 row text-center">
+
+                                    @foreach (var x in Model.OrderBumps)
+                                    {
+                                        <div class="col-md-4 form-group">
+                                            <input type="checkbox" style="transform: scale(2.5);" class="AddOrderBump" data-id="@x.Id" data-value="@x.Valor" id="OrderBump-@x.Id" />
+                                        </div>
+
+                                        <div class="col-md-4 form-group">
+                                            <p><strong>@x.Nome</strong></p>
+                                        </div>
+
+                                        <div class="col-md-4 form-group">
+                                            <p><strong>R$ @Math.Round(x.Valor, 2)</strong></p>
+                                        </div>
+
+                                        <div class="col-md-12 form-group">
+                                            <img src="~/Content/ImagensOrderBumps/@x.Imagem" alt="Order Bump" style="width:70%" />
+                                        </div>
+                                    }
+
+                                </div>
+
+
                             </div>
-                            <h3 class="text-center">Valor Total: R$ @Model.ValorTotal</h3>
+                            <h3 class="text-center">Valor Total: R$ <span id="ValorTotal">@Model.ValorTotal</span></h3>
                         </div>
 
                         <div class="bg-danger text-white text-center col-md-12 form-group card" style="height:150px; margin-top:10px;">
@@ -457,49 +483,152 @@
             </div>
         </div>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="ModalOrder">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-center">Selecione as Rifas onde serão adicionados os serviços adicionais</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="Bilhetes">
+                            @for (int x = 0; x < Bilhetes.Length; x++)
+                            {
+                                <div class="text-center">
+                                    <div id="RifaEscolhida" style="margin-right:2px;">
+                                        @Bilhetes[x]
+                                    </div>
+                                    <input type="checkbox" style="transform: scale(1.5);" class="AumentarPreco" data-numero="@Bilhetes[x]" />
+                                </div>
+
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
         <script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
         <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.js"></script>
-        <script src="~/js/slick.min.js"></script>
-        <script src="~/js/site.js"></script>
-        <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-        <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
         <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
         <script src="https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
 
         <script>
 
-        $(document).ready(function () {
+            $(document).ready(function () {
 
-            var QuantidadePessoas = setInterval(myTimer, 4000);
-            function myTimer() {
-                let Quantidade = Math.floor(Math.random() * 20);
-                if (Quantidade > 0) {
-                    $("#QuantidadePessoas").text(Quantidade);
+                $("#CPFLogin").mask("000.000.000-00");
+                $("#CEPLogin").mask("00000-000");
+                $("#TelefoneLogin").mask("(00) 00000-0000");
+
+                var QuantidadePessoas = setInterval(myTimer, 4000);
+                function myTimer() {
+                    let Quantidade = Math.floor(Math.random() * 20);
+                    if (Quantidade > 0) {
+                        $("#QuantidadePessoas").text(Quantidade);
+                    }
                 }
-            }
+
+                let Logado = "@IdUsuarioLogado";
+                let Bilhetes = "@Model.Bilhetes";
+                let BilhetesFormatados = Bilhetes.split(", ");
+                let ValorTotal = "@Model.ValorTotal";
+                ValorTotal = ValorTotal.replace(',', '.');
+                let ValorTotalFormatado = parseFloat(ValorTotal);
+                let ActualyOrderBump = 0;
+                let ActualyValueOrderBump = 0;
+                let OrderBumpsEscolhidos = [];
+
+                $(".AddOrderBump").change(function () {
+
+                    ActualyOrderBump = $(this).attr('data-id');
+                    ActualyValueOrderBump = $(this).attr('data-value');
+
+                    if ($(this).prop("checked")) {
 
 
-            $("#CPFLogin").mask("000.000.000-00");
-            $("#CEPLogin").mask("00000-000");
-            $("#TelefoneLogin").mask("(00) 00000-0000");
 
-            let Logado = "@IdUsuarioLogado";
-            let Bilhetes = "@Model.Bilhetes";
-            let BilhetesFormatados = Bilhetes.split(", ");
-            let ValorTotal = "@Model.ValorTotal";
-            ValorTotal = ValorTotal.replace(',', '.');
-            let ValorTotalFormatado = parseFloat(ValorTotal);
-            console.log(ValorTotalFormatado);
+                        let TodosBilhetes = $(".AumentarPreco");
+                        let Escolhidos = OrderBumpsEscolhidos.filter(order => order.IdOrderBump == ActualyOrderBump);
 
-            if (Logado != "0") {
+                        $.each(TodosBilhetes, function (index, data) {
 
-                $.ajax({
-                    url: "@Url.Action("GetInformacoesUsuario","Comprar")",
-                    method: "POST",
-                    data: { IdUsuario: Logado },
+                            $(data).prop("checked", false);
+
+                            $.each(Escolhidos, function (indice, escolhido) {
+
+
+                                if (escolhido.NumeroBilhete == $(data).attr("data-numero")) {
+
+                                    $(data).prop("checked", true);
+
+                                }
+
+                            });
+
+                        });
+
+                        $("#ModalOrder").modal('show');
+
+                    }
+
+                    else {
+
+                        let Quantidade = OrderBumpsEscolhidos.filter(order => order.IdOrderBump == ActualyOrderBump).length;
+                        ValorTotalFormatado = (parseFloat(ValorTotalFormatado) - (parseFloat(ActualyValueOrderBump)).toFixed(2) * Quantidade).toFixed(2);
+
+                        $("#ValorTotal").text(ValorTotalFormatado.toString().replace('.', ','));
+
+                        OrderBumpsEscolhidos = OrderBumpsEscolhidos.filter(order => order.IdOrderBump != ActualyOrderBump);
+
+                    }
+
+                });
+
+                $(".AumentarPreco").change(function () {
+
+                    let NumeroBilhete = $(this).attr('data-numero');
+
+                    if ($(this).prop("checked")) {
+
+                        let data = {
+                            IdOrderBump: ActualyOrderBump,
+                            NumeroBilhete: NumeroBilhete
+                        };
+
+                        OrderBumpsEscolhidos.push(data);
+                        ValorTotalFormatado = (parseFloat(ValorTotalFormatado) + parseFloat(ActualyValueOrderBump)).toFixed(2);
+                        $("#ValorTotal").text(ValorTotalFormatado.toString().replace('.', ','));
+                    }
+
+                    else {
+                        OrderBumpsEscolhidos = OrderBumpsEscolhidos.filter(order => order.IdOrderBump != ActualyOrderBump && order.NumeroBilhete != NumeroBilhete);
+                        ValorTotalFormatado = (parseFloat(ValorTotalFormatado) - parseFloat(ActualyValueOrderBump)).toFixed(2);
+                        $("#ValorTotal").text(ValorTotalFormatado.toString().replace('.', ','));
+                    }
+
+                });
+
+
+                $(document).on('hide.bs.modal', '#ModalOrder', function () {
+                    if (OrderBumpsEscolhidos.filter(order => order.IdOrderBump == ActualyOrderBump).length == 0) {
+                        $("#OrderBump-" + ActualyOrderBump).prop('checked', false);
+                    }
+                });
+
+                if (Logado != "0") {
+
+                    $.ajax({
+                        url: "@Url.Action("GetInformacoesUsuario","Comprar")",
+                        method: "POST",
+                        data: { IdUsuario: Logado },
                         success: function (retorno) {
 
                             if (retorno.Status) {
@@ -526,79 +655,781 @@
                         }
                     });
 
-            }
-
-
-            let TipoPagamento = "Cartão de Crédito";
-
-            $("#CPFCartao").mask("000.000.000-00");
-            $("#DataCartao").mask("00/00");
-            $("#CVVCartao").mask("000");
-
-            $('.carousel').slick({
-                autoplay: true,
-                autoplaySpeed: 4000,
-                nextArrow: '#next',
-                prevArrow: '#prev'
-            });
-
-            $("#CriarConta").click(function () {
-
-                $("#Login").slideUp(200);
-                $("#CadastrarUsuario").slideDown(200);
-
-            });
-
-            $("#FazerLogin").click(function () {
-
-                $("#CadastrarUsuario").slideUp(200);
-                $("#Login").slideDown(200);
-
-            });
-
-
-            $("#Entrar").click(function () {
-
-                let erro = false;
-
-                if (!$("#EmailLogin").val()) {
-
-                    erro = true;
-                    $("#EmailLoginErro").text("Por favor preencha o seu email");
-                    $("#EmailLoginErro").css("display", "block");
-                }
-
-                else {
-                    $("#EmailLoginErro").css("display", "none");
-                }
-
-                if (!$("#SenhaLogin").val()) {
-
-                    erro = true;
-                    $("#SenhaLoginErro").text("Por favor preencha o seu email");
-                    $("#SenhaLoginErro").css("display", "block");
-                }
-
-                else {
-                    $("#SenhaLoginErro").css("display", "none");
                 }
 
 
-                if (!erro) {
+                let TipoPagamento = "Cartão de Crédito";
 
-                    let data = {
-                        Email: $("#EmailLogin").val(),
-                        Senha: $("#SenhaLogin").val()
-                    };
+                $("#CPFCartao").mask("000.000.000-00");
+                $("#DataCartao").mask("00/00");
+                $("#CVVCartao").mask("000");
 
-                    $.ajax({
-                        url: "@Url.Action("LoginPagamento","Comprar")",
-                        method: "POST",
-                        data: data,
-                        success: function (retorno) {
+                $('.carousel').slick({
+                    autoplay: true,
+                    autoplaySpeed: 4000,
+                    nextArrow: '#next',
+                    prevArrow: '#prev'
+                });
 
-                            if (retorno.Status) {
-                                if (retorno.Mensagem == "Usuário Logado") {
+                $("#CriarConta").click(function () {
+
+                    $("#Login").slideUp(200);
+                    $("#CadastrarUsuario").slideDown(200);
+
+                });
+
+                $("#FazerLogin").click(function () {
+
+                    $("#CadastrarUsuario").slideUp(200);
+                    $("#Login").slideDown(200);
+
+                });
+
+
+                $("#Entrar").click(function () {
+
+                    let erro = false;
+
+                    if (!$("#EmailLogin").val()) {
+
+                        erro = true;
+                        $("#EmailLoginErro").text("Por favor preencha o seu email");
+                        $("#EmailLoginErro").css("display", "block");
+                    }
+
+                    else {
+                        $("#EmailLoginErro").css("display", "none");
+                    }
+
+                    if (!$("#SenhaLogin").val()) {
+
+                        erro = true;
+                        $("#SenhaLoginErro").text("Por favor preencha o seu email");
+                        $("#SenhaLoginErro").css("display", "block");
+                    }
+
+                    else {
+                        $("#SenhaLoginErro").css("display", "none");
+                    }
+
+
+                    if (!erro) {
+
+                        let data = {
+                            Email: $("#EmailLogin").val(),
+                            Senha: $("#SenhaLogin").val()
+                        };
+
+                        $.ajax({
+                            url: "@Url.Action("LoginPagamento","Comprar")",
+                            method: "POST",
+                            data: data,
+                            success: function (retorno) {
+
+                                if (retorno.Status) {
+                                    if (retorno.Mensagem == "Usuário Logado") {
+                                        $("#InformacoesPessoais").slideUp(200);
+                                        $("#NomeLogado").text("Nome: " + retorno.NomeLogado);
+                                        $("#EmailLogado").text("Email: " + retorno.EmailLogado);
+                                        $("#TelefoneLogado").text("Telefone: " + retorno.TelefoneLogado);
+                                        $("#CPFLogado").text("CPF: " + retorno.CPFLogado);
+                                        $("#CEPLogado").text("CEP: " + retorno.CEPLogado);
+                                        $("#EstadoLogado").text("Estado: " + retorno.EstadoLogado);
+                                        $("#CidadeLogado").text("Cidade: " + retorno.CidadeLogado);
+                                        $("#BairroLogado").text("Bairro: " + retorno.BairroLogado);
+                                        $("#RuaLogado").text("Rua: " + retorno.RuaLogado);
+                                        $("#NumeroLogado").text("Número: " + retorno.NumeroLogado);
+                                        $("#DadosUsuario").slideDown(200);
+                                        $("#Pagamento").slideDown(200);
+                                    }
+
+                                    else {
+                                        $("#SenhaLoginErro").text("Email e/ou Senha erradas!");
+                                        $("#SenhaLoginErro").css("display", "block");
+                                    }
+                                }
+
+                            },
+                            error: function (retorno) {
+                                console.log(retorno);
+                            }
+                        });
+                    }
+
+                });
+
+
+                $("#EfetuarPagamento").click(function () {
+
+                    let IdProduto = "@Model.Produto.Id";
+
+                    if (TipoPagamento == "Boleto") {
+
+                        $.ajax({
+                            url: "@Url.Action("GetDadosUsuario", "Comprar")",
+                            method: "POST",
+                            data: { IdProduto: IdProduto },
+                            success: function (retorno) {
+                                Usuario = retorno;
+                            },
+                            complete: function () {
+
+                                let Telefone = Usuario.Telefone;
+                                Telefone = Telefone.replace("(", "").replace(')', "");
+                                let TelefoneFormatado = Telefone.split(" ");
+
+                                let dados = JSON.stringify({
+                                    transaction_amount: ValorTotalFormatado,
+                                    description: "Bilhete EiSorteei - " + Usuario.NomeProduto,
+                                    payment_method_id: "bolbradesco",
+                                    payer: {
+                                        email: Usuario.Email,
+                                        identification: {
+                                            number: Usuario.Cpf.replace(".", "").replace(".", "").replace("-", ""),
+                                            type: "CPF"
+                                        },
+                                        first_name: Usuario.Nome,
+                                        last_name: Usuario.SobreNome
+                                    },
+                                    notification_url: "https://www.suaurl.com/notificacoes/",
+                                    sponsor_id: null,
+                                    binary_mode: false,
+                                    external_reference: "Bilhete " + Usuario.IdProduto,
+                                    statement_descriptor: "Bilhete EiSorteei",
+                                    additional_info: {
+                                        items: [
+                                            {
+                                                id: "PR0001",
+                                                title: "Bilhete EiSorteei - Código do Produto: " + Usuario.IdProduto,
+                                                description: "Bilhete EiSorteei",
+                                                picture_url: "https://http2.mlstatic.com/resources/frontend/statics/growth-sellers-landings/device-mlb-point-i_medium@2x.png",
+                                                category_id: "Bilhete",
+                                                quantity: 1,
+                                                unit_price: Usuario.ValorRifa
+                                            }
+                                        ],
+                                        payer: {
+                                            first_name: Usuario.Nome,
+                                            last_name: Usuario.SobreNome,
+                                            address: {
+                                                zip_code: Usuario.CEP,
+                                                street_name: Usuario.Rua,
+                                                street_number: Usuario.Numero
+                                            },
+                                            registration_date: Usuario.DataCadastro,
+                                            phone: {
+                                                area_code: TelefoneFormatado[0],
+                                                number: TelefoneFormatado[1]
+                                            }
+                                        },
+                                        shipments: {
+                                            receiver_address: {
+                                                street_name: "Av. Alberane Cunha",
+                                                street_number: 81,
+                                                zip_code: "37350000",
+                                                city_name: "Liberdade",
+                                                state_name: "Minas Gerais"
+                                            }
+                                        }
+                                    }
+                                });
+
+                                $.ajax({
+                                    url: "https://api.mercadopago.com/v1/payments",
+                                    method: 'POST',
+                                    beforeSend: function (xhr) {
+                                        xhr.setRequestHeader('Authorization', 'Bearer APP_USR-5017428128263404-072015-ddd04542ab6288891aebac5789addf33-247787081');
+                                    },
+                                    data: dados,
+                                    success: function (retorno) {
+
+                                        let BoletoUrl = retorno.transaction_details.external_resource_url;
+                                        let CodigoVendedor = $("#CodigoVendedor").val();
+
+                                        $.ajax({
+                                            url: "@Url.Action("CompraRealizada", "Comprar")",
+                                            method: "POST",
+                                            data: {
+                                                Status: retorno.status,
+                                                IdProduto: IdProduto,
+                                                IdCompra: retorno.id,
+                                                TipoPagamento: "Boleto",
+                                                CodigoVendedor: CodigoVendedor,
+                                                Bilhetes: Bilhetes,
+                                                UrlBoleto: BoletoUrl
+                                            },
+                                            success: function (retorno) {
+
+                                                if (retorno.Status) {
+
+                                                    $("#EfetuarPagamento").prop("disabled", "disabled");
+
+                                                    Swal.fire({
+                                                        title: 'Quase lá...',
+                                                        text: retorno.Mensagem,
+                                                        icon: 'success',
+                                                        showCancelButton: true,
+                                                        confirmButtonColor: '#02B2F4',
+                                                        cancelButtonColor: '#25CA17',
+                                                        cancelButtonText: 'OK',
+                                                        confirmButtonText: 'Visualizar Boleto'
+                                                    }).then((result) => {
+
+                                                        if (result.isConfirmed) {
+                                                            window.open(BoletoUrl, "_blank");
+                                                        }
+
+                                                    });
+                                                }
+
+                                                else {
+                                                    console.log(retorno.Mensagem);
+                                                }
+
+                                            }
+                                        });
+
+                                    },
+
+                                    error: function (retorno) {
+
+                                        Swal.fire({
+                                            title: 'Boleto',
+                                            text: "Não foi possível gerar seu boleto, tente novamente mais tarde.",
+                                            icon: 'error',
+                                            showCancelButton: false,
+                                            confirmButtonColor: '#3085d6',
+                                            cancelButtonColor: '#d33',
+                                            cancelButtonText: 'Não',
+                                            confirmButtonText: 'OK'
+                                        });
+                                    }
+                                });
+
+                            }
+                        });
+
+                        return;
+                    }
+
+                    let erro = false;
+
+                    let Numero = $("#NumeroCartao").val();
+                    let Titulo = $("#TituloCartao").val();
+                    let Data = $("#DataCartao").val();
+                    let CVV = $("#CVVCartao").val();
+                    let CPF = $("#CPFCartao").val();
+                    let CodigoVendedor = $("#CodigoVendedor").val();
+
+                    if (!Numero) {
+                        $("#ErroNumero").css("display", "block");
+                        erro = true;
+                    }
+
+                    else {
+                        $("#ErroNumero").css("display", "none");
+                    }
+
+
+                    if (!Titulo) {
+                        $("#ErroTitulo").css("display", "block");
+                        erro = true;
+                    }
+
+                    else {
+                        $("#ErroTitulo").css("display", "none");
+                    }
+
+
+                    if (!Data) {
+                        $("#ErroData").css("display", "block");
+                        erro = true;
+                    }
+
+                    else {
+                        $("#ErroData").css("display", "none");
+                    }
+
+                    if (!CVV) {
+                        $("#ErroCVV").css("display", "block");
+                        erro = true;
+                    }
+
+                    else {
+                        $("#ErroCVV").css("display", "none");
+                    }
+
+                    if (!CPF) {
+                        $("#ErroCPF").css("display", "block");
+                    }
+
+                    else {
+                        $("#ErroCPF").css("display", "none");
+                    }
+
+
+                    if (!erro) {
+
+                        let DataFormatada = Data.split("/");
+                        let CPFFormatado = CPF.replace(".", "").replace(".", "").replace("-", "");
+
+                        let MesCartao = DataFormatada[0];
+                        let AnoCartao = DataFormatada[1];
+
+                        let BandeiraCartao = "";
+
+                        var cards = {
+                            visa: /^4[0-9]{12}(?:[0-9]{3})/,
+                            mastercard: /^5[1-5][0-9]{14}/,
+                            diners: /^3(?:0[0-5]|[68][0-9])[0-9]{11}/,
+                            amex: /^3[47][0-9]{13}/,
+                            discover: /^6(?:011|5[0-9]{2})[0-9]{12}/,
+                            hipercard: /^(606282\d{10}(\d{3})?)|(3841\d{15})/,
+                            elo: /^((((636368)|(438935)|(504175)|(451416)|(636297))\d{0,10})|((5067)|(4576)|(4011))\d{0,12})/,
+                            jcb: /^(?:2131|1800|35\d{3})\d{11}/,
+                            aura: /^(5078\d{2})(\d{2})(\d{11})$/
+                        };
+
+                        for (var flag in cards) {
+                            if (cards[flag].test(Numero)) {
+                                BandeiraCartao = flag;
+                            }
+                        }
+
+                        window.Mercadopago.setPublishableKey("APP_USR-4f22958e-cccd-49ac-b52d-02ae9b9697a9");
+                        window.Mercadopago.getIdentificationTypes();
+
+                        let DadosCartao = {
+
+                            cardNumber: Numero,
+                            cardExpirationMonth: MesCartao,
+                            cardExpirationYear: AnoCartao,
+                            securityCode: CVV,
+                            cardholderName: Titulo,
+                            docType: "CPF",
+                            docNumber: CPFFormatado
+
+                        };
+
+
+                        var hash = window.Mercadopago.createToken(DadosCartao, setCardTokenAndPay);
+
+                        function setCardTokenAndPay(status, response) {
+                            if (status == 200 || status == 201) {
+
+                                let Usuario = "";
+
+                                $.ajax({
+                                    url: "@Url.Action("GetDadosUsuario", "Comprar")",
+                                    method: "POST",
+                                    data: { IdProduto: IdProduto },
+                                    success: function (retorno) {
+                                        Usuario = retorno;
+                                    },
+                                    complete: function () {
+
+
+                                        let CodigoCartao = response.id;
+
+                                        let Telefone = Usuario.Telefone;
+                                        Telefone = Telefone.replace("(", "").replace(')', "");
+                                        let TelefoneFormatado = Telefone.split(" ");
+
+                                        let dados = JSON.stringify({
+                                            token: CodigoCartao,
+                                            installments: 1,
+                                            transaction_amount: Usuario.ValorRifa,
+                                            description: "Bilhete EiSorteei - " + Usuario.NomeProduto,
+                                            payment_method_id: BandeiraCartao,
+                                            payer: {
+                                                email: Usuario.Email,
+                                                identification: {
+                                                    number: CPFFormatado,
+                                                    type: "CPF"
+                                                }
+                                            },
+                                            notification_url: "https://www.suaurl.com/notificacoes/",
+                                            sponsor_id: null,
+                                            binary_mode: false,
+                                            external_reference: "Bilhete " + Usuario.IdProduto,
+                                            statement_descriptor: "Bilhete EiSorteei",
+                                            additional_info: {
+                                                items: [
+                                                    {
+                                                        id: "PR0001",
+                                                        title: "Bilhete EiSorteei - Código do Produto: " + Usuario.IdProduto,
+                                                        description: "Bilhete EiSorteei",
+                                                        picture_url: "https://http2.mlstatic.com/resources/frontend/statics/growth-sellers-landings/device-mlb-point-i_medium@2x.png",
+                                                        category_id: "Bilhete",
+                                                        quantity: 1,
+                                                        unit_price: Usuario.ValorRifa
+                                                    }
+                                                ],
+                                                payer: {
+                                                    first_name: Usuario.Nome,
+                                                    last_name: Usuario.SobreNome,
+                                                    address: {
+                                                        zip_code: Usuario.CEP,
+                                                        street_name: Usuario.Rua,
+                                                        street_number: Usuario.Numero
+                                                    },
+                                                    registration_date: Usuario.DataCadastro,
+                                                    phone: {
+                                                        area_code: TelefoneFormatado[0],
+                                                        number: TelefoneFormatado[1]
+                                                    }
+                                                },
+                                                shipments: {
+                                                    receiver_address: {
+                                                        street_name: "Av. Alberane Cunha",
+                                                        street_number: 81,
+                                                        zip_code: "37350000",
+                                                        city_name: "Liberdade",
+                                                        state_name: "Minas Gerais"
+                                                    }
+                                                }
+                                            }
+                                        });
+
+                                        $.ajax({
+                                            url: "https://api.mercadopago.com/v1/payments",
+                                            method: 'POST',
+                                            beforeSend: function (xhr) {
+                                                xhr.setRequestHeader('Authorization', 'Bearer APP_USR-5017428128263404-072015-ddd04542ab6288891aebac5789addf33-247787081');
+                                            },
+                                            data: dados,
+                                            success: function (retorno) {
+
+                                                $("#EfetuarPagamento").prop("disabled", "disabled");
+
+                                                let CodigoVendedor = $("#CodigoVendedor").val();
+
+                                                if (retorno.status == "approved" || retorno.status == "in_process") {
+
+                                                    $.ajax({
+                                                        url: "@Url.Action("CompraRealizada", "Comprar")",
+                                                        method: "POST",
+                                                        data: {
+                                                            Status: retorno.status,
+                                                            IdProduto: IdProduto,
+                                                            IdCompra: retorno.id,
+                                                            TipoPagamento: "Cartão de Crédito",
+                                                            CodigoVendedor: CodigoVendedor,
+                                                            Bilhetes: Bilhetes,
+                                                            UrlBoleto: ""
+                                                        },
+                                                        success: function (data) {
+
+
+                                                            if (data.Status) {
+
+                                                                if (retorno.status == "approved") {
+                                                                    Swal.fire({
+                                                                        title: 'Pagamento Efetuado',
+                                                                        text: data.Mensagem,
+                                                                        icon: 'success',
+                                                                        showCancelButton: false,
+                                                                        confirmButtonColor: '#3085d6',
+                                                                        cancelButtonColor: '#d33',
+                                                                        cancelButtonText: 'Não',
+                                                                        confirmButtonText: 'OK'
+                                                                    });
+                                                                }
+
+                                                                if (retorno.status == "in_process") {
+                                                                    Swal.fire({
+                                                                        title: 'Pagamento em Análise',
+                                                                        text: data.Mensagem,
+                                                                        icon: 'success',
+                                                                        showCancelButton: false,
+                                                                        confirmButtonColor: '#3085d6',
+                                                                        cancelButtonColor: '#d33',
+                                                                        cancelButtonText: 'Não',
+                                                                        confirmButtonText: 'OK'
+                                                                    });
+                                                                }
+                                                            }
+                                                        }
+                                                    });
+                                                }
+
+                                                else {
+                                                    Swal.fire({
+                                                        title: 'Pagamento não efetuado',
+                                                        text: "Seu pagamento não foi aceito, entre em contato com o distribuinte do seu cartão e tente novamente mais tarde.",
+                                                        icon: 'error',
+                                                        showCancelButton: false,
+                                                        confirmButtonColor: '#3085d6',
+                                                        cancelButtonColor: '#d33',
+                                                        cancelButtonText: 'Não',
+                                                        confirmButtonText: 'OK'
+                                                    });
+                                                }
+                                            },
+                                            error: function (retorno) {
+                                                Swal.fire({
+                                                    title: 'Cartão Inválido',
+                                                    text: "Os dados do cartão informado não são inválidos, por favor verifique seus dados e tente novamente!",
+                                                    icon: 'error',
+                                                    showCancelButton: false,
+                                                    confirmButtonColor: '#3085d6',
+                                                    cancelButtonColor: '#d33',
+                                                    cancelButtonText: 'Não',
+                                                    confirmButtonText: 'OK'
+                                                });
+                                            }
+                                        });
+
+
+                                    }
+                                });
+
+                            }
+
+                            else {
+                                Swal.fire({
+                                    title: 'Cartão Inválido',
+                                    text: "Os dados do cartão informado não são inválidos, por favor verifique seus dados e tente novamente!",
+                                    icon: 'error',
+                                    showCancelButton: false,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    cancelButtonText: 'Não',
+                                    confirmButtonText: 'OK'
+                                });
+                            }
+                        };
+                    }
+
+                });
+
+
+                $("#FormaPagamentoBoleto").change(function () {
+
+                    if ($(this).prop("checked")) {
+                        TipoPagamento = "Boleto";
+                        $("#TipoCartao").slideUp(200);
+                        $("#TipoBoleto").slideDown(200);
+                    }
+
+                });
+
+                $("#FormaPagamentoCartao").change(function () {
+
+                    if ($(this).prop("checked")) {
+                        TipoPagamento = "Cartão de Crédito";
+                        $("#TipoCartao").slideDown(200);
+                        $("#TipoBoleto").slideUp(200);
+                    }
+
+                });
+
+
+                $("#RealizarCadastro").click(function () {
+
+                    let erro = false;
+
+                    let Nome = $("#NomeLogin").val();
+                    let SobreNome = $("#SobreNomeLogin").val();
+                    let Email = $("#EmailCadastrar").val();
+                    let Telefone = $("#TelefoneLogin").val();
+                    let CPF = $("#CPFLogin").val();
+                    let Estado = $("#EstadoLogin").val();
+                    let Cidade = $("#CidadeLogin").val();
+                    let Bairro = $("#BairroLogin").val();
+                    let CEP = $("#CEPLogin").val();
+                    let Rua = $("#RuaLogin").val();
+                    let Numero = $("#NumeroLogin").val();
+                    let Senha = $("#SenhaCadastrar").val();
+                    let Confirmar = $("#ConfirmarLogin").val();
+
+                    if (!Nome) {
+                        $("#NomeErro").text("Campo Obrigatório");
+                        $("#NomeErro").css("display", "block");
+                        erro = true;
+                    }
+
+                    else {
+                        $("#NomeErro").css("display", "none");
+                    }
+
+                    if (!SobreNome) {
+                        $("#SobreNomeErro").text("Campo Obrigatório");
+                        $("#SobreNomeErro").css("display", "block");
+                        erro = true;
+                    }
+
+                    else {
+                        $("#SobreNomeErro").css("display", "none");
+                    }
+
+                    if (!Email) {
+                        $("#EmailErro").text("Campo Obrigatório");
+                        $("#EmailErro").css("display", "block");
+                        erro = true;
+                    }
+
+                    else {
+
+                        if (!validaEmail(Email)) {
+                            $("#EmailErro").text("Email Inválido");
+                            $("#EmailErro").css("display", "block");
+                            erro = true;
+                        }
+
+                        else {
+                            $("#EmailErro").css("display", "none");
+                        }
+
+                    }
+
+                    if (!Telefone) {
+                        $("#TelefoneErro").text("Campo Obrigatório");
+                        $("#TelefoneErro").css("display", "block");
+                        erro = true;
+                    }
+
+                    else {
+                        $("#TelefoneErro").css("display", "none");
+                    }
+
+                    if (!CPF) {
+                        $("#CPFErro").text("Campo Obrigatório");
+                        $("#CPFErro").css("display", "block");
+                        erro = true;
+                    }
+
+                    else {
+
+                        if (!ValidaCPF(CPF)) {
+                            $("#CPFErro").text("CPF Inválido");
+                            $("#CPFErro").css("display", "block");
+                            erro = true;
+                        }
+
+                        else {
+                            $("#CPFErro").css("display", "none");
+                        }
+
+                    }
+
+                    if (!Estado) {
+                        $("#EstadoErro").text("Campo Obrigatório");
+                        $("#EstadoErro").css("display", "block");
+                        erro = true;
+                    }
+
+                    else {
+                        $("#EstadoErro").css("display", "none");
+                    }
+
+                    if (!Cidade) {
+                        $("#CidadeErro").text("Campo Obrigatório");
+                        $("#CidadeErro").css("display", "block");
+                        erro = true;
+                    }
+
+                    else {
+                        $("#CidadeErro").css("display", "none");
+                    }
+
+                    if (!Bairro) {
+                        $("#BairroErro").text("Campo Obrigatório");
+                        $("#BairroErro").css("display", "block");
+                        erro = true;
+                    }
+
+                    else {
+                        $("#BairroErro").css("display", "none");
+                    }
+
+                    if (!CEP) {
+                        $("#CEPErro").text("Campo Obrigatório");
+                        $("#CEPErro").css("display", "block");
+                        erro = true;
+                    }
+
+                    else {
+                        $("#CEPErro").css("display", "none");
+                    }
+
+                    if (!Rua) {
+                        $("#RuaErro").text("Campo Obrigatório");
+                        $("#RuaErro").css("display", "block");
+                        erro = true;
+                    }
+
+                    else {
+                        $("#RuaErro").css("display", "none");
+                    }
+
+                    if (!Numero) {
+                        $("#NumeroErro").text("Campo Obrigatório");
+                        $("#NumeroErro").css("display", "block");
+                        erro = true;
+                    }
+
+                    else {
+                        $("#NumeroErro").css("display", "none")
+                    }
+
+                    if (!Senha) {
+                        $("#SenhaErro").text("Campo Obrigatório");
+                        $("#SenhaErro").css("display", "block");
+                        erro = true;
+                    }
+
+                    else {
+                        $("#SenhaErro").css("display", "none");
+                    }
+
+                    if (!Confirmar) {
+                        $("#ConfirmarErro").text("Campo Obrigatório");
+                        $("#ConfirmarErro").css("display", "block");
+                        erro = true;
+                    }
+
+                    else {
+
+                        if (Confirmar != Senha) {
+                            $("#ConfirmarErro").text("As senha digitadas não correspondem");
+                            $("#ConfirmarErro").css("display", "block");
+                            erro = true;
+                        }
+
+                        else {
+                            $("#ConfirmarErro").css("display", "none");
+                        }
+                    }
+
+                    if (!erro) {
+
+
+                        let data = {
+                            Nome,
+                            SobreNome,
+                            Email,
+                            Telefone,
+                            CPF,
+                            Estado,
+                            Cidade,
+                            Bairro,
+                            CEP,
+                            Rua,
+                            Numero,
+                            Senha,
+                            Confirmar
+                        };
+
+                        $, ajax({
+
+                            url: "@Url.Action("CadastrarUsuario","Comprar")",
+                            method: "POST",
+                            data: data,
+                            success: function (retorno) {
+
+                                if (retorno.Status) {
+
                                     $("#InformacoesPessoais").slideUp(200);
                                     $("#NomeLogado").text("Nome: " + retorno.NomeLogado);
                                     $("#EmailLogado").text("Email: " + retorno.EmailLogado);
@@ -610,164 +1441,13 @@
                                     $("#BairroLogado").text("Bairro: " + retorno.BairroLogado);
                                     $("#RuaLogado").text("Rua: " + retorno.RuaLogado);
                                     $("#NumeroLogado").text("Número: " + retorno.NumeroLogado);
-                                    $("#DadosUsuario").slideDown(200);
+                                    $("#UsuarioLogado").slideDown(200);
                                     $("#Pagamento").slideDown(200);
-                                }
-
-                                else {
-                                    $("#SenhaLoginErro").text("Email e/ou Senha erradas!");
-                                    $("#SenhaLoginErro").css("display", "block");
-                                }
-                            }
-
-                        },
-                        error: function (retorno) {
-                            console.log(retorno);
-                        }
-                    });
-                }
-
-            });
-
-
-            $("#EfetuarPagamento").click(function () {
-
-                let IdProduto = "@Model.Produto.Id";
-
-                if (TipoPagamento == "Boleto") {
-
-                    $.ajax({
-                        url: "@Url.Action("GetDadosUsuario", "Comprar")",
-                        method: "POST",
-                        data: { IdProduto: IdProduto },
-                        success: function (retorno) {
-                            Usuario = retorno;
-                        },
-                        complete: function () {
-
-                            let Telefone = Usuario.Telefone;
-                            Telefone = Telefone.replace("(", "").replace(')', "");
-                            let TelefoneFormatado = Telefone.split(" ");
-
-                            let dados = JSON.stringify({
-                                transaction_amount: ValorTotalFormatado,
-                                description: "Bilhete EiSorteei - " + Usuario.NomeProduto,
-                                payment_method_id: "bolbradesco",
-                                payer: {
-                                    email: Usuario.Email,
-                                    identification: {
-                                        number: Usuario.Cpf.replace(".", "").replace(".", "").replace("-", ""),
-                                        type: "CPF"
-                                    },
-                                    first_name: Usuario.Nome,
-                                    last_name: Usuario.SobreNome
-                                },
-                                notification_url: "https://www.suaurl.com/notificacoes/",
-                                sponsor_id: null,
-                                binary_mode: false,
-                                external_reference: "Bilhete " + Usuario.IdProduto,
-                                statement_descriptor: "Bilhete EiSorteei",
-                                additional_info: {
-                                    items: [
-                                        {
-                                            id: "PR0001",
-                                            title: "Bilhete EiSorteei - Código do Produto: " + Usuario.IdProduto,
-                                            description: "Bilhete EiSorteei",
-                                            picture_url: "https://http2.mlstatic.com/resources/frontend/statics/growth-sellers-landings/device-mlb-point-i_medium@2x.png",
-                                            category_id: "Bilhete",
-                                            quantity: 1,
-                                            unit_price: Usuario.ValorRifa
-                                        }
-                                    ],
-                                    payer: {
-                                        first_name: Usuario.Nome,
-                                        last_name: Usuario.SobreNome,
-                                        address: {
-                                            zip_code: Usuario.CEP,
-                                            street_name: Usuario.Rua,
-                                            street_number: Usuario.Numero
-                                        },
-                                        registration_date: Usuario.DataCadastro,
-                                        phone: {
-                                            area_code: TelefoneFormatado[0],
-                                            number: TelefoneFormatado[1]
-                                        }
-                                    },
-                                    shipments: {
-                                        receiver_address: {
-                                            street_name: "Av. Alberane Cunha",
-                                            street_number: 81,
-                                            zip_code: "37350000",
-                                            city_name: "Liberdade",
-                                            state_name: "Minas Gerais"
-                                        }
-                                    }
-                                }
-                            });
-
-                            $.ajax({
-                                url: "https://api.mercadopago.com/v1/payments",
-                                method: 'POST',
-                                beforeSend: function (xhr) {
-                                    xhr.setRequestHeader('Authorization', 'Bearer APP_USR-5017428128263404-072015-ddd04542ab6288891aebac5789addf33-247787081');
-                                },
-                                data: dados,
-                                success: function (retorno) {
-
-                                    let BoletoUrl = retorno.transaction_details.external_resource_url;
-                                    let CodigoVendedor = $("#CodigoVendedor").val();
-
-                                    $.ajax({
-                                        url: "@Url.Action("CompraRealizada", "Comprar")",
-                                        method:"POST",
-                                        data: {
-                                            Status: retorno.status,
-                                            IdProduto: IdProduto,
-                                            IdCompra: retorno.id,
-                                            TipoPagamento: "Boleto",
-                                            CodigoVendedor: CodigoVendedor,
-                                            Bilhetes: Bilhetes,
-                                            UrlBoleto: BoletoUrl
-                                        },
-                                        success: function (retorno) {
-
-                                            if (retorno.Status) {
-
-                                                $("#EfetuarPagamento").prop("disabled", "disabled");
-
-                                                Swal.fire({
-                                                    title: 'Quase lá...',
-                                                    text: retorno.Mensagem,
-                                                    icon: 'success',
-                                                    showCancelButton: true,
-                                                    confirmButtonColor: '#02B2F4',
-                                                    cancelButtonColor: '#25CA17',
-                                                    cancelButtonText: 'OK',
-                                                    confirmButtonText: 'Visualizar Boleto'
-                                                }).then((result) => {
-
-                                                    if (result.isConfirmed) {
-                                                        window.open(BoletoUrl, "_blank");
-                                                    }
-
-                                                });
-                                            }
-
-                                            else {
-                                                console.log(retorno.Mensagem);
-                                            }
-
-                                        }
-                                    });
-
-                                },
-
-                                error: function (retorno) {
 
                                     Swal.fire({
-                                        title: 'Boleto',
-                                        text: "Não foi possível gerar seu boleto, tente novamente mais tarde.",
-                                        icon: 'error',
+                                        title: 'Cadastrar realizado com sucesso!',
+                                        text: "Estamos muito felizes de tê-lo conosco, continue suas compras e boa sorte.",
+                                        icon: 'success',
                                         showCancelButton: false,
                                         confirmButtonColor: '#3085d6',
                                         cancelButtonColor: '#d33',
@@ -775,617 +1455,66 @@
                                         confirmButtonText: 'OK'
                                     });
                                 }
-                            });
 
-                        }
-                    });
-
-                    return;
-                }
-
-                let erro = false;
-
-                let Numero = $("#NumeroCartao").val();
-                let Titulo = $("#TituloCartao").val();
-                let Data = $("#DataCartao").val();
-                let CVV = $("#CVVCartao").val();
-                let CPF = $("#CPFCartao").val();
-                let CodigoVendedor = $("#CodigoVendedor").val();
-
-                if (!Numero) {
-                    $("#ErroNumero").css("display", "block");
-                    erro = true;
-                }
-
-                else {
-                    $("#ErroNumero").css("display", "none");
-                }
-
-
-                if (!Titulo) {
-                    $("#ErroTitulo").css("display", "block");
-                    erro = true;
-                }
-
-                else {
-                    $("#ErroTitulo").css("display", "none");
-                }
-
-
-                if (!Data) {
-                    $("#ErroData").css("display", "block");
-                    erro = true;
-                }
-
-                else {
-                    $("#ErroData").css("display", "none");
-                }
-
-                if (!CVV) {
-                    $("#ErroCVV").css("display", "block");
-                    erro = true;
-                }
-
-                else {
-                    $("#ErroCVV").css("display", "none");
-                }
-
-                if (!CPF) {
-                    $("#ErroCPF").css("display", "block");
-                }
-
-                else {
-                    $("#ErroCPF").css("display", "none");
-                }
-
-
-                if (!erro) {
-
-                    let DataFormatada = Data.split("/");
-                    let CPFFormatado = CPF.replace(".", "").replace(".", "").replace("-", "");
-
-                    let MesCartao = DataFormatada[0];
-                    let AnoCartao = DataFormatada[1];
-
-                    let BandeiraCartao = "";
-
-                    var cards = {
-                        visa: /^4[0-9]{12}(?:[0-9]{3})/,
-                        mastercard: /^5[1-5][0-9]{14}/,
-                        diners: /^3(?:0[0-5]|[68][0-9])[0-9]{11}/,
-                        amex: /^3[47][0-9]{13}/,
-                        discover: /^6(?:011|5[0-9]{2})[0-9]{12}/,
-                        hipercard: /^(606282\d{10}(\d{3})?)|(3841\d{15})/,
-                        elo: /^((((636368)|(438935)|(504175)|(451416)|(636297))\d{0,10})|((5067)|(4576)|(4011))\d{0,12})/,
-                        jcb: /^(?:2131|1800|35\d{3})\d{11}/,
-                        aura: /^(5078\d{2})(\d{2})(\d{11})$/
-                    };
-
-                    for (var flag in cards) {
-                        if (cards[flag].test(Numero)) {
-                            BandeiraCartao = flag;
-                        }
-                    }
-
-                    window.Mercadopago.setPublishableKey("APP_USR-4f22958e-cccd-49ac-b52d-02ae9b9697a9");
-                    window.Mercadopago.getIdentificationTypes();
-
-                    let DadosCartao = {
-
-                        cardNumber: Numero,
-                        cardExpirationMonth: MesCartao,
-                        cardExpirationYear: AnoCartao,
-                        securityCode: CVV,
-                        cardholderName: Titulo,
-                        docType: "CPF",
-                        docNumber: CPFFormatado
-
-                    };
-
-
-                    var hash = window.Mercadopago.createToken(DadosCartao, setCardTokenAndPay);
-
-                    function setCardTokenAndPay(status, response) {
-                        if (status == 200 || status == 201) {
-
-                            let Usuario = "";
-
-                            $.ajax({
-                                url: "@Url.Action("GetDadosUsuario", "Comprar")",
-                                method: "POST",
-                                data: { IdProduto: IdProduto },
-                                success: function (retorno) {
-                                    Usuario = retorno;
-                                },
-                                complete: function () {
-
-
-                                    let CodigoCartao = response.id;
-
-                                    let Telefone = Usuario.Telefone;
-                                    Telefone = Telefone.replace("(", "").replace(')', "");
-                                    let TelefoneFormatado = Telefone.split(" ");
-
-                                    let dados = JSON.stringify({
-                                        token: CodigoCartao,
-                                        installments: 1,
-                                        transaction_amount: Usuario.ValorRifa,
-                                        description: "Bilhete EiSorteei - " + Usuario.NomeProduto,
-                                        payment_method_id: BandeiraCartao,
-                                        payer: {
-                                            email: Usuario.Email,
-                                            identification: {
-                                                number: CPFFormatado,
-                                                type: "CPF"
-                                            }
-                                        },
-                                        notification_url: "https://www.suaurl.com/notificacoes/",
-                                        sponsor_id: null,
-                                        binary_mode: false,
-                                        external_reference: "Bilhete " + Usuario.IdProduto,
-                                        statement_descriptor: "Bilhete EiSorteei",
-                                        additional_info: {
-                                            items: [
-                                                {
-                                                    id: "PR0001",
-                                                    title: "Bilhete EiSorteei - Código do Produto: " + Usuario.IdProduto,
-                                                    description: "Bilhete EiSorteei",
-                                                    picture_url: "https://http2.mlstatic.com/resources/frontend/statics/growth-sellers-landings/device-mlb-point-i_medium@2x.png",
-                                                    category_id: "Bilhete",
-                                                    quantity: 1,
-                                                    unit_price: Usuario.ValorRifa
-                                                }
-                                            ],
-                                            payer: {
-                                                first_name: Usuario.Nome,
-                                                last_name: Usuario.SobreNome,
-                                                address: {
-                                                    zip_code: Usuario.CEP,
-                                                    street_name: Usuario.Rua,
-                                                    street_number: Usuario.Numero
-                                                },
-                                                registration_date: Usuario.DataCadastro,
-                                                phone: {
-                                                    area_code: TelefoneFormatado[0],
-                                                    number: TelefoneFormatado[1]
-                                                }
-                                            },
-                                            shipments: {
-                                                receiver_address: {
-                                                    street_name: "Av. Alberane Cunha",
-                                                    street_number: 81,
-                                                    zip_code: "37350000",
-                                                    city_name: "Liberdade",
-                                                    state_name: "Minas Gerais"
-                                                }
-                                            }
-                                        }
-                                    });
-
-                                    $.ajax({
-                                        url: "https://api.mercadopago.com/v1/payments",
-                                        method: 'POST',
-                                        beforeSend: function (xhr) {
-                                            xhr.setRequestHeader('Authorization', 'Bearer APP_USR-5017428128263404-072015-ddd04542ab6288891aebac5789addf33-247787081');
-                                        },
-                                        data: dados,
-                                        success: function (retorno) {
-
-                                            $("#EfetuarPagamento").prop("disabled", "disabled");
-
-                                            let CodigoVendedor = $("#CodigoVendedor").val();
-
-                                            if (retorno.status == "approved" || retorno.status == "in_process") {
-
-                                                $.ajax({
-                                                    url: "@Url.Action("CompraRealizada", "Comprar")",
-                                                    method: "POST",
-                                                    data: {
-                                                        Status: retorno.status,
-                                                        IdProduto: IdProduto,
-                                                        IdCompra: retorno.id,
-                                                        TipoPagamento: "Cartão de Crédito",
-                                                        CodigoVendedor: CodigoVendedor,
-                                                        Bilhetes: Bilhetes,
-                                                        UrlBoleto: ""
-                                                    },
-                                                    success: function (data) {
-
-
-                                                        if (data.Status) {
-
-                                                            if (retorno.status == "approved") {
-                                                                Swal.fire({
-                                                                    title: 'Pagamento Efetuado',
-                                                                    text: data.Mensagem,
-                                                                    icon: 'success',
-                                                                    showCancelButton: false,
-                                                                    confirmButtonColor: '#3085d6',
-                                                                    cancelButtonColor: '#d33',
-                                                                    cancelButtonText: 'Não',
-                                                                    confirmButtonText: 'OK'
-                                                                });
-                                                            }
-
-                                                            if (retorno.status == "in_process") {
-                                                                Swal.fire({
-                                                                    title: 'Pagamento em Análise',
-                                                                    text: data.Mensagem,
-                                                                    icon: 'success',
-                                                                    showCancelButton: false,
-                                                                    confirmButtonColor: '#3085d6',
-                                                                    cancelButtonColor: '#d33',
-                                                                    cancelButtonText: 'Não',
-                                                                    confirmButtonText: 'OK'
-                                                                });
-                                                            }
-                                                        }
-                                                    }
-                                                });
-                                            }
-
-                                            else {
-                                                Swal.fire({
-                                                    title: 'Pagamento não efetuado',
-                                                    text: "Seu pagamento não foi aceito, entre em contato com o distribuinte do seu cartão e tente novamente mais tarde.",
-                                                    icon: 'error',
-                                                    showCancelButton: false,
-                                                    confirmButtonColor: '#3085d6',
-                                                    cancelButtonColor: '#d33',
-                                                    cancelButtonText: 'Não',
-                                                    confirmButtonText: 'OK'
-                                                });
-                                            }
-                                        },
-                                        error: function (retorno) {
-                                            Swal.fire({
-                                                title: 'Cartão Inválido',
-                                                text: "Os dados do cartão informado não são inválidos, por favor verifique seus dados e tente novamente!",
-                                                icon: 'error',
-                                                showCancelButton: false,
-                                                confirmButtonColor: '#3085d6',
-                                                cancelButtonColor: '#d33',
-                                                cancelButtonText: 'Não',
-                                                confirmButtonText: 'OK'
-                                            });
-                                        }
-                                    });
-
-
+                                else {
+                                    $("#EmailErro").text(retorno.Mensagem);
+                                    $("#EmailErro").css("display", "block");
                                 }
-                            });
 
-                        }
-
-                        else {
-                            Swal.fire({
-                                title: 'Cartão Inválido',
-                                text: "Os dados do cartão informado não são inválidos, por favor verifique seus dados e tente novamente!",
-                                icon: 'error',
-                                showCancelButton: false,
-                                confirmButtonColor: '#3085d6',
-                                cancelButtonColor: '#d33',
-                                cancelButtonText: 'Não',
-                                confirmButtonText: 'OK'
-                            });
-                        }
-                    };
-                }
-
-            });
-
-
-            $("#FormaPagamentoBoleto").change(function () {
-
-                if ($(this).prop("checked")) {
-                    TipoPagamento = "Boleto";
-                    $("#TipoCartao").slideUp(200);
-                    $("#TipoBoleto").slideDown(200);
-                }
-
-            });
-
-            $("#FormaPagamentoCartao").change(function () {
-
-                if ($(this).prop("checked")) {
-                    TipoPagamento = "Cartão de Crédito";
-                    $("#TipoCartao").slideDown(200);
-                    $("#TipoBoleto").slideUp(200);
-                }
-
-            });
-
-
-            $("#RealizarCadastro").click(function () {
-
-                let erro = false;
-
-                let Nome = $("#NomeLogin").val();
-                let SobreNome = $("#SobreNomeLogin").val();
-                let Email = $("#EmailCadastrar").val();
-                let Telefone = $("#TelefoneLogin").val();
-                let CPF = $("#CPFLogin").val();
-                let Estado = $("#EstadoLogin").val();
-                let Cidade = $("#CidadeLogin").val();
-                let Bairro = $("#BairroLogin").val();
-                let CEP = $("#CEPLogin").val();
-                let Rua = $("#RuaLogin").val();
-                let Numero = $("#NumeroLogin").val();
-                let Senha = $("#SenhaCadastrar").val();
-                let Confirmar = $("#ConfirmarLogin").val();
-
-                if (!Nome) {
-                    $("#NomeErro").text("Campo Obrigatório");
-                    $("#NomeErro").css("display", "block");
-                    erro = true;
-                }
-
-                else {
-                    $("#NomeErro").css("display", "none");
-                }
-
-                if (!SobreNome) {
-                    $("#SobreNomeErro").text("Campo Obrigatório");
-                    $("#SobreNomeErro").css("display", "block");
-                    erro = true;
-                }
-
-                else {
-                    $("#SobreNomeErro").css("display", "none");
-                }
-
-                if (!Email) {
-                    $("#EmailErro").text("Campo Obrigatório");
-                    $("#EmailErro").css("display", "block");
-                    erro = true;
-                }
-
-                else {
-
-                    if (!validaEmail(Email)) {
-                        $("#EmailErro").text("Email Inválido");
-                        $("#EmailErro").css("display", "block");
-                        erro = true;
-                    }
-
-                    else {
-                        $("#EmailErro").css("display", "none");
-                    }
-
-                }
-
-                if (!Telefone) {
-                    $("#TelefoneErro").text("Campo Obrigatório");
-                    $("#TelefoneErro").css("display", "block");
-                    erro = true;
-                }
-
-                else {
-                    $("#TelefoneErro").css("display", "none");
-                }
-
-                if (!CPF) {
-                    $("#CPFErro").text("Campo Obrigatório");
-                    $("#CPFErro").css("display", "block");
-                    erro = true;
-                }
-
-                else {
-
-                    if (!ValidaCPF(CPF)) {
-                        $("#CPFErro").text("CPF Inválido");
-                        $("#CPFErro").css("display", "block");
-                        erro = true;
-                    }
-
-                    else {
-                        $("#CPFErro").css("display", "none");
-                    }
-
-                }
-
-                if (!Estado) {
-                    $("#EstadoErro").text("Campo Obrigatório");
-                    $("#EstadoErro").css("display", "block");
-                    erro = true;
-                }
-
-                else {
-                    $("#EstadoErro").css("display", "none");
-                }
-
-                if (!Cidade) {
-                    $("#CidadeErro").text("Campo Obrigatório");
-                    $("#CidadeErro").css("display", "block");
-                    erro = true;
-                }
-
-                else {
-                    $("#CidadeErro").css("display", "none");
-                }
-
-                if (!Bairro) {
-                    $("#BairroErro").text("Campo Obrigatório");
-                    $("#BairroErro").css("display", "block");
-                    erro = true;
-                }
-
-                else {
-                    $("#BairroErro").css("display", "none");
-                }
-
-                if (!CEP) {
-                    $("#CEPErro").text("Campo Obrigatório");
-                    $("#CEPErro").css("display", "block");
-                    erro = true;
-                }
-
-                else {
-                    $("#CEPErro").css("display", "none");
-                }
-
-                if (!Rua) {
-                    $("#RuaErro").text("Campo Obrigatório");
-                    $("#RuaErro").css("display", "block");
-                    erro = true;
-                }
-
-                else {
-                    $("#RuaErro").css("display", "none");
-                }
-
-                if (!Numero) {
-                    $("#NumeroErro").text("Campo Obrigatório");
-                    $("#NumeroErro").css("display", "block");
-                    erro = true;
-                }
-
-                else {
-                    $("#NumeroErro").css("display","none")
-                }
-
-                if (!Senha) {
-                    $("#SenhaErro").text("Campo Obrigatório");
-                    $("#SenhaErro").css("display", "block");
-                    erro = true;
-                }
-
-                else {
-                    $("#SenhaErro").css("display", "none");
-                }
-
-                if (!Confirmar) {
-                    $("#ConfirmarErro").text("Campo Obrigatório");
-                    $("#ConfirmarErro").css("display", "block");
-                    erro = true;
-                }
-
-                else {
-
-                    if (Confirmar != Senha) {
-                        $("#ConfirmarErro").text("As senha digitadas não correspondem");
-                        $("#ConfirmarErro").css("display", "block");
-                        erro = true;
-                    }
-
-                    else {
-                        $("#ConfirmarErro").css("display", "none");
-                    }
-                }
-
-                if (!erro) {
-
-
-                    let data = {
-                        Nome,
-                        SobreNome,
-                        Email,
-                        Telefone,
-                        CPF,
-                        Estado,
-                        Cidade,
-                        Bairro,
-                        CEP,
-                        Rua,
-                        Numero,
-                        Senha,
-                        Confirmar
-                    };
-
-                    $, ajax({
-
-                        url: "@Url.Action("CadastrarUsuario","Comprar")",
-                        method: "POST",
-                        data: data,
-                        success: function (retorno) {
-
-                            if (retorno.Status) {
-
-                                $("#InformacoesPessoais").slideUp(200);
-                                $("#NomeLogado").text("Nome: " + retorno.NomeLogado);
-                                $("#EmailLogado").text("Email: " + retorno.EmailLogado);
-                                $("#TelefoneLogado").text("Telefone: " + retorno.TelefoneLogado);
-                                $("#CPFLogado").text("CPF: " + retorno.CPFLogado);
-                                $("#CEPLogado").text("CEP: " + retorno.CEPLogado);
-                                $("#EstadoLogado").text("Estado: " + retorno.EstadoLogado);
-                                $("#CidadeLogado").text("Cidade: " + retorno.CidadeLogado);
-                                $("#BairroLogado").text("Bairro: " + retorno.BairroLogado);
-                                $("#RuaLogado").text("Rua: " + retorno.RuaLogado);
-                                $("#NumeroLogado").text("Número: " + retorno.NumeroLogado);
-                                $("#UsuarioLogado").slideDown(200);
-                                $("#Pagamento").slideDown(200);
-
-                                Swal.fire({
-                                    title: 'Cadastrar realizado com sucesso!',
-                                    text: "Estamos muito felizes de tê-lo conosco, continue suas compras e boa sorte.",
-                                    icon: 'success',
-                                    showCancelButton: false,
-                                    confirmButtonColor: '#3085d6',
-                                    cancelButtonColor: '#d33',
-                                    cancelButtonText: 'Não',
-                                    confirmButtonText: 'OK'
-                                });
                             }
 
-                            else {
-                                $("#EmailErro").text(retorno.Mensagem);
-                                $("#EmailErro").css("display", "block");
-                            }
+                        });
 
-                        }
+                    }
 
-                    });
+                });
 
+                function ValidaCPF(cpf) {
+                    cpf = cpf.replace(/[^\d]+/g, '');
+                    if (cpf == '') return false;
+
+                    if (cpf.length != 11 ||
+                        cpf == "00000000000" ||
+                        cpf == "11111111111" ||
+                        cpf == "22222222222" ||
+                        cpf == "33333333333" ||
+                        cpf == "44444444444" ||
+                        cpf == "55555555555" ||
+                        cpf == "66666666666" ||
+                        cpf == "77777777777" ||
+                        cpf == "88888888888" ||
+                        cpf == "99999999999")
+                        return false;
+
+                    add = 0;
+                    for (i = 0; i < 9; i++)
+                        add += parseInt(cpf.charAt(i)) * (10 - i);
+                    rev = 11 - (add % 11);
+                    if (rev == 10 || rev == 11)
+                        rev = 0;
+                    if (rev != parseInt(cpf.charAt(9)))
+                        return false;
+
+                    add = 0;
+                    for (i = 0; i < 10; i++)
+                        add += parseInt(cpf.charAt(i)) * (11 - i);
+                    rev = 11 - (add % 11);
+                    if (rev == 10 || rev == 11)
+                        rev = 0;
+                    if (rev != parseInt(cpf.charAt(10)))
+                        return false;
+                    return true;
                 }
 
+
+                function validaEmail(email) {
+                    var regex = /^([\w-]+(?:\.[\w-]+)*)@@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+                    return regex.test(email);
+                }
+
+
+
             });
-
-            function ValidaCPF(cpf) {
-                cpf = cpf.replace(/[^\d]+/g, '');
-                if (cpf == '') return false;
-
-                if (cpf.length != 11 ||
-                    cpf == "00000000000" ||
-                    cpf == "11111111111" ||
-                    cpf == "22222222222" ||
-                    cpf == "33333333333" ||
-                    cpf == "44444444444" ||
-                    cpf == "55555555555" ||
-                    cpf == "66666666666" ||
-                    cpf == "77777777777" ||
-                    cpf == "88888888888" ||
-                    cpf == "99999999999")
-                    return false;
-
-                add = 0;
-                for (i = 0; i < 9; i++)
-                    add += parseInt(cpf.charAt(i)) * (10 - i);
-                rev = 11 - (add % 11);
-                if (rev == 10 || rev == 11)
-                    rev = 0;
-                if (rev != parseInt(cpf.charAt(9)))
-                    return false;
-
-                add = 0;
-                for (i = 0; i < 10; i++)
-                    add += parseInt(cpf.charAt(i)) * (11 - i);
-                rev = 11 - (add % 11);
-                if (rev == 10 || rev == 11)
-                    rev = 0;
-                if (rev != parseInt(cpf.charAt(10)))
-                    return false;
-                return true;
-            }
-
-
-            function validaEmail(email) {
-                var regex = /^([\w-]+(?:\.[\w-]+)*)@@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-                return regex.test(email);
-            }
-
-
-
-        });
 
         </script>
 </body>
