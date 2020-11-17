@@ -14,11 +14,19 @@ namespace EiSorteei.Data
     
     public partial class BilhetesCarrinho
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public BilhetesCarrinho()
+        {
+            this.OrderBumpsEscolhidos = new HashSet<OrderBumpsEscolhidos>();
+        }
+    
         public long Id { get; set; }
         public long IdCarrinho { get; set; }
         public int NumeroBilhete { get; set; }
         public System.DateTime DataCadastro { get; set; }
     
         public virtual Carrinho Carrinho { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderBumpsEscolhidos> OrderBumpsEscolhidos { get; set; }
     }
 }

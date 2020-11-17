@@ -140,6 +140,15 @@
     <Property Name="DataCadastro" Type="date" Nullable="false" />
     <Property Name="Status" Type="bit" Nullable="false" />
   </EntityType>
+  <EntityType Name="OrderBumpsEscolhidos">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdBilhete" Type="bigint" Nullable="false" />
+    <Property Name="DataCadastro" Type="date" Nullable="false" />
+    <Property Name="IdOrderBump" Type="bigint" Nullable="false" />
+  </EntityType>
   <EntityType Name="TempBilhetes">
     <Key>
       <PropertyRef Name="Id" />
@@ -209,6 +218,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK__OrderBump__IdBil__5CD6CB2B">
+    <End Role="BilhetesCarrinho" Type="Self.BilhetesCarrinho" Multiplicity="1" />
+    <End Role="OrderBumpsEscolhidos" Type="Self.OrderBumpsEscolhidos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BilhetesCarrinho">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OrderBumpsEscolhidos">
+        <PropertyRef Name="IdBilhete" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__OrderBump__IdOrd__59063A47">
     <End Role="OrderBump" Type="Self.OrderBump" Multiplicity="1" />
     <End Role="OrderBumps_Produto" Type="Self.OrderBumps_Produto" Multiplicity="*" />
@@ -217,6 +238,18 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="OrderBumps_Produto">
+        <PropertyRef Name="IdOrderBump" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__OrderBump__IdOrd__5DCAEF64">
+    <End Role="OrderBump" Type="Self.OrderBump" Multiplicity="1" />
+    <End Role="OrderBumpsEscolhidos" Type="Self.OrderBumpsEscolhidos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OrderBump">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OrderBumpsEscolhidos">
         <PropertyRef Name="IdOrderBump" />
       </Dependent>
     </ReferentialConstraint>
@@ -318,6 +351,7 @@
     <EntitySet Name="Compras" EntityType="Self.Compras" Schema="eisorteei" store:Type="Tables" />
     <EntitySet Name="OrderBump" EntityType="Self.OrderBump" Schema="eisorteei" store:Type="Tables" />
     <EntitySet Name="OrderBumps_Produto" EntityType="Self.OrderBumps_Produto" Schema="eisorteei" store:Type="Tables" />
+    <EntitySet Name="OrderBumpsEscolhidos" EntityType="Self.OrderBumpsEscolhidos" Schema="eisorteei" store:Type="Tables" />
     <EntitySet Name="TempBilhetes" EntityType="Self.TempBilhetes" Schema="eisorteei" store:Type="Tables" />
     <AssociationSet Name="FK__BilhetesC__IdCar__4D94879B" Association="Self.FK__BilhetesC__IdCar__4D94879B">
       <End Role="Carrinho" EntitySet="Carrinho" />
@@ -339,9 +373,17 @@
       <End Role="Produto" EntitySet="Produto" />
       <End Role="Multimidia" EntitySet="Multimidia" />
     </AssociationSet>
+    <AssociationSet Name="FK__OrderBump__IdBil__5CD6CB2B" Association="Self.FK__OrderBump__IdBil__5CD6CB2B">
+      <End Role="BilhetesCarrinho" EntitySet="BilhetesCarrinho" />
+      <End Role="OrderBumpsEscolhidos" EntitySet="OrderBumpsEscolhidos" />
+    </AssociationSet>
     <AssociationSet Name="FK__OrderBump__IdOrd__59063A47" Association="Self.FK__OrderBump__IdOrd__59063A47">
       <End Role="OrderBump" EntitySet="OrderBump" />
       <End Role="OrderBumps_Produto" EntitySet="OrderBumps_Produto" />
+    </AssociationSet>
+    <AssociationSet Name="FK__OrderBump__IdOrd__5DCAEF64" Association="Self.FK__OrderBump__IdOrd__5DCAEF64">
+      <End Role="OrderBump" EntitySet="OrderBump" />
+      <End Role="OrderBumpsEscolhidos" EntitySet="OrderBumpsEscolhidos" />
     </AssociationSet>
     <AssociationSet Name="FK__OrderBump__IdPro__59FA5E80" Association="Self.FK__OrderBump__IdPro__59FA5E80">
       <End Role="Produto" EntitySet="Produto" />

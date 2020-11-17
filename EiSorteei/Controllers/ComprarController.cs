@@ -162,7 +162,7 @@ namespace EiSorteei.Controllers
 
         }
 
-        public ActionResult Pagamento(long Id)
+        public ActionResult Pagamento()
         {
             ViewBag.Estados = Estados.GetAllStates();
 
@@ -452,54 +452,62 @@ namespace EiSorteei.Controllers
             }
         }
 
+        public JsonResult VerificaBilhetes(long IdProduto,string Bilhetes)
+        {
+            string[] BilhetesFormatados = Bilhetes.Split(',');
+            List<int> BilhetesRepetidos = new List<int>();
 
-        public JsonResult CompraRealizada(string Status, long IdProduto, string IdCompra, string TipoPagamento, string Bilhetes, string CodigoVendedor, string UrlBoleto)
+            List<Carrinho> Carrinhos = _Context.Carrinho.Where(c => c.IdProduto == IdProduto && c.Status).ToList();
+            foreach (var x in Carrinhos)
+            {
+                Compras FindedCompra = _Context.Compras.FirstOrDefault(c => c.CarrinhoId.Equals(x.Id));
+                if (FindedCompra != null)
+                {
+                    if (FindedCompra.Status == "approved" || FindedCompra.Status == "pending" || FindedCompra.Status == "in_process")
+                    {
+                        List<BilhetesCarrinho> BilhetesDoCarrinho = _Context.BilhetesCarrinho.Where(b => b.IdCarrinho.Equals(x.Id)).ToList();
+                        foreach (var bilhete in BilhetesDoCarrinho)
+                        {
+                            if (BilhetesFormatados.Contains(bilhete.NumeroBilhete.ToString()))
+                            {
+                                BilhetesRepetidos.Add(bilhete.NumeroBilhete);
+                            }
+                        }
+                    }
+
+                }
+
+            }
+
+            string BilhetesInvalidosMessage = "";
+            if (BilhetesRepetidos.Count > 0)
+            {
+                foreach (var x in BilhetesRepetidos)
+                {
+                    BilhetesInvalidosMessage = BilhetesRepetidos.IndexOf(x) == BilhetesRepetidos.Count - 1 ? BilhetesInvalidosMessage + x : BilhetesInvalidosMessage + ", " + x;
+                }
+
+                return Json(new
+                {
+                    Status = false,
+                    Mensagem = "Bilhetes Inválidos",
+                    BilhetesInvalidosMessage,
+                    JsonRequestBehavior.AllowGet
+                });
+            }
+
+            return Json(new
+            {
+                Status = true
+            });
+        }
+
+
+        public JsonResult CompraRealizada(string Status, long IdProduto, string IdCompra, string TipoPagamento, string Bilhetes, string CodigoVendedor, string UrlBoleto, List<Models.OrderBumpsEscolhidos> OrderBumps)
         {
             try
             {
-                string[] BilhetesFormatados = Bilhetes.Split(',');
-
-                List<int> BilhetesRepetidos = new List<int>();
-
-                List<Carrinho> Carrinhos = _Context.Carrinho.Where(c => c.IdProduto == IdProduto && c.Status).ToList();
-
-                foreach (var x in Carrinhos)
-                {
-                    Compras FindedCompra = _Context.Compras.FirstOrDefault(c => c.CarrinhoId.Equals(x.Id));
-                    if (FindedCompra != null)
-                    {
-                        if (FindedCompra.Status == "approved" || FindedCompra.Status == "pending" || FindedCompra.Status == "in_process")
-                        {
-                            List<BilhetesCarrinho> BilhetesDoCarrinho = _Context.BilhetesCarrinho.Where(b => b.IdCarrinho.Equals(x.Id)).ToList();
-                            foreach (var bilhete in BilhetesDoCarrinho)
-                            {
-                                if (BilhetesFormatados.Contains(bilhete.NumeroBilhete.ToString()))
-                                {
-                                    BilhetesRepetidos.Add(bilhete.NumeroBilhete);
-                                }
-                            }
-                        }
-
-                    }
-
-                }
-
-                string BilhetesInvalidosMessage = "";
-                if (BilhetesRepetidos.Count > 0)
-                {
-                    foreach (var x in BilhetesRepetidos)
-                    {
-                        BilhetesInvalidosMessage = BilhetesRepetidos.IndexOf(x) == BilhetesRepetidos.Count - 1 ? BilhetesInvalidosMessage + x : BilhetesInvalidosMessage + ", " + x;
-                    }
-
-                    return Json(new
-                    {
-                        Status = false,
-                        Mensagem = "Bilhetes Inválidos",
-                        BilhetesInvalidosMessage,
-                        JsonRequestBehavior.AllowGet
-                    });
-                }
+                string[] BilhetesFormatados = Bilhetes.Split(',');                                
 
                 Usuario UsuarioLogado = (Usuario)Session["Usuario"];
                 Carrinho NovoCarrinho = new Carrinho()
@@ -525,11 +533,30 @@ namespace EiSorteei.Controllers
 
                     _Context.BilhetesCarrinho.Add(NovoBilhete);
 
-
                     TempBilhetes FindedBilhete = _Context.TempBilhetes.FirstOrDefault(b => b.NumeroBilhete == NumeroBilhete.ToString() && b.IdProduto == IdProduto);
-                    _Context.Entry(FindedBilhete).State = System.Data.Entity.EntityState.Deleted;
+                    if(FindedBilhete!=null)
+                    {
+                        _Context.Entry(FindedBilhete).State = System.Data.Entity.EntityState.Deleted;
+                        _Context.SaveChanges();
+                    }
 
-                    _Context.SaveChanges();
+                    if(OrderBumps !=null)
+                    {
+                        var OrderBumpsFiltradas = OrderBumps.Where(o => o.NumeroBilhete.Trim() == NumeroBilhete.ToString()).ToList();
+                        foreach (var order in OrderBumpsFiltradas)
+                        {
+                            Data.OrderBumpsEscolhidos NovoOrder = new Data.OrderBumpsEscolhidos()
+                            {
+                                DataCadastro = DateTime.Now,
+                                IdOrderBump = Convert.ToInt64(order.IdOrderBump),
+                                IdBilhete = NovoBilhete.Id,
+                            };
+
+                            _Context.OrderBumpsEscolhidos.Add(NovoOrder);
+                            _Context.SaveChanges();
+                        }
+                    }
+                    
                 }
 
                 Compras NovaCompra = new Compras()
@@ -556,6 +583,11 @@ namespace EiSorteei.Controllers
                 {
                     Mensagem = Mensagem + " sua compra está sendo analisada e em breve entraremos em contato com você para mais informações.";
                 }
+
+
+                HttpCookie FindedCookie = Response.Cookies["Carrinho"];
+                FindedCookie.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Set(FindedCookie);
 
                 return Json(new
                 {

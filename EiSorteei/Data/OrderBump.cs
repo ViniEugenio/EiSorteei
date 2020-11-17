@@ -18,6 +18,7 @@ namespace EiSorteei.Data
         public OrderBump()
         {
             this.OrderBumps_Produto = new HashSet<OrderBumps_Produto>();
+            this.OrderBumpsEscolhidos = new HashSet<OrderBumpsEscolhidos>();
         }
     
         public long Id { get; set; }
@@ -30,5 +31,7 @@ namespace EiSorteei.Data
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderBumps_Produto> OrderBumps_Produto { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderBumpsEscolhidos> OrderBumpsEscolhidos { get; set; }
     }
 }

@@ -408,8 +408,9 @@
                     success: function (retorno) {
 
                         if (retorno.Status) {
-                            window.open("@Url.Action("Pagamento","Comprar",new { Id=Model.Id })", "_blank");
+                            window.location.href = "@Url.Action("Pagamento","Comprar")";
                         }
+
 
                         else {
 

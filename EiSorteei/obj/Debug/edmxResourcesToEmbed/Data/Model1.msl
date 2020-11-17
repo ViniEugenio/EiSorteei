@@ -163,5 +163,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="OrderBumpsEscolhidos">
+      <EntityTypeMapping TypeName="EiSorteeiModel.OrderBumpsEscolhidos">
+        <MappingFragment StoreEntitySet="OrderBumpsEscolhidos">
+          <ScalarProperty Name="IdOrderBump" ColumnName="IdOrderBump" />
+          <ScalarProperty Name="DataCadastro" ColumnName="DataCadastro" />
+          <ScalarProperty Name="IdBilhete" ColumnName="IdBilhete" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>
