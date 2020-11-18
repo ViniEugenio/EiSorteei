@@ -37,6 +37,7 @@
                                 <td>@produto.Nome</td>
                                 <td>@produto.DataCadastro.Date.Day/@produto.DataCadastro.Date.Month/@produto.DataCadastro.Date.Year</td>
                                 <td>
+                                    <a class="btn btn-success" href="@Url.Action("Bilhetes",new { Id=produto.Id})"><i class="fa fa-dollar"></i></a>
                                     <a class="btn btn-primary" href="@Url.Action("Details",new { Id=produto.Id})"><i class="fa fa-info-circle"></i></a>
                                     <a class="btn btn-warning" style="color:white" href="@Url.Action("Alterar",new { Id=produto.Id})"><i class="fa fa-edit"></i></a>
                                     <button class="btn btn-danger Excluir" data-id="@produto.Id"><i class="fa fa-trash"></i></button>

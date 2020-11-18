@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿
+@{
+    EiSorteei.Data.Usuario Usuario = (EiSorteei.Data.Usuario)@Session["Usuario"];
+}
+
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -14,63 +20,194 @@
         body {
             background: #1F1F1F;
         }
+
+        .navbar {
+            font-size: 18px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            padding-bottom: 10px;
+            background: #000000;
+            min-height: 100px;
+        }
+
+        .main-nav {
+            list-style-type: none;
+            display: none;
+        }
+
+        .nav-links,
+        .logo {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .main-nav li {
+            text-align: center;
+            margin: 15px auto;
+            margin-top: 20px;
+        }
+
+        .logo {
+            display: inline-block;
+            font-size: 22px;
+            margin-top: 10px;
+            margin-left: 20px;
+        }
+
+        .navbar-toggle {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 24px;
+        }
+
+        .active {
+            display: block;
+        }
+
+        @@media screen and (min-width: 768px) {
+
+            .navbar {
+                display: flex;
+                justify-content: space-between;
+                padding-bottom: 0;
+                height: 70px;
+                align-items: center;
+            }
+
+            .main-nav {
+                display: flex;
+                margin-right: 30px;
+                flex-direction: row;
+                justify-content: flex-end;
+            }
+
+                .main-nav li {
+                    margin: 0;
+                }
+
+            .nav-links {
+                margin-left: 40px;
+            }
+
+            .logo {
+                margin-top: 0;
+            }
+
+            .navbar-toggle {
+                display: none;
+            }
+
+            .logo:hover,
+            .nav-links:hover {
+                color: rgba(255, 255, 255, 1);
+            }
+
+
+
+            .dropbtn {
+                background-color: #4CAF50;
+                color: white;
+                padding: 16px;
+                font-size: 16px;
+                border: none;
+                cursor: pointer;
+            }
+
+            .dropdown {
+                position: relative;
+                display: inline-block;
+            }
+
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                right: 0;
+                background-color: #f9f9f9;
+                min-width: 160px;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+            }
+
+                .dropdown-content a {
+                    color: black;
+                    padding: 12px 16px;
+                    text-decoration: none;
+                    display: block;
+                }
+
+                    .dropdown-content a:hover {
+                        background-color: #f1f1f1;
+                    }
+
+            .dropdown:hover .dropdown-content {
+                display: block;
+            }
+
+            .dropdown:hover .dropbtn {
+                background-color: #3e8e41;
+            }
+
+
+        }
+
+        @@media only screen and (max-width: 1000px){
+            #dropdown {
+                background: #000000 !important;
+                position: inherit !important;
+            }
+
+            #dropdown ul li a{
+                color:#fff !important;
+            }
+        }
     </style>
 </head>
 
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">            
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                <li class="nav-item active">
-                    <a class="nav-link" href="@Url.Action("Index","Produtos")" style="color:white;">Prêmios</a>
+    <nav class="navbar">
+        <span class="navbar-toggle" id="js-navbar-toggle">
+            <i class="fa fa-bars"></i>
+        </span>
+        <ul class="main-nav" id="js-menu">
+            <li>
+                <a href="@Url.Action("Index","DashBoard")">
+                    <img src="~/Imagens/Cópia de Logo Verde e Branco de Curso Preparatório (1).png" alt="Logo do Site" id="brand" style="width:80%;" />
+                </a>
+            </li>
+            <li style="margin-top:30px;">
+                <a class="nav-link" href="@Url.Action("Index","Produtos")" style="color:white;">Prêmios</a>
+            </li>
+            @if (Session["Permissao"].ToString() == "Administrador")
+            {
+                <li style="margin-top:30px;">
+                    <a class="nav-link" href="@Url.Action("Index", "CategoriasProdutos")" style="color:white;">Categorias de Produto</a>
                 </li>
-                @if (Session["Permissao"].ToString() == "Administrador")
-                {
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("Index", "CategoriasProdutos")" style="color:white;">Categorias de Produto</a>
-                    </li>
-                }
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index","OrderBump")" style="color:white;">Order Bumps</a>
-                </li>
-            </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <a style="color:white;" href="@Url.Action("Logout","Login")">Sair</a>
-            </form>
-        </div>
+            }
+            <li style="margin-top:30px;">
+                <a class="nav-link" href="@Url.Action("Index","OrderBump")" style="color:white;">Order Bumps</a>
+            </li>
+            <li style="margin-top:30px;">
+                <span class="nav-link" style="color:white; cursor:pointer;" id="MeuPerfil">@Usuario.Nome <i class="fa fa-caret-down"></i></span>
+                <div id="dropdown" style="display: none;background: #000000;padding: 9px;border-radius: 10px;margin-top: 10px; z-index:1; position:fixed;">
+                    <ul style="list-style-type: none;">
+                        <li style="margin-top:30px;">
+                            <a class="nav-link" href="@Url.Action("Index","Produtos")" style="color:white;">Meu Perfil</a>
+                        </li>
+                        <li style="margin-top:30px;">
+                            <a class="nav-link" href="@Url.Action("Logout","Login")" style="color:white;">Sair</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+        </ul>
+
     </nav>
 
 
-    @*<nav class="navbar navbar-expand-lg bg-dark" style="color:white;">
-
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="@Url.Action("Index","Produtos")" style="color:white;">Prêmios</a>
-                    </li>
-
-                    @if (Session["Permissao"].ToString() == "Administrador")
-                    {
-                        <li class="navbar-nav mr-auto">
-                            <a class="nav-link" href="@Url.Action("Index","CategoriasProdutos")" style="color:white;">Categorias de Produto</a>
-                        </li>
-                    }
-
-                    <li class="nav-item active">
-                        <a class="nav-link" href="@Url.Action("Index","OrderBump")" style="color:white;">Order Bumps</a>
-                    </li>
-
-                </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <a style="color:white;" href="@Url.Action("Logout","Login")">Sair</a>
-                </form>
-            </div>
-        </nav>*@
     <div class="container body-content">
         @RenderBody()
 
@@ -106,6 +243,17 @@
 
             $("#Fechar").click(function () {
                 $("#myModal2").css("display", "none");
+            });
+
+            let mainNav = document.getElementById('js-menu');
+            let navBarToggle = document.getElementById('js-navbar-toggle');
+
+            navBarToggle.addEventListener('click', function () {
+                mainNav.classList.toggle('active');
+            });
+
+            $("#MeuPerfil").click(function () {
+                $("#dropdown").toggle();
             });
 
         })
