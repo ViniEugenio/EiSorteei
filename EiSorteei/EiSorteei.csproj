@@ -217,6 +217,7 @@
     <Compile Include="Helpers\FilterLogin.cs" />
     <Compile Include="Helpers\HashPassword.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
+    <Compile Include="Models\MinhasComprasViewModel.cs" />
     <Compile Include="Models\OrderBumpAlterarViewModel.cs" />
     <Compile Include="Models\OrderBumpsEscolhidos.cs" />
     <Compile Include="Models\OrderBumpViewModel.cs" />
@@ -379,6 +380,8 @@
     <Content Include="Views\Usuario\Index.cshtml" />
     <Content Include="Views\Usuario\CadastrarUsuario.cshtml" />
     <Content Include="Views\Comprar\Pagamento.cshtml" />
+    <Content Include="Views\Usuario\MeuPerfil.cshtml" />
+    <Content Include="Views\Usuario\MinhasCompras.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

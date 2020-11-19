@@ -117,8 +117,16 @@ namespace EiSorteei.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
+                if (_Context.Usuario.Any(u => u.Email.Equals(model.Email)))
+                {
+                    return Json(new
+                    {
+                        Status = false,
+                        Mensagem = "O Email informado já está sendo usado por outro usuário."
+                    });
+                }
 
-                if(!Valida(model.Cpf))
+                if (!Valida(model.Cpf))
                 {
                     ModelState.AddModelError("Cpf", "O CPF digitado não é válido!");
                     return View(model);

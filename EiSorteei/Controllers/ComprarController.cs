@@ -608,7 +608,6 @@ namespace EiSorteei.Controllers
             }
         }
 
-
         public JsonResult CadastrarUsuario(UsuarioViewModel model)
         {
 
@@ -620,7 +619,16 @@ namespace EiSorteei.Controllers
                     return Json(new
                     {
                         Status = false,
-                        Mensagem = "O email informado já está sendo usado por outro usuário."
+                        Mensagem = "O Email informado já está sendo usado por outro usuário."
+                    });
+                }
+
+                if (_Context.Usuario.Any(u => u.Cpf.Equals(model.Cpf)))
+                {
+                    return Json(new
+                    {
+                        Status = false,
+                        Mensagem = "O CPF informado já está sendo usado por outro usuário."
                     });
                 }
 
@@ -645,6 +653,42 @@ namespace EiSorteei.Controllers
 
                 _Context.Usuario.Add(oUsuario);
                 _Context.SaveChanges();
+
+                long IdPermissao = 0;
+                if (!_Context.Permissao.Any(p => p.Nome == "Usuário"))
+                {
+                    Permissao NovaPermissao = new Permissao()
+                    {
+                        Nome = "Usuário"
+                    };
+
+                    _Context.Permissao.Add(NovaPermissao);
+                    _Context.SaveChanges();
+
+                    IdPermissao = NovaPermissao.Id;
+                }
+
+
+                else
+                {
+                    IdPermissao = _Context.Permissao.FirstOrDefault(p => p.Nome.Equals("Usuário")).Id;
+                }
+
+                PermissaoUsuario Permissao = new PermissaoUsuario()
+                {
+                    IdPermissao = IdPermissao,
+                    IdUsuario = oUsuario.Id,
+                    Status = true,
+                    DataCadastro = DateTime.Now
+                };
+
+                _Context.PermissaoUsuario.Add(Permissao);
+                _Context.SaveChanges();
+
+                Usuario NovoUsuario = _Context.Usuario.FirstOrDefault(u => u.Id.Equals(oUsuario.Id));
+                Session["Usuario"] = NovoUsuario;
+                IdPermissao = _Context.PermissaoUsuario.FirstOrDefault(p => p.IdUsuario.Equals(oUsuario.Id)).IdPermissao;
+                Session["Permissao"] = _Context.Permissao.FirstOrDefault(p => p.Id.Equals(IdPermissao)).Nome;
 
                 return Json(new
                 {

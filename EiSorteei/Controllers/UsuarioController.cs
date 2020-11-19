@@ -3,6 +3,7 @@ using EiSorteei.Helpers;
 using EiSorteei.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -139,15 +140,23 @@ namespace EiSorteei.Controllers
         {
             ViewBag.Estados = Estados.GetAllStates();
 
-            if (ModelState.IsValid)
+            if (!Valida(model.Cpf))
             {
+                ModelState.AddModelError("Cpf", "O CPF digitado não é válido!");                
+            }
 
-                if (!Valida(model.Cpf))
-                {
-                    ModelState.AddModelError("Cpf", "O CPF digitado não é válido!");
-                    return View(model);
-                }
+            if (_Context.Usuario.Any(u => u.Email.Equals(model.Email)))
+            {
+                ModelState.AddModelError("Email", "O Email digitado já está sendo usado por outro usuário!");
+            }
 
+            if (_Context.Usuario.Any(u => u.Cpf.Equals(model.Cpf)))
+            {
+                ModelState.AddModelError("Cpf", "O CPF digitado já está sendo usado por outro usuário!");
+            }
+
+            if (ModelState.IsValid)
+            {                               
                 Usuario NovoUsuario = new Usuario()
                 {
                     Bairro = model.Bairro,
@@ -223,6 +232,104 @@ namespace EiSorteei.Controllers
             Session.RemoveAll();
             Session.Clear();
             return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult MeuPerfil()
+        {
+            ViewBag.Estados = Estados.GetAllStates();
+            Usuario UsuarioLogado = (Usuario)Session["Usuario"];
+
+            if(UsuarioLogado==null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View(UsuarioLogado);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult MeuPerfil(Usuario model)
+        {
+            ViewBag.Estados = Estados.GetAllStates();
+
+            Usuario FindedUsuario = _Context.Usuario.AsNoTracking().FirstOrDefault(u => u.Id.Equals(model.Id));
+
+            if (!Valida(model.Cpf))
+            {
+                ModelState.AddModelError("Cpf", "O CPF digitado não é válido!");
+            }          
+
+            if (_Context.Usuario.Any(u => u.Cpf.Equals(model.Cpf)) && FindedUsuario.Cpf!=model.Cpf)
+            {
+                ModelState.AddModelError("Cpf", "O CPF digitado já está sendo usado por outro usuário!");
+            }
+
+            if(ModelState.IsValid)
+            {
+                model.DataAtualizacao = DateTime.Now;
+                _Context.Entry(model).State = System.Data.Entity.EntityState.Modified;
+                _Context.SaveChanges();               
+            }
+
+            return View(model);
+        }
+
+        public ActionResult MinhasCompras()
+        {
+            Usuario UsuarioLogado = (Usuario)Session["Usuario"];
+
+            if (UsuarioLogado == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            List<Carrinho> Carrinhos = _Context.Carrinho.Include("BilhetesCarrinho").Include("Compras").Where(c => c.IdUsuario.Equals(UsuarioLogado.Id)).ToList();
+
+
+            List<MinhasComprasViewModel> MinhasCompras = new List<MinhasComprasViewModel>();
+
+            foreach(var carrinho in Carrinhos)
+            {
+                long IdProduto = carrinho.Compras.First().Carrinho.IdProduto;
+                Produto FindedProduto = _Context.Produto.FirstOrDefault(p => p.Id.Equals(IdProduto));
+
+                if(FindedProduto.DataSorteio > DateTime.Now)
+                {
+                    List<OrderBump> Orders = new List<OrderBump>();
+                    List<BilhetesCarrinho> Bilhetes = _Context.BilhetesCarrinho.Where(b => b.IdCarrinho.Equals(carrinho.Id)).ToList();
+
+                    foreach (var bilhete in Bilhetes)
+                    {
+                        List<EiSorteei.Data.OrderBumpsEscolhidos> Escolhidos = _Context.OrderBumpsEscolhidos.Where(o => o.IdBilhete.Equals(bilhete.Id)).ToList();
+                        if (Escolhidos != null)
+                        {
+                            foreach (var escolhido in Escolhidos)
+                            {
+                                OrderBump FindedOrder = _Context.OrderBump.FirstOrDefault(o => o.Id.Equals(escolhido.IdOrderBump));
+                                Orders.Add(FindedOrder);
+                            }
+                        }
+                    }
+
+                    MinhasComprasViewModel data = new MinhasComprasViewModel()
+                    {
+                        CodigoVendedor = carrinho.Compras.First().CodigoVendedor,
+                        DataCompra = carrinho.Compras.First().DataCompra,                        
+                        Status = carrinho.Compras.First().Status,
+                        UrlBoleto = string.IsNullOrEmpty(carrinho.Compras.First().UrlBoleto) ? "" : carrinho.Compras.First().UrlBoleto,
+                        ValorCompra = FindedProduto.ValorRifa.ToString(),
+                        OrderBumps = Orders,
+                        Bilhetes = Bilhetes,
+                        Premio = FindedProduto
+                    };
+
+                    MinhasCompras.Add(data);
+                }
+              
+            }
+
+            return View(MinhasCompras);
         }
     }
 }
