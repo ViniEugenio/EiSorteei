@@ -119,6 +119,7 @@
     <EntitySetMapping Name="Compras">
       <EntityTypeMapping TypeName="EiSorteeiModel.Compras">
         <MappingFragment StoreEntitySet="Compras">
+          <ScalarProperty Name="ValorCompra" ColumnName="ValorCompra" />
           <ScalarProperty Name="UrlBoleto" ColumnName="UrlBoleto" />
           <ScalarProperty Name="CodigoVendedor" ColumnName="CodigoVendedor" />
           <ScalarProperty Name="IdCompra" ColumnName="IdCompra" />

@@ -21,6 +21,7 @@ namespace EiSorteei.Data
         public string IdCompra { get; set; }
         public string CodigoVendedor { get; set; }
         public string UrlBoleto { get; set; }
+        public string ValorCompra { get; set; }
     
         public virtual Carrinho Carrinho { get; set; }
     }

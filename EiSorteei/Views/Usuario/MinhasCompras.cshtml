@@ -2,67 +2,202 @@
 
 @{
     ViewBag.Title = "Minhas Compras";
+    Layout = "~/Views/Shared/_LayoutComprar.cshtml";
 }
-<body>
+<style>
 
+    body {
+        background-color: #1f1f1f;
+    }
 
-    <style>
+    #Login {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
-        body {
-            background-color: #1f1f1f;
+    #box_login {
+        margin: 200px 0;
+        width: 400px;
+        height: 520px;
+        background-color: #fff;
+        border-radius: 20px;
+    }
+
+    #BtnLogin {
+        background-color: #E0C777;
+        border: none;
+        color: #fff;
+        width: 100px;
+        height: 50px;
+        border-radius: 20px;
+        font-size: 20px;
+        transition: all .3s ease-in-out;
+    }
+
+        #BtnLogin:hover {
+            background-color: #F2CB4C;
         }
 
-        #Login {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+    .RifaEscolhida {
+        background-color: rgb(37, 202, 23);
+        border-radius: 24px;
+        color: white;
+        padding: 10px;
+        text-align: center;
+        height: 40px;
+        width: 70px;
+        margin-top: 2px;
+    }
 
-        #box_login {
-            margin: 200px 0;
-            width: 400px;
-            height: 520px;
-            background-color: #fff;
-            border-radius: 20px;
-        }
+    .Bilhetes {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
 
-        #BtnLogin {
-            background-color: #E0C777;
-            border: none;
-            color: #fff;
-            width: 100px;
-            height: 50px;
-            border-radius: 20px;
-            font-size: 20px;
-            transition: all .3s ease-in-out;
-        }
-
-            #BtnLogin:hover {
-                background-color: #F2CB4C;
-            }
-    </style>
-
-    <div class="container body-content">
+<div class="container body-content">
 
 
 
 
-        <div style="display:flex; align-items:center; justify-content:center; margin-top:50px;">
-            <div class="card" style="width:1200px;">
+    <div style="display:flex; align-items:center; justify-content:center; margin-top:50px;">
+        <div class="card" style="width:1200px;">
 
-                <div class="card-header">
-                    <h3>Minhas Compras</h3>
-                </div>               
+            <div class="card-header">
+                <h3>Minhas Compras</h3>
+            </div>
 
+            <div class="card-body">
+
+                @foreach (var compra in Model)
+                {
+                    <div class="card" style="margin-bottom:10px;">
+                        <div class="card-header">
+                            <h4>@compra.DataCompra.ToString("dd/MM/yyyy") - @compra.Status</h4>
+                        </div>
+                        <div class="card-body row">
+
+                            <div class="col-md-4">
+                                <div class="carousel form-group" align="center" style="margin-top:20px; z-index:0;" id="Imagens">
+
+                                    @foreach (var imagem in compra.Multimidia)
+                                    {
+                                        <div><img src="~/Content/ImagemProdutos/@imagem.Caminho" alt="Imagem do Produto" style="width:100%;" class="imagem_produto" /></div>
+                                    }
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-8 text-center">
+
+                                <p><strong>@compra.Premio.Nome</strong></p>
+                                <p><strong>@compra.Premio.DataSorteio.Value.ToString("dd/MM/yyyy")</strong></p>
+                                @if (!string.IsNullOrEmpty(compra.CodigoVendedor))
+                                {
+                                    <p><strong>Código do Vendedor: @compra.CodigoVendedor</strong></p>
+                                }
+
+                                @if (!string.IsNullOrEmpty(compra.UrlBoleto))
+                                {
+                                    <p><strong>Visualizar Boleto: <a href="@compra.UrlBoleto" target="_blank">Clique Aqui</a></strong></p>
+                                }
+
+                                <strong>Bilhetes Escolhidos:</strong>
+                                <div class="Bilhetes">
+                                    @foreach (var x in compra.Bilhetes)
+                                    {
+                                        <div class="RifaEscolhida" style="margin-right:2px;">
+                                            @x.NumeroBilhete
+                                        </div>
+                                    }
+                                </div>
+                                <h3 style="margin-top: 20px;">Valor da Compra: @compra.ValorCompra</h3>
+                            </div>
+
+                            <div class="col-md-12">
+
+                                @foreach (var order in compra.OrderBumps)
+                                {
+                                    <div class="card" style="margin-top:10px;">
+
+                                        <div class="card-header ExibirOrderBumps" data-id="@(order.Id.ToString() + compra.Id.ToString())" style="cursor:pointer;">
+                                            <h4>Produto Adicional <i class="fa fa-caret-down"></i></h4>
+                                        </div>
+
+                                        <div class="card-body row OrderBumpsDados-@(order.Id.ToString() + compra.Id.ToString())" style="display:none;">
+
+                                            <div class="col-md-4">
+                                                <div><img src="~/Content/ImagensOrderBumps/@order.Imagem" alt="Imagem do Produto" style="width:100%;" class="imagem_produto" /></div>
+                                            </div>
+
+                                            <div class="col-md-8 text-center">
+                                                <p><strong>Bilhetes Relacionados:</strong></p>
+                                                <div class="Bilhetes">
+                                                    @foreach (var bilhete in order.NumerosRifas)
+                                                    {
+                                                        <div class="RifaEscolhida" style="margin-right:2px;">
+                                                           @bilhete.ToString().Trim()
+                                                        </div>
+                                                    }
+                                                </div>
+                                               
+
+                                                <p><strong>@order.Nome</strong></p>
+                                                <p><strong>@Html.Raw(order.Descricao)</strong></p>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                }
+
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                }
 
             </div>
+
+
         </div>
-        @Scripts.Render("~/bundles/jquery")       
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-</body>
+</div>
+
+
+@section Scripts {
+
+    <script>
+
+        $(document).ready(function () {
+
+            $('.carousel').slick({
+                autoplay: true,
+                autoplaySpeed: 4000,
+                nextArrow: '#next',
+                prevArrow: '#prev'
+            });
+
+
+            $(".ExibirOrderBumps").click(function () {
+
+                let id = $(this).attr("data-id");
+                $(".OrderBumpsDados-" + id).toggle(200);
+
+
+            });
+
+        });
+
+
+    </script>
+}

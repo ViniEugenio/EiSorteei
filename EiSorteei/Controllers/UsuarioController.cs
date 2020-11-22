@@ -20,15 +20,15 @@ namespace EiSorteei.Controllers
         }
 
         // GET: Login
-        public ActionResult Index(long IdProduto=0)
+        public ActionResult Index(long IdProduto = 0)
         {
             ViewBag.Produto = IdProduto;
             return View();
         }
 
-       [HttpPost]
-       [ValidateAntiForgeryToken]
-       public ActionResult Index(LoginViewModel model,long IdProduto=0)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index(LoginViewModel model, long IdProduto = 0)
         {
             if (ModelState.IsValid)
             {
@@ -41,7 +41,7 @@ namespace EiSorteei.Controllers
                     long IdPermissao = _Context.PermissaoUsuario.FirstOrDefault(p => p.IdUsuario.Equals(oUsuario.Id)).IdPermissao;
                     Session["Permissao"] = _Context.Permissao.FirstOrDefault(p => p.Id.Equals(IdPermissao)).Nome;
 
-                    if(IdProduto!=0)
+                    if (IdProduto != 0)
                     {
                         return RedirectToAction("Index", "Comprar", new { IdProduto = IdProduto });
                     }
@@ -58,7 +58,7 @@ namespace EiSorteei.Controllers
             return View(model);
         }
 
-        public ActionResult CadastrarUsuario(long IdProduto=0)
+        public ActionResult CadastrarUsuario(long IdProduto = 0)
         {
             ViewBag.Estados = Estados.GetAllStates();
             ViewBag.Produto = IdProduto;
@@ -136,13 +136,13 @@ namespace EiSorteei.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CadastrarUsuario(UsuarioViewModel model,long IdProduto=0)
+        public ActionResult CadastrarUsuario(UsuarioViewModel model, long IdProduto = 0)
         {
             ViewBag.Estados = Estados.GetAllStates();
 
             if (!Valida(model.Cpf))
             {
-                ModelState.AddModelError("Cpf", "O CPF digitado não é válido!");                
+                ModelState.AddModelError("Cpf", "O CPF digitado não é válido!");
             }
 
             if (_Context.Usuario.Any(u => u.Email.Equals(model.Email)))
@@ -156,7 +156,7 @@ namespace EiSorteei.Controllers
             }
 
             if (ModelState.IsValid)
-            {                               
+            {
                 Usuario NovoUsuario = new Usuario()
                 {
                     Bairro = model.Bairro,
@@ -215,7 +215,7 @@ namespace EiSorteei.Controllers
                 long Id = _Context.PermissaoUsuario.FirstOrDefault(p => p.IdUsuario.Equals(NovoUsuario.Id)).IdPermissao;
                 Session["Permissao"] = _Context.Permissao.FirstOrDefault(p => p.Id.Equals(Id)).Nome;
 
-                if(IdProduto!=0)
+                if (IdProduto != 0)
                 {
                     return RedirectToAction("Index", "Comprar", new { IdProduto = IdProduto });
                 }
@@ -239,7 +239,7 @@ namespace EiSorteei.Controllers
             ViewBag.Estados = Estados.GetAllStates();
             Usuario UsuarioLogado = (Usuario)Session["Usuario"];
 
-            if(UsuarioLogado==null)
+            if (UsuarioLogado == null)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -258,18 +258,18 @@ namespace EiSorteei.Controllers
             if (!Valida(model.Cpf))
             {
                 ModelState.AddModelError("Cpf", "O CPF digitado não é válido!");
-            }          
+            }
 
-            if (_Context.Usuario.Any(u => u.Cpf.Equals(model.Cpf)) && FindedUsuario.Cpf!=model.Cpf)
+            if (_Context.Usuario.Any(u => u.Cpf.Equals(model.Cpf)) && FindedUsuario.Cpf != model.Cpf)
             {
                 ModelState.AddModelError("Cpf", "O CPF digitado já está sendo usado por outro usuário!");
             }
 
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 model.DataAtualizacao = DateTime.Now;
                 _Context.Entry(model).State = System.Data.Entity.EntityState.Modified;
-                _Context.SaveChanges();               
+                _Context.SaveChanges();
             }
 
             return View(model);
@@ -289,47 +289,86 @@ namespace EiSorteei.Controllers
 
             List<MinhasComprasViewModel> MinhasCompras = new List<MinhasComprasViewModel>();
 
-            foreach(var carrinho in Carrinhos)
+            foreach (var carrinho in Carrinhos)
             {
                 long IdProduto = carrinho.Compras.First().Carrinho.IdProduto;
                 Produto FindedProduto = _Context.Produto.FirstOrDefault(p => p.Id.Equals(IdProduto));
 
-                if(FindedProduto.DataSorteio > DateTime.Now)
+                if (FindedProduto.DataSorteio > DateTime.Now)
                 {
-                    List<OrderBump> Orders = new List<OrderBump>();
-                    List<BilhetesCarrinho> Bilhetes = _Context.BilhetesCarrinho.Where(b => b.IdCarrinho.Equals(carrinho.Id)).ToList();
+                    var Bilhetes = _Context.BilhetesCarrinho.Where(b => b.IdCarrinho.Equals(carrinho.Id)).ToList();
 
-                    foreach (var bilhete in Bilhetes)
+                    var OrderBumps = _Context.OrderBump.Join(_Context.OrderBumpsEscolhidos.
+                        Join(_Context.BilhetesCarrinho.Where(b => b.IdCarrinho.Equals(carrinho.Id)), o => o.IdBilhete, b => b.Id, (o, b) => o), o => o.Id, oe => oe.IdOrderBump, (o, oe) => o).GroupBy(o => o.Id).ToList();
+
+                    List<OrderBumpsEscolhidosViewModel> Orders = new List<OrderBumpsEscolhidosViewModel>();
+
+                    foreach(IGrouping<long,OrderBump> order in OrderBumps)
                     {
-                        List<EiSorteei.Data.OrderBumpsEscolhidos> Escolhidos = _Context.OrderBumpsEscolhidos.Where(o => o.IdBilhete.Equals(bilhete.Id)).ToList();
-                        if (Escolhidos != null)
+                        OrderBump FindedOrder = _Context.OrderBump.FirstOrDefault(o => o.Id.Equals(order.Key));
+
+                        OrderBumpsEscolhidosViewModel NewOrder = new OrderBumpsEscolhidosViewModel()
                         {
-                            foreach (var escolhido in Escolhidos)
-                            {
-                                OrderBump FindedOrder = _Context.OrderBump.FirstOrDefault(o => o.Id.Equals(escolhido.IdOrderBump));
-                                Orders.Add(FindedOrder);
-                            }
-                        }
+                            Id = FindedOrder.Id,
+                            Nome = FindedOrder.Nome,
+                            Descricao = FindedOrder.Descricao,
+                            Imagem = FindedOrder.Imagem,
+                            NumerosRifas = _Context.BilhetesCarrinho.Join(_Context.OrderBumpsEscolhidos.Where(o=>o.IdOrderBump.Equals(FindedOrder.Id)),b=>b.Id,o=>o.IdBilhete,(b,o)=>b).Where(b=>b.IdCarrinho.Equals(carrinho.Id)).Select(b=>b.NumeroBilhete).ToList()
+                        };
+
+                        Orders.Add(NewOrder);
                     }
 
                     MinhasComprasViewModel data = new MinhasComprasViewModel()
                     {
+                        Id = carrinho.Id,
                         CodigoVendedor = carrinho.Compras.First().CodigoVendedor,
-                        DataCompra = carrinho.Compras.First().DataCompra,                        
-                        Status = carrinho.Compras.First().Status,
+                        DataCompra = carrinho.Compras.First().DataCompra,
+                        Status = FormataStatus(carrinho.Compras.First().Status),
                         UrlBoleto = string.IsNullOrEmpty(carrinho.Compras.First().UrlBoleto) ? "" : carrinho.Compras.First().UrlBoleto,
-                        ValorCompra = FindedProduto.ValorRifa.ToString(),
+                        ValorCompra = "R$ " + carrinho.Compras.First().ValorCompra.Replace('.',','),
                         OrderBumps = Orders,
                         Bilhetes = Bilhetes,
-                        Premio = FindedProduto
+                        Premio = FindedProduto,
+                        Multimidia = _Context.Multimidia.Where(m => m.IdProduto.Equals(FindedProduto.Id) && m.Status).ToList(),                        
                     };
 
                     MinhasCompras.Add(data);
                 }
-              
+
             }
 
             return View(MinhasCompras);
         }
+
+
+        public string FormataStatus(string Status)
+        {
+
+            if (Status == "pending")
+            {
+                return "Pendente";
+            }
+
+            else if (Status == "in_process")
+            {
+                return "Pedido em Análise";
+            }
+
+            else if (Status == "cancelled")
+            {
+                return "Pedido Cancelado";
+            }
+
+            else if (Status == "rejected")
+            {
+                return "Pedido Rejeitado";
+            }
+
+            return "Aprovado";
+
+        }
+
+
     }
 }

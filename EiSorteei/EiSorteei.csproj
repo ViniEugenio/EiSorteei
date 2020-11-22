@@ -220,6 +220,7 @@
     <Compile Include="Models\MinhasComprasViewModel.cs" />
     <Compile Include="Models\OrderBumpAlterarViewModel.cs" />
     <Compile Include="Models\OrderBumpsEscolhidos.cs" />
+    <Compile Include="Models\OrderBumpsEscolhidosViewModel.cs" />
     <Compile Include="Models\OrderBumpViewModel.cs" />
     <Compile Include="Models\OrderCartX.cs" />
     <Compile Include="Models\OrderShippingsCartX.cs" />
@@ -298,6 +299,7 @@
     <Content Include="Areas\Admin\Views\OrderBump\Create.cshtml" />
     <Content Include="Areas\Admin\Views\OrderBump\Details.cshtml" />
     <Content Include="Areas\Admin\Views\OrderBump\Alterar.cshtml" />
+    <Content Include="Areas\Admin\Views\Produtos\Bilhetes.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

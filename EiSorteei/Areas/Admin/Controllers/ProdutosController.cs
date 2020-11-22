@@ -406,6 +406,109 @@ namespace EiSorteei.Areas.Admin.Controllers
         }
 
 
+        public ActionResult Bilhetes(long Id, string NomeUsuario="",string Status="")
+        {
+            Produto FindedProduto = _Context.Produto.FirstOrDefault(p => p.Id.Equals(Id));
+            ViewBag.NomeProduto = FindedProduto.Nome;
+            ViewBag.Multimidia = _Context.Multimidia.Where(m => m.IdProduto.Equals(FindedProduto.Id) && m.Status).ToList();
+            ViewBag.Id = Id;
+
+            List<Carrinho> Carrinhos = _Context.Carrinho.Include("BilhetesCarrinho").Include("Compras").Where(c => c.IdProduto.Equals(Id)).ToList();
+            List<MinhasComprasViewModel> MinhasCompras = new List<MinhasComprasViewModel>();
+
+            foreach (var carrinho in Carrinhos)
+            {
+                long IdProduto = carrinho.Compras.First().Carrinho.IdProduto;
+               
+
+                if (FindedProduto.DataSorteio > DateTime.Now)
+                {
+                    var Bilhetes = _Context.BilhetesCarrinho.Where(b => b.IdCarrinho.Equals(carrinho.Id)).ToList();
+
+                    var OrderBumps = _Context.OrderBump.Join(_Context.OrderBumpsEscolhidos.
+                        Join(_Context.BilhetesCarrinho.Where(b => b.IdCarrinho.Equals(carrinho.Id)), o => o.IdBilhete, b => b.Id, (o, b) => o), o => o.Id, oe => oe.IdOrderBump, (o, oe) => o).GroupBy(o => o.Id).ToList();
+
+                    List<OrderBumpsEscolhidosViewModel> Orders = new List<OrderBumpsEscolhidosViewModel>();
+
+                    foreach (IGrouping<long, OrderBump> order in OrderBumps)
+                    {
+                        OrderBump FindedOrder = _Context.OrderBump.FirstOrDefault(o => o.Id.Equals(order.Key));
+
+                        OrderBumpsEscolhidosViewModel NewOrder = new OrderBumpsEscolhidosViewModel()
+                        {
+                            Id = FindedOrder.Id,
+                            Nome = FindedOrder.Nome,
+                            Descricao = FindedOrder.Descricao,
+                            Imagem = FindedOrder.Imagem,
+                            NumerosRifas = _Context.BilhetesCarrinho.Join(_Context.OrderBumpsEscolhidos.Where(o => o.IdOrderBump.Equals(FindedOrder.Id)), b => b.Id, o => o.IdBilhete, (b, o) => b).Where(b=>b.IdCarrinho.Equals(carrinho.Id)).Select(b => b.NumeroBilhete).ToList()
+                        };
+
+                        Orders.Add(NewOrder);
+                    }
+
+                    MinhasComprasViewModel data = new MinhasComprasViewModel()
+                    {
+                        Id = carrinho.Id,
+                        DadosUsuario = _Context.Usuario.First(u=>u.Id.Equals(carrinho.IdUsuario)),
+                        CodigoVendedor = carrinho.Compras.First().CodigoVendedor,
+                        DataCompra = carrinho.Compras.First().DataCompra,
+                        Status = FormataStatus(carrinho.Compras.First().Status),
+                        UrlBoleto = string.IsNullOrEmpty(carrinho.Compras.First().UrlBoleto) ? "" : carrinho.Compras.First().UrlBoleto,
+                        ValorCompra = "R$ " + carrinho.Compras.First().ValorCompra.Replace('.', ','),
+                        OrderBumps = Orders,
+                        Bilhetes = Bilhetes,
+                        Premio = FindedProduto,                        
+                    };
+
+                    MinhasCompras.Add(data);
+                }
+
+            }
+
+
+            if(!string.IsNullOrEmpty(Status) && Status!= "TodasCompras")
+            {
+                MinhasCompras = MinhasCompras.Where(m => m.Status.Equals(Status)).ToList();
+                ViewBag.Status = Status;
+            }
+
+            if(!string.IsNullOrEmpty(NomeUsuario))
+            {
+                MinhasCompras = MinhasCompras.Where(m => m.DadosUsuario.Nome.ToLower().Contains(NomeUsuario.ToLower())).ToList();
+                ViewBag.NomeUsuario = NomeUsuario;
+            }
+            
+            return View(MinhasCompras);
+        }
+
+
+        public string FormataStatus(string Status)
+        {
+
+            if (Status == "pending")
+            {
+                return "Pendente";
+            }
+
+            else if (Status == "in_process")
+            {
+                return "Pedido em Análise";
+            }
+
+            else if (Status == "cancelled")
+            {
+                return "Pedido Cancelado";
+            }
+
+            else if (Status == "rejected")
+            {
+                return "Pedido Rejeitado";
+            }
+
+            return "Aprovado";
+
+        }
+
 
     }
 }

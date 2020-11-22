@@ -15,6 +15,7 @@ using System.IO;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
 using EiSorteei.Helpers;
+using System.Threading;
 
 namespace EiSorteei.Controllers
 {
@@ -50,62 +51,11 @@ namespace EiSorteei.Controllers
                                                                         compra => compra.CarrinhoId, carrinho => carrinho.Id, (compra, carrinho) => compra)
                                                                         .Where(c => c.Status == "approved").ToList();
 
-                List<string> NumeroComprados = new List<string>();
-
-                foreach (var x in ComprasAprovadas)
+                Thread AtualizaCompras = new Thread(() =>
                 {
-                    List<BilhetesCarrinho> Bilhetes = _Context.BilhetesCarrinho.Where(b => b.IdCarrinho.Equals(x.CarrinhoId)).ToList();
-                    foreach (var bilhete in Bilhetes)
-                    {
-                        NumeroComprados.Add(bilhete.NumeroBilhete.ToString());
-                    }
-                }
+                    List<string> NumeroComprados = new List<string>();
 
-                List<TempBilhetes> BilhetesReservados = _Context.TempBilhetes.Where(p => p.IdProduto == IdProduto).ToList();
-                List<string> NumerosReservados = new List<string>();
-
-                foreach (var x in BilhetesReservados)
-                {
-                    DateTime DataBilhete = DateTime.ParseExact(x.DataCadastro, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
-                    DateTime DataAtual = DateTime.Now;
-
-                    var DiferencaDatas = DataAtual.Subtract(DataBilhete);
-
-                    if (DiferencaDatas.Hours < 1)
-                    {
-                        NumerosReservados.Add(x.NumeroBilhete);
-                    }
-
-                    else
-                    {
-                        _Context.Entry(x).State = System.Data.Entity.EntityState.Deleted;
-                        _Context.SaveChanges();
-                    }
-                }
-
-                List<Compras> ComprasPendentes = TodasCompras.Join(_Context.Carrinho.Where(carrinho => carrinho.IdProduto.Equals(IdProduto)),
-                                                                        compra => compra.CarrinhoId, carrinho => carrinho.Id, (compra, carrinho) => compra)
-                                                                        .Where(c => c.Status == "pending" || c.Status == "in_process").ToList();
-                foreach (var x in ComprasPendentes)
-                {
-                    string retorno = GetOrder(x.IdCompra);
-                    if (retorno == "pending" || retorno == "in_process")
-                    {
-                        List<BilhetesCarrinho> Bilhetes = _Context.BilhetesCarrinho.Where(b => b.IdCarrinho.Equals(x.CarrinhoId)).ToList();
-                        foreach (var bilhete in Bilhetes)
-                        {
-                            NumerosReservados.Add(bilhete.NumeroBilhete.ToString());
-                        }
-                    }
-
-                    else if (retorno == "cancelled" || retorno == "rejected")
-                    {
-                        x.Status = retorno;
-                        _Context.Entry(x).State = System.Data.Entity.EntityState.Modified;
-                        _Context.SaveChanges();
-                    }
-
-                    else if (retorno == "approved")
+                    foreach (var x in ComprasAprovadas)
                     {
                         List<BilhetesCarrinho> Bilhetes = _Context.BilhetesCarrinho.Where(b => b.IdCarrinho.Equals(x.CarrinhoId)).ToList();
                         foreach (var bilhete in Bilhetes)
@@ -113,11 +63,68 @@ namespace EiSorteei.Controllers
                             NumeroComprados.Add(bilhete.NumeroBilhete.ToString());
                         }
                     }
-                }
 
-                ViewBag.BilhetesReservados = NumerosReservados.ToArray();
-                string[] Comprados = NumeroComprados.ToArray();
-                ViewBag.Comprados = Comprados;
+                    List<TempBilhetes> BilhetesReservados = _Context.TempBilhetes.Where(p => p.IdProduto == IdProduto).ToList();
+                    List<string> NumerosReservados = new List<string>();
+
+                    foreach (var x in BilhetesReservados)
+                    {
+                        DateTime DataBilhete = DateTime.ParseExact(x.DataCadastro, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                        DateTime DataAtual = DateTime.Now;
+
+                        var DiferencaDatas = DataAtual.Subtract(DataBilhete);
+
+                        if (DiferencaDatas.Hours < 1)
+                        {
+                            NumerosReservados.Add(x.NumeroBilhete);
+                        }
+
+                        else
+                        {
+                            _Context.Entry(x).State = System.Data.Entity.EntityState.Deleted;
+                            _Context.SaveChanges();
+                        }
+                    }
+
+                    List<Compras> ComprasPendentes = TodasCompras.Join(_Context.Carrinho.Where(carrinho => carrinho.IdProduto.Equals(IdProduto)),
+                                                                            compra => compra.CarrinhoId, carrinho => carrinho.Id, (compra, carrinho) => compra)
+                                                                            .Where(c => c.Status == "pending" || c.Status == "in_process").ToList();
+                    foreach (var x in ComprasPendentes)
+                    {
+                        string retorno = GetOrder(x.IdCompra);
+                        if (retorno == "pending" || retorno == "in_process")
+                        {
+                            List<BilhetesCarrinho> Bilhetes = _Context.BilhetesCarrinho.Where(b => b.IdCarrinho.Equals(x.CarrinhoId)).ToList();
+                            foreach (var bilhete in Bilhetes)
+                            {
+                                NumerosReservados.Add(bilhete.NumeroBilhete.ToString());
+                            }
+                        }
+
+                        else if (retorno == "cancelled" || retorno == "rejected")
+                        {
+                            x.Status = retorno;
+                            _Context.Entry(x).State = System.Data.Entity.EntityState.Modified;
+                            _Context.SaveChanges();
+                        }
+
+                        else if (retorno == "approved")
+                        {
+                            List<BilhetesCarrinho> Bilhetes = _Context.BilhetesCarrinho.Where(b => b.IdCarrinho.Equals(x.CarrinhoId)).ToList();
+                            foreach (var bilhete in Bilhetes)
+                            {
+                                NumeroComprados.Add(bilhete.NumeroBilhete.ToString());
+                            }
+                        }
+                    }
+
+                    ViewBag.BilhetesReservados = NumerosReservados.ToArray();
+                    string[] Comprados = NumeroComprados.ToArray();
+                    ViewBag.Comprados = Comprados;
+                });
+
+                AtualizaCompras.Start();
+                AtualizaCompras.Join();
 
                 return View(Produto);
             }
@@ -503,7 +510,7 @@ namespace EiSorteei.Controllers
         }
 
 
-        public JsonResult CompraRealizada(string Status, long IdProduto, string IdCompra, string TipoPagamento, string Bilhetes, string CodigoVendedor, string UrlBoleto, List<Models.OrderBumpsEscolhidos> OrderBumps)
+        public JsonResult CompraRealizada(string Status, long IdProduto, string IdCompra, string TipoPagamento, string Bilhetes, string CodigoVendedor, string UrlBoleto, List<Models.OrderBumpsEscolhidos> OrderBumps,string ValorCompra)
         {
             try
             {
@@ -566,7 +573,8 @@ namespace EiSorteei.Controllers
                     Status = Status,
                     IdCompra = IdCompra,
                     CodigoVendedor = CodigoVendedor,
-                    UrlBoleto = UrlBoleto
+                    UrlBoleto = UrlBoleto,
+                    ValorCompra = ValorCompra                   
                 };
 
                 _Context.Compras.Add(NovaCompra);

@@ -117,7 +117,7 @@
 
                                         @foreach (var estado in ViewBag.Estados)
                                         {
-                                            <option value="@estado.Name">@estado.Name</option>
+                                            <option value="@estado.Name" @(Model.Estado == estado.Name?"selected":"")>@estado.Name</option>
                                         }
 
                                     </select>
