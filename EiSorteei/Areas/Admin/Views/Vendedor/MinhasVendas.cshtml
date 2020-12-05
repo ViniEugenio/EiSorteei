@@ -68,22 +68,14 @@
         <div class="card" style="width:1200px;">
 
             <div class="card-header">
-                <h3>Todas as Compras - @ViewBag.NomeProduto</h3>
+                <h3>Minhas Vendas</h3>
             </div>
 
             <div class="card-body">
 
                 <div class="col-md-12">
-                    <div class="carousel form-group" align="center" style="margin-top:20px; z-index:0;" id="Imagens">
 
-                        @foreach (var imagem in ViewBag.Multimidia)
-                        {
-                            <div><img src="~/Content/ImagemProdutos/@imagem.Caminho" alt="Imagem do Produto" style="width:70%;" class="imagem_produto" /></div>
-                        }
-
-                    </div>
-
-                    @using (Html.BeginForm("Bilhetes", "Produtos", new { Id = ViewBag.Id }, FormMethod.Get))
+                    @using (Html.BeginForm("MinhasVendas", "Vendedor", new { Id = ViewBag.Id }, FormMethod.Get))
                     {
                         <div class="row">
                             <div class="form-group col-md-12">
@@ -117,7 +109,7 @@
                     {
                         <div class="card" style="margin-bottom:10px;">
                             <div class="card-header">
-                                <h4>Status do Pagamento: @compra.Status</h4>
+                                <h4>@compra.NomeProduto - Status do Pagamento: @compra.Status</h4>
                             </div>
                             <div class="card-body row">
 
@@ -126,21 +118,7 @@
                                     <p class="text-center"><strong>Usuário:</strong></p>
                                     <p><strong>Nome: @compra.DadosUsuario.Nome @compra.DadosUsuario.SobreNome</strong></p>
                                     <p><strong>Email: @compra.DadosUsuario.Email</strong></p>
-                                    <p><strong>Telefone: @compra.DadosUsuario.Telefone</strong></p>
-                                    <p><strong>CPF: @compra.DadosUsuario.Cpf</strong></p>
-                                    <p><strong>@compra.DadosUsuario.Cidade - @compra.DadosUsuario.Estado</strong></p>
-                                    <p><strong>CEP: @compra.DadosUsuario.CEP</strong></p>
-                                    <p><strong>Bairro: @compra.DadosUsuario.Bairro</strong></p>
-                                    <p><strong>Rua: @compra.DadosUsuario.Rua</strong></p>
-                                    <p><strong>Número: @compra.DadosUsuario.Numero</strong></p>
-
-
-                                    @if (!string.IsNullOrEmpty(compra.CodigoVendedor))
-                                    {
-                                        <p><strong>Código do Vendedor: @compra.CodigoVendedor</strong></p>
-                                    }
-
-
+                                    <p><strong>Telefone: @compra.DadosUsuario.Telefone</strong></p>                                    
 
                                 </div>
 
@@ -157,10 +135,7 @@
 
                                     <h3 style="margin-top:60px;">Data da Compra: @compra.DataCompra.ToString("dd/MM/yyyy")</h3>
                                     <h3>Valor da Compra: @compra.ValorCompra</h3>
-                                    @if (!string.IsNullOrEmpty(compra.UrlBoleto))
-                                    {
-                                        <p><strong>Visualizar Boleto: <a href="@compra.UrlBoleto" target="_blank">Clique Aqui</a></strong></p>
-                                    }
+
                                 </div>
 
                                 <div class="col-md-12">

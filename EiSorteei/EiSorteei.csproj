@@ -255,6 +255,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Imagens\Cópia de Logo Verde e Branco de Curso Preparatório %281%29.png" />
     <Content Include="Imagens\download.png" />
+    <Content Include="Imagens\favicon.ico" />
     <Content Include="Imagens\pagamento-seguro.png" />
     <Content Include="Imagens\shopping-cart.png" />
     <Content Include="Imagens\user.png" />
@@ -300,6 +301,7 @@
     <Content Include="Areas\Admin\Views\OrderBump\Details.cshtml" />
     <Content Include="Areas\Admin\Views\OrderBump\Alterar.cshtml" />
     <Content Include="Areas\Admin\Views\Produtos\Bilhetes.cshtml" />
+    <Content Include="Areas\Admin\Views\Vendedor\MinhasVendas.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -389,6 +391,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Content\ImagemProdutos\" />
     <Folder Include="Content\ImagensOrderBumps\" />
+    <Folder Include="Content\ImagensUsuario\" />
     <Folder Include="Content\VideoProdutos\" />
   </ItemGroup>
   <ItemGroup>

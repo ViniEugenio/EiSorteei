@@ -17,7 +17,7 @@
     <link href="~/Content/slick.css" rel="stylesheet" />
     <link href="" rel="stylesheet" />
     <link rel="shortcut icon"
-          href="~/Images/favicon.png"
+          href="~/Imagens/favicon.ico"
           type="image/x-icon" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
@@ -160,8 +160,8 @@
         display: flex;
     }
 
-    #mobile{
-        display:none;
+    #mobile {
+        display: none;
     }
 
     @@media only screen and (max-width: 1000px) {
@@ -199,6 +199,12 @@
                 <li class="nav-item" style="margin-top:30px;">
                     <a class="nav-link" href="#" style="color:#fff;">Política de Uso</a>
                 </li>
+                @if (Session["Usuario"] == null)
+                {
+                    <li class="nav-item" style="margin-top:30px;">
+                        <a class="nav-link" href="/Admin/Vendedor/" style="color:#fff;">Quero ser um vendedor</a>
+                    </li>
+                }
             </ul>
             <div>
                 @if (Session["Usuario"] != null)

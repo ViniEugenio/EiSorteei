@@ -4,6 +4,7 @@ using EiSorteei.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -176,6 +177,22 @@ namespace EiSorteei.Controllers
                     Telefone = model.Telefone
                 };
 
+                if (model.UserImage != null)
+                {
+                    string CaminhoVideo = Server.MapPath("~/Content/ImagensUsuario/");
+                    string NomeArquivo = DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString() + DateTime.Now.Millisecond.ToString() + model.UserImage.FileName;
+
+                    using (var stream = new FileStream(CaminhoVideo + NomeArquivo, FileMode.Create))
+                    {
+                        using (Stream inputStream = model.UserImage.InputStream)
+                        {
+                            inputStream.CopyTo(stream);
+                        }
+                    }
+
+                    NovoUsuario.UserImage = NomeArquivo;
+                }
+
                 _Context.Usuario.Add(NovoUsuario);
                 _Context.SaveChanges();
 
@@ -249,7 +266,7 @@ namespace EiSorteei.Controllers
 
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public ActionResult MeuPerfil(Usuario model)
+        public ActionResult MeuPerfil(Usuario model, HttpPostedFileBase foto)
         {
             ViewBag.Estados = Estados.GetAllStates();
 
@@ -268,6 +285,23 @@ namespace EiSorteei.Controllers
             if (ModelState.IsValid)
             {
                 model.DataAtualizacao = DateTime.Now;
+
+                if (foto != null)
+                {
+                    string CaminhoVideo = Server.MapPath("~/Content/ImagensUsuario/");
+                    string NomeArquivo = DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString() + DateTime.Now.Millisecond.ToString() + foto.FileName;
+
+                    using (var stream = new FileStream(CaminhoVideo + NomeArquivo, FileMode.Create))
+                    {
+                        using (Stream inputStream = foto.InputStream)
+                        {
+                            inputStream.CopyTo(stream);
+                        }
+                    }
+
+                    model.UserImage = NomeArquivo;
+                }
+
                 _Context.Entry(model).State = System.Data.Entity.EntityState.Modified;
                 _Context.SaveChanges();
             }

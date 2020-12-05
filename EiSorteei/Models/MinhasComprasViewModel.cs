@@ -9,6 +9,7 @@ namespace EiSorteei.Models
     public class MinhasComprasViewModel
     {
         public long Id { get; set; }
+        public string NomeProduto { get; set; }
         public Usuario DadosUsuario { get; set; }
         public DateTime DataCompra { get; set; }
         public string UrlBoleto { get; set; }

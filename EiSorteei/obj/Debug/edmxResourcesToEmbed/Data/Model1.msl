@@ -64,6 +64,7 @@
     <EntitySetMapping Name="Usuario">
       <EntityTypeMapping TypeName="EiSorteeiModel.Usuario">
         <MappingFragment StoreEntitySet="Usuario">
+          <ScalarProperty Name="UserImage" ColumnName="UserImage" />
           <ScalarProperty Name="Telefone" ColumnName="Telefone" />
           <ScalarProperty Name="CEP" ColumnName="CEP" />
           <ScalarProperty Name="Status" ColumnName="Status" />

@@ -80,6 +80,7 @@
           <Property Name="Status" Type="bit" Nullable="false" />
           <Property Name="CEP" Type="char" MaxLength="9" />
           <Property Name="Telefone" Type="varchar(max)" />
+          <Property Name="UserImage" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="Vendedor">
           <Key>
@@ -590,6 +591,7 @@
           <NavigationProperty Name="Produto" Relationship="EiSorteeiModel.FK__Produto__IdUsuar__2E1BDC42" FromRole="Usuario" ToRole="Produto" />
           <NavigationProperty Name="Carrinho" Relationship="EiSorteeiModel.FK__Carrinho__IdUsua__4AB81AF0" FromRole="Usuario" ToRole="Carrinho" />
           <NavigationProperty Name="Vendedor" Relationship="EiSorteeiModel.FK__Vendedor__IdUsua__276EDEB3" FromRole="Usuario" ToRole="Vendedor" />
+          <Property Name="UserImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Vendedor">
           <Key>
@@ -938,6 +940,7 @@
           <EntitySetMapping Name="Usuario">
             <EntityTypeMapping TypeName="EiSorteeiModel.Usuario">
               <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="UserImage" ColumnName="UserImage" />
                 <ScalarProperty Name="Telefone" ColumnName="Telefone" />
                 <ScalarProperty Name="CEP" ColumnName="CEP" />
                 <ScalarProperty Name="Status" ColumnName="Status" />

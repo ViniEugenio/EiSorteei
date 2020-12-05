@@ -9,6 +9,9 @@ namespace EiSorteei.Models
 {
     public class UsuarioViewModel
     {
+        [DisplayName("Imagem de Usuário")]
+        public HttpPostedFileBase UserImage { get; set; }
+
         [Required(ErrorMessage ="Campo Obrigatório")]
         public string Nome { get; set; }
 

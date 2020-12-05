@@ -1,6 +1,6 @@
 ﻿@model EiSorteei.Models.UsuarioViewModel
 
-@{ 
+@{
     Layout = null;
 }
 
@@ -55,7 +55,7 @@
 
     <div class="container body-content">
 
-        @using (Html.BeginForm())
+        @using (Html.BeginForm("CadastrarUsuario", "Usuario", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
             <div style="display:flex; align-items:center; justify-content:center; margin-top:50px;">
@@ -69,7 +69,16 @@
 
                         <div class="row">
 
-                            <input value="@ViewBag.Produto" name="IdProduto" style="display:none;"/>
+                            <input value="@ViewBag.Produto" name="IdProduto" style="display:none;" />
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.UserImage, htmlAttributes: new { @class = "control-label" })
+                                    <input type="file" class="form-control" name="UserImage" placeholder="Selecione uma foto de Usuário" />
+                                    @Html.ValidationMessageFor(model => model.UserImage, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label" })

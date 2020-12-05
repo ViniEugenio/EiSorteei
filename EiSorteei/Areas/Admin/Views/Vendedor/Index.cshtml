@@ -18,6 +18,15 @@
 
                 <div class="row">
 
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.UserImage, htmlAttributes: new { @class = "control-label" })
+                            <input type="file" class="form-control" name="UserImage" placeholder="Selecione uma foto de Usuário"/>
+                            @Html.ValidationMessageFor(model => model.UserImage, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label" })

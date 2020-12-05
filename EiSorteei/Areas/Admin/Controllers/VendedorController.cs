@@ -3,6 +3,7 @@ using EiSorteei.Helpers;
 using EiSorteei.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -151,6 +152,22 @@ namespace EiSorteei.Areas.Admin.Controllers
                     Telefone = model.Telefone
                 };
 
+                if (model.UserImage != null)
+                {
+                    string CaminhoVideo = Server.MapPath("~/Content/ImagensUsuario/");
+                    string NomeArquivo = DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString() + DateTime.Now.Millisecond.ToString() + model.UserImage.FileName;
+
+                    using (var stream = new FileStream(CaminhoVideo + NomeArquivo, FileMode.Create))
+                    {
+                        using (Stream inputStream = model.UserImage.InputStream)
+                        {
+                            inputStream.CopyTo(stream);
+                        }
+                    }
+
+                    NovoUsuario.UserImage = NomeArquivo;
+                }
+
                 _Context.Usuario.Add(NovoUsuario);
                 _Context.SaveChanges();
 
@@ -242,6 +259,107 @@ namespace EiSorteei.Areas.Admin.Controllers
             }
 
             return View(model);
+
+        }
+
+        public ActionResult MinhasVendas(string NomeUsuario = "", string Status = "")
+        {
+            Usuario UsuarioLogado = (Usuario)Session["Usuario"];
+            string CodigoVendedor = _Context.Vendedor.FirstOrDefault(v => v.IdUsuario.Equals(UsuarioLogado.Id)).Codigo;
+
+            List<Carrinho> Carrinhos = _Context.Carrinho.Join(_Context.Compras.Where(c => c.CodigoVendedor.Equals(CodigoVendedor)), ca => ca.Id, c => c.CarrinhoId, (ca, c) => ca).ToList();
+            List<MinhasComprasViewModel> MinhasCompras = new List<MinhasComprasViewModel>();
+
+            foreach (var carrinho in Carrinhos)
+            {
+                var IdProduto = carrinho.Compras.First().Carrinho.IdProduto;
+                var FindedProduto = _Context.Produto.FirstOrDefault(p => p.Id == IdProduto);
+
+                if (FindedProduto.DataSorteio > DateTime.Now)
+                {
+                    var Bilhetes = _Context.BilhetesCarrinho.Where(b => b.IdCarrinho.Equals(carrinho.Id)).ToList();
+
+                    var OrderBumps = _Context.OrderBump.Join(_Context.OrderBumpsEscolhidos.
+                        Join(_Context.BilhetesCarrinho.Where(b => b.IdCarrinho.Equals(carrinho.Id)), o => o.IdBilhete, b => b.Id, (o, b) => o), o => o.Id, oe => oe.IdOrderBump, (o, oe) => o).GroupBy(o => o.Id).ToList();
+
+                    List<OrderBumpsEscolhidosViewModel> Orders = new List<OrderBumpsEscolhidosViewModel>();
+
+                    foreach (IGrouping<long, OrderBump> order in OrderBumps)
+                    {
+                        OrderBump FindedOrder = _Context.OrderBump.FirstOrDefault(o => o.Id.Equals(order.Key));
+
+                        OrderBumpsEscolhidosViewModel NewOrder = new OrderBumpsEscolhidosViewModel()
+                        {
+                            Id = FindedOrder.Id,
+                            Nome = FindedOrder.Nome,
+                            Descricao = FindedOrder.Descricao,
+                            Imagem = FindedOrder.Imagem,
+                            NumerosRifas = _Context.BilhetesCarrinho.Join(_Context.OrderBumpsEscolhidos.Where(o => o.IdOrderBump.Equals(FindedOrder.Id)), b => b.Id, o => o.IdBilhete, (b, o) => b).Where(b => b.IdCarrinho.Equals(carrinho.Id)).Select(b => b.NumeroBilhete).ToList()
+                        };
+
+                        Orders.Add(NewOrder);
+                    }
+
+                    MinhasComprasViewModel data = new MinhasComprasViewModel()
+                    {
+                        Id = carrinho.Id,
+                        DadosUsuario = _Context.Usuario.First(u => u.Id.Equals(carrinho.IdUsuario)),
+                        CodigoVendedor = carrinho.Compras.First().CodigoVendedor,
+                        DataCompra = carrinho.Compras.First().DataCompra,
+                        Status = FormataStatus(carrinho.Compras.First().Status),
+                        UrlBoleto = string.IsNullOrEmpty(carrinho.Compras.First().UrlBoleto) ? "" : carrinho.Compras.First().UrlBoleto,
+                        ValorCompra = "R$ " + carrinho.Compras.First().ValorCompra.Replace('.', ','),
+                        OrderBumps = Orders,
+                        Bilhetes = Bilhetes,
+                        Premio = FindedProduto,
+                        NomeProduto = FindedProduto.Nome
+                    };
+
+                    MinhasCompras.Add(data);
+                }
+
+            }
+
+
+            if (!string.IsNullOrEmpty(Status) && Status != "TodasCompras")
+            {
+                MinhasCompras = MinhasCompras.Where(m => m.Status.Equals(Status)).ToList();
+                ViewBag.Status = Status;
+            }
+
+            if (!string.IsNullOrEmpty(NomeUsuario))
+            {
+                MinhasCompras = MinhasCompras.Where(m => m.DadosUsuario.Nome.ToLower().Contains(NomeUsuario.ToLower())).ToList();
+                ViewBag.NomeUsuario = NomeUsuario;
+            }
+
+            return View(MinhasCompras);
+        }
+
+        public string FormataStatus(string Status)
+        {
+
+            if (Status == "pending")
+            {
+                return "Pendente";
+            }
+
+            else if (Status == "in_process")
+            {
+                return "Pedido em Análise";
+            }
+
+            else if (Status == "cancelled")
+            {
+                return "Pedido Cancelado";
+            }
+
+            else if (Status == "rejected")
+            {
+                return "Pedido Rejeitado";
+            }
+
+            return "Aprovado";
 
         }
     }

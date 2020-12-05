@@ -39,6 +39,7 @@ namespace EiSorteei.Data
         public bool Status { get; set; }
         public string CEP { get; set; }
         public string Telefone { get; set; }
+        public string UserImage { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PermissaoUsuario> PermissaoUsuario { get; set; }

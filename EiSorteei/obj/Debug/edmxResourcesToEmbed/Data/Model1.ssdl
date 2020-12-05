@@ -75,6 +75,7 @@
     <Property Name="Status" Type="bit" Nullable="false" />
     <Property Name="CEP" Type="char" MaxLength="9" />
     <Property Name="Telefone" Type="varchar(max)" />
+    <Property Name="UserImage" Type="varchar(max)" />
   </EntityType>
   <EntityType Name="Vendedor">
     <Key>

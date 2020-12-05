@@ -23,6 +23,7 @@ namespace EiSorteei.Areas.Admin.Controllers
 
         public ActionResult Index()
         {
+            Usuario UsuarioLogado = (Usuario)Session["Usuario"];
             var model = _Context.OrderBump.Where(o => o.Status).ToList();
             return View(model);
         }
@@ -160,7 +161,7 @@ namespace EiSorteei.Areas.Admin.Controllers
             }
 
             return View(model);
-            
+
         }
 
     }

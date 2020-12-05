@@ -166,6 +166,7 @@
     <NavigationProperty Name="Produto" Relationship="EiSorteeiModel.FK__Produto__IdUsuar__2E1BDC42" FromRole="Usuario" ToRole="Produto" />
     <NavigationProperty Name="Carrinho" Relationship="EiSorteeiModel.FK__Carrinho__IdUsua__4AB81AF0" FromRole="Usuario" ToRole="Carrinho" />
     <NavigationProperty Name="Vendedor" Relationship="EiSorteeiModel.FK__Vendedor__IdUsua__276EDEB3" FromRole="Usuario" ToRole="Vendedor" />
+    <Property Name="UserImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="Vendedor">
     <Key>

@@ -46,16 +46,17 @@
 
     <div class="container body-content">
 
-        @using (Html.BeginForm())
+        @using (Html.BeginForm("MeuPerfil", "Usuario", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
 
-            @Html.HiddenFor(u=>u.Status)
-            @Html.HiddenFor(u=>u.Email)
-            @Html.HiddenFor(u=>u.DataCadastro)
-            @Html.HiddenFor(u=>u.DataAtualizacao)
-            @Html.HiddenFor(u=>u.Senha)
-            @Html.HiddenFor(u=>u.Id)
+            @Html.HiddenFor(u => u.Status)
+            @Html.HiddenFor(u => u.Email)
+            @Html.HiddenFor(u => u.DataCadastro)
+            @Html.HiddenFor(u => u.DataAtualizacao)
+            @Html.HiddenFor(u => u.Senha)
+            @Html.HiddenFor(u => u.Id)
+            @Html.HiddenFor(u=>u.UserImage)
 
             <div style="display:flex; align-items:center; justify-content:center; margin-top:50px;">
                 <div class="card" style="width:1200px;">
@@ -69,6 +70,14 @@
                         <div class="row">
 
                             <input value="@ViewBag.Produto" name="IdProduto" style="display:none;" />
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Imagem de Usuário</label>
+                                    <input type="file" class="form-control" name="foto" placeholder="Selecione uma foto de Usuário" />
+                                </div>
+                            </div>
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label" })
@@ -87,7 +96,7 @@
 
                         </div>
 
-                        <div class="row">                            
+                        <div class="row">
 
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -117,7 +126,7 @@
 
                                         @foreach (var estado in ViewBag.Estados)
                                         {
-                                            <option value="@estado.Name" @(Model.Estado == estado.Name?"selected":"")>@estado.Name</option>
+                                            <option value="@estado.Name" @(Model.Estado == estado.Name ? "selected" : "")>@estado.Name</option>
                                         }
 
                                     </select>

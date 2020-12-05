@@ -16,6 +16,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous">
     <link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link rel="shortcut icon"
+          href="~/Imagens/favicon.ico"
+          type="image/x-icon" />
     <style>
         body {
             background: #1F1F1F;
@@ -148,19 +151,17 @@
             .dropdown:hover .dropbtn {
                 background-color: #3e8e41;
             }
-
-
         }
 
-        @@media only screen and (max-width: 1000px){
+        @@media only screen and (max-width: 1000px) {
             #dropdown {
                 background: #000000 !important;
                 position: inherit !important;
             }
 
-            #dropdown ul li a{
-                color:#fff !important;
-            }
+                #dropdown ul li a {
+                    color: #fff !important;
+                }
         }
     </style>
 </head>
@@ -185,10 +186,16 @@
                 <li style="margin-top:30px;">
                     <a class="nav-link" href="@Url.Action("Index", "CategoriasProdutos")" style="color:white;">Categorias de Produto</a>
                 </li>
+                <li style="margin-top:30px;">
+                    <a class="nav-link" href="@Url.Action("Index","OrderBump")" style="color:white;">Order Bumps</a>
+                </li>
             }
-            <li style="margin-top:30px;">
-                <a class="nav-link" href="@Url.Action("Index","OrderBump")" style="color:white;">Order Bumps</a>
-            </li>
+            else
+            {
+                <li style="margin-top:30px;">
+                    <a class="nav-link" href="@Url.Action("MinhasVendas","Vendedor")" style="color:white;">Minhas Vendas</a>
+                </li>
+            }
             <li style="margin-top:30px;">
                 <span class="nav-link" style="color:white; cursor:pointer;" id="MeuPerfil">@Usuario.Nome <i class="fa fa-caret-down"></i></span>
                 <div id="dropdown" style="display: none;background: #000000;padding: 9px;border-radius: 10px;margin-top: 10px; z-index:1; position:fixed;">
