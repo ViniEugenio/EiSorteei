@@ -7,22 +7,29 @@
         background: #1F1F1F;
     }
 
-    #next, #prev {
-        background-color: #E0C777;
+    #next {
+        /*background-color: #E0C777;*/
         border-radius: 50%;
         padding: 10px 16px 10px 16px;
-        margin: 10px;
+        margin-top: -420px;
         cursor: pointer;
+        position: absolute;
+        margin-left: 1950px;
+    }
+
+    #prev {
+        border-radius: 50%;
+        padding: 10px 16px 10px 16px;
+        margin-top: -420px;
+        cursor: pointer;
+        position: absolute;
+        
     }
 </style>
 
 
 <section class="blog-container">
-    <div class="center">
-        <div class="upper-box">
-            <h1>Ei Sorteei</h1>
-        </div>
-    </div>
+  
 </section>
 <section class="blog-listagem">
     <div class="center blog-border">
@@ -40,8 +47,8 @@
                     </div>
                     <div class="card-txt__blog">
                         <div align="center" id="Arrows">
-                            <i class="fas fa-chevron-left fa-2x" id="prev"></i>
-                            <i class="fas fa-chevron-right fa-2x" id="next"></i>
+                            <i class="fas fa-chevron-left fa-8x" id="prev" style="color:#02E022"></i>
+                            <i class="fas fa-chevron-right fa-8x" id="next" style="color:#02E022"></i>
                         </div>
                         <h1 class="text-center">@produto.Nome</h1>
                         <h2 class="text-center">Valor do Bilhete: R$ @Math.Round(produto.ValorRifa, 2)</h2>

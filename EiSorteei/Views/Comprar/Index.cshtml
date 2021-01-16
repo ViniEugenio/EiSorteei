@@ -233,18 +233,21 @@
         <div style="margin:auto; width:100%; margin-right:20px; display:flex; flex-direction:column;">
             <strong class="text-center">Comprados</strong>
             <div class="NumeroRifa" style="height:40px; width:100%; background-color:red;">
+                <span id="CountComprados">@ViewBag.CountComprados</span>
             </div>
         </div>
 
         <div style="margin:auto; width:100%; margin-right:20px; display:flex; flex-direction:column;">
             <strong class="text-center">Reservados</strong>
             <div class="NumeroRifa" style="height:40px; width:100%; background-color:gray;">
+                <span id="CountReservados">@ViewBag.BilhetesReservados.Length</span>
             </div>
         </div>
 
         <div style="margin: auto; width: 100%; margin-right: 20px; display: flex; flex-direction: column;">
             <strong class="text-center">Selecionados</strong>
             <div class="NumeroRifa" style="height:40px; width:100%; background-color:rgb(37, 202, 23);">
+                <span id="CountSelecionados">0</span>
             </div>
         </div>
 
@@ -302,7 +305,8 @@
                 let numero = $(this);
                 let background = $(this).css("background-color");
 
-                if (background == "rgb(37, 202, 23)") {
+                if (background == "rgb(37, 202, 23)") {                    
+
                     $(this).css("background-color", "#E0C777");
 
                     Rifas = Rifas.filter(item => item !== numero[0].outerText);
@@ -339,6 +343,8 @@
                     );
 
                 }
+
+                $("#CountSelecionados").text(Rifas.length);
 
                 $("#QuantidadeTotal").text(Rifas.length);
                 let ValorFormatado = String((Rifas.length * Number(ValorRifa.replace(",", "."))).toFixed(2)).replace(".", ",");

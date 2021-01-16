@@ -119,6 +119,7 @@ namespace EiSorteei.Controllers
                     }
 
                     ViewBag.BilhetesReservados = NumerosReservados.ToArray();
+                    ViewBag.CountComprados = NumeroComprados.Count();
                     string[] Comprados = NumeroComprados.ToArray();
                     ViewBag.Comprados = Comprados;
                 });

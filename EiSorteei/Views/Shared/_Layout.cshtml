@@ -17,7 +17,7 @@
     <link href="~/Content/slick.css" rel="stylesheet" />
     <link href="" rel="stylesheet" />
     <link rel="shortcut icon"
-          href="~/Imagens/favicon.ico"
+          href="~/Imagens/47635a9c-62a5-49ca-aede-fda744a4b195-removebg-preview.png"
           type="image/x-icon" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
@@ -160,6 +160,15 @@
         display: flex;
     }
 
+    .nav-item {
+        color: #C1C1C1;
+        transition: all 0 ease;
+    }
+
+    .nav-item a:hover {
+        border-bottom: 4px solid #02E002;
+    }
+
     #mobile {
         display: none;
     }
@@ -196,6 +205,7 @@
                         <img src="~/Imagens/Cópia de Logo Verde e Branco de Curso Preparatório (1).png" alt="Logo do Site" id="brand" style="width:80%;" />
                     </a>
                 </li>
+
                 <li class="nav-item" style="margin-top:30px;">
                     <a class="nav-link" href="#" style="color:#fff;">Política de Uso</a>
                 </li>
@@ -276,8 +286,6 @@
 
     @RenderBody()
 
-
-
     <section class="first__footer">
         <div class="center container__footer">
             <h1>Receba Novidades</h1>
@@ -300,7 +308,7 @@
             </div>
         </div>
     </section>
-    <footer style="bottom: 0; width: 100%;margin-top: 30px;">
+    <footer style="bottom: 0; width: 100%;margin-top: 30px; background: #373434;">
         <div class="row form-group" style="width:80%; margin:auto;">
 
             <div class="col-md-3 text-center">
@@ -324,7 +332,7 @@
             </div>
 
         </div>
-        <div class="center">
+        <div align="center">
             <img src="~/Imagens/Cópia de Logo Verde e Branco de Curso Preparatório (1).png" alt="Dr. Marcelo Giovani" style="width: 220px; height: 84px;" />
             <p>Todos os direitos reservados</p>
         </div>
