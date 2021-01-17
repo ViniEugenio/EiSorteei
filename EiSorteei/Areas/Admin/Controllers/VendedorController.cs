@@ -302,20 +302,20 @@ namespace EiSorteei.Areas.Admin.Controllers
                         Orders.Add(NewOrder);
                     }
 
-                    MinhasComprasViewModel data = new MinhasComprasViewModel()
-                    {
-                        Id = carrinho.Id,
-                        DadosUsuario = _Context.Usuario.First(u => u.Id.Equals(carrinho.IdUsuario)),
-                        CodigoVendedor = carrinho.Compras.First().CodigoVendedor,
-                        DataCompra = carrinho.Compras.First().DataCompra,
-                        Status = FormataStatus(carrinho.Compras.First().Status),
-                        UrlBoleto = string.IsNullOrEmpty(carrinho.Compras.First().UrlBoleto) ? "" : carrinho.Compras.First().UrlBoleto,
-                        ValorCompra = "R$ " + carrinho.Compras.First().ValorCompra.Replace('.', ','),
-                        OrderBumps = Orders,
-                        Bilhetes = Bilhetes,
-                        Premio = FindedProduto,
-                        NomeProduto = FindedProduto.Nome
-                    };
+                    MinhasComprasViewModel data = new MinhasComprasViewModel();
+
+                    data.Id = carrinho.Id;
+                    data.DadosUsuario = _Context.Usuario.First(u => u.Id.Equals(carrinho.IdUsuario));
+                    data.CodigoVendedor = carrinho.Compras.First().CodigoVendedor;
+                    data.DataCompra = carrinho.Compras.First().DataCompra;
+                    data.Status = FormataStatus(carrinho.Compras.First().Status);
+                    data.UrlBoleto = string.IsNullOrEmpty(carrinho.Compras.First().UrlBoleto) ? "" : carrinho.Compras.First().UrlBoleto;
+                    data.ValorCompra = "R$ " + carrinho.Compras.First().ValorCompra.Replace('.', ',');
+                    data.OrderBumps = Orders;
+                    data.Bilhetes = Bilhetes;
+                    data.Premio = FindedProduto;
+                    data.NomeProduto = FindedProduto.Nome;
+                    
 
                     MinhasCompras.Add(data);
                 }
