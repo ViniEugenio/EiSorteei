@@ -165,9 +165,9 @@
         transition: all 0 ease;
     }
 
-    .nav-item a:hover {
-        border-bottom: 4px solid #02E002;
-    }
+        .nav-item a:hover {
+            border-bottom: 4px solid #02E002;
+        }
 
     #mobile {
         display: none;
@@ -195,7 +195,7 @@
 <body>
 
     <header>
-        <nav class="navbar" id="desk">
+        <nav class="navbar" id="desk" style="text-align:center;">
             <span class="navbar-toggle js-navbar-toggle">
                 <i class="fa fa-bars"></i>
             </span>
@@ -205,14 +205,21 @@
                         <img src="~/Imagens/Cópia de Logo Verde e Branco de Curso Preparatório (1).png" alt="Logo do Site" id="brand" style="width:80%;" />
                     </a>
                 </li>
-
+            </ul>
+            <ul class="main-nav js-menu" style="margin: 0 10px auto;">
                 <li class="nav-item" style="margin-top:30px;">
-                    <a class="nav-link" href="#" style="color:#fff;">Política de Uso</a>
+                    <a class="nav-link" href="@Url.Action("Index","Home")" style="color:#fff;">Home</a>
+                </li>
+                <li class="nav-item" style="margin-top:30px;">
+                    <a class="nav-link" href="@Url.Action("Index","Premios")" style="color:#fff;">Prêmios</a>
+                </li>
+                <li class="nav-item" style="margin-top:30px;">
+                    <a class="nav-link" href="#" style="color:#fff;">Regulamento</a>
                 </li>
                 @if (Session["Usuario"] == null)
                 {
                     <li class="nav-item" style="margin-top:30px;">
-                        <a class="nav-link" href="/Admin/Vendedor/" style="color:#fff;">Quero ser um vendedor</a>
+                        <a class="nav-link" href="/Admin/Vendedor/" style="color:#fff;">Seja um vendedor</a>
                     </li>
                 }
             </ul>
@@ -243,7 +250,7 @@
             </div>
         </nav>
 
-        <nav class="navbar" id="mobile">
+        <nav class="navbar" id="mobile" style="text-align:center;">
             <span class="navbar-toggle js-navbar-toggle">
                 <i class="fa fa-bars"></i>
             </span>
@@ -253,32 +260,49 @@
                         <img src="~/Imagens/Cópia de Logo Verde e Branco de Curso Preparatório (1).png" alt="Logo do Site" id="brand" style="width:80%;" />
                     </a>
                 </li>
-                <li class="nav-item" style="margin-top:30px;">
-                    <a class="nav-link" href="#" style="color:#fff;">Política de Uso</a>
-                </li>
-                <li class="nav-item" style="margin-top:30px;">
-                    @if (Session["Usuario"] != null)
-                    {
-                        <span class="nav-link MeuPerfil" style="color:white; cursor:pointer; margin-right: 50px;">@(Usuario!=null?Usuario.Nome:"Login") <i class="fa fa-caret-down"></i></span>
-                        <div class="dropdown" style="display: none;background: #000000;padding: 9px;border-radius: 10px;margin-top: 10px; z-index:1; position:fixed;">
-                            <ul style="list-style-type: none;">
-                                <li style="margin-top:30px;">
-                                    <a class="nav-link" href="@Url.Action("MeuPerfil","Usuario")" style="color:white;">Meu Perfil</a>
-                                </li>
-                                <li style="margin-top:30px;">
-                                    <a class="nav-link" href="@Url.Action("Logout","Usuario")" style="color:white;">Sair</a>
-                                </li>
-                            </ul>
-                        </div>
-                    }
-
-                    else
-                    {
-                        <a class="nav-link" style="color:white; cursor:pointer; margin-right: 50px;" href="@Url.Action("Index","Usuario")">Login</a>
-                    }
-                </li>
             </ul>
+            <ul class="main-nav js-menu" style="margin: 0 10px auto;">
+                <li class="nav-item" style="margin-top:30px;">
+                    <a class="nav-link" href="@Url.Action("Index","Home")" style="color:#fff;">Home</a>
+                </li>
+                <li class="nav-item" style="margin-top:30px;">
+                    <a class="nav-link" href="@Url.Action("Index","Premios")" style="color:#fff;">Prêmios</a>
+                </li>
+                <li class="nav-item" style="margin-top:30px;">
+                    <a class="nav-link" href="#" style="color:#fff;">Regulamento</a>
+                </li>
+                @if (Session["Usuario"] == null)
+                {
+                    <li class="nav-item" style="margin-top:30px;">
+                        <a class="nav-link" href="/Admin/Vendedor/" style="color:#fff;">Seja um vendedor</a>
+                    </li>
+                }
+            </ul>
+            <div>
+                @if (Session["Usuario"] != null)
+                {
+                    <span class="nav-link MeuPerfil" style="color:white; cursor:pointer; margin-right: 50px;">@(Usuario!=null?Usuario.Nome:"Login") <i class="fa fa-caret-down"></i></span>
+                    <div class="dropdown" style="display: none;background: #000000;padding: 9px;border-radius: 10px;margin-top: 10px; z-index:1; position:fixed;">
+                        <ul style="list-style-type: none;">
+                            <li style="margin-top:30px;">
+                                <a class="nav-link" href="@Url.Action("MeuPerfil","Usuario")" style="color:white;">Meu Perfil</a>
+                            </li>
+                            <li style="margin-top:30px;">
+                                <a class="nav-link" href="@Url.Action("MinhasCompras","Usuario")" style="color:white;">Minhas Compras</a>
+                            </li>
+                            <li style="margin-top:30px;">
+                                <a class="nav-link" href="@Url.Action("Logout","Usuario")" style="color:white;">Sair</a>
+                            </li>
+                        </ul>
+                    </div>
+                }
 
+                else
+                {
+                    <a class="nav-link" style="color:white; cursor:pointer; margin-right: 50px;" href="@Url.Action("Index","Usuario")">Login</a>
+                }
+
+            </div>
         </nav>
 
 
@@ -286,29 +310,7 @@
 
     @RenderBody()
 
-    <section class="first__footer">
-        <div class="center container__footer">
-            <h1>Receba Novidades</h1>
-            <div class="Yellow_line"></div>
-            <p>Você gosta desse conteúdo e gostaria de ser avisado sobre nossas atualizações? Deixe seu e-mail para receber nossos alertas.</p>
-            <form class="box__nov">
-                <div class="nov_cont">
-                    <input type="text" placeholder="Digite seu e-mail" id="EmailDigitado" />
-                    <span class="erroform erronov">E-mail inválido</span>
-                </div>
-                <button type="button" id="novidades-btn-2">Enviar</button>
-            </form>
-
-            <h1>Siga nas redes sociais</h1>
-            <div class="Yellow_line"></div>
-
-            <div class="redesociais__nov">
-                <a href="https://www.facebook.com/Ei-Sorteei-109594700891331/?view_public_for=109594700891331" target="_blank" class="redesocial__nov"><i class="fab fa-facebook"></i></a>
-                <a href="https://www.instagram.com/ei_sorteei/" target="_blank" class="redesocial__nov"><i class="fab fa-instagram"></i></a>
-            </div>
-        </div>
-    </section>
-    <footer style="bottom: 0; width: 100%;margin-top: 30px; background: #373434;">
+    <footer style="bottom: 0; width: 100%;margin-top: 30px; background: #fff; color:#000000">
         <div class="row form-group" style="width:80%; margin:auto;">
 
             <div class="col-md-3 text-center">
@@ -334,9 +336,32 @@
         </div>
         <div align="center">
             <img src="~/Imagens/Cópia de Logo Verde e Branco de Curso Preparatório (1).png" alt="Dr. Marcelo Giovani" style="width: 220px; height: 84px;" />
-            <p>Todos os direitos reservados</p>
         </div>
     </footer>
+
+
+    <section class="first__footer">
+        <div class="center container__footer">
+            <h1>Receba Novidades</h1>
+            <div class="Yellow_line"></div>
+            <p>Você gosta desse conteúdo e gostaria de ser avisado sobre nossas atualizações? Deixe seu e-mail para receber nossos alertas.</p>
+            <form class="box__nov">
+                <div class="nov_cont">
+                    <input type="text" placeholder="Digite seu e-mail" id="EmailDigitado" />
+                    <span class="erroform erronov">E-mail inválido</span>
+                </div>
+                <button type="button" id="novidades-btn-2">Enviar</button>
+            </form>
+
+            <h1>Siga nas redes sociais</h1>
+            <div class="Yellow_line"></div>
+
+            <div class="redesociais__nov">
+                <a href="https://www.facebook.com/Ei-Sorteei-109594700891331/?view_public_for=109594700891331" target="_blank" class="redesocial__nov"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.instagram.com/ei_sorteei/" target="_blank" class="redesocial__nov"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </section>
 
     <a href="https://wa.me/5524999583321" class="float" target="_blank">
         <i class="fab fa-whatsapp" my-float"></i>

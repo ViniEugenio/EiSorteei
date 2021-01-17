@@ -195,7 +195,7 @@
 
 <body>
     <header>
-        <nav class="navbar" id="desk">
+        <nav class="navbar" id="desk" style="text-align:center;">
             <span class="navbar-toggle js-navbar-toggle">
                 <i class="fa fa-bars"></i>
             </span>
@@ -205,13 +205,21 @@
                         <img src="~/Imagens/Cópia de Logo Verde e Branco de Curso Preparatório (1).png" alt="Logo do Site" id="brand" style="width:80%;" />
                     </a>
                 </li>
+            </ul>
+            <ul class="main-nav js-menu" style="margin: 0 10px auto;">
                 <li class="nav-item" style="margin-top:30px;">
-                    <a class="nav-link" href="#" style="color:#fff;">Política de Uso</a>
+                    <a class="nav-link" href="@Url.Action("Index","Home")" style="color:#fff;">Home</a>
+                </li>
+                <li class="nav-item" style="margin-top:30px;">
+                    <a class="nav-link" href="@Url.Action("Index","Premios")" style="color:#fff;">Prêmios</a>
+                </li>
+                <li class="nav-item" style="margin-top:30px;">
+                    <a class="nav-link" href="#" style="color:#fff;">Regulamento</a>
                 </li>
                 @if (Session["Usuario"] == null)
                 {
                     <li class="nav-item" style="margin-top:30px;">
-                        <a class="nav-link" href="/Admin/Vendedor/" style="color:#fff;">Quero ser um vendedor</a>
+                        <a class="nav-link" href="/Admin/Vendedor/" style="color:#fff;">Seja um vendedor</a>
                     </li>
                 }
             </ul>
@@ -242,7 +250,7 @@
             </div>
         </nav>
 
-        <nav class="navbar" id="mobile">
+        <nav class="navbar" id="mobile" style="text-align:center;">
             <span class="navbar-toggle js-navbar-toggle">
                 <i class="fa fa-bars"></i>
             </span>
@@ -252,32 +260,49 @@
                         <img src="~/Imagens/Cópia de Logo Verde e Branco de Curso Preparatório (1).png" alt="Logo do Site" id="brand" style="width:80%;" />
                     </a>
                 </li>
-                <li class="nav-item" style="margin-top:30px;">
-                    <a class="nav-link" href="#" style="color:#fff;">Política de Uso</a>
-                </li>
-                <li class="nav-item" style="margin-top:30px;">
-                    @if (Session["Usuario"] != null)
-                    {
-                        <span class="nav-link MeuPerfil" style="color:white; cursor:pointer; margin-right: 50px;">@(Usuario!=null?Usuario.Nome:"Login") <i class="fa fa-caret-down"></i></span>
-                        <div class="dropdown" style="display: none;background: #000000;padding: 9px;border-radius: 10px;margin-top: 10px; z-index:1; position:fixed;">
-                            <ul style="list-style-type: none;">
-                                <li style="margin-top:30px;">
-                                    <a class="nav-link" href="@Url.Action("MeuPerfil","Usuario")" style="color:white;">Meu Perfil</a>
-                                </li>
-                                <li style="margin-top:30px;">
-                                    <a class="nav-link" href="@Url.Action("Logout","Usuario")" style="color:white;">Sair</a>
-                                </li>
-                            </ul>
-                        </div>
-                    }
-
-                    else
-                    {
-                        <a class="nav-link" style="color:white; cursor:pointer; margin-right: 50px;" href="@Url.Action("Index","Usuario")">Login</a>
-                    }
-                </li>
             </ul>
+            <ul class="main-nav js-menu" style="margin: 0 10px auto;">
+                <li class="nav-item" style="margin-top:30px;">
+                    <a class="nav-link" href="@Url.Action("Index","Home")" style="color:#fff;">Home</a>
+                </li>
+                <li class="nav-item" style="margin-top:30px;">
+                    <a class="nav-link" href="@Url.Action("Index","Premios")" style="color:#fff;">Prêmios</a>
+                </li>
+                <li class="nav-item" style="margin-top:30px;">
+                    <a class="nav-link" href="#" style="color:#fff;">Regulamento</a>
+                </li>
+                @if (Session["Usuario"] == null)
+                {
+                    <li class="nav-item" style="margin-top:30px;">
+                        <a class="nav-link" href="/Admin/Vendedor/" style="color:#fff;">Seja um vendedor</a>
+                    </li>
+                }
+            </ul>
+            <div>
+                @if (Session["Usuario"] != null)
+                {
+                    <span class="nav-link MeuPerfil" style="color:white; cursor:pointer; margin-right: 50px;">@(Usuario!=null?Usuario.Nome:"Login") <i class="fa fa-caret-down"></i></span>
+                    <div class="dropdown" style="display: none;background: #000000;padding: 9px;border-radius: 10px;margin-top: 10px; z-index:1; position:fixed;">
+                        <ul style="list-style-type: none;">
+                            <li style="margin-top:30px;">
+                                <a class="nav-link" href="@Url.Action("MeuPerfil","Usuario")" style="color:white;">Meu Perfil</a>
+                            </li>
+                            <li style="margin-top:30px;">
+                                <a class="nav-link" href="@Url.Action("MinhasCompras","Usuario")" style="color:white;">Minhas Compras</a>
+                            </li>
+                            <li style="margin-top:30px;">
+                                <a class="nav-link" href="@Url.Action("Logout","Usuario")" style="color:white;">Sair</a>
+                            </li>
+                        </ul>
+                    </div>
+                }
 
+                else
+                {
+                    <a class="nav-link" style="color:white; cursor:pointer; margin-right: 50px;" href="@Url.Action("Index","Usuario")">Login</a>
+                }
+
+            </div>
         </nav>
 
 
@@ -352,7 +377,7 @@
             </div>
 
         </div>
-        <div class="center">
+        <div align="center">
             <img src="~/Imagens/Cópia de Logo Verde e Branco de Curso Preparatório (1).png" alt="Dr. Marcelo Giovani" style="width: 220px; height: 84px;" />
             <p>Todos os direitos reservados</p>
         </div>

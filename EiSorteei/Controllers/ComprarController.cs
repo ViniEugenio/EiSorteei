@@ -200,7 +200,7 @@ namespace EiSorteei.Controllers
                 Bilhetes = FindedCookie["Bilhetes"],
                 Usuario = UsuarioLogado,
                 Produto = FindedProduto,
-                Imagens = _Context.Multimidia.Where(m => m.IdProduto.Equals(FindedProduto.Id)).ToList(),
+                Imagens = _Context.Multimidia.Where(m => m.IdProduto.Equals(FindedProduto.Id) && m.Status).ToList(),
                 ValorTotal = FindedCookie["ValorTotal"],
                 OrderBumps = _Context.OrderBump.Join(_Context.OrderBumps_Produto.Where(o => o.Status && o.IdProduto.Equals(IdProduto)), o => o.Id, op => op.IdOrderBump, (o, op) => o).Where(o => o.Status).ToList()
             };

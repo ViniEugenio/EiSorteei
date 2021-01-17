@@ -315,7 +315,7 @@ namespace EiSorteei.Areas.Admin.Controllers
                     data.Bilhetes = Bilhetes;
                     data.Premio = FindedProduto;
                     data.NomeProduto = FindedProduto.Nome;
-                    
+
 
                     MinhasCompras.Add(data);
                 }
@@ -376,6 +376,12 @@ namespace EiSorteei.Areas.Admin.Controllers
             var result = streamReader.ReadToEnd();
 
             return Json(JsonConvert.DeserializeObject<CEPViewModel>(result));
+        }
+
+        public ActionResult TodosVendedores()
+        {
+            var model = _Context.Vendedor.Include("Usuario").Where(v => v.Status && v.Usuario.Status).ToList();
+            return View(model);
         }
     }
 }

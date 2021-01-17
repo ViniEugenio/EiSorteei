@@ -1,0 +1,41 @@
+﻿@model IEnumerable<EiSorteei.Models.ProdutoHomeViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<style>
+
+    body {
+        background: #1F1F1F;
+    }
+</style>
+
+<div class="row">
+
+    @foreach (var premio in Model)
+    {
+        <div class="card col-md-3" style="background-color:#333333; color:white; text-align:center; margin: 15px auto; border-radius:24px;">
+            <div class="carousel">
+                @foreach (var imagem in premio.Imagem)
+                {
+                    <img src="~/Content/ImagemProdutos/@imagem" />
+
+                }
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">@premio.Nome - <span style="background-color: @(premio.Status=="Encerrado"?"red": "rgb(37, 202, 23)"); padding:5px; border-radius:24px; font-size:14px;">@premio.Status</span></h5>
+                <p class="card-text">Valor do Bilhete: R$ @Math.Round(premio.ValorRifa, 2)</p>
+
+                @if (premio.Status != "Encerrado")
+                {
+                    <a href="@Url.Action("Index","Comprar",new { IdProduto = premio.Id})" style="margin:auto; background-color:rgb(37, 202, 23); border:none; color:#fff; padding:10px; border-radius:24px;">Escolher Bilhete</a>
+                }
+            </div>
+        </div>
+    }
+
+</div>
+
+
+

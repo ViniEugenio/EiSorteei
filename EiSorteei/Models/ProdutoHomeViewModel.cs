@@ -11,5 +11,6 @@ namespace EiSorteei.Models
         public string Nome { get; set; }
         public List<string> Imagem { get; set; }
         public decimal ValorRifa { get; set; }
+        public string Status { get; set; }
     }
 }

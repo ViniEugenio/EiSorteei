@@ -10,7 +10,10 @@
 
         <div class="card-header">
             <h3 class="text-center">Prêmios Cadastrados</h3>
-            <a href="@Url.Action("Create")" class="btn btn-success">Cadastrar Novo Produto</a>
+            @if (Session["Permissao"].ToString() == "Administrador")
+            {
+                <a href="@Url.Action("Create")" class="btn btn-success">Cadastrar Novo Produto</a>
+            }
         </div>
 
 
@@ -161,11 +164,6 @@
                 }
 
             });
-
-
-
-
-
         });
 
     </script>
