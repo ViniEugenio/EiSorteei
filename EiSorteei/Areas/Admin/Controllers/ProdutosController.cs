@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -142,7 +143,7 @@ namespace EiSorteei.Areas.Admin.Controllers
                 }
 
 
-                foreach(var OrderBump in model.OrderBumps)
+                foreach (var OrderBump in model.OrderBumps)
                 {
                     OrderBumps_Produto NovoOrderBump = new OrderBumps_Produto()
                     {
@@ -161,7 +162,7 @@ namespace EiSorteei.Areas.Admin.Controllers
 
             }
 
-            if(model.OrderBumps!=null)
+            if (model.OrderBumps != null)
             {
                 ViewBag.OrderBumps = _Context.OrderBump.Where(o => model.OrderBumps.Contains(o.Id)).ToList();
             }
@@ -225,10 +226,10 @@ namespace EiSorteei.Areas.Admin.Controllers
                 RangeCodigo = produto.RangeCodigo,
                 ValorRifa = Math.Round(produto.ValorRifa, 2).ToString().Replace(",", "."),
                 Id = produto.Id,
-                DataSorteio = produto.DataSorteio.Value.ToString("dd/MM/yyyy"),                               
+                DataSorteio = produto.DataSorteio.Value.ToString("dd/MM/yyyy"),
             };
 
-            ViewBag.OrderBumps = _Context.OrderBump.Join(_Context.OrderBumps_Produto.Where(o=>o.Status && o.IdProduto.Equals(Id)), o => o.Id, op => op.IdOrderBump, (o, op) => o).Where(o => o.Status).ToList();
+            ViewBag.OrderBumps = _Context.OrderBump.Join(_Context.OrderBumps_Produto.Where(o => o.Status && o.IdProduto.Equals(Id)), o => o.Id, op => op.IdOrderBump, (o, op) => o).Where(o => o.Status).ToList();
             ViewBag.Imagens = _Context.Multimidia.Where(m => m.IdProduto.Equals(Id) && m.Status).ToList();
 
             LoadViewBags();
@@ -354,9 +355,9 @@ namespace EiSorteei.Areas.Admin.Controllers
                 }
 
                 List<OrderBumps_Produto> ActualyOrderBumps = _Context.OrderBumps_Produto.Where(o => o.IdProduto.Equals(model.Id) && o.Status).ToList();
-                foreach(var x in ActualyOrderBumps)
+                foreach (var x in ActualyOrderBumps)
                 {
-                    if(!model.OrderBumps.Contains(x.IdOrderBump))
+                    if (!model.OrderBumps.Contains(x.IdOrderBump))
                     {
                         x.Status = false;
                         _Context.Entry(x).State = System.Data.Entity.EntityState.Modified;
@@ -365,7 +366,7 @@ namespace EiSorteei.Areas.Admin.Controllers
 
                 foreach (var x in model.OrderBumps)
                 {
-                    if (!ActualyOrderBumps.Any(o=>o.IdOrderBump.Equals(x)))
+                    if (!ActualyOrderBumps.Any(o => o.IdOrderBump.Equals(x)))
                     {
                         OrderBumps_Produto order = new OrderBumps_Produto()
                         {
@@ -402,11 +403,11 @@ namespace EiSorteei.Areas.Admin.Controllers
             return Json(new
             {
                 OrderBumps = Dados
-            },JsonRequestBehavior.AllowGet);
+            }, JsonRequestBehavior.AllowGet);
         }
 
 
-        public ActionResult Bilhetes(long Id, string NomeUsuario="",string Status="")
+        public ActionResult Bilhetes(long Id, string NomeUsuario = "", string Status = "")
         {
             Produto FindedProduto = _Context.Produto.FirstOrDefault(p => p.Id.Equals(Id));
             ViewBag.NomeProduto = FindedProduto.Nome;
@@ -419,7 +420,7 @@ namespace EiSorteei.Areas.Admin.Controllers
             foreach (var carrinho in Carrinhos)
             {
                 long IdProduto = carrinho.Compras.First().Carrinho.IdProduto;
-               
+
 
                 if (FindedProduto.DataSorteio > DateTime.Now)
                 {
@@ -440,7 +441,7 @@ namespace EiSorteei.Areas.Admin.Controllers
                             Nome = FindedOrder.Nome,
                             Descricao = FindedOrder.Descricao,
                             Imagem = FindedOrder.Imagem,
-                            NumerosRifas = _Context.BilhetesCarrinho.Join(_Context.OrderBumpsEscolhidos.Where(o => o.IdOrderBump.Equals(FindedOrder.Id)), b => b.Id, o => o.IdBilhete, (b, o) => b).Where(b=>b.IdCarrinho.Equals(carrinho.Id)).Select(b => b.NumeroBilhete).ToList()
+                            NumerosRifas = _Context.BilhetesCarrinho.Join(_Context.OrderBumpsEscolhidos.Where(o => o.IdOrderBump.Equals(FindedOrder.Id)), b => b.Id, o => o.IdBilhete, (b, o) => b).Where(b => b.IdCarrinho.Equals(carrinho.Id)).Select(b => b.NumeroBilhete).ToList()
                         };
 
                         Orders.Add(NewOrder);
@@ -449,7 +450,7 @@ namespace EiSorteei.Areas.Admin.Controllers
                     MinhasComprasViewModel data = new MinhasComprasViewModel()
                     {
                         Id = carrinho.Id,
-                        DadosUsuario = _Context.Usuario.First(u=>u.Id.Equals(carrinho.IdUsuario)),
+                        DadosUsuario = _Context.Usuario.First(u => u.Id.Equals(carrinho.IdUsuario)),
                         CodigoVendedor = carrinho.Compras.First().CodigoVendedor,
                         DataCompra = carrinho.Compras.First().DataCompra,
                         Status = FormataStatus(carrinho.Compras.First().Status),
@@ -457,7 +458,7 @@ namespace EiSorteei.Areas.Admin.Controllers
                         ValorCompra = "R$ " + carrinho.Compras.First().ValorCompra.Replace('.', ','),
                         OrderBumps = Orders,
                         Bilhetes = Bilhetes,
-                        Premio = FindedProduto,                        
+                        Premio = FindedProduto,
                     };
 
                     MinhasCompras.Add(data);
@@ -466,18 +467,18 @@ namespace EiSorteei.Areas.Admin.Controllers
             }
 
 
-            if(!string.IsNullOrEmpty(Status) && Status!= "TodasCompras")
+            if (!string.IsNullOrEmpty(Status) && Status != "TodasCompras")
             {
                 MinhasCompras = MinhasCompras.Where(m => m.Status.Equals(Status)).ToList();
                 ViewBag.Status = Status;
             }
 
-            if(!string.IsNullOrEmpty(NomeUsuario))
+            if (!string.IsNullOrEmpty(NomeUsuario))
             {
                 MinhasCompras = MinhasCompras.Where(m => m.DadosUsuario.Nome.ToLower().Contains(NomeUsuario.ToLower())).ToList();
                 ViewBag.NomeUsuario = NomeUsuario;
             }
-            
+
             return View(MinhasCompras);
         }
 
@@ -518,5 +519,82 @@ namespace EiSorteei.Areas.Admin.Controllers
         }
 
 
+        public FileResult ExportarCSV(int Id)
+        {
+            Produto FindedProduto = _Context.Produto.FirstOrDefault(p => p.Id.Equals(Id));
+
+            List<Carrinho> Carrinhos = _Context.Carrinho.Include("BilhetesCarrinho").Include("Compras").Where(c => c.IdProduto.Equals(Id)).ToList();
+            List<MinhasComprasViewModel> MinhasCompras = new List<MinhasComprasViewModel>();
+
+            foreach (var carrinho in Carrinhos)
+            {
+                long IdProduto = carrinho.Compras.First().Carrinho.IdProduto;
+
+
+                if (FindedProduto.DataSorteio > DateTime.Now)
+                {
+                    var Bilhetes = _Context.BilhetesCarrinho.Where(b => b.IdCarrinho.Equals(carrinho.Id)).ToList();
+
+                    var OrderBumps = _Context.OrderBump.Join(_Context.OrderBumpsEscolhidos.
+                        Join(_Context.BilhetesCarrinho.Where(b => b.IdCarrinho.Equals(carrinho.Id)), o => o.IdBilhete, b => b.Id, (o, b) => o), o => o.Id, oe => oe.IdOrderBump, (o, oe) => o).GroupBy(o => o.Id).ToList();
+
+                    List<OrderBumpsEscolhidosViewModel> Orders = new List<OrderBumpsEscolhidosViewModel>();
+
+                    foreach (IGrouping<long, OrderBump> order in OrderBumps)
+                    {
+                        OrderBump FindedOrder = _Context.OrderBump.FirstOrDefault(o => o.Id.Equals(order.Key));
+
+                        OrderBumpsEscolhidosViewModel NewOrder = new OrderBumpsEscolhidosViewModel()
+                        {
+                            Id = FindedOrder.Id,
+                            Nome = FindedOrder.Nome,
+                            Descricao = FindedOrder.Descricao,
+                            Imagem = FindedOrder.Imagem,
+                            NumerosRifas = _Context.BilhetesCarrinho.Join(_Context.OrderBumpsEscolhidos.Where(o => o.IdOrderBump.Equals(FindedOrder.Id)), b => b.Id, o => o.IdBilhete, (b, o) => b).Where(b => b.IdCarrinho.Equals(carrinho.Id)).Select(b => b.NumeroBilhete).ToList()
+                        };
+
+                        Orders.Add(NewOrder);
+                    }
+
+                    MinhasComprasViewModel data = new MinhasComprasViewModel()
+                    {
+                        Id = carrinho.Id,
+                        DadosUsuario = _Context.Usuario.First(u => u.Id.Equals(carrinho.IdUsuario)),
+                        CodigoVendedor = carrinho.Compras.First().CodigoVendedor,
+                        DataCompra = carrinho.Compras.First().DataCompra,
+                        Status = FormataStatus(carrinho.Compras.First().Status),
+                        UrlBoleto = string.IsNullOrEmpty(carrinho.Compras.First().UrlBoleto) ? "" : carrinho.Compras.First().UrlBoleto,
+                        ValorCompra = "R$ " + carrinho.Compras.First().ValorCompra.Replace('.', ','),
+                        OrderBumps = Orders,
+                        Bilhetes = Bilhetes,
+                        Premio = FindedProduto,
+                    };
+
+                    MinhasCompras.Add(data);
+                }
+
+            }
+
+            StringBuilder arquivo = new StringBuilder();
+            arquivo.AppendLine("Nome;Email;Telefone;CPF;Localização;CEP;Bairro;Rua;Número;Nome do Produto;Data da Compra;Valor da Compra;Bilhetes;Código do Vendedor;Status da Compra;");
+
+            foreach (var data in MinhasCompras)
+            {
+                string Bilhetes = "";
+                foreach (var bilhete in data.Bilhetes)
+                {
+                    Bilhetes = Bilhetes + (Bilhetes == "" ? bilhete.NumeroBilhete.ToString() : ", " + bilhete.NumeroBilhete);
+                }
+
+                string CodigoVendedor = string.IsNullOrEmpty(data.CodigoVendedor) ? "Não utilizou código de vendedor" : data.CodigoVendedor;
+
+                arquivo.AppendLine(data.DadosUsuario.Nome + " " + data.DadosUsuario.SobreNome + ";" + data.DadosUsuario.Email + ";" + data.DadosUsuario.Telefone + ";" + data.DadosUsuario.Cpf + ";" +
+                    data.DadosUsuario.Cidade + "-" + data.DadosUsuario.Estado + ";" + data.DadosUsuario.CEP + ";" + data.DadosUsuario.Bairro + ";" + data.DadosUsuario.Rua + ";" + data.DadosUsuario.Numero + ";" +
+                    FindedProduto.Nome + ";" + data.DataCompra.ToString() + ";" + data.ValorCompra + ";" + Bilhetes + ";" + CodigoVendedor + ";" + data.Status);
+            }
+
+            return File(Encoding.Default.GetBytes(arquivo.ToString()), "text/csv", "Compras do " + FindedProduto.Nome + ".csv");
+
+        }
     }
 }

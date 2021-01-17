@@ -69,6 +69,7 @@
 
             <div class="card-header">
                 <h3>Todas as Compras - @ViewBag.NomeProduto</h3>
+                <a class="btn btn-success" href="@Url.Action("ExportarCSV","Produtos",new { Id=ViewBag.Id })">Exportar para .csv</a>
             </div>
 
             <div class="card-body">
