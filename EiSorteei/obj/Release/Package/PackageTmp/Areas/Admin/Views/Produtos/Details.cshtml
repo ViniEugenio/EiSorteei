@@ -76,7 +76,10 @@
 
         <div class="card-footer">
             <a class="btn btn-success" href="@Url.Action("Index")"><i class="fa fa-list"></i> Lista de Produtos</a>
-            <a class="btn btn-warning" style="color:white" href="@Url.Action("Alterar","Produtos",new { Id= Model.Id })"><i class="fa fa-edit"></i> Alterar Produto</a>
+            @if (Session["Permissao"].ToString() == "Administrador")
+            {
+                <a class="btn btn-warning" style="color:white" href="@Url.Action("Alterar","Produtos",new { Id= Model.Id })"><i class="fa fa-edit"></i> Alterar Produto</a>
+            }
         </div>
     </div>
 </div>

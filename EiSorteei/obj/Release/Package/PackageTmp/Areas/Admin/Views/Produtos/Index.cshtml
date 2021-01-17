@@ -38,8 +38,19 @@
                                 <td>@produto.DataCadastro.Date.Day/@produto.DataCadastro.Date.Month/@produto.DataCadastro.Date.Year</td>
                                 <td>
                                     <a class="btn btn-primary" href="@Url.Action("Details",new { Id=produto.Id})"><i class="fa fa-info-circle"></i></a>
-                                    <a class="btn btn-warning" style="color:white" href="@Url.Action("Alterar",new { Id=produto.Id})"><i class="fa fa-edit"></i></a>
-                                    <button class="btn btn-danger Excluir" data-id="@produto.Id"><i class="fa fa-trash"></i></button>
+
+                                    @if (Session["Permissao"].ToString() == "Administrador")
+                                    {
+                                        <a class="btn btn-success" href="@Url.Action("Bilhetes",new { Id=produto.Id})"><i class="fa fa-dollar"></i></a>
+                                        <a class="btn btn-warning" style="color:white" href="@Url.Action("Alterar",new { Id=produto.Id})"><i class="fa fa-edit"></i></a>
+                                        <button class="btn btn-danger Excluir" data-id="@produto.Id"><i class="fa fa-trash"></i></button>
+                                    }
+
+                                    else
+                                    {
+                                        <button class="btn btn-primary" id="CompartilharLink" data-id="@produto.Id"><i class="fa fa-share"></i></button>
+                                    }
+
                                 </td>
                             </tr>
 
@@ -112,6 +123,48 @@
                     });
                 }
             });
+
+        });
+
+        $("#CompartilharLink").click(function () {
+
+            let Url = window.location.href;
+            Url = Url.replace("/Admin/Produtos", "");
+
+            let IdProduto = $(this).attr("data-id");
+            let Link = "";
+
+            $.ajax({
+
+                url: "@Url.Action("CodVendedor","Produtos")",
+                method: "POST",
+                success: function (response) {
+
+                    Link = Url + "/Comprar?IdProduto=" + IdProduto + "&CodVendedor=" + response;
+
+                    var $temp = $("<input>");
+                    $("body").append($temp);
+                    $temp.val(Link).select();
+                    document.execCommand("copy");
+                    $temp.remove();
+
+                    Swal.fire({
+                        title: 'Link Copiado',
+                        text: "O Link do Vendedor foi criado, passe seu link para um cliente usando as teclas Ctrl + V.\n\n" + Link,
+                        icon: 'success',
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Ok'
+                    });
+
+
+                }
+
+            });
+
+
+
+
 
         });
 

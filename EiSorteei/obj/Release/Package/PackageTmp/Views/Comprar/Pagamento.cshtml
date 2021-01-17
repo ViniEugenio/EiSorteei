@@ -20,7 +20,7 @@
     <link rel="font" href="~/Content/fonts/Amiri-Italic.ttf" />
     <link rel="font" href="~/Content/fonts/Amiri-Regular.ttf" />
     <link rel="shortcut icon"
-          href="~/Images/favicon.png"
+          href="~/Imagens/favicon.ico"
           type="image/x-icon" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous">
@@ -59,12 +59,11 @@
 
         @@media only screen and (max-width: 1000px) {
             #EfetuarPagamento {
-                font-size: 32px !important;
+                font-size: 28px !important;
                 border-radius: 44px !important;
+                width: 100% !important;
             }
         }
-
-               
     </style>
 
 </head>
@@ -381,8 +380,8 @@
                             <h3 class="text-center">Valor Total: R$ <span id="ValorTotal">@Model.ValorTotal</span></h3>
                         </div>
 
-                        <div class="bg-danger text-white text-center col-md-12 form-group card" style="height:150px; margin-top:10px;">
-                            <strong style="font-size: 30px; margin-top: 20px;"><span id="QuantidadePessoas">2</span> Pessoas estão escolhendo os seus bilhetes agora. Garanta logo o seu.</strong>
+                        <div class="bg-danger text-white text-center col-md-12 form-group card" style="height:190px; margin-top:10px; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+                            <strong style="font-size: 22px;"><span id="QuantidadePessoas">2</span> Pessoas estão escolhendo os seus bilhetes agora. Garanta logo o seu.</strong>
                         </div>
                     </div>
 
@@ -453,7 +452,7 @@
 
                                     <div class="form-group">
                                         <strong>Código do Vendedor</strong>
-                                        <input type="text" class="form-control" placeholder="Digite o Código do Vendedor" maxlength="8" id="CodigoVendedor" />
+                                        <input type="text" class="form-control" placeholder="Digite o Código do Vendedor" maxlength="8" id="CodigoVendedor" value="@ViewBag.CodVendedor" />
                                         <span class="erro" id="ErroVendedor"></span>
                                         <span class="text-danger">* Caso você tenha adquirido seu bilhete por intermédio de algum vendedor, por favor informe o código do mesmo no campo acima.</span>
                                     </div>
@@ -467,7 +466,7 @@
 
                                         </div>
                                         <div class="col-md-12 text-center">
-                                            <button class="btn btn-success" style="width: 100%; height: 200px; font-size: 44px; border-radius: 115px;" id="EfetuarPagamento">Efetuar Pagamento</button>
+                                            <button class="btn btn-success" style="width: 50%; height: 130px; font-size: 34px; border-radius: 115px;" id="EfetuarPagamento">Efetuar Pagamento</button>
                                         </div>
 
                                     </div>
@@ -505,6 +504,9 @@
 
                             }
                         </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success" id="ConfirmarOrderBumps" data-dismiss="modal"><i class="fa fa-plus"></i> Confirmar</button>
                     </div>
                 </div>
             </div>
@@ -553,8 +555,6 @@
 
                     if ($(this).prop("checked")) {
 
-
-
                         let TodosBilhetes = $(".AumentarPreco");
                         let Escolhidos = OrderBumpsEscolhidos.filter(order => order.IdOrderBump == ActualyOrderBump);
 
@@ -581,9 +581,8 @@
 
                     else {
 
-                        let Quantidade = OrderBumpsEscolhidos.filter(order => order.IdOrderBump == ActualyOrderBump).length;
+                        let Quantidade = OrderBumpsEscolhidos.filter(order => order.IdOrderBump == ActualyOrderBump && order.Confirmado).length;
                         ValorTotalFormatado = (parseFloat(ValorTotalFormatado) - (parseFloat(ActualyValueOrderBump)).toFixed(2) * Quantidade).toFixed(2);
-
                         $("#ValorTotal").text(ValorTotalFormatado.toString().replace('.', ','));
 
                         OrderBumpsEscolhidos = OrderBumpsEscolhidos.filter(order => order.IdOrderBump != ActualyOrderBump);
@@ -600,28 +599,37 @@
 
                         let data = {
                             IdOrderBump: ActualyOrderBump,
-                            NumeroBilhete: NumeroBilhete
+                            NumeroBilhete: NumeroBilhete,
+                            ValorOrderBump: ActualyValueOrderBump,
+                            Confirmado : false
                         };
 
                         OrderBumpsEscolhidos.push(data);
-                        ValorTotalFormatado = (parseFloat(ValorTotalFormatado) + parseFloat(ActualyValueOrderBump)).toFixed(2);
-                        $("#ValorTotal").text(ValorTotalFormatado.toString().replace('.', ','));
                     }
 
                     else {
                         OrderBumpsEscolhidos = OrderBumpsEscolhidos.filter(order => order.IdOrderBump != ActualyOrderBump && order.NumeroBilhete != NumeroBilhete);
-                        ValorTotalFormatado = (parseFloat(ValorTotalFormatado) - parseFloat(ActualyValueOrderBump)).toFixed(2);
+                    }
+
+                });
+
+                $("#ConfirmarOrderBumps").click(function () {
+
+                    ValorTotalFormatado = parseFloat("@Model.ValorTotal");
+                    $.each(OrderBumpsEscolhidos, function (index, data) {
+                        ValorTotalFormatado = (parseFloat(ValorTotalFormatado) + parseFloat(data.ValorOrderBump)).toFixed(2);
                         $("#ValorTotal").text(ValorTotalFormatado.toString().replace('.', ','));
-                    }
+                        data.Confirmado = true;
+                    });
 
                 });
 
 
-                $(document).on('hide.bs.modal', '#ModalOrder', function () {
-                    if (OrderBumpsEscolhidos.filter(order => order.IdOrderBump == ActualyOrderBump).length == 0) {
-                        $("#OrderBump-" + ActualyOrderBump).prop('checked', false);
-                    }
-                });
+                //$(document).on('hide.bs.modal', '#ModalOrder', function () {
+                //    if (OrderBumpsEscolhidos.filter(order => order.IdOrderBump == ActualyOrderBump).length == 0) {
+                //        $("#OrderBump-" + ActualyOrderBump).prop('checked', false);
+                //    }
+                //});
 
                 if (Logado != "0") {
 
@@ -779,7 +787,7 @@
                                 let TelefoneFormatado = Telefone.split(" ");
 
                                 let dados = JSON.stringify({
-                                    transaction_amount: ValorTotalFormatado,
+                                    transaction_amount: parseFloat(ValorTotalFormatado) ,
                                     description: "Bilhete EiSorteei - " + Usuario.NomeProduto,
                                     payment_method_id: "bolbradesco",
                                     payer: {
@@ -834,77 +842,118 @@
                                     }
                                 });
 
+
                                 $.ajax({
-                                    url: "https://api.mercadopago.com/v1/payments",
+                                    url: "@Url.Action("VerificaBilhetes","Comprar")",
                                     method: 'POST',
-                                    beforeSend: function (xhr) {
-                                        xhr.setRequestHeader('Authorization', 'Bearer APP_USR-5017428128263404-072015-ddd04542ab6288891aebac5789addf33-247787081');
-                                    },
-                                    data: dados,
+                                    data: { Bilhetes: Bilhetes, IdProduto: IdProduto },
                                     success: function (retorno) {
 
-                                        let BoletoUrl = retorno.transaction_details.external_resource_url;
-                                        let CodigoVendedor = $("#CodigoVendedor").val();
+                                        if (!retorno.Status) {
 
-                                        $.ajax({
-                                            url: "@Url.Action("CompraRealizada", "Comprar")",
-                                            method: "POST",
-                                            data: {
-                                                Status: retorno.status,
-                                                IdProduto: IdProduto,
-                                                IdCompra: retorno.id,
-                                                TipoPagamento: "Boleto",
-                                                CodigoVendedor: CodigoVendedor,
-                                                Bilhetes: Bilhetes,
-                                                UrlBoleto: BoletoUrl
-                                            },
-                                            success: function (retorno) {
+                                            Swal.fire({
+                                                title: 'Boleto',
+                                                text: retorno.Mensagem,
+                                                icon: 'error',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#3085d6',
+                                                cancelButtonColor: '#d33',
+                                                cancelButtonText: 'Não',
+                                                confirmButtonText: 'OK'
+                                            });
 
-                                                if (retorno.Status) {
+                                        }
 
-                                                    $("#EfetuarPagamento").prop("disabled", "disabled");
+                                        else {
+                                            $.ajax({
+                                                url: "https://api.mercadopago.com/v1/payments",
+                                                method: 'POST',
+                                                beforeSend: function (xhr) {
+                                                    xhr.setRequestHeader('Authorization', 'Bearer APP_USR-5017428128263404-072015-ddd04542ab6288891aebac5789addf33-247787081');
+                                                },
+                                                data: dados,
+                                                success: function (retorno) {
+
+                                                    let BoletoUrl = retorno.transaction_details.external_resource_url;
+                                                    let CodigoVendedor = $("#CodigoVendedor").val();
+
+                                                    $.ajax({
+                                                        url: "@Url.Action("CompraRealizada", "Comprar")",
+                                                        method: "POST",
+                                                        data: {
+                                                            Status: retorno.status,
+                                                            IdProduto: IdProduto,
+                                                            IdCompra: retorno.id,
+                                                            TipoPagamento: "Boleto",
+                                                            CodigoVendedor: CodigoVendedor,
+                                                            Bilhetes: Bilhetes,
+                                                            UrlBoleto: BoletoUrl,
+                                                            OrderBumps: OrderBumpsEscolhidos,
+                                                            ValorCompra: ValorTotalFormatado
+                                                        },
+                                                        success: function (retorno) {
+
+                                                            if (retorno.Status) {
+
+                                                                $("#EfetuarPagamento").prop("disabled", "disabled");
+
+                                                                Swal.fire({
+                                                                    title: 'Quase lá...',
+                                                                    text: retorno.Mensagem,
+                                                                    icon: 'success',
+                                                                    showCancelButton: true,
+                                                                    confirmButtonColor: '#02B2F4',
+                                                                    cancelButtonColor: '#25CA17',
+                                                                    cancelButtonText: 'OK',
+                                                                    confirmButtonText: 'Visualizar Boleto'
+                                                                }).then((result) => {
+
+                                                                    if (result.isConfirmed) {
+                                                                        window.open(BoletoUrl, "_blank");
+                                                                    }
+
+                                                                });
+                                                            }
+
+                                                            else {
+                                                                Swal.fire({
+                                                                    title: 'Boleto',
+                                                                    text: retorno.Mensagem,
+                                                                    icon: 'error',
+                                                                    showCancelButton: false,
+                                                                    confirmButtonColor: '#3085d6',
+                                                                    cancelButtonColor: '#d33',
+                                                                    cancelButtonText: 'Não',
+                                                                    confirmButtonText: 'OK'
+                                                                });
+                                                            }
+
+                                                        }
+                                                    });
+
+                                                },
+
+                                                error: function (retorno) {
 
                                                     Swal.fire({
-                                                        title: 'Quase lá...',
-                                                        text: retorno.Mensagem,
-                                                        icon: 'success',
-                                                        showCancelButton: true,
-                                                        confirmButtonColor: '#02B2F4',
-                                                        cancelButtonColor: '#25CA17',
-                                                        cancelButtonText: 'OK',
-                                                        confirmButtonText: 'Visualizar Boleto'
-                                                    }).then((result) => {
-
-                                                        if (result.isConfirmed) {
-                                                            window.open(BoletoUrl, "_blank");
-                                                        }
-
+                                                        title: 'Boleto',
+                                                        text: "Não foi possível gerar seu boleto, tente novamente mais tarde.",
+                                                        icon: 'error',
+                                                        showCancelButton: false,
+                                                        confirmButtonColor: '#3085d6',
+                                                        cancelButtonColor: '#d33',
+                                                        cancelButtonText: 'Não',
+                                                        confirmButtonText: 'OK'
                                                     });
                                                 }
+                                            });
+                                        }
 
-                                                else {
-                                                    console.log(retorno.Mensagem);
-                                                }
-
-                                            }
-                                        });
-
-                                    },
-
-                                    error: function (retorno) {
-
-                                        Swal.fire({
-                                            title: 'Boleto',
-                                            text: "Não foi possível gerar seu boleto, tente novamente mais tarde.",
-                                            icon: 'error',
-                                            showCancelButton: false,
-                                            confirmButtonColor: '#3085d6',
-                                            cancelButtonColor: '#d33',
-                                            cancelButtonText: 'Não',
-                                            confirmButtonText: 'OK'
-                                        });
                                     }
                                 });
+
+
+
 
                             }
                         });
@@ -1038,7 +1087,7 @@
                                         let dados = JSON.stringify({
                                             token: CodigoCartao,
                                             installments: 1,
-                                            transaction_amount: Usuario.ValorRifa,
+                                            transaction_amount: parseFloat(ValorTotalFormatado),
                                             description: "Bilhete EiSorteei - " + Usuario.NomeProduto,
                                             payment_method_id: BandeiraCartao,
                                             payer: {
@@ -1091,72 +1140,18 @@
                                             }
                                         });
 
+
                                         $.ajax({
-                                            url: "https://api.mercadopago.com/v1/payments",
+                                            url: "@Url.Action("VerificaBilhetes","Comprar")",
                                             method: 'POST',
-                                            beforeSend: function (xhr) {
-                                                xhr.setRequestHeader('Authorization', 'Bearer APP_USR-5017428128263404-072015-ddd04542ab6288891aebac5789addf33-247787081');
-                                            },
-                                            data: dados,
+                                            data: { Bilhetes: Bilhetes, IdProduto: IdProduto },
                                             success: function (retorno) {
 
-                                                $("#EfetuarPagamento").prop("disabled", "disabled");
+                                                if (!retorno.Status) {
 
-                                                let CodigoVendedor = $("#CodigoVendedor").val();
-
-                                                if (retorno.status == "approved" || retorno.status == "in_process") {
-
-                                                    $.ajax({
-                                                        url: "@Url.Action("CompraRealizada", "Comprar")",
-                                                        method: "POST",
-                                                        data: {
-                                                            Status: retorno.status,
-                                                            IdProduto: IdProduto,
-                                                            IdCompra: retorno.id,
-                                                            TipoPagamento: "Cartão de Crédito",
-                                                            CodigoVendedor: CodigoVendedor,
-                                                            Bilhetes: Bilhetes,
-                                                            UrlBoleto: ""
-                                                        },
-                                                        success: function (data) {
-
-
-                                                            if (data.Status) {
-
-                                                                if (retorno.status == "approved") {
-                                                                    Swal.fire({
-                                                                        title: 'Pagamento Efetuado',
-                                                                        text: data.Mensagem,
-                                                                        icon: 'success',
-                                                                        showCancelButton: false,
-                                                                        confirmButtonColor: '#3085d6',
-                                                                        cancelButtonColor: '#d33',
-                                                                        cancelButtonText: 'Não',
-                                                                        confirmButtonText: 'OK'
-                                                                    });
-                                                                }
-
-                                                                if (retorno.status == "in_process") {
-                                                                    Swal.fire({
-                                                                        title: 'Pagamento em Análise',
-                                                                        text: data.Mensagem,
-                                                                        icon: 'success',
-                                                                        showCancelButton: false,
-                                                                        confirmButtonColor: '#3085d6',
-                                                                        cancelButtonColor: '#d33',
-                                                                        cancelButtonText: 'Não',
-                                                                        confirmButtonText: 'OK'
-                                                                    });
-                                                                }
-                                                            }
-                                                        }
-                                                    });
-                                                }
-
-                                                else {
                                                     Swal.fire({
-                                                        title: 'Pagamento não efetuado',
-                                                        text: "Seu pagamento não foi aceito, entre em contato com o distribuinte do seu cartão e tente novamente mais tarde.",
+                                                        title: 'Boleto',
+                                                        text: retorno.Mensagem,
                                                         icon: 'error',
                                                         showCancelButton: false,
                                                         confirmButtonColor: '#3085d6',
@@ -1165,18 +1160,103 @@
                                                         confirmButtonText: 'OK'
                                                     });
                                                 }
-                                            },
-                                            error: function (retorno) {
-                                                Swal.fire({
-                                                    title: 'Cartão Inválido',
-                                                    text: "Os dados do cartão informado não são inválidos, por favor verifique seus dados e tente novamente!",
-                                                    icon: 'error',
-                                                    showCancelButton: false,
-                                                    confirmButtonColor: '#3085d6',
-                                                    cancelButtonColor: '#d33',
-                                                    cancelButtonText: 'Não',
-                                                    confirmButtonText: 'OK'
-                                                });
+
+                                                else {
+
+                                                    $.ajax({
+                                                        url: "https://api.mercadopago.com/v1/payments",
+                                                        method: 'POST',
+                                                        beforeSend: function (xhr) {
+                                                            xhr.setRequestHeader('Authorization', 'Bearer APP_USR-5017428128263404-072015-ddd04542ab6288891aebac5789addf33-247787081');
+                                                        },
+                                                        data: dados,
+                                                        success: function (retorno) {
+
+                                                            let CodigoVendedor = $("#CodigoVendedor").val();
+
+                                                            if (retorno.status == "approved" || retorno.status == "in_process") {
+                                                                $("#EfetuarPagamento").prop("disabled", "disabled");
+                                                                $.ajax({
+                                                                    url: "@Url.Action("CompraRealizada", "Comprar")",
+                                                                    method: "POST",
+                                                                    data: {
+                                                                        Status: retorno.status,
+                                                                        IdProduto: IdProduto,
+                                                                        IdCompra: retorno.id,
+                                                                        TipoPagamento: "Cartão de Crédito",
+                                                                        CodigoVendedor: CodigoVendedor,
+                                                                        Bilhetes: Bilhetes,
+                                                                        UrlBoleto: "",
+                                                                        OrderBumps: OrderBumpsEscolhidos,
+                                                                        ValorCompra: ValorTotalFormatado
+                                                                    },
+                                                                    success: function (data) {
+
+
+                                                                        if (data.Status) {
+
+                                                                            if (retorno.status == "approved") {
+                                                                                Swal.fire({
+                                                                                    title: 'Pagamento Efetuado',
+                                                                                    text: data.Mensagem,
+                                                                                    icon: 'success',
+                                                                                    showCancelButton: false,
+                                                                                    confirmButtonColor: '#3085d6',
+                                                                                    cancelButtonColor: '#d33',
+                                                                                    cancelButtonText: 'Não',
+                                                                                    confirmButtonText: 'OK'
+                                                                                });
+                                                                            }
+
+                                                                            if (retorno.status == "in_process") {
+                                                                                Swal.fire({
+                                                                                    title: 'Pagamento em Análise',
+                                                                                    text: data.Mensagem,
+                                                                                    icon: 'success',
+                                                                                    showCancelButton: false,
+                                                                                    confirmButtonColor: '#3085d6',
+                                                                                    cancelButtonColor: '#d33',
+                                                                                    cancelButtonText: 'Não',
+                                                                                    confirmButtonText: 'OK'
+                                                                                });
+                                                                            }
+                                                                        }
+
+                                                                    }
+                                                                });
+                                                            }
+
+                                                            else {
+                                                                Swal.fire({
+                                                                    title: 'Pagamento não efetuado',
+                                                                    text: "Seu pagamento não foi aceito, entre em contato com o distribuinte do seu cartão e tente novamente mais tarde.",
+                                                                    icon: 'error',
+                                                                    showCancelButton: false,
+                                                                    confirmButtonColor: '#3085d6',
+                                                                    cancelButtonColor: '#d33',
+                                                                    cancelButtonText: 'Não',
+                                                                    confirmButtonText: 'OK'
+                                                                });
+                                                            }
+                                                        },
+                                                        error: function (retorno) {
+
+                                                            Swal.fire({
+                                                                title: 'Cartão Inválido',
+                                                                text: "Os dados do cartão informado não são inválidos, por favor verifique seus dados e tente novamente!",
+                                                                icon: 'error',
+                                                                showCancelButton: false,
+                                                                confirmButtonColor: '#3085d6',
+                                                                cancelButtonColor: '#d33',
+                                                                cancelButtonText: 'Não',
+                                                                confirmButtonText: 'OK'
+                                                            });
+
+                                                        }
+                                                    });
+
+                                                }
+
                                             }
                                         });
 
@@ -1421,7 +1501,7 @@
                             Confirmar
                         };
 
-                        $, ajax({
+                        $.ajax({
 
                             url: "@Url.Action("CadastrarUsuario","Comprar")",
                             method: "POST",
@@ -1444,6 +1524,20 @@
                                     $("#UsuarioLogado").slideDown(200);
                                     $("#Pagamento").slideDown(200);
 
+                                    $("#InformacoesPessoais").slideUp(200);
+                                    $("#NomeLogado").text("Nome: " + retorno.NomeLogado);
+                                    $("#EmailLogado").text("Email: " + retorno.EmailLogado);
+                                    $("#TelefoneLogado").text("Telefone: " + retorno.TelefoneLogado);
+                                    $("#CPFLogado").text("CPF: " + retorno.CPFLogado);
+                                    $("#CEPLogado").text("CEP: " + retorno.CEPLogado);
+                                    $("#EstadoLogado").text("Estado: " + retorno.EstadoLogado);
+                                    $("#CidadeLogado").text("Cidade: " + retorno.CidadeLogado);
+                                    $("#BairroLogado").text("Bairro: " + retorno.BairroLogado);
+                                    $("#RuaLogado").text("Rua: " + retorno.RuaLogado);
+                                    $("#NumeroLogado").text("Número: " + retorno.NumeroLogado);
+                                    $("#DadosUsuario").slideDown(200);
+                                    $("#Pagamento").slideDown(200);
+
                                     Swal.fire({
                                         title: 'Cadastrar realizado com sucesso!',
                                         text: "Estamos muito felizes de tê-lo conosco, continue suas compras e boa sorte.",
@@ -1457,8 +1551,17 @@
                                 }
 
                                 else {
-                                    $("#EmailErro").text(retorno.Mensagem);
-                                    $("#EmailErro").css("display", "block");
+
+                                    if (retorno.Mensagem.includes('Email')) {
+                                        $("#EmailErro").text(retorno.Mensagem);
+                                        $("#EmailErro").css("display", "block");
+                                    }
+
+                                    else if (retorno.Mensagem.includes('CPF')) {
+                                        $("#CPFErro").text(retorno.Mensagem);
+                                        $("#CPFErro").css("display", "block");
+                                    }
+
                                 }
 
                             }
@@ -1513,6 +1616,46 @@
                 }
 
 
+
+            });
+
+            $("#CEPLogin").keyup(function () {
+
+                let Value = $(this).val();
+
+                if (Value.length == 9) {
+
+                    $.ajax({
+
+                        url: "@Url.Action("GetLocation","Vendedor")",
+                        method: "POST",
+                        data: { CEP: Value },
+                        success: function (response) {
+
+                            $("#CidadeLogin").val(response.localidade);
+                            $("#BairroLogin").val(response.bairro);
+                            $("#RuaLogin").val(response.logradouro);
+
+                            if (response.uf == "MG") {
+                                $("#EstadoLogin").val("Minas Gerais");
+                            }
+
+                            else if (response.uf == "RJ") {
+                                $("#EstadoLogin").val("Rio de Janeiro");
+                            }
+
+                            else if (response.uf == "SP") {
+                                $("#EstadoLogin").val("São Paulo");
+                            }
+
+                        },
+                        error: function (response) {
+                            console.log(response);
+                        }
+
+                    });
+
+                }
 
             });
 

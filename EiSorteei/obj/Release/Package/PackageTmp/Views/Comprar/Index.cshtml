@@ -88,15 +88,14 @@
         #Quantidade {
             font-size: 12px !important;
             padding-left: 5px !important;
-            margin-bottom:3px;
+            margin-bottom: 3px;
         }
 
-        #RifasEscolhidas{
-            width:53% !important;
+        #RifasEscolhidas {
+            width: 53% !important;
         }
 
         #RifaEscolhida {
-
             font-size: 13px !important;
             height: 22px !important;
             width: 32px !important;
@@ -233,18 +232,21 @@
         <div style="margin:auto; width:100%; margin-right:20px; display:flex; flex-direction:column;">
             <strong class="text-center">Comprados</strong>
             <div class="NumeroRifa" style="height:40px; width:100%; background-color:red;">
+                <span id="CountComprados">@ViewBag.CountComprados</span>
             </div>
         </div>
 
         <div style="margin:auto; width:100%; margin-right:20px; display:flex; flex-direction:column;">
             <strong class="text-center">Reservados</strong>
             <div class="NumeroRifa" style="height:40px; width:100%; background-color:gray;">
+                <span id="CountReservados">@ViewBag.BilhetesReservados.Length</span>
             </div>
         </div>
 
         <div style="margin: auto; width: 100%; margin-right: 20px; display: flex; flex-direction: column;">
             <strong class="text-center">Selecionados</strong>
             <div class="NumeroRifa" style="height:40px; width:100%; background-color:rgb(37, 202, 23);">
+                <span id="CountSelecionados">0</span>
             </div>
         </div>
 
@@ -303,6 +305,7 @@
                 let background = $(this).css("background-color");
 
                 if (background == "rgb(37, 202, 23)") {
+
                     $(this).css("background-color", "#E0C777");
 
                     Rifas = Rifas.filter(item => item !== numero[0].outerText);
@@ -321,13 +324,13 @@
 
                     if (Rifas.length == 0) {
                         $("#Quantidade").slideUp(200);
-                    }                   
+                    }
 
                 }
 
                 else {
                     $(this).css("background-color", "#25CA17");
-                    Rifas.push(numero[0].outerText);                   
+                    Rifas.push(numero[0].outerText);
 
 
                     $("#Quantidade").slideDown(200);
@@ -339,6 +342,8 @@
                     );
 
                 }
+
+                $("#CountSelecionados").text(Rifas.length);
 
                 $("#QuantidadeTotal").text(Rifas.length);
                 let ValorFormatado = String((Rifas.length * Number(ValorRifa.replace(",", "."))).toFixed(2)).replace(".", ",");
@@ -408,8 +413,9 @@
                     success: function (retorno) {
 
                         if (retorno.Status) {
-                            window.open("@Url.Action("Pagamento","Comprar",new { Id=Model.Id })", "_blank");
+                            window.location.href = "@Url.Action("Pagamento","Comprar",new { CodVendedor = ViewBag.CodVendedor })";
                         }
+
 
                         else {
 
