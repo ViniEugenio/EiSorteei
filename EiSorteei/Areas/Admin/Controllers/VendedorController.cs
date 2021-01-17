@@ -1,10 +1,12 @@
 ﻿using EiSorteei.Data;
 using EiSorteei.Helpers;
 using EiSorteei.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
@@ -361,6 +363,19 @@ namespace EiSorteei.Areas.Admin.Controllers
 
             return "Aprovado";
 
+        }
+
+        public JsonResult GetLocation(string CEP)
+        {
+            string FormatedCep = "http://viacep.com.br/ws/" + CEP.Replace(".", string.Empty).Replace("-", string.Empty) + "/json/";
+            ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
+            WebRequest request = WebRequest.Create(FormatedCep);
+            request.Method = "GET";
+            var response = (HttpWebResponse)request.GetResponse();
+            var streamReader = new StreamReader(response.GetResponseStream());
+            var result = streamReader.ReadToEnd();
+
+            return Json(JsonConvert.DeserializeObject<CEPViewModel>(result));
         }
     }
 }

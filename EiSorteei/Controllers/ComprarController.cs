@@ -28,7 +28,7 @@ namespace EiSorteei.Controllers
             _Context = Context.GetContext();
         }
 
-        public ActionResult Index(long IdProduto)
+        public ActionResult Index(long IdProduto, string CodVendedor = "")
         {
 
             if (IdProduto != 0)
@@ -127,6 +127,8 @@ namespace EiSorteei.Controllers
                 AtualizaCompras.Start();
                 AtualizaCompras.Join();
 
+                ViewBag.CodVendedor = CodVendedor;
+
                 return View(Produto);
             }
 
@@ -170,7 +172,7 @@ namespace EiSorteei.Controllers
 
         }
 
-        public ActionResult Pagamento()
+        public ActionResult Pagamento(string CodVendedor)
         {
             ViewBag.Estados = Estados.GetAllStates();
 
@@ -202,6 +204,9 @@ namespace EiSorteei.Controllers
                 ValorTotal = FindedCookie["ValorTotal"],
                 OrderBumps = _Context.OrderBump.Join(_Context.OrderBumps_Produto.Where(o => o.Status && o.IdProduto.Equals(IdProduto)), o => o.Id, op => op.IdOrderBump, (o, op) => o).Where(o => o.Status).ToList()
             };
+
+
+            ViewBag.CodVendedor = CodVendedor;
 
             return View(model);
         }
@@ -460,7 +465,7 @@ namespace EiSorteei.Controllers
             }
         }
 
-        public JsonResult VerificaBilhetes(long IdProduto,string Bilhetes)
+        public JsonResult VerificaBilhetes(long IdProduto, string Bilhetes)
         {
             string[] BilhetesFormatados = Bilhetes.Split(',');
             List<int> BilhetesRepetidos = new List<int>();
@@ -511,11 +516,11 @@ namespace EiSorteei.Controllers
         }
 
 
-        public JsonResult CompraRealizada(string Status, long IdProduto, string IdCompra, string TipoPagamento, string Bilhetes, string CodigoVendedor, string UrlBoleto, List<Models.OrderBumpsEscolhidos> OrderBumps,string ValorCompra)
+        public JsonResult CompraRealizada(string Status, long IdProduto, string IdCompra, string TipoPagamento, string Bilhetes, string CodigoVendedor, string UrlBoleto, List<Models.OrderBumpsEscolhidos> OrderBumps, string ValorCompra)
         {
             try
             {
-                string[] BilhetesFormatados = Bilhetes.Split(',');                                
+                string[] BilhetesFormatados = Bilhetes.Split(',');
 
                 Usuario UsuarioLogado = (Usuario)Session["Usuario"];
                 Carrinho NovoCarrinho = new Carrinho()
@@ -542,13 +547,13 @@ namespace EiSorteei.Controllers
                     _Context.BilhetesCarrinho.Add(NovoBilhete);
 
                     TempBilhetes FindedBilhete = _Context.TempBilhetes.FirstOrDefault(b => b.NumeroBilhete == NumeroBilhete.ToString() && b.IdProduto == IdProduto);
-                    if(FindedBilhete!=null)
+                    if (FindedBilhete != null)
                     {
                         _Context.Entry(FindedBilhete).State = System.Data.Entity.EntityState.Deleted;
                         _Context.SaveChanges();
                     }
 
-                    if(OrderBumps !=null)
+                    if (OrderBumps != null)
                     {
                         var OrderBumpsFiltradas = OrderBumps.Where(o => o.NumeroBilhete.Trim() == NumeroBilhete.ToString()).ToList();
                         foreach (var order in OrderBumpsFiltradas)
@@ -564,7 +569,7 @@ namespace EiSorteei.Controllers
                             _Context.SaveChanges();
                         }
                     }
-                    
+
                 }
 
                 Compras NovaCompra = new Compras()
@@ -575,7 +580,7 @@ namespace EiSorteei.Controllers
                     IdCompra = IdCompra,
                     CodigoVendedor = CodigoVendedor,
                     UrlBoleto = UrlBoleto,
-                    ValorCompra = ValorCompra                   
+                    ValorCompra = ValorCompra
                 };
 
                 _Context.Compras.Add(NovaCompra);

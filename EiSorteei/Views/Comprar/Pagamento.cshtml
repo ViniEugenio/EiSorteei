@@ -380,8 +380,8 @@
                             <h3 class="text-center">Valor Total: R$ <span id="ValorTotal">@Model.ValorTotal</span></h3>
                         </div>
 
-                        <div class="bg-danger text-white text-center col-md-12 form-group card" style="height:190px; margin-top:10px;">
-                            <strong style="font-size: 19px; margin-top: 50px;"><span id="QuantidadePessoas">2</span> Pessoas estão escolhendo os seus bilhetes agora. Garanta logo o seu.</strong>
+                        <div class="bg-danger text-white text-center col-md-12 form-group card" style="height:190px; margin-top:10px; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+                            <strong style="font-size: 22px;"><span id="QuantidadePessoas">2</span> Pessoas estão escolhendo os seus bilhetes agora. Garanta logo o seu.</strong>
                         </div>
                     </div>
 
@@ -452,7 +452,7 @@
 
                                     <div class="form-group">
                                         <strong>Código do Vendedor</strong>
-                                        <input type="text" class="form-control" placeholder="Digite o Código do Vendedor" maxlength="8" id="CodigoVendedor" />
+                                        <input type="text" class="form-control" placeholder="Digite o Código do Vendedor" maxlength="8" id="CodigoVendedor" value="@ViewBag.CodVendedor" />
                                         <span class="erro" id="ErroVendedor"></span>
                                         <span class="text-danger">* Caso você tenha adquirido seu bilhete por intermédio de algum vendedor, por favor informe o código do mesmo no campo acima.</span>
                                     </div>
@@ -466,7 +466,7 @@
 
                                         </div>
                                         <div class="col-md-12 text-center">
-                                            <button class="btn btn-success" style="width: 70%; height: 200px; font-size: 40px; border-radius: 115px;" id="EfetuarPagamento">Efetuar Pagamento</button>
+                                            <button class="btn btn-success" style="width: 50%; height: 130px; font-size: 34px; border-radius: 115px;" id="EfetuarPagamento">Efetuar Pagamento</button>
                                         </div>
 
                                     </div>
@@ -1170,7 +1170,7 @@
                                                             xhr.setRequestHeader('Authorization', 'Bearer APP_USR-5017428128263404-072015-ddd04542ab6288891aebac5789addf33-247787081');
                                                         },
                                                         data: dados,
-                                                        success: function (retorno) {                                                           
+                                                        success: function (retorno) {
 
                                                             let CodigoVendedor = $("#CodigoVendedor").val();
 
@@ -1187,7 +1187,7 @@
                                                                         CodigoVendedor: CodigoVendedor,
                                                                         Bilhetes: Bilhetes,
                                                                         UrlBoleto: "",
-                                                                        OrderBumps: OrderBumpsEscolhidos,                                                                        
+                                                                        OrderBumps: OrderBumpsEscolhidos,
                                                                         ValorCompra: ValorTotalFormatado
                                                                     },
                                                                     success: function (data) {
@@ -1561,7 +1561,7 @@
                                         $("#CPFErro").text(retorno.Mensagem);
                                         $("#CPFErro").css("display", "block");
                                     }
-                                   
+
                                 }
 
                             }
@@ -1616,6 +1616,46 @@
                 }
 
 
+
+            });
+
+            $("#CEPLogin").keyup(function () {
+
+                let Value = $(this).val();
+
+                if (Value.length == 9) {
+
+                    $.ajax({
+
+                        url: "@Url.Action("GetLocation","Vendedor")",
+                        method: "POST",
+                        data: { CEP: Value },
+                        success: function (response) {
+
+                            $("#CidadeLogin").val(response.localidade);
+                            $("#BairroLogin").val(response.bairro);
+                            $("#RuaLogin").val(response.logradouro);
+
+                            if (response.uf == "MG") {
+                                $("#EstadoLogin").val("Minas Gerais");
+                            }
+
+                            else if (response.uf == "RJ") {
+                                $("#EstadoLogin").val("Rio de Janeiro");
+                            }
+
+                            else if (response.uf == "SP") {
+                                $("#EstadoLogin").val("São Paulo");
+                            }
+
+                        },
+                        error: function (response) {
+                            console.log(response);
+                        }
+
+                    });
+
+                }
 
             });
 

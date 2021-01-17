@@ -25,7 +25,7 @@ namespace EiSorteei.Areas.Admin.Controllers
         public ActionResult Index()
         {
             Usuario UsuarioLogado = (Usuario)Session["Usuario"];
-            var Produtos = _Context.Produto.Where(p => p.Status && p.IdUsuario.Equals(UsuarioLogado.Id)).ToList();
+            var Produtos = _Context.Produto.Where(p => p.Status).ToList();
             return View(Produtos);
         }
 
@@ -507,6 +507,14 @@ namespace EiSorteei.Areas.Admin.Controllers
 
             return "Aprovado";
 
+        }
+
+
+        public JsonResult CodVendedor()
+        {
+            var Usuario = (Usuario)Session["Usuario"];
+            string CodigoVendedor = _Context.Vendedor.FirstOrDefault(v => v.IdUsuario.Equals(Usuario.Id)).Codigo;
+            return Json(CodigoVendedor);
         }
 
 

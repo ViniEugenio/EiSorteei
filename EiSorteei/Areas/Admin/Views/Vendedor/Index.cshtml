@@ -22,7 +22,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             @Html.LabelFor(model => model.UserImage, htmlAttributes: new { @class = "control-label" })
-                            <input type="file" class="form-control" name="UserImage" placeholder="Selecione uma foto de Usuário"/>
+                            <input type="file" class="form-control" name="UserImage" placeholder="Selecione uma foto de Usuário" />
                             @Html.ValidationMessageFor(model => model.UserImage, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -79,7 +79,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Estado, htmlAttributes: new { @class = "control-label" })
 
-                            <select name="Estado" class="form-control">
+                            <select name="Estado" class="form-control" id="Estado">
 
                                 @foreach (var estado in ViewBag.Estados)
                                 {
@@ -120,7 +120,7 @@
 
                 </div>
 
-                
+
 
                 <div class="row">
 
@@ -189,6 +189,50 @@
     $("#Cpf").mask("000.000.000-00");
     $("#CEP").mask("00000-000");
     $("#Telefone").mask("(00) 00000-0000");
+
+
+
+
+    $("#CEP").keyup(function () {
+
+        let Value = $(this).val();
+
+        if (Value.length == 9) {
+
+            $.ajax({
+
+                url: "@Url.Action("GetLocation","Vendedor")",
+                method: "POST",
+                data: { CEP: Value },
+                success: function (response) {
+
+                    $("#Cidade").val(response.localidade);
+                    $("#Bairro").val(response.bairro);
+                    $("#Rua").val(response.logradouro);
+
+                    if (response.uf == "MG") {
+                        $("#Estado").val("Minas Gerais");
+                    }
+
+                    else if (response.uf == "RJ") {
+                        $("#Estado").val("Rio de Janeiro");
+                    }
+
+                    else if (response.uf == "SP") {
+                        $("#Estado").val("São Paulo");
+                    }
+
+                },
+                error: function (response) {
+                    console.log(response);
+                }
+
+            });
+
+        }
+
+    });
+
 
 
 </script>

@@ -216,6 +216,7 @@
     <Compile Include="Helpers\Estados.cs" />
     <Compile Include="Helpers\FilterLogin.cs" />
     <Compile Include="Helpers\HashPassword.cs" />
+    <Compile Include="Models\CEPViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\MinhasComprasViewModel.cs" />
     <Compile Include="Models\OrderBumpAlterarViewModel.cs" />

@@ -88,15 +88,14 @@
         #Quantidade {
             font-size: 12px !important;
             padding-left: 5px !important;
-            margin-bottom:3px;
+            margin-bottom: 3px;
         }
 
-        #RifasEscolhidas{
-            width:53% !important;
+        #RifasEscolhidas {
+            width: 53% !important;
         }
 
         #RifaEscolhida {
-
             font-size: 13px !important;
             height: 22px !important;
             width: 32px !important;
@@ -305,7 +304,7 @@
                 let numero = $(this);
                 let background = $(this).css("background-color");
 
-                if (background == "rgb(37, 202, 23)") {                    
+                if (background == "rgb(37, 202, 23)") {
 
                     $(this).css("background-color", "#E0C777");
 
@@ -325,13 +324,13 @@
 
                     if (Rifas.length == 0) {
                         $("#Quantidade").slideUp(200);
-                    }                   
+                    }
 
                 }
 
                 else {
                     $(this).css("background-color", "#25CA17");
-                    Rifas.push(numero[0].outerText);                   
+                    Rifas.push(numero[0].outerText);
 
 
                     $("#Quantidade").slideDown(200);
@@ -414,7 +413,7 @@
                     success: function (retorno) {
 
                         if (retorno.Status) {
-                            window.location.href = "@Url.Action("Pagamento","Comprar")";
+                            window.location.href = "@Url.Action("Pagamento","Comprar",new { CodVendedor = ViewBag.CodVendedor })";
                         }
 
 
