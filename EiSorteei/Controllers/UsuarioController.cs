@@ -49,7 +49,8 @@ namespace EiSorteei.Controllers
 
                     if (Session["IdProduto"] != null)
                     {
-                        int produto = (int)Session["IdProduto"];
+                        int produto = Convert.ToInt32(Session["IdProduto"]);
+                        Session["IdProduto"] = null;
                         return RedirectToAction("Index", "Comprar", new { IdProduto = produto });
                     }
 

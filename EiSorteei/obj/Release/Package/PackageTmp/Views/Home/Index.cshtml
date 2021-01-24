@@ -66,7 +66,7 @@
                         <div class="col-lg-6 col-md-6 col-xs-12">
                             <div class="sorteio-item">
                                 <div class="imagem">
-                                    <a href="/sorteio/bmw-320i">
+                                    <a href="@Url.Action("Index","Comprar",new { IdProduto=produto.Id})">
                                         <div class="carousel">
                                             <img style="height:260px;object-fit:cover" class="img-fluid" src="~/Content/ImagemProdutos/@produto.Imagem[0]" loading="lazy" alt="@produto.Nome">
                                         </div>
