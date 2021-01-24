@@ -53,16 +53,25 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/16/2021 21:54:25</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_LayoutAdministrador.cshtml">
-      <publishTime>01/17/2021 19:16:13</publishTime>
+      <publishTime>01/24/2021 00:05:37</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Vendedor/DetalhesVendedor.cshtml">
+      <publishTime>01/24/2021 00:44:35</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Vendedor/Index.cshtml">
       <publishTime>01/20/2021 19:03:35</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Vendedor/MeuPerfil.cshtml">
+      <publishTime>01/24/2021 00:12:39</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Vendedor/MinhasVendas.cshtml">
       <publishTime>01/16/2021 17:41:46</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Vendedor/TodosVendedores.cshtml">
-      <publishTime>01/17/2021 19:18:55</publishTime>
+      <publishTime>01/24/2021 01:21:19</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Vendedor/Vendas.cshtml">
+      <publishTime>01/24/2021 00:48:36</publishTime>
     </File>
     <File Include="Areas/Admin/Views/web.config">
       <publishTime>01/16/2021 17:41:47</publishTime>
@@ -77,10 +86,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/16/2021 17:41:47</publishTime>
     </File>
     <File Include="bin/EiSorteei.dll">
-      <publishTime>01/23/2021 20:14:08</publishTime>
+      <publishTime>01/24/2021 01:49:32</publishTime>
     </File>
     <File Include="bin/EiSorteei.pdb">
-      <publishTime>01/23/2021 20:14:08</publishTime>
+      <publishTime>01/24/2021 01:49:32</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>01/16/2021 17:41:47</publishTime>
@@ -752,40 +761,43 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/20/2021 16:39:15</publishTime>
     </File>
     <File Include="Views/Comprar/Index.cshtml">
-      <publishTime>01/16/2021 23:16:19</publishTime>
+      <publishTime>01/23/2021 23:37:23</publishTime>
     </File>
     <File Include="Views/Comprar/Pagamento.cshtml">
-      <publishTime>01/17/2021 17:34:17</publishTime>
+      <publishTime>01/23/2021 23:54:09</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>01/23/2021 20:03:37</publishTime>
+      <publishTime>01/23/2021 23:29:34</publishTime>
     </File>
     <File Include="Views/Home/Pagamento.cshtml">
-      <publishTime>01/20/2021 18:15:17</publishTime>
+      <publishTime>01/23/2021 20:28:07</publishTime>
+    </File>
+    <File Include="Views/Home/Regulamento.cshtml">
+      <publishTime>01/23/2021 22:07:46</publishTime>
     </File>
     <File Include="Views/Premios/Index.cshtml">
-      <publishTime>01/23/2021 20:04:08</publishTime>
+      <publishTime>01/23/2021 22:55:19</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>01/16/2021 17:41:47</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>01/20/2021 18:28:23</publishTime>
+      <publishTime>01/23/2021 23:47:13</publishTime>
     </File>
     <File Include="Views/Shared/_LayoutComprar.cshtml">
-      <publishTime>01/17/2021 19:24:06</publishTime>
+      <publishTime>01/23/2021 23:47:23</publishTime>
     </File>
     <File Include="Views/Usuario/CadastrarUsuario.cshtml">
-      <publishTime>01/20/2021 19:08:06</publishTime>
+      <publishTime>01/23/2021 22:37:20</publishTime>
     </File>
     <File Include="Views/Usuario/Index.cshtml">
       <publishTime>01/17/2021 19:26:12</publishTime>
     </File>
     <File Include="Views/Usuario/MeuPerfil.cshtml">
-      <publishTime>01/16/2021 17:41:47</publishTime>
+      <publishTime>01/23/2021 22:34:58</publishTime>
     </File>
     <File Include="Views/Usuario/MinhasCompras.cshtml">
-      <publishTime>01/17/2021 19:25:13</publishTime>
+      <publishTime>01/23/2021 23:19:13</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>01/16/2021 17:41:47</publishTime>
@@ -795,6 +807,39 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     </File>
     <File Include="Web.config">
       <publishTime>01/16/2021 17:41:47</publishTime>
+    </File>
+    <File Include="webfiles/css/lity.min.css">
+      <publishTime>01/23/2021 23:17:21</publishTime>
+    </File>
+    <File Include="webfiles/css/tema.min.css">
+      <publishTime>01/23/2021 23:17:21</publishTime>
+    </File>
+    <File Include="webfiles/css/vendor.min.css">
+      <publishTime>01/23/2021 23:17:21</publishTime>
+    </File>
+    <File Include="webfiles/images/loading.svg">
+      <publishTime>01/23/2021 23:17:21</publishTime>
+    </File>
+    <File Include="webfiles/images/whatsapp.svg">
+      <publishTime>01/23/2021 23:17:21</publishTime>
+    </File>
+    <File Include="webfiles/js/custom2.js_v=1.5.7">
+      <publishTime>01/23/2021 23:17:21</publishTime>
+    </File>
+    <File Include="webfiles/js/jquery.countdown.min.js">
+      <publishTime>01/23/2021 23:17:21</publishTime>
+    </File>
+    <File Include="webfiles/js/jquery.min.js">
+      <publishTime>01/23/2021 23:17:21</publishTime>
+    </File>
+    <File Include="webfiles/js/lity.min.js">
+      <publishTime>01/23/2021 23:17:21</publishTime>
+    </File>
+    <File Include="webfiles/js/location.js">
+      <publishTime>01/23/2021 23:17:21</publishTime>
+    </File>
+    <File Include="webfiles/js/vendor.min.js">
+      <publishTime>01/23/2021 23:17:21</publishTime>
     </File>
   </ItemGroup>
 </Project>

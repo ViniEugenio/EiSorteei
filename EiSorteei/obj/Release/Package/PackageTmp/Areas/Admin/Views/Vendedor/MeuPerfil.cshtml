@@ -1,0 +1,102 @@
+﻿@model EiSorteei.Data.Usuario
+@{
+    ViewBag.Title = "Meu Perfil";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdministrador.cshtml";
+}
+
+@using (Html.BeginForm("MeuPerfil", "Vendedor", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(u => u.Status)
+    @Html.HiddenFor(u => u.Email)
+    @Html.HiddenFor(u => u.DataCadastro)
+    @Html.HiddenFor(u => u.DataAtualizacao)
+    @Html.HiddenFor(u => u.Senha)
+    @Html.HiddenFor(u => u.Id)
+    @Html.HiddenFor(u => u.UserImage)
+
+    <div class="card">
+
+        <div class="card-header">
+            <h1>Meu Perfil de Vendedor - @ViewBag.Codigo</h1>
+        </div>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="form-group  col-xs-6">
+                    <label for="">Nome</label>
+                    @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.Nome)
+                </div>
+                <div class="form-group  col-xs-6">
+                    <label for="">SobreNome</label>
+                    @Html.EditorFor(model => model.SobreNome, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.SobreNome)
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-4 col-xs-12">
+                    <label for="">CPF</label>
+                    @Html.EditorFor(model => model.Cpf, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.Cpf)
+                </div>
+                <div class="form-group col-lg-4 col-xs-12">
+                    <label for="">E-mail</label>
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.Email)
+                </div>
+                <div class="form-group col-lg-4 col-xs-12">
+                    <label for="">Telefone</label>
+                    @Html.EditorFor(model => model.Telefone, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.Telefone)
+                </div>
+                <div class="form-group col-lg-4 col-xs-12">
+                    <label for="">CEP</label>
+                    @Html.EditorFor(model => model.CEP, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.CEP)
+                </div>
+                <div class="form-group col-lg-4 col-xs-12">
+                    <label for="">Cidade</label>
+                    @Html.EditorFor(model => model.Cidade, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.Cidade)
+                </div>
+
+                <div class="form-group col-lg-4 col-xs-12">
+                    <label for="">Bairro</label>
+                    @Html.EditorFor(model => model.Bairro, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.Bairro)
+                </div>
+
+                <div class="form-group col-lg-4 col-xs-12">
+                    <label for="">Estado</label>
+                    <select name="Estado" class="form-control" id="Estado">
+                        @foreach (var estado in ViewBag.Estados)
+                        {
+                            <option value="@estado.Initials">@estado.Name</option>
+                        }
+                    </select>
+                    @Html.ValidationMessageFor(m => m.Estado)
+                </div>
+                <div class="form-group col-lg-4 col-xs-12">
+                    <label for="">Rua</label>
+                    @Html.EditorFor(model => model.Rua, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.Rua)
+                </div>
+                <div class="form-group col-lg-4 col-xs-12">
+                    <label for="">Número</label>
+                    @Html.EditorFor(model => model.Numero, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.Numero)
+                </div>
+            </div>
+
+            <div class="row row-flex align-center flex-wrap m-t-2">
+                <div class="col-md-6 col-xs-12 text-xs-right mt-mobile">
+                    <button type="submit" class="btn btn-success">Atualizar Dados</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+}
