@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
@@ -595,6 +596,15 @@ namespace EiSorteei.Areas.Admin.Controllers
 
             return File(Encoding.Default.GetBytes(arquivo.ToString()), "text/csv", "Compras do " + FindedProduto.Nome + ".csv");
 
+        }
+
+
+        public JsonResult GetQrCode(string url)
+        {
+            var request = (HttpWebRequest)WebRequest.Create("https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" + url);
+            var response = (HttpWebResponse)request.GetResponse();
+
+            return Json(response);
         }
     }
 }
