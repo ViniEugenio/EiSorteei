@@ -326,6 +326,16 @@
     <Content Include="Areas\Admin\Views\Shared\_LayoutAdministrador.cshtml" />
     <Content Include="Areas\Admin\Views\Produtos\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Produtos\Create.cshtml" />
+    <Content Include="webfiles\css\lity.min.css" />
+    <Content Include="webfiles\css\tema.min.css" />
+    <Content Include="webfiles\css\vendor.min.css" />
+    <Content Include="webfiles\images\loading.svg" />
+    <Content Include="webfiles\images\whatsapp.svg" />
+    <Content Include="webfiles\js\jquery.countdown.min.js" />
+    <Content Include="webfiles\js\jquery.min.js" />
+    <Content Include="webfiles\js\lity.min.js" />
+    <Content Include="webfiles\js\location.js" />
+    <Content Include="webfiles\js\vendor.min.js" />
     <EntityDeploy Include="Data\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -346,6 +356,9 @@
     <Content Include="Areas\Admin\Views\Produtos\Bilhetes.cshtml" />
     <Content Include="Areas\Admin\Views\Vendedor\MinhasVendas.cshtml" />
     <Content Include="Areas\Admin\Views\Vendedor\TodosVendedores.cshtml" />
+    <Content Include="Areas\Admin\Views\Vendedor\MeuPerfil.cshtml" />
+    <Content Include="Areas\Admin\Views\Vendedor\DetalhesVendedor.cshtml" />
+    <Content Include="Areas\Admin\Views\Vendedor\Vendas.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -435,6 +448,7 @@
     <Content Include="Views\Premios\Index.cshtml" />
     <Content Include="Views\Home\Pagamento.cshtml" />
     <Content Include="Views\Home\Regulamento.cshtml" />
+    <Content Include="webfiles\js\custom2.js_v=1.5.7" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

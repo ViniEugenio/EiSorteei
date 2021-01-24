@@ -5,8 +5,15 @@
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdministrador.cshtml";
 }
 
+<style>
+
+    .body-content {
+        max-width: 1700px;
+    }
+</style>
+
 <div style="display:flex; align-items:center; justify-content:center;">
-    <div class="card" style="width:1200px;">
+    <div class="card" style="width:1500px;">
 
         <div class="card-header">
             <h3 class="text-center">Vendedores Cadastrados</h3>
@@ -30,7 +37,13 @@
                                 Código
                             </th>
                             <th>
+                                Status do Vendedor
+                            </th>
+                            <th>
                                 Data de Cadastro
+                            </th>
+                            <th>
+                                Ações
                             </th>
                         </tr>
                     </thead>
@@ -41,8 +54,23 @@
                                 <td>@produto.Usuario.Nome @produto.Usuario.SobreNome</td>
                                 <td>@produto.Usuario.Email</td>
                                 <td>@produto.Codigo</td>
+                                <td id="Status-@produto.Id"> @(produto.Status?"Ativo":"Bloqueado")</td>
                                 <td>@produto.DataCadastro.Date.Day/@produto.DataCadastro.Date.Month/@produto.DataCadastro.Date.Year</td>
-
+                                <td>
+                                    <button class="@(produto.Status?"btn btn-danger":"btn btn-success") StatusVendendor" id="Vendedor-@produto.Id" data-id="@produto.Id">
+                                        <i class="@(produto.Status?"fa fa-ban":"fa fa-check")" id="Icone-@produto.Id">
+                                        </i>
+                                        @(produto.Status?"Bloquear":"Ativar")
+                                    </button>
+                                    <a class="btn btn-primary" href="@Url.Action("DetalhesVendedor","Vendedor",new { id=produto.IdUsuario})">
+                                        <i class="fa fa-user"></i>
+                                        Dados
+                                    </a>
+                                    <a class="btn btn-success" href="@Url.Action("Vendas","Vendedor",new { IdVendedor = produto.IdUsuario})">
+                                        <i class="fa fa-users"></i>
+                                        Vendas
+                                    </a>
+                                </td>
                             </tr>
 
                         }
@@ -60,3 +88,52 @@
 
     </div>
 </div>
+
+
+@section Scripts{
+
+    <script>
+
+        $(document).ready(function () {
+
+
+            $(".StatusVendendor").click(function () {
+
+
+                var IdVendedor = $(this).attr("data-id");
+
+                $.ajax({
+                    url: "@Url.Action("StatusVendedor","Vendedor")",
+                    data: {
+                        id: IdVendedor
+                    },
+                    method: "POST",
+                    success: function (response) {
+
+
+                        $("#Vendedor-" + IdVendedor).removeClass("btn btn-danger btn btn-success").addClass(response.classe).text(response.text);
+                        $("#Icone-" + IdVendedor).removeClass("fa fa-ban fa fa-check").addClass(response.icone);
+                        $("#Status-" + IdVendedor).text(response.status);
+
+
+                        Swal.fire({
+                            title: 'Status do Vendendor',
+                            text: "Status do Vendendor foi alterado com sucesso!",
+                            icon: 'success',
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            cancelButtonText: 'Não',
+                            confirmButtonText: 'Ok'
+                        })
+
+                    }
+                })
+
+            });
+
+        })
+
+    </script>
+
+}

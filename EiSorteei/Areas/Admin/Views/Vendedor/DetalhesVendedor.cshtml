@@ -1,0 +1,121 @@
+﻿@model EiSorteei.Data.Usuario
+
+@{
+    ViewBag.Title = "Detalhes do Vendedor";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdministrador.cshtml";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h4>Vendedor</h4>
+        <h4>Código do Vendedor:  @ViewBag.Codigo</h4>
+    </div>
+    
+    <dl class="dl-horizontal card-body">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SobreNome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SobreNome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+     
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Estado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Estado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cidade)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cidade)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Bairro)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bairro)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rua)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rua)
+        </dd>
+
+        <dt>
+            Número
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Numero)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cpf)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cpf)
+        </dd>
+
+        <dt>
+           Data de Cadastro
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataCadastro)
+        </dd>
+
+        <dt>
+           Data de Atualização
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataAtualizacao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CEP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CEP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Telefone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Telefone)
+        </dd>
+
+    </dl>
+</div>

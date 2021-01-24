@@ -18,10 +18,11 @@
     <link rel="shortcut icon"
           href="~/Imagens/47635a9c-62a5-49ca-aede-fda744a4b195-removebg-preview.png"
           type="image/x-icon" />
+    <link href="~/Content/tema.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
 
     <style>
 
@@ -195,118 +196,189 @@
 
 <body>
     <header>
-        <nav class="navbar" id="desk" style="text-align:center;">
-            <span class="navbar-toggle js-navbar-toggle">
-                <i class="fa fa-bars"></i>
-            </span>
-            <ul class="main-nav js-menu">
-                <li>
-                    <a href="@Url.Action("Index","Home")">
-                        <img src="~/Imagens/Cópia de Logo Verde e Branco de Curso Preparatório (1).png" alt="Logo do Site" id="brand" style="width:80%;" />
-                    </a>
-                </li>
-            </ul>
-            <ul class="main-nav js-menu" style="margin: 0 10px auto;">
-                <li class="nav-item" style="margin-top:30px;">
-                    <a class="nav-link" href="@Url.Action("Index","Home")" style="color:#fff;">Home</a>
-                </li>
-                <li class="nav-item" style="margin-top:30px;">
-                    <a class="nav-link" href="@Url.Action("Index","Premios")" style="color:#fff;">Prêmios</a>
-                </li>
-                <li class="nav-item" style="margin-top:30px;">
-                    <a class="nav-link" href="#" style="color:#fff;">Regulamento</a>
-                </li>
-                @if (Session["Usuario"] == null)
-                {
-                    <li class="nav-item" style="margin-top:30px;">
-                        <a class="nav-link" href="/Admin/Vendedor/" style="color:#fff;">Seja um vendedor</a>
-                    </li>
-                }
-            </ul>
-            <div>
-                @if (Session["Usuario"] != null)
-                {
-                    <span class="nav-link MeuPerfil" style="color:white; cursor:pointer; margin-right: 50px;">@(Usuario!=null?Usuario.Nome:"Login") <i class="fa fa-caret-down"></i></span>
-                    <div class="dropdown" style="display: none;background: #000000;padding: 9px;border-radius: 10px;margin-top: 10px; z-index:1; position:fixed;">
-                        <ul style="list-style-type: none;">
-                            <li style="margin-top:30px;">
-                                <a class="nav-link" href="@Url.Action("MeuPerfil","Usuario")" style="color:white;">Meu Perfil</a>
+        @using (Html.BeginForm("Index", "Usuario", FormMethod.Post, new { @class = "box-login" }))
+        {
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="redirect_url" value="http://www.ppremios.com/">
+            <div class="close-content">
+                <button type="button" onclick="closeLogin()">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+            <div class="form-group">
+                <input type="text" required class="form-control" name="Email" placeholder="E-mail">
+                <i class="fa fa-user"></i>
+            </div>
+            <div class="form-group">
+                <input type="password" required class="form-control" name="Senha" placeholder="Sua Senha">
+                <i class="fa fa-lock"></i>
+            </div>
+            <div class="action text-xs-center" style="margin-bottom:5px">
+                <a href="#" data-toggle="modal" data-target="#modal-esqueceu" class="esqueceu font-weight-bold">
+                    Esqueceu a
+                    senha?
+                </a>
+            </div>
+            <div class="content-btn">
+                <button type="submit" class="btn">
+                    Entrar
+                </button>
+            </div>
+        }
+
+        @*<form style="z-index:22" method="POST" onsubmit="@Url.Action("Index","Usuario")" class="box-login">
+            </form>*@
+        <div class="header-top">
+            <div class="container">
+                <div class="row row-flex align-center flex-wrap">
+                    <div class="col-md-5 col-xs-12">
+                        <ul class="list-redes">
+                            <li>
+                                <a href="https://www.instagram.com/ei_sorteei/" target="_blank">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
                             </li>
-                            <li style="margin-top:30px;">
-                                <a class="nav-link" href="@Url.Action("MinhasCompras","Usuario")" style="color:white;">Minhas Compras</a>
+                            <li>
+                                <a href="https://www.facebook.com/Ei-Sorteei-109594700891331/?view_public_for=109594700891331" target="_blank">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
                             </li>
-                            <li style="margin-top:30px;">
-                                <a class="nav-link" href="@Url.Action("Logout","Usuario")" style="color:white;">Sair</a>
+                            <li>
+                                <a href="https://api.whatsapp.com/send?phone=5524999583321" target="_blank">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
                             </li>
                         </ul>
                     </div>
-                }
-
-                else
-                {
-                    <a class="nav-link" style="color:white; cursor:pointer; margin-right: 50px;" href="@Url.Action("Index","Usuario")">Login</a>
-                }
-
-            </div>
-        </nav>
-
-        <nav class="navbar" id="mobile" style="text-align:center;">
-            <span class="navbar-toggle js-navbar-toggle">
-                <i class="fa fa-bars"></i>
-            </span>
-            <ul class="main-nav js-menu">
-                <li>
-                    <a href="@Url.Action("Index","Home")">
-                        <img src="~/Imagens/Cópia de Logo Verde e Branco de Curso Preparatório (1).png" alt="Logo do Site" id="brand" style="width:80%;" />
-                    </a>
-                </li>
-            </ul>
-            <ul class="main-nav js-menu" style="margin: 0 10px auto;">
-                <li class="nav-item" style="margin-top:30px;">
-                    <a class="nav-link" href="@Url.Action("Index","Home")" style="color:#fff;">Home</a>
-                </li>
-                <li class="nav-item" style="margin-top:30px;">
-                    <a class="nav-link" href="@Url.Action("Index","Premios")" style="color:#fff;">Prêmios</a>
-                </li>
-                <li class="nav-item" style="margin-top:30px;">
-                    <a class="nav-link" href="#" style="color:#fff;">Regulamento</a>
-                </li>
-                @if (Session["Usuario"] == null)
-                {
-                    <li class="nav-item" style="margin-top:30px;">
-                        <a class="nav-link" href="/Admin/Vendedor/" style="color:#fff;">Seja um vendedor</a>
-                    </li>
-                }
-            </ul>
-            <div>
-                @if (Session["Usuario"] != null)
-                {
-                    <span class="nav-link MeuPerfil" style="color:white; cursor:pointer; margin-right: 50px;">@(Usuario!=null?Usuario.Nome:"Login") <i class="fa fa-caret-down"></i></span>
-                    <div class="dropdown" style="display: none;background: #000000;padding: 9px;border-radius: 10px;margin-top: 10px; z-index:1; position:fixed;">
-                        <ul style="list-style-type: none;">
-                            <li style="margin-top:30px;">
-                                <a class="nav-link" href="@Url.Action("MeuPerfil","Usuario")" style="color:white;">Meu Perfil</a>
-                            </li>
-                            <li style="margin-top:30px;">
-                                <a class="nav-link" href="@Url.Action("MinhasCompras","Usuario")" style="color:white;">Minhas Compras</a>
-                            </li>
-                            <li style="margin-top:30px;">
-                                <a class="nav-link" href="@Url.Action("Logout","Usuario")" style="color:white;">Sair</a>
-                            </li>
-                        </ul>
+                    <div class="col-md-7 col-xs-12">
+                        <p>FILANTROPIA PREMIÁVEL REGULAMENTADA NA LEI FEDERAL Nº 13.019/14 ART. 84 B, 84 C</p>
                     </div>
-                }
-
-                else
-                {
-                    <a class="nav-link" style="color:white; cursor:pointer; margin-right: 50px;" href="@Url.Action("Index","Usuario")">Login</a>
-                }
-
+                </div>
             </div>
-        </nav>
+        </div>
+        <div class="header-main">
+            <div class="container">
+                <div class="row row-flex flex-wrap align-center" style="width:120%;;">
+                    <div class="col-lg-2 col-md-6 col-xs-6">
+                        <a href="/">
+                            <img class="logo" src="~/Imagens/Cópia de Logo Verde e Branco de Curso Preparatório (1).png" alt="P Prêmios - Acredite na sorte ajudando quem precisa.">
+                        </a>
+                    </div>
+                    <div class="col-lg-10 col-md-6 col-xs-6 row-flex justify-end flex-wrap">
+                        <ul class="list-menus">
+                            <li>
+                                <a href="@Url.Action("Index","Home")" class="">
+                                    Home
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index","Premios")" class="" href="#">
+                                    Sorteios
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Pagamento","Home")" class="" href="#">
+                                    Como Pagar
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Regulamento","Home")" class="" href="#">
+                                    Regulamento
+                                </a>
+                            </li>
 
+                        </ul><button class="menu-anchor" type="button">
+                            <i class="fa fa-bars"></i>
+                        </button>
 
+                        @if (Session["Usuario"] == null)
+                        {
+                            <div class="actions">
+                                <a href="javascript:void(0)" id="FazerLogin">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                    Login
+                                </a>
+                                <a href="@Url.Action("CadastrarUsuario","Usuario")">
+                                    <i class="fa fa-user-plus"></i>
+                                    Cadastre-se
+                                </a>
+                            </div>
+                        }
+
+                        else
+                        {
+                            <div class="actions">
+                                <a href="@Url.Action("MeuPerfil","Usuario")" style=" padding: 5px;">
+                                    <i class="fas fa-user"></i>
+                                    Meu Perfil
+                                </a>
+                                <a href="@Url.Action("MinhasCompras","Usuario")" style=" padding: 5px;">
+                                    <i class="fas fa-dollar-sign"></i>
+                                    Minhas Compras
+                                </a>
+                                <a href="@Url.Action("Logout","Usuario")" style=" padding: 5px;">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                    Sair
+                                </a>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </header>
+    <menu class="">
+        <div class="buttons">
+            <a class="btn" href="javascript:void(0)" onclick="openLogin(this)">
+                <i class="fas fa-sign-in-alt"></i>
+                Login
+            </a>
+            <a class="btn" href="/cadastro">
+                <i class="fa fa-user-plus"></i>
+                Cadastre-se
+            </a>
+        </div>
+        <ul class="list-menus">
+            <li>
+                <a href="@Url.Action("Index","Home")" class="" href="#">
+                    Home
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index","Premios")" class="" href="#">
+                    Sorteios
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Pagamento","Home")" class="" href="#">
+                    Como Pagar
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Regulamento","Home")" class="" href="#">
+                    Regulamento
+                </a>
+            </li>
+        </ul>
+        <ul class="list-redes">
+            <li>
+                <a href="https://www.instagram.com/ei_sorteei/" target="_blank">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.facebook.com/Ei-Sorteei-109594700891331/?view_public_for=109594700891331" target="_blank">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://api.whatsapp.com/send?phone=5524999583321" target="_blank">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+            </li>
+        </ul>
+    </menu>
 
     @RenderBody()
 
@@ -502,6 +574,12 @@
 
     $(".MeuPerfil").click(function () {
         $(".dropdown").toggle();
+    });
+
+    $("#FazerLogin").click(function () {
+
+        $(".box-login").toggleClass('show');
+
     });
 
 </script>

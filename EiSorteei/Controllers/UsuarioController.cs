@@ -47,6 +47,12 @@ namespace EiSorteei.Controllers
                         return RedirectToAction("Index", "Comprar", new { IdProduto = IdProduto });
                     }
 
+                    if (Session["IdProduto"] != null)
+                    {
+                        int produto = (int)Session["IdProduto"];
+                        return RedirectToAction("Index", "Comprar", new { IdProduto = produto });
+                    }
+
                     return RedirectToAction("Index", "Home");
                 }
 
@@ -141,7 +147,7 @@ namespace EiSorteei.Controllers
         {
             ViewBag.Estados = Estados.GetAllStates();
 
-            if (model.Cpf!=null && !Valida(model.Cpf))
+            if (model.Cpf != null && !Valida(model.Cpf))
             {
                 ModelState.AddModelError("Cpf", "O CPF digitado não é válido!");
             }
@@ -337,7 +343,7 @@ namespace EiSorteei.Controllers
 
                     List<OrderBumpsEscolhidosViewModel> Orders = new List<OrderBumpsEscolhidosViewModel>();
 
-                    foreach(IGrouping<long,OrderBump> order in OrderBumps)
+                    foreach (IGrouping<long, OrderBump> order in OrderBumps)
                     {
                         OrderBump FindedOrder = _Context.OrderBump.FirstOrDefault(o => o.Id.Equals(order.Key));
 
@@ -347,7 +353,7 @@ namespace EiSorteei.Controllers
                             Nome = FindedOrder.Nome,
                             Descricao = FindedOrder.Descricao,
                             Imagem = FindedOrder.Imagem,
-                            NumerosRifas = _Context.BilhetesCarrinho.Join(_Context.OrderBumpsEscolhidos.Where(o=>o.IdOrderBump.Equals(FindedOrder.Id)),b=>b.Id,o=>o.IdBilhete,(b,o)=>b).Where(b=>b.IdCarrinho.Equals(carrinho.Id)).Select(b=>b.NumeroBilhete).ToList()
+                            NumerosRifas = _Context.BilhetesCarrinho.Join(_Context.OrderBumpsEscolhidos.Where(o => o.IdOrderBump.Equals(FindedOrder.Id)), b => b.Id, o => o.IdBilhete, (b, o) => b).Where(b => b.IdCarrinho.Equals(carrinho.Id)).Select(b => b.NumeroBilhete).ToList()
                         };
 
                         Orders.Add(NewOrder);
@@ -360,11 +366,11 @@ namespace EiSorteei.Controllers
                         DataCompra = carrinho.Compras.First().DataCompra,
                         Status = FormataStatus(carrinho.Compras.First().Status),
                         UrlBoleto = string.IsNullOrEmpty(carrinho.Compras.First().UrlBoleto) ? "" : carrinho.Compras.First().UrlBoleto,
-                        ValorCompra = "R$ " + carrinho.Compras.First().ValorCompra.Replace('.',','),
+                        ValorCompra = "R$ " + carrinho.Compras.First().ValorCompra.Replace('.', ','),
                         OrderBumps = Orders,
                         Bilhetes = Bilhetes,
                         Premio = FindedProduto,
-                        Multimidia = _Context.Multimidia.Where(m => m.IdProduto.Equals(FindedProduto.Id) && m.Status).ToList(),                        
+                        Multimidia = _Context.Multimidia.Where(m => m.IdProduto.Equals(FindedProduto.Id) && m.Status).ToList(),
                     };
 
                     MinhasCompras.Add(data);

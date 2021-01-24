@@ -33,12 +33,17 @@
         }
     </style>
     <link href="~/Content/tema.min.css" rel="stylesheet" />
-
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous">
 
 </head>
 <body>
     <header>
-        <form style="z-index:22" method="POST" onsubmit="si.postForm(this,'login');return false" class="box-login">
+        @using (Html.BeginForm("Index", "Usuario", FormMethod.Post, new { @class = "box-login" }))
+        {
+            @Html.AntiForgeryToken()
             <input type="hidden" name="redirect_url" value="http://www.ppremios.com/">
             <div class="close-content">
                 <button type="button" onclick="closeLogin()">
@@ -46,11 +51,11 @@
                 </button>
             </div>
             <div class="form-group">
-                <input type="text" required class="form-control" name="usuario" placeholder="E-mail, login ou CPF">
+                <input type="text" required class="form-control" name="Email" placeholder="E-mail">
                 <i class="fa fa-user"></i>
             </div>
             <div class="form-group">
-                <input type="password" required class="form-control" name="senha" placeholder="Sua Senha">
+                <input type="password" required class="form-control" name="Senha" placeholder="Sua Senha">
                 <i class="fa fa-lock"></i>
             </div>
             <div class="action text-xs-center" style="margin-bottom:5px">
@@ -64,7 +69,10 @@
                     Entrar
                 </button>
             </div>
-        </form>
+        }
+
+        @*<form style="z-index:22" method="POST" onsubmit="@Url.Action("Index","Usuario")" class="box-login">
+            </form>*@
         <div class="header-top">
             <div class="container">
                 <div class="row row-flex align-center flex-wrap">
@@ -81,7 +89,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="https://api.whatsapp.com/send?phone=5581994283030" target="_blank">
+                                <a href="https://api.whatsapp.com/send?phone=5524999583321" target="_blank">
                                     <i class="fab fa-whatsapp"></i>
                                 </a>
                             </li>
@@ -95,7 +103,7 @@
         </div>
         <div class="header-main">
             <div class="container">
-                <div class="row row-flex flex-wrap align-center">
+                <div class="row row-flex flex-wrap align-center" style="width:120%;;">
                     <div class="col-lg-2 col-md-6 col-xs-6">
                         <a href="/">
                             <img class="logo" src="~/Imagens/Cópia de Logo Verde e Branco de Curso Preparatório (1).png" alt="P Prêmios - Acredite na sorte ajudando quem precisa.">
@@ -123,19 +131,43 @@
                                     Regulamento
                                 </a>
                             </li>
+
                         </ul><button class="menu-anchor" type="button">
                             <i class="fa fa-bars"></i>
                         </button>
-                        <div class="actions">
-                            <a href="javascript:void(0)" onclick="openLogin(this)">
-                                <i class="fas fa-sign-in-alt"></i>
-                                Login
-                            </a>
-                            <a href="@Url.Action("CadastrarUsuario","Usuario")">
-                                <i class="fa fa-user-plus"></i>
-                                Cadastre-se
-                            </a>
-                        </div>
+
+                        @if (Session["Usuario"] == null)
+                        {
+                            <div class="actions">
+                                <a href="javascript:void(0)" id="FazerLogin">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                    Login
+                                </a>
+                                <a href="@Url.Action("CadastrarUsuario","Usuario")">
+                                    <i class="fa fa-user-plus"></i>
+                                    Cadastre-se
+                                </a>
+                            </div>
+                        }
+
+                        else
+                        {
+                            <div class="actions">
+                                <a href="@Url.Action("MeuPerfil","Usuario")" style=" padding: 5px;">
+                                    <i class="fas fa-user"></i>
+                                    Meu Perfil
+                                </a>
+                                <a href="@Url.Action("MinhasCompras","Usuario")" style=" padding: 5px;">
+                                    <i class="fas fa-dollar-sign"></i>
+                                    Minhas Compras
+                                </a>
+                                <a href="@Url.Action("Logout","Usuario")" style=" padding: 5px;">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                    Sair
+                                </a>
+                            </div>
+                        }
+
                     </div>
                 </div>
             </div>
@@ -194,6 +226,65 @@
     </menu>
 
     @RenderBody()
+    @RenderSection("Scripts", required: false)
+
+    <footer>
+        <div class="footer-main">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="texto-footer" style="word-break:break-word">
+                            <p style="text-align:justify">A <strong>Ei Sorteei</strong> &eacute; um site de sorteios, da Modalidade Filantropia Premi&aacute;vel regulamentada na Lei Federal n. 13.019/14 art. 84 b , 84 c.</p>
+                            <p style="text-align:justify"><strong>Comprando com a PPr&ecirc;mios</strong> voc&ecirc; ir&aacute; contribuir para o desenvolvimento e custeio de diversas entidades&nbsp;filantr&oacute;picas. A PPremios &eacute; subsidi&aacute;ria da&nbsp;<strong>MP5 MARKETING E CONSULTORIA LTDA </strong>inscrita no&nbsp;CNPJ:. <strong>30.439.054/0001-19</strong>, com atua&ccedil;&atilde;o em todo territ&oacute;rio nacional de forma digital.</p>
+                            <p style="text-align:justify">
+                                Consulte regulamento&nbsp;<a href="@Url.Action("Regulamento","")">Clicando Aqui</a><br />
+                                <strong>Proibido a venda&nbsp;para menores de 18 anos</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-t-1">
+                    <div class="col-md-4 center-mobile col-xs-12">
+                        <h4>Redes Sociais:</h4>
+                        <ul class="list-redes">
+                            <li>
+                                <a href="https://www.instagram.com/ei_sorteei/" target="_blank">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.facebook.com/Ei-Sorteei-109594700891331/?view_public_for=109594700891331" target="_blank">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://api.whatsapp.com/send?phone=5524999583321" target="_blank">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    @*<div class="col-md-4 center-mobile col-xs-12 mt-mobile">
+                        <h4>Formas de Pagamento:</h4>
+                        <img class="lazy img-fluid" data-src="https://www.ppremios.com/portal/img/crop?img=9275b348e02a0ff51325231f3f30acf0.png&" alt="Formas de Pagamento:">
+                    </div>
+                    <div class="col-md-4 center-mobile col-xs-12 mt-mobile">
+                        <h4>Segurança:</h4>
+                        <img class="lazy img-fluid" data-src="https://www.ppremios.com/portal/img/crop?img=c7566a39720e042f5e8d3aeaa304b637.png&" alt="Segurança:">
+                    </div>*@
+                </div>
+            </div>
+        </div>
+        <div class="footer-copy">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <p> ©2020 Todos os direitos reservados. CNPJ: 30.439.054/0001-19</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <link href="~/Content/vendor.min.css" rel="stylesheet" />
@@ -235,6 +326,20 @@
     });
 
         $("#datasorteio").mask("00/00/0000");
+
+        $("#FazerLogin").click(function () {
+
+            $(".box-login").toggleClass('show');
+
+        });
+
+        $(".ExibirOrderBumps").click(function () {
+
+            let id = $(this).attr("data-id");
+            $(".OrderBumpsDados-" + id).toggle(200);
+
+
+        });
     </script>
 
 

@@ -35,6 +35,8 @@ namespace EiSorteei.Controllers
             {
                 var Produto = _Context.Produto.FirstOrDefault(p => p.Id == IdProduto);
 
+                Session["IdProduto"] = IdProduto;
+
                 if (Produto == null)
                 {
                     return RedirectToAction("Index");

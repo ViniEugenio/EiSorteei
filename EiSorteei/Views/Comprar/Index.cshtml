@@ -116,165 +116,168 @@
     }
 </style>
 
-
-<section class="blog-container" style="padding-bottom:0;">
-    <div class="center">
-        <div class="upper-box">
-            <h1>Escolha os números dos seus Bilhetes e boa sorte</h1>
+<div class="main">
+    <section class="blog-container" style="padding-bottom:0;">
+        <div class="center">
+            <div class="upper-box">
+                <h1>Escolha os números dos seus Bilhetes e boa sorte</h1>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<section style="z-index:0;">
+    <section style="z-index:0;">
 
-    @if (Model.Video != null)
-    {
-        <div class="form-group" style="margin-top:20px;" align="center">
-            <button class="btn btn-default" id="btnImagens" style="background-color: #E0C777; margin-top:10px;"><i class="fas fa-images"></i> Imagens</button>
-            <button class="btn btn-default" id="btnVideo" style="margin-top: 10px;"><i class="fas fa-video"></i> Vídeo</button>
-        </div>
-    }
-
-    <div class="carousel form-group" align="center" style="margin-top:20px; z-index:0;" id="Imagens">
-
-        @foreach (var x in ViewBag.Imagens)
+        @if (Model.Video != null)
         {
-            <div><img src="~/Content/ImagemProdutos/@x.Caminho" alt="Imagem do Produto" style="width:30%;" class="imagem_produto" /></div>
+            <div class="form-group" style="margin-top:20px;" align="center">
+                <button class="btn btn-default" id="btnImagens" style="background-color: #E0C777; margin-top:10px;"><i class="fas fa-images"></i> Imagens</button>
+                <button class="btn btn-default" id="btnVideo" style="margin-top: 10px;"><i class="fas fa-video"></i> Vídeo</button>
+            </div>
         }
 
-    </div>
+        <div class="carousel form-group" align="center" style="margin-top:20px; z-index:0;" id="Imagens">
 
-    @if (Model.Video != null)
-    {
-        <div class="form-group" align="center" style="margin-top:20px; display:none;" id="Video">
-            <div align="center" class="form-group">
-                <video controls style="width:70%;">
-                    <source src="~/Content/VideoProdutos/@Model.Video" type="video/mp4">
-                </video>
-            </div>
-        </div>
-    }
+            @foreach (var x in ViewBag.Imagens)
+            {
+                <div><img src="~/Content/ImagemProdutos/@x.Caminho" alt="Imagem do Produto" style="width:30%;" class="imagem_produto" /></div>
+            }
 
-
-
-</section>
-
-<div class="informacoes">
-
-    <div align="center" id="Arrows">
-        <i class="fas fa-chevron-left fa-2x" id="prev"></i>
-        <i class="fas fa-chevron-right fa-2x" id="next"></i>
-    </div>
-
-    <h5 align="center">Informações Importante</h5>
-    <p align="center">Confira abaixo as formas de pagamento, regras, contatos e tudo sobre o sorteio</p>
-
-    <div class="form-group text-center">
-        <button class="btn btn-default" id="btnInformacoes" style="background-color: #E0C777; margin-top:10px;"><i class="fas fa-info"></i> Informações do Item</button>
-        <button class="btn btn-default" id="btnDadosPagamento" style="margin-top: 10px;"><i class="fas fa-search-dollar"></i> Dados de Pagamento</button>
-        <button class="btn btn-default" id="btnRegulamento" style="margin-top: 10px;"><i class="fas fa-cogs"></i> Regulamento/Descrição</button>
-        <button class="btn btn-default" id="btnContato" style="margin-top: 10px;"><i class="fas fa-envelope"></i> Contato</button>
-    </div>
-
-    <div id="DadosPagamento" class="box_premio" style="display:none;">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ut nisl non ligula auctor faucibus. Vestibulum ante ipsum primis in
-        faucibus orci luctus et ultrices posuere cubilia curae; Morbi vitae turpis at purus viverra finibus. Sed suscipit orci lacus, in volutpat sapien
-        tincidunt ut. In hac habitasse platea dictumst. Aliquam laoreet aliquet odio, vel finibus risus. Orci varius natoque penatibus et magnis dis parturient montes,
-        nascetur ridiculus mus. Fusce tincidunt leo in tortor fringilla, sed pretium lorem sodales. Nam finibus volutpat mattis. Morbi gravida at justo vitae pulvinar.
-        Vivamus sed leo sed quam mattis euismod sit amet non velit.
-    </div>
-
-    <div id="Regulamento" style="display:none;" class="box_premio">
-        <div style="margin-left:30px;">
-            @Html.Raw(Model.Descricao)
         </div>
 
-    </div>
-
-    <div id="InformacoesItem" class="box_premio row text-center">
-        <div class="col-md-12 text-center form-group">
-            <h3><i class="fas fa-trophy"></i> Prêmio: @Model.Nome</h3>
-            <h4><i class="fas fa-tags"></i> Categoria: @ViewBag.Categoria</h4>
-        </div>
-        <div class="col-md-4 form-group">
-            <strong>Valor Unitário: R$ @Math.Round(Model.ValorRifa, 2)</strong>
-        </div>
-        <div class="col-md-4 form-group">
-            <strong>Total: @Model.RangeCodigo</strong>
-        </div>
-        <div class="col-md-4 form-group">
-            <strong><i class="fas fa-hourglass-start"></i> Reservados/Comprados: @BilhetesIndisponiveis</strong>
-        </div>
-
-        <div class="col-md-4 form-group">
-            <strong><i class="fas fa-calendar"></i> Data do Sorteio: @Model.DataSorteio.Value.ToString("dd/MM/yyyy")</strong>
-        </div>
-
-        <div class="col-md-4 form-group">
-            <strong><i class="fas fa-map-marker-alt"></i> Cidade: @Usuario.Cidade</strong>
-        </div>
-
-        <div class="col-md-4 form-group">
-            <strong><i class="far fa-map"></i> Estado: @Usuario.Estado</strong>
-        </div>
-
-    </div>
-
-    <div id="Contato" style="display:none;" class="box_premio text-center">
-
-        <p><i class="fas fa-envelope"></i> <strong>Email: @Usuario.Email</strong></p>
-
-        <p><i class="fas fa-phone"></i> <strong>Telefone: @Usuario.Telefone</strong></p>
-
-    </div>
-
-    <div style="display:flex; flex-direction:row; align-items:center; justify-content:center; width:20%; margin:auto; margin-bottom:50px;">
-        <div style="margin:auto; width:100%; margin-right:20px; display:flex; flex-direction:column;">
-            <strong class="text-center">Comprados</strong>
-            <div class="NumeroRifa" style="height:40px; width:100%; background-color:red;">
-                <span id="CountComprados">@ViewBag.CountComprados</span>
-            </div>
-        </div>
-
-        <div style="margin:auto; width:100%; margin-right:20px; display:flex; flex-direction:column;">
-            <strong class="text-center">Reservados</strong>
-            <div class="NumeroRifa" style="height:40px; width:100%; background-color:gray;">
-                <span id="CountReservados">@ViewBag.BilhetesReservados.Length</span>
-            </div>
-        </div>
-
-        <div style="margin: auto; width: 100%; margin-right: 20px; display: flex; flex-direction: column;">
-            <strong class="text-center">Selecionados</strong>
-            <div class="NumeroRifa" style="height:40px; width:100%; background-color:rgb(37, 202, 23);">
-                <span id="CountSelecionados">0</span>
-            </div>
-        </div>
-
-    </div>
-
-    <div id="Rifas" class="row">
-
-        @for (int x = 1; x <= Model.RangeCodigo; x++)
+        @if (Model.Video != null)
         {
-            if (Comprados.Contains(x.ToString()))
-            {
-                <span class="NumeroRifa" data-numero="@x" style="background-color:red;">@x</span>
-            }
-
-            else if (Reservados.Contains(x.ToString()))
-            {
-                <span class="NumeroRifa" data-numero="@x" style="background-color:gray;">@x</span>
-            }
-
-            else
-            {
-                <span class="NumeroRifa Comprar" data-numero="@x" id="RifaNumero-@x">@x</span>
-            }
-
+            <div class="form-group" align="center" style="margin-top:20px; display:none;" id="Video">
+                <div align="center" class="form-group">
+                    <video controls style="width:70%;">
+                        <source src="~/Content/VideoProdutos/@Model.Video" type="video/mp4">
+                    </video>
+                </div>
+            </div>
         }
 
+
+
+    </section>
+
+    <div class="informacoes">
+
+        <div align="center" id="Arrows">
+            <i class="fas fa-chevron-left fa-2x" id="prev"></i>
+            <i class="fas fa-chevron-right fa-2x" id="next"></i>
+        </div>
+
+        <h5 align="center">Informações Importante</h5>
+        <p align="center">Confira abaixo as formas de pagamento, regras, contatos e tudo sobre o sorteio</p>
+
+        <div class="form-group text-center">
+            <button class="btn btn-default" id="btnInformacoes" style="background-color: #E0C777; margin-top:10px;"><i class="fas fa-info"></i> Informações do Item</button>
+            <button class="btn btn-default" id="btnDadosPagamento" style="margin-top: 10px;"><i class="fas fa-search-dollar"></i> Dados de Pagamento</button>
+            <button class="btn btn-default" id="btnRegulamento" style="margin-top: 10px;"><i class="fas fa-cogs"></i> Regulamento/Descrição</button>
+            <button class="btn btn-default" id="btnContato" style="margin-top: 10px;"><i class="fas fa-envelope"></i> Contato</button>
+        </div>
+
+        <div id="DadosPagamento" class="box_premio" style="display:none;">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ut nisl non ligula auctor faucibus. Vestibulum ante ipsum primis in
+            faucibus orci luctus et ultrices posuere cubilia curae; Morbi vitae turpis at purus viverra finibus. Sed suscipit orci lacus, in volutpat sapien
+            tincidunt ut. In hac habitasse platea dictumst. Aliquam laoreet aliquet odio, vel finibus risus. Orci varius natoque penatibus et magnis dis parturient montes,
+            nascetur ridiculus mus. Fusce tincidunt leo in tortor fringilla, sed pretium lorem sodales. Nam finibus volutpat mattis. Morbi gravida at justo vitae pulvinar.
+            Vivamus sed leo sed quam mattis euismod sit amet non velit.
+        </div>
+
+        <div id="Regulamento" style="display:none;" class="box_premio">
+            <div style="margin-left:30px;">
+                @Html.Raw(Model.Descricao)
+            </div>
+
+        </div>
+
+        <div id="InformacoesItem" class="box_premio row text-center">
+            <div class="col-md-12 text-center form-group">
+                <h3><i class="fas fa-trophy"></i> Prêmio: @Model.Nome</h3>
+                <h4><i class="fas fa-tags"></i> Categoria: @ViewBag.Categoria</h4>
+            </div>
+            <div class="col-md-4 form-group">
+                <strong>Valor Unitário: R$ @Math.Round(Model.ValorRifa, 2)</strong>
+            </div>
+            <div class="col-md-4 form-group">
+                <strong>Total: @Model.RangeCodigo</strong>
+            </div>
+            <div class="col-md-4 form-group">
+                <strong><i class="fas fa-hourglass-start"></i> Reservados/Comprados: @BilhetesIndisponiveis</strong>
+            </div>
+
+            <div class="col-md-4 form-group">
+                <strong><i class="fas fa-calendar"></i> Data do Sorteio: @Model.DataSorteio.Value.ToString("dd/MM/yyyy")</strong>
+            </div>
+
+            <div class="col-md-4 form-group">
+                <strong><i class="fas fa-map-marker-alt"></i> Cidade: @Usuario.Cidade</strong>
+            </div>
+
+            <div class="col-md-4 form-group">
+                <strong><i class="far fa-map"></i> Estado: @Usuario.Estado</strong>
+            </div>
+
+        </div>
+
+        <div id="Contato" style="display:none;" class="box_premio text-center">
+
+            <p><i class="fas fa-envelope"></i> <strong>Email: @Usuario.Email</strong></p>
+
+            <p><i class="fas fa-phone"></i> <strong>Telefone: @Usuario.Telefone</strong></p>
+
+        </div>
+
+        <div style="display:flex; flex-direction:row; align-items:center; justify-content:center; width:20%; margin:auto; margin-bottom:50px;">
+            <div style="margin:auto; width:100%; margin-right:20px; display:flex; flex-direction:column;">
+                <strong class="text-center">Comprados</strong>
+                <div class="NumeroRifa" style="height:40px; width:100%; background-color:red;">
+                    <span id="CountComprados">@ViewBag.CountComprados</span>
+                </div>
+            </div>
+
+            <div style="margin:auto; width:100%; margin-right:20px; display:flex; flex-direction:column;">
+                <strong class="text-center">Reservados</strong>
+                <div class="NumeroRifa" style="height:40px; width:100%; background-color:gray;">
+                    <span id="CountReservados">@ViewBag.BilhetesReservados.Length</span>
+                </div>
+            </div>
+
+            <div style="margin: auto; width: 100%; margin-right: 20px; display: flex; flex-direction: column;">
+                <strong class="text-center">Selecionados</strong>
+                <div class="NumeroRifa" style="height:40px; width:100%; background-color:rgb(37, 202, 23);">
+                    <span id="CountSelecionados">0</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="Rifas" class="row">
+
+            @for (int x = 1; x <= Model.RangeCodigo; x++)
+            {
+                if (Comprados.Contains(x.ToString()))
+                {
+                    <span class="NumeroRifa" data-numero="@x" style="background-color:red;">@x</span>
+                }
+
+                else if (Reservados.Contains(x.ToString()))
+                {
+                    <span class="NumeroRifa" data-numero="@x" style="background-color:gray;">@x</span>
+                }
+
+                else
+                {
+                    <span class="NumeroRifa Comprar" data-numero="@x" id="RifaNumero-@x">@x</span>
+                }
+
+            }
+
+        </div>
     </div>
 </div>
+
+
 
 
 @section Scripts{
