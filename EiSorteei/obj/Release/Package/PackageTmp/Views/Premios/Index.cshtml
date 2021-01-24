@@ -1,41 +1,264 @@
 ﻿@model IEnumerable<EiSorteei.Models.ProdutoHomeViewModel>
 
-@{
-    ViewBag.Title = "Index";
-}
 
-<style>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NTLZFGR" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
-    body {
-        background: #1F1F1F;
-    }
-</style>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var lazyloadImages;
 
-<div class="row">
+        if ("IntersectionObserver" in window) {
+            lazyloadImages = document.querySelectorAll(".lazy");
+            var imageObserver = new IntersectionObserver(function (entries, observer) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        var image = entry.target;
+                        image.src = image.dataset.src;
+                        image.classList.remove("lazy");
+                        imageObserver.unobserve(image);
+                    }
+                });
+            });
 
-    @foreach (var premio in Model)
-    {
-        <div class="card col-md-3" style="background-color:#333333; color:white; text-align:center; margin: 15px auto; border-radius:24px;">
-            <div class="carousel">
-                @foreach (var imagem in premio.Imagem)
-                {
-                    <img src="~/Content/ImagemProdutos/@imagem" />
+            lazyloadImages.forEach(function (image) {
+                imageObserver.observe(image);
+            });
+        } else {
+            var lazyloadThrottleTimeout;
+            lazyloadImages = document.querySelectorAll(".lazy");
 
+            function lazyload() {
+                if (lazyloadThrottleTimeout) {
+                    clearTimeout(lazyloadThrottleTimeout);
                 }
+
+                lazyloadThrottleTimeout = setTimeout(function () {
+                    var scrollTop = window.pageYOffset;
+                    lazyloadImages.forEach(function (img) {
+                        if (img.offsetTop < (window.innerHeight + scrollTop)) {
+                            img.src = img.dataset.src;
+                            img.classList.remove('lazy');
+                        }
+                    });
+                    if (lazyloadImages.length == 0) {
+                        document.removeEventListener("scroll", lazyload);
+                        window.removeEventListener("resize", lazyload);
+                        window.removeEventListener("orientationChange", lazyload);
+                    }
+                }, 20);
+            }
+
+            document.addEventListener("scroll", lazyload);
+            window.addEventListener("resize", lazyload);
+            window.addEventListener("orientationChange", lazyload);
+        }
+    });
+</script>
+<form class="modal fade" method="POST" onsubmit="si.postForm(this,'esqueceu');return false;" tabindex="-1" id="modal-esqueceu" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Recuperar Senha</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="fa fa-times"></i>
+                </button>
             </div>
-            <div class="card-body">
-                <h5 class="card-title">@premio.Nome - <span style="background-color: @(premio.Status=="Encerrado"?"red": "rgb(37, 202, 23)"); padding:5px; border-radius:24px; font-size:14px;">@premio.Status</span></h5>
-                <p class="card-text">Valor do Bilhete: R$ @Math.Round(premio.ValorRifa, 2)</p>
-
-                @if (premio.Status != "Encerrado")
-                {
-                    <a href="@Url.Action("Index","Comprar",new { IdProduto = premio.Id})" style="margin:auto; background-color:rgb(37, 202, 23); border:none; color:#fff; padding:10px; border-radius:24px;">Escolher Bilhete</a>
-                }
+            <div class="modal-body">
+                <div class="form-group m-b-0">
+                    <label style="display:block;margin-bottom: 2px;color: #222;font-weight: bold" for="">E-mail:</label>
+                    <input name="email" style="height: 50px;" type="email" class="form-control" placeholder="Informe aqui" required>
+                </div>
+            </div>
+            <div class="modal-footer text-xs-right">
+                <button type="submit" class="btn btn-default">Enviar</button>
             </div>
         </div>
+    </div>
+</form>
+<a class="btn-whatsapp" target="_blank" href="https://api.whatsapp.com/send?phone=5524999583321">
+    <img src="~/Imagens/whatsapp.svg" alt="Whatsapp Logo">
+    <span>Fale Conosco</span>
+</a>
+<div id="app-vue-render" style="position : relative">
+    <div class="main ">
+        <section id="page" class="p-t-3 pb-section">
+            <div class="container">
+
+                @using (Html.BeginForm("Index", "Premios", FormMethod.Post))
+                {
+                    <div class="row">
+                        <div class="col-xs-12 m-b-1">
+                            <div class="title-content text-xs-center">
+                                <h4>Sorteios</h4>
+                                <p>Filtre e veja todos os nossos sorteios!</p>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 m-t-1">
+                            <form class="search-form" action="/sorteios" method="GET">
+                                <div class="row row-flex align-end flex-wrap">
+                                    <div class="col-md-3 col-xs-12 form-group">
+                                        <label for="">Data do Sorteio</label>
+                                        <input type="text" class="form-control" name="datasorteio" value="@ViewBag.DataSorteio" id="datasorteio">
+                                    </div>
+                                    <div class="col-md-3 col-xs-12 form-group">
+                                        <label for="">Status:</label>
+                                        <select name="status" class="form-control">
+                                            <option value="0" @(ViewBag.Status == 0 ? "selected" : "")>Todos</option>
+                                            <option value="1" @(ViewBag.Status == 1 ? "selected" : "")>Ativo</option>
+                                            <option value="2" @(ViewBag.Status == 2 ? "selected" : "")>Finalizado</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4 col-xs-12 form-group">
+                                        <label for="">Título:</label>
+                                        <input type="text" class="form-control" name="titulo" value="@ViewBag.Titulo">
+                                    </div>
+                                    <div class="col-md-2 col-xs-12 form-group text-xs-center">
+                                        <button type="submit" class="btn btn-default">
+                                            Filtrar
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                }
+
+                <div class="row m-t-2">
+                    @if (Model.Count() > 0)
+                    {
+                        foreach (var produto in Model)
+                        {
+                            <div class="col-lg-6 col-md-6 col-xs-12">
+                                <div class="sorteio-item">
+                                    <div class="imagem">
+                                        <a href="/sorteio/bmw-320i">
+                                            <div class="carousel">
+                                                <img style="height:260px;object-fit:cover" class="img-fluid" src="~/Content/ImagemProdutos/@produto.Imagem[0]" loading="lazy" alt="@produto.Nome">
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="side">
+                                        <div class="status-desc">
+                                            <span class="@(produto.Status == "Ativo"?"bg-success":"bg-danger")"></span>
+                                            @produto.Status
+                                        </div>
+                                        <div class="infos">
+                                            <div class="info">
+                                                <i class="fa fa-calendar"></i>
+                                                <span>Data do sorteio: @produto.DataSorteio.ToString("dd/MM/yyyy")</span>
+                                            </div>
+                                            <div class="info">
+                                                <i class="fas fa-dollar-sign"></i>
+                                                <span>Valor do Bilhete: <span class="text-orange"><span>R$</span> @Math.Round(produto.ValorRifa, 2)</span></span>
+                                            </div>
+                                        </div>
+                                        <h5>@produto.Nome</h5>
+                                        <p>Concorra a um carro sensacional</p>
+                                        <div class="action">
+                                            <a href="/sorteio/bmw-320i">Adquira seu bilhete <i class="fa fa-arrow-right"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+
+                    else
+                    {
+                        <h3 style="text-align:center;">Nenhum produto foi encontrado!</h3>
+                    }
+
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer>
+        <div class="footer-main">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="texto-footer" style="word-break: break-word;">
+                            <p style="text-align:justify">A <strong>PPr&ecirc;mios</strong> &eacute; um site de sorteios, da Modalidade Filantropia Premi&aacute;vel regulamentada na Lei Federal n. 13.019/14 art. 84 b , 84 c.</p>
+                            <p style="text-align:justify"><strong>Comprando com a PPr&ecirc;mios</strong> voc&ecirc; ir&aacute; contribuir para o desenvolvimento e custeio de diversas entidades&nbsp;filantr&oacute;picas. A PPremios &eacute; subsidi&aacute;ria da&nbsp;<strong>MP5 MARKETING E CONSULTORIA LTDA </strong>inscrita no&nbsp;CNPJ:. <strong>38.340.779/0001-67</strong>, com atua&ccedil;&atilde;o em todo territ&oacute;rio nacional de forma digital.</p>
+                            <p style="text-align:justify">
+                                Consulte regulamento&nbsp;<a href="@Url.Action("Regulamento","Home")">Clicando Aqui</a><br />
+                                <strong>Proibido a venda&nbsp;para menores de 18 anos</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-t-1">
+                    <div class="col-md-4 center-mobile col-xs-12">
+                        <h4>Redes Sociais:</h4>
+                        <ul class="list-redes">
+                            <li>
+                                <a href="https://www.instagram.com/ei_sorteei/" target="_blank">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.facebook.com/Ei-Sorteei-109594700891331/?view_public_for=109594700891331" target="_blank">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://api.whatsapp.com/send?phone=5524999583321" target="_blank">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4 center-mobile col-xs-12 mt-mobile">
+                        <h4>Formas de Pagamento:</h4>
+                        <img class="lazy img-fluid" data-src="https://www.ppremios.com/portal/img/crop?img=9275b348e02a0ff51325231f3f30acf0.png&" alt="Formas de Pagamento:">
+                    </div>
+                    <div class="col-md-4 center-mobile col-xs-12 mt-mobile">
+                        <h4>Segurança:</h4>
+                        <img class="lazy img-fluid" data-src="https://www.ppremios.com/portal/img/crop?img=c7566a39720e042f5e8d3aeaa304b637.png&" alt="Segurança:">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copy">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <p> ©2020 Todos os direitos reservados. CNPJ: 38.340.779/0001-67</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<div id="loading">
+    <img src="/webfiles/images/loading.svg" alt="Loading icon">
+</div>
+
+
+<link rel="stylesheet" href="/webfiles/css/vendor.min.css">
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+
+<script src="/webfiles/js/jquery.min.js"></script>
+<script>
+    window.BASE_URL = 'https://www.ppremios.com/';
+    window.IS_LOGGED = false;
+
+    function openRecarga(el) {
+        var target = $(el).data('target');
+        $(target).modal('show');
     }
 
-</div>
+</script>
+<script src="/webfiles/js/vendor.min.js"></script>
+<link rel="stylesheet" href="/webfiles/css/lity.min.css">
+<script src="/webfiles/js/lity.min.js"></script>
+<script src="/webfiles/js/custom2.js?v=1.5.7"></script>
 
 
 

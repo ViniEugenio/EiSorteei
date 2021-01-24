@@ -3,395 +3,213 @@
 }
 
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang=pt-br>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel=cannonical href="https://www.ppremios.com/">
+    <meta charset=utf-8>
+    <meta name=viewport content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta http-equiv=x-ua-compatible content="ie=edge">
+    <link rel=icon href="~/Imagens/47635a9c-62a5-49ca-aede-fda744a4b195-removebg-preview.png" type=image/x-icon />
+    <link rel="shortcut icon" href="~/Imagens/47635a9c-62a5-49ca-aede-fda744a4b195-removebg-preview.png" type=image/x-icon />
+    <meta name=author content="EiSorteei">
+    <meta name=keywords content="EiSorteei" />
     <title>EiSorteei</title>
-    <link href="~/Content/Site.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
-    <link rel="font" href="~/Content/fonts/Amiri-Bold.ttf" />
-    <link rel="font" href="~/Content/fonts/Amiri-BoldItalic.ttf" />
-    <link rel="font" href="~/Content/fonts/Amiri-Italic.ttf" />
-    <link rel="font" href="~/Content/fonts/Amiri-Regular.ttf" />
-    <link href="~/Content/slick.css" rel="stylesheet" />
-    <link href="" rel="stylesheet" />
-    <link rel="shortcut icon"
-          href="~/Imagens/47635a9c-62a5-49ca-aede-fda744a4b195-removebg-preview.png"
-          type="image/x-icon" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <meta name="description" itemprop="description" content="Participe de forma rápida e simples e 100% Seguro. Acesse nosso site, selecione o veículo que deseja e escolha seus números da sorte. Excelentes veículos nos sorteios, compre sua rifa e poderá ser sorteado!" />
+    <meta name="keywords" content="prêmios,sorteio,número da sorte" />
+    <meta property='og:locale' content='pt_BR' />
+    <meta property='og:site_name' content='EiSorteei' />
+    <meta property='og:url' content='http://eisorteei.com/' />
+    <meta property='og:title' content='EiSorteei' />
+    <meta property='og:description' content='Participe de forma rápida e simples e 100% Seguro. Acesse nosso site, selecione o veículo que deseja e escolha seus números da sorte. Excelentes veículos nos sorteios, compre sua rifa e poderá ser sorteado!' />
+    <meta property='og:keywords' content='prêmios,sorteio,número da sorte' />
+    <meta property='og:type' content='website' />
+    <meta property='og:image' content="http://eisorteei.com/Imagens/C%c3%b3pia%20de%20Logo%20Verde%20e%20Branco%20de%20Curso%20Preparat%C3%B3rio%20(1).png" />
+    <meta property='og:image:width' content='800' />
+    <meta property='og:image:height' content='500' />
+    <style>
+        input {
+            outline: none !important;
+            box-shadow: none !important
+        }
+    </style>
+    <link href="~/Content/tema.min.css" rel="stylesheet" />
+
+
 </head>
-
-
-<style>
-
-    .navbar {
-        font-size: 18px;
-        border: 1px solid rgba(0, 0, 0, 0.2);
-        padding-bottom: 10px;
-        background: #000000;
-        min-height: 100px;
-    }
-
-    .main-nav {
-        list-style-type: none;
-        display: none;
-    }
-
-    .nav-links,
-    .logo {
-        text-decoration: none;
-        color: rgba(255, 255, 255, 0.7);
-    }
-
-    .main-nav li {
-        text-align: center;
-        margin: 15px auto;
-        margin-top: 20px;
-    }
-
-    .logo {
-        display: inline-block;
-        font-size: 22px;
-        margin-top: 10px;
-        margin-left: 20px;
-    }
-
-    .navbar-toggle {
-        position: absolute;
-        top: 10px;
-        right: 20px;
-        cursor: pointer;
-        color: rgba(255, 255, 255, 0.8);
-        font-size: 24px;
-    }
-
-    .active {
-        display: block;
-    }
-
-    @@media screen and (min-width: 768px) {
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            padding-bottom: 0;
-            height: 70px;
-            align-items: center;
-        }
-
-        .main-nav {
-            display: flex;
-            margin-right: 30px;
-            flex-direction: row;
-            justify-content: flex-end;
-        }
-
-            .main-nav li {
-                margin: 0;
-            }
-
-        .nav-links {
-            margin-left: 40px;
-        }
-
-        .logo {
-            margin-top: 0;
-        }
-
-        .navbar-toggle {
-            display: none;
-        }
-
-        .logo:hover,
-        .nav-links:hover {
-            color: rgba(255, 255, 255, 1);
-        }
-
-
-
-        .dropbtn {
-            background-color: #4CAF50;
-            color: white;
-            padding: 16px;
-            font-size: 16px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            right: 0;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-        }
-
-            .dropdown-content a {
-                color: black;
-                padding: 12px 16px;
-                text-decoration: none;
-                display: block;
-            }
-
-                .dropdown-content a:hover {
-                    background-color: #f1f1f1;
-                }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        .dropdown:hover .dropbtn {
-            background-color: #3e8e41;
-        }
-    }
-
-    #desk {
-        display: flex;
-    }
-
-    .nav-item {
-        color: #C1C1C1;
-        transition: all 0 ease;
-    }
-
-        .nav-item a:hover {
-            border-bottom: 4px solid #02E002;
-        }
-
-    #mobile {
-        display: none;
-    }
-
-    @@media only screen and (max-width: 1000px) {
-        .dropdown {
-            background: #000000 !important;
-            position: inherit !important;
-        }
-
-            .dropdown ul li a {
-                color: #fff !important;
-            }
-
-        #desk {
-            display: none;
-        }
-
-        #mobile {
-            display: flex;
-        }
-    }
-</style>
 <body>
-
     <header>
-        <nav class="navbar" id="desk" style="text-align:center;">
-            <span class="navbar-toggle js-navbar-toggle">
-                <i class="fa fa-bars"></i>
-            </span>
-            <ul class="main-nav js-menu">
-                <li>
-                    <a href="@Url.Action("Index","Home")">
-                        <img src="~/Imagens/Cópia de Logo Verde e Branco de Curso Preparatório (1).png" alt="Logo do Site" id="brand" style="width:80%;" />
-                    </a>
-                </li>
-            </ul>
-            <ul class="main-nav js-menu" style="margin: 0 10px auto;">
-                <li class="nav-item" style="margin-top:30px;">
-                    <a class="nav-link" href="@Url.Action("Index","Home")" style="color:#fff;">Home</a>
-                </li>
-                <li class="nav-item" style="margin-top:30px;">
-                    <a class="nav-link" href="@Url.Action("Index","Premios")" style="color:#fff;">Prêmios</a>
-                </li>
-                <li class="nav-item" style="margin-top:30px;">
-                    <a class="nav-link" href="#" style="color:#fff;">Regulamento</a>
-                </li>
-                @if (Session["Usuario"] == null)
-                {
-                    <li class="nav-item" style="margin-top:30px;">
-                        <a class="nav-link" href="/Admin/Vendedor/" style="color:#fff;">Seja um vendedor</a>
-                    </li>
-                }
-            </ul>
-            <div>
-                @if (Session["Usuario"] != null)
-                {
-                    <span class="nav-link MeuPerfil" style="color:white; cursor:pointer; margin-right: 50px;">@(Usuario!=null?Usuario.Nome:"Login") <i class="fa fa-caret-down"></i></span>
-                    <div class="dropdown" style="display: none;background: #000000;padding: 9px;border-radius: 10px;margin-top: 10px; z-index:1; position:fixed;">
-                        <ul style="list-style-type: none;">
-                            <li style="margin-top:30px;">
-                                <a class="nav-link" href="@Url.Action("MeuPerfil","Usuario")" style="color:white;">Meu Perfil</a>
+        <form style="z-index:22" method="POST" onsubmit="si.postForm(this,'login');return false" class="box-login">
+            <input type="hidden" name="redirect_url" value="http://www.ppremios.com/">
+            <div class="close-content">
+                <button type="button" onclick="closeLogin()">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+            <div class="form-group">
+                <input type="text" required class="form-control" name="usuario" placeholder="E-mail, login ou CPF">
+                <i class="fa fa-user"></i>
+            </div>
+            <div class="form-group">
+                <input type="password" required class="form-control" name="senha" placeholder="Sua Senha">
+                <i class="fa fa-lock"></i>
+            </div>
+            <div class="action text-xs-center" style="margin-bottom:5px">
+                <a href="#" data-toggle="modal" data-target="#modal-esqueceu" class="esqueceu font-weight-bold">
+                    Esqueceu a
+                    senha?
+                </a>
+            </div>
+            <div class="content-btn">
+                <button type="submit" class="btn">
+                    Entrar
+                </button>
+            </div>
+        </form>
+        <div class="header-top">
+            <div class="container">
+                <div class="row row-flex align-center flex-wrap">
+                    <div class="col-md-5 col-xs-12">
+                        <ul class="list-redes">
+                            <li>
+                                <a href="https://www.instagram.com/ei_sorteei/" target="_blank">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
                             </li>
-                            <li style="margin-top:30px;">
-                                <a class="nav-link" href="@Url.Action("MinhasCompras","Usuario")" style="color:white;">Minhas Compras</a>
+                            <li>
+                                <a href="https://www.facebook.com/Ei-Sorteei-109594700891331/?view_public_for=109594700891331" target="_blank">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
                             </li>
-                            <li style="margin-top:30px;">
-                                <a class="nav-link" href="@Url.Action("Logout","Usuario")" style="color:white;">Sair</a>
+                            <li>
+                                <a href="https://api.whatsapp.com/send?phone=5581994283030" target="_blank">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
                             </li>
                         </ul>
                     </div>
-                }
-
-                else
-                {
-                    <a class="nav-link" style="color:white; cursor:pointer; margin-right: 50px;" href="@Url.Action("Index","Usuario")">Login</a>
-                }
-
-            </div>
-        </nav>
-
-        <nav class="navbar" id="mobile" style="text-align:center;">
-            <span class="navbar-toggle js-navbar-toggle">
-                <i class="fa fa-bars"></i>
-            </span>
-            <ul class="main-nav js-menu">
-                <li>
-                    <a href="@Url.Action("Index","Home")">
-                        <img src="~/Imagens/Cópia de Logo Verde e Branco de Curso Preparatório (1).png" alt="Logo do Site" id="brand" style="width:80%;" />
-                    </a>
-                </li>
-            </ul>
-            <ul class="main-nav js-menu" style="margin: 0 10px auto;">
-                <li class="nav-item" style="margin-top:30px;">
-                    <a class="nav-link" href="@Url.Action("Index","Home")" style="color:#fff;">Home</a>
-                </li>
-                <li class="nav-item" style="margin-top:30px;">
-                    <a class="nav-link" href="@Url.Action("Index","Premios")" style="color:#fff;">Prêmios</a>
-                </li>
-                <li class="nav-item" style="margin-top:30px;">
-                    <a class="nav-link" href="#" style="color:#fff;">Regulamento</a>
-                </li>
-                @if (Session["Usuario"] == null)
-                {
-                    <li class="nav-item" style="margin-top:30px;">
-                        <a class="nav-link" href="/Admin/Vendedor/" style="color:#fff;">Seja um vendedor</a>
-                    </li>
-                }
-            </ul>
-            <div>
-                @if (Session["Usuario"] != null)
-                {
-                    <span class="nav-link MeuPerfil" style="color:white; cursor:pointer; margin-right: 50px;">@(Usuario!=null?Usuario.Nome:"Login") <i class="fa fa-caret-down"></i></span>
-                    <div class="dropdown" style="display: none;background: #000000;padding: 9px;border-radius: 10px;margin-top: 10px; z-index:1; position:fixed;">
-                        <ul style="list-style-type: none;">
-                            <li style="margin-top:30px;">
-                                <a class="nav-link" href="@Url.Action("MeuPerfil","Usuario")" style="color:white;">Meu Perfil</a>
-                            </li>
-                            <li style="margin-top:30px;">
-                                <a class="nav-link" href="@Url.Action("MinhasCompras","Usuario")" style="color:white;">Minhas Compras</a>
-                            </li>
-                            <li style="margin-top:30px;">
-                                <a class="nav-link" href="@Url.Action("Logout","Usuario")" style="color:white;">Sair</a>
-                            </li>
-                        </ul>
+                    <div class="col-md-7 col-xs-12">
+                        <p>FILANTROPIA PREMIÁVEL REGULAMENTADA NA LEI FEDERAL Nº 13.019/14 ART. 84 B, 84 C</p>
                     </div>
-                }
-
-                else
-                {
-                    <a class="nav-link" style="color:white; cursor:pointer; margin-right: 50px;" href="@Url.Action("Index","Usuario")">Login</a>
-                }
-
+                </div>
             </div>
-        </nav>
-
-
+        </div>
+        <div class="header-main">
+            <div class="container">
+                <div class="row row-flex flex-wrap align-center">
+                    <div class="col-lg-2 col-md-6 col-xs-6">
+                        <a href="/">
+                            <img class="logo" src="~/Imagens/Cópia de Logo Verde e Branco de Curso Preparatório (1).png" alt="P Prêmios - Acredite na sorte ajudando quem precisa.">
+                        </a>
+                    </div>
+                    <div class="col-lg-10 col-md-6 col-xs-6 row-flex justify-end flex-wrap">
+                        <ul class="list-menus">
+                            <li>
+                                <a href="@Url.Action("Index","Home")" class="">
+                                    Home
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index","Premios")" class="" href="#">
+                                    Sorteios
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Pagamento","Home")" class="" href="#">
+                                    Como Pagar
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Regulamento","Home")" class="" href="#">
+                                    Regulamento
+                                </a>
+                            </li>
+                        </ul><button class="menu-anchor" type="button">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <div class="actions">
+                            <a href="javascript:void(0)" onclick="openLogin(this)">
+                                <i class="fas fa-sign-in-alt"></i>
+                                Login
+                            </a>
+                            <a href="@Url.Action("CadastrarUsuario","Usuario")">
+                                <i class="fa fa-user-plus"></i>
+                                Cadastre-se
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </header>
+    <menu class="">
+        <div class="buttons">
+            <a class="btn" href="javascript:void(0)" onclick="openLogin(this)">
+                <i class="fas fa-sign-in-alt"></i>
+                Login
+            </a>
+            <a class="btn" href="/cadastro">
+                <i class="fa fa-user-plus"></i>
+                Cadastre-se
+            </a>
+        </div>
+        <ul class="list-menus">
+            <li>
+                <a href="@Url.Action("Index","Home")" class="" href="#">
+                    Home
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index","Premios")" class="" href="#">
+                    Sorteios
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Pagamento","Home")" class="" href="#">
+                    Como Pagar
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Regulamento","Home")" class="" href="#">
+                    Regulamento
+                </a>
+            </li>
+        </ul>
+        <ul class="list-redes">
+            <li>
+                <a href="https://www.instagram.com/ei_sorteei/" target="_blank">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.facebook.com/Ei-Sorteei-109594700891331/?view_public_for=109594700891331" target="_blank">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://api.whatsapp.com/send?phone=5524999583321" target="_blank">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+            </li>
+        </ul>
+    </menu>
 
     @RenderBody()
 
-    <footer style="bottom: 0; width: 100%;margin-top: 30px; background: #fff; color:#000000">
-        <div class="row form-group" style="width:80%; margin:auto;">
-
-            <div class="col-md-3 text-center">
-                <h4><i class="fas fa-search"></i> Escolha uma Rifa</h4>
-                <h5>Escolha o prêmio que gostaria de concorrer, verifique a descrição, regulamento do sorteio.</h5>
-            </div>
-
-            <div class="col-md-3 text-center">
-                <h4><i class="fas fa-check-square"></i> Selecione seus Números</h4>
-                <h5>Escolha quantos quiser! Quanto mais, mais chances de ganhar.</h5>
-            </div>
-
-            <div class="col-md-3 text-center">
-                <h4><i class="fas fa-money-bill-alt"></i> Faça o Pagamento</h4>
-                <h5>Escolha uma das formas de pagamento disponíveis, e realize o pagamento.</h5>
-            </div>
-
-            <div class="col-md-3 text-center">
-                <h4><i class="fas fa-clock"></i> Aguarde o sorteio</h4>
-                <h5>Agora é aguardar o sorteio, cruze os dedos e acompanhe a página para saber as novidades.</h5>
-            </div>
-
-        </div>
-        <div align="center">
-            <img src="~/Imagens/Cópia de Logo Verde e Branco de Curso Preparatório (1).png" alt="Dr. Marcelo Giovani" style="width: 220px; height: 84px;" />
-        </div>
-    </footer>
-
-
-    <section class="first__footer">
-        <div class="center container__footer">
-            <h1>Receba Novidades</h1>
-            <div class="Yellow_line"></div>
-            <p>Você gosta desse conteúdo e gostaria de ser avisado sobre nossas atualizações? Deixe seu e-mail para receber nossos alertas.</p>
-            <form class="box__nov">
-                <div class="nov_cont">
-                    <input type="text" placeholder="Digite seu e-mail" id="EmailDigitado" />
-                    <span class="erroform erronov">E-mail inválido</span>
-                </div>
-                <button type="button" id="novidades-btn-2">Enviar</button>
-            </form>
-
-            <h1>Siga nas redes sociais</h1>
-            <div class="Yellow_line"></div>
-
-            <div class="redesociais__nov">
-                <a href="https://www.facebook.com/Ei-Sorteei-109594700891331/?view_public_for=109594700891331" target="_blank" class="redesocial__nov"><i class="fab fa-facebook"></i></a>
-                <a href="https://www.instagram.com/ei_sorteei/" target="_blank" class="redesocial__nov"><i class="fab fa-instagram"></i></a>
-            </div>
-        </div>
-    </section>
-
-    <a href="https://wa.me/5524999583321" class="float" target="_blank">
-        <i class="fab fa-whatsapp" my-float"></i>
-    </a>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link href="~/Content/vendor.min.css" rel="stylesheet" />
+    <link rel=stylesheet href=https://use.fontawesome.com/releases/v5.6.3/css/all.css integrity=sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/ crossorigin=anonymous>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&display=swap" rel=stylesheet>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="~/Scripts/jquery.mask.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.js"></script>
-    <script src="~/js/slick.min.js"></script>
-    <script src="~/js/site.js"></script>
     <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
-    @RenderSection("Scripts", required: false)
 
-    <div id="myModal2" class="modal">
 
-        <!-- Modal content -->
-        <div class="modal-content">
-            <img src="" alt="" />
-            <strong>Email Cadastrado!</strong>
-            <p>Obrigado pelo seu cadastro.</p>
-            <a class="entendi2" style="cursor:pointer;">Entendi</a>
-        </div>
 
-    </div>
-</body>
-</html>
-
-<script>
+    <script>
 
     $('.carousel').slick({
         autoplay: true,
@@ -415,4 +233,13 @@
     $(".MeuPerfil").click(function () {
         $(".dropdown").toggle();
     });
-</script>
+
+        $("#datasorteio").mask("00/00/0000");
+    </script>
+
+
+
+
+</body>
+
+

@@ -1,87 +1,278 @@
-﻿@{
-    ViewData["Title"] = "Ei Sorteei";
-}
-
-<style>
-    body {
-        background: #1F1F1F;
-    }
-
-    #next {
-        /*background-color: #E0C777;*/
-        border-radius: 50%;
-        padding: 10px 16px 10px 16px;
-        margin-top: -420px;
-        cursor: pointer;
-        position: absolute;
-        margin-left: 1935px;
-    }
-
-    #prev {
-        border-radius: 50%;
-        padding: 10px 16px 10px 16px;
-        margin-top: -420px;
-        cursor: pointer;
-        position: absolute;
-        
-    }
+﻿
 
 
-    @@media only screen and (max-width: 1000px) {
-        #next {
-            margin-left: 360px;
-        }
 
-        #prev{
-            margin-left:10px;
-        }
-
-    }
-</style>
-
-
-<section class="blog-container">
-  
-</section>
-<section class="blog-listagem">
-    <div class="center blog-border">
-        <div class="blog-list">
-
-            @foreach (var produto in ViewBag.Produtos)
-            {
-                <div class="card-blog" style="z-index:0;">
-                    <div class="carousel">
-                        @foreach (var imagem in produto.Imagem)
-                        {
-                            <img src="~/Content/ImagemProdutos/@imagem"/>
-
-                        }
-                    </div>
-                    <div class="card-txt__blog">
-                        <div align="center" id="Arrows">
-                            <i class="fas fa-chevron-left fa-8x" id="prev" style="color:#02E022"></i>
-                            <i class="fas fa-chevron-right fa-8x" id="next" style="color:#02E022"></i>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NTLZFGR" height=0 width=0 style=display:none;visibility:hidden></iframe></noscript>
+<script>document.addEventListener("DOMContentLoaded", function () { var b; if ("IntersectionObserver" in window) { b = document.querySelectorAll(".lazy"); var d = new IntersectionObserver(function (e, f) { e.forEach(function (g) { if (g.isIntersecting) { var h = g.target; h.src = h.dataset.src; h.classList.remove("lazy"); d.unobserve(h) } }) }); b.forEach(function (e) { d.observe(e) }) } else { var c; b = document.querySelectorAll(".lazy"); function a() { if (c) { clearTimeout(c) } c = setTimeout(function () { var e = window.pageYOffset; b.forEach(function (f) { if (f.offsetTop < (window.innerHeight + e)) { f.src = f.dataset.src; f.classList.remove("lazy") } }); if (b.length == 0) { document.removeEventListener("scroll", a); window.removeEventListener("resize", a); window.removeEventListener("orientationChange", a) } }, 20) } document.addEventListener("scroll", a); window.addEventListener("resize", a); window.addEventListener("orientationChange", a) } });</script>
+<form class="modal fade" method="POST" onsubmit="si.postForm(this,'esqueceu');return false" tabindex="-1" id="modal-esqueceu" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Recuperar Senha</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group m-b-0">
+                    <label style="display:block;margin-bottom:2px;color:#222;font-weight:bold" for="">E-mail:</label>
+                    <input name="email" style="height:50px" type="email" class="form-control" placeholder="Informe aqui" required>
+                </div>
+            </div>
+            <div class="modal-footer text-xs-right">
+                <button type="submit" class="btn btn-default">Enviar</button>
+            </div>
+        </div>
+    </div>
+</form><a class=btn-whatsapp target=_blank href=https://api.whatsapp.com/send?phone =5581994283030>
+    <img src=/webfiles/images/whatsapp.svg alt="Whatsapp Logo">
+    <span>Fale Conosco</span>
+</a>
+<div id=app-vue-render style=position:relative>
+<div class="main ">
+        <section id="slide">
+            <div class="back-image carousel">
+                @foreach (var produto in ViewBag.Produtos)
+                {
+                    foreach (var Imagem in produto.Imagem)
+                    {
+                        <img src="~/Content/ImagemProdutos/@Imagem" alt="@produto.Nome" />
+                    }
+                }
+            </div>
+            <a class="left carousel-control" href="#carousel-principal" role="button" data-slide="prev" style="z-index:1;">
+                <span class="fa fa-chevron-left" aria-hidden="true" id="next"></span>
+            </a>
+            <a class="right carousel-control" href="#carousel-principal" role="button" data-slide="next" style="z-index:1;">
+                <span class="fa fa-chevron-right" aria-hidden="true" id="prev"></span>
+            </a>
+        </section>
+        <section id="soteios-ativos" class="pt-section pb-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="title-content text-xs-center">
+                            <h4>Sorteios Ativos</h4>
+                            <p>Veja abaixo alguns sorteios em destaque!</p>
                         </div>
-                        <h1 class="text-center">@produto.Nome</h1>
-                        <h2 class="text-center">Valor do Bilhete: R$ @Math.Round(produto.ValorRifa, 2)</h2>
-                        <a href="@Url.Action("Index","Comprar",new { IdProduto = produto.Id})" style="margin:auto; background-color:rgb(37, 202, 23); border:none; color:#fff;">Escolher Bilhete</a>
                     </div>
                 </div>
-            }
+                <div class="row m-t-3">
 
-        </div>
+                    @foreach (var produto in ViewBag.Produtos)
+                    {
+                        <div class="col-lg-6 col-md-6 col-xs-12">
+                            <div class="sorteio-item">
+                                <div class="imagem">
+                                    <a href="/sorteio/bmw-320i">
+                                        <div class="carousel">
+                                            <img style="height:260px;object-fit:cover" class="img-fluid" src="~/Content/ImagemProdutos/@produto.Imagem[0]" loading="lazy" alt="@produto.Nome">
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="side">
+                                    <div class="status-desc">
+                                        <span class="@(produto.DataSorteio >= DateTime.Now?"bg-success":"bg-danger")"></span>
+                                        @(produto.DataSorteio >= DateTime.Now?"Ativo":"Finalizado")
+                                    </div>
+                                    <div class="infos">
+                                        <div class="info">
+                                            <i class="fa fa-calendar"></i>
+                                            <span>Data do sorteio: @produto.DataSorteio.ToString("dd/MM/yyyy")</span>
+                                        </div>
+                                        <div class="info">
+                                            <i class="fas fa-dollar-sign"></i>
+                                            <span>Valor do Bilhete: <span class="text-orange"><span>R$</span> @Math.Round(produto.ValorRifa, 2)</span></span>
+                                        </div>
+                                    </div>
+                                    <h5>@produto.Nome</h5>
+                                    <p>Concorra a um carro sensacional</p>
+                                    <div class="action">
+                                        <a href="/sorteio/bmw-320i">Adquira seu bilhete <i class="fa fa-arrow-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
 
-        @*<div class="pagination">
 
-            <a href="@Url.Action("Index",new {pagina = ViewBag.Pagina - 1 })"><i class="fas fa-angle-left"></i></a>
-
-            @for (int x = 1; x <= ViewBag.QuantidadeTotalPaginas; x++)
-            {
-                <a href="@Url.Action("Index",new { pagina=x-1})" class="@(ViewBag.Pagina==x-1?"active":"")">@x</a>
-            }
-
-            <a href="@Url.Action("Index",new {pagina = ViewBag.Pagina + 1 })"><i class="fas fa-angle-right"></i></a>
-        </div>*@
-
+                </div>
+                <div class="row m-t-2">
+                    <div class="col-xs-12 text-xs-center">
+                        <a href="@Url.Action("Index","Premios")" class="btn btn-default">
+                            Ver Todos
+                            <i class="fa fa-plus"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="motivos" class="bg-gray">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 m-b-3">
+                        <div class="title-content text-xs-center">
+                            <h4>Como Funciona</h4>
+                            <p>Veja abaixo como é fácil!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="motivo-item">
+                            <div class="number noselect">1</div>
+                            <div class="imagem">
+                                <img class="lazy" data-src="https://www.ppremios.com/portal/img/crop?img=de7177f54ab05728e366d0d7619206d4.svg&" alt="Escolha um sorteio">
+                            </div>
+                            <h5>Escolha um sorteio</h5>
+                            <p>Muito fácil participar. Comece escolhendo um sorteio ativo.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="motivo-item">
+                            <div class="number noselect">2</div>
+                            <div class="imagem">
+                                <img class="lazy" data-src="https://www.ppremios.com/portal/img/crop?img=712deea412a16b6ecb3cae55661e5be2.svg&" alt="Selecione os números">
+                            </div>
+                            <h5>Selecione os números</h5>
+                            <p>Escolha quantos quiser! Quanto mais, mais chances de ganhar.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="motivo-item">
+                            <div class="number noselect">3</div>
+                            <div class="imagem">
+                                <img class="lazy" data-src="https://www.ppremios.com/portal/img/crop?img=76e732fa30d11ef13516358a85b1a746.svg&" alt="Faça o pagamento">
+                            </div>
+                            <h5>Faça o pagamento</h5>
+                            <p>Escolha uma das formas de pagamento disponíveis.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="motivo-item">
+                            <div class="number noselect">4</div>
+                            <div class="imagem">
+                                <img class="lazy" data-src="https://www.ppremios.com/portal/img/crop?img=8d64f6117d806c7e8b10a29137a7c021.svg&" alt="Aguarde o sorteio">
+                            </div>
+                            <h5>Aguarde o sorteio</h5>
+                            <p>Agora é aguardar o sorteio pela Loteria Federal e boa sorte!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="more" class="pt-section pb-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-12 col-xs-12">
+                        <div class="title-content text-xs-left">
+                            <h4>Últimos Ganhadores</h4>
+                            <p>Veja os últimos ganhadores!</p>
+                        </div><div class="m-t-1">
+                            <div class="box-ganhador ">
+                                <div style="padding-left:0;width:100%" class="side">
+                                    <h4>Ainda não houve nenhum ganhador</h4>
+                                    @*<p class="m-b-0"><strong>Nome:</strong> Marcelo Monteiro Garcia Filho</p>
+                                    <p class="m-b-0"><strong>Sorteio:</strong> SUPER SORTEIO MERCEDES C180 + R$ 10.000,00 NA CONTA + PLAYSTATION 5</p>
+                                    <hr>
+                                    <p class="m-b-0"><strong>CPF: 051***.***-**</strong></p>
+                                    <p><strong>Tel:</strong> (62) 981##-####</p>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mt-ipad col-md-12 col-xs-12 mt-mobile">
+                        <div class="title-content text-xs-left">
+                            <h4>Contas Bancárias</h4>
+                            @*<p>Veja as contas que você vai poder transferir!</p>*@
+                        </div><div id="accordion" role="tablist" aria-multiselectable="true" class="m-t-2">
+                            @*<div class="card">
+                                <div class="card-header" role="tab" id="heading9">
+                                    <picture>
+                                        <source srcset="https://www.ppremios.com/portal/img/crop?img=e205726a88982557662ca5b2def5362b.jpg&w=80&h=53&q=100&fit=crop&fm=webp" type="image/webp">
+                                        <source srcset="https://www.ppremios.com/portal/img/crop?img=e205726a88982557662ca5b2def5362b.jpg&w=80&h=53&q=100&fit=crop&fm=jpg" type="image/jpeg">
+                                        <img style="height:53px;object-fit:cover" class="img-fluid" src="https://www.ppremios.com/portal/img/crop?img=e205726a88982557662ca5b2def5362b.jpg&w=80&h=53&q=100&fit=crop&fm=jpg" loading="lazy" alt="">
+                                    </picture>
+                                    <h5 class="m-b-0">Banco Itaú</h5>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" role="tab" id="heading11">
+                                    <picture>
+                                        <source srcset="https://www.ppremios.com/portal/img/crop?img=d9ebd0e59492fd149198077b07c50313.jpeg&w=80&h=53&q=100&fit=crop&fm=webp" type="image/webp">
+                                        <source srcset="https://www.ppremios.com/portal/img/crop?img=d9ebd0e59492fd149198077b07c50313.jpeg&w=80&h=53&q=100&fit=crop&fm=jpg" type="image/jpeg">
+                                        <img style="height:53px;object-fit:cover" class="img-fluid" src="https://www.ppremios.com/portal/img/crop?img=d9ebd0e59492fd149198077b07c50313.jpeg&w=80&h=53&q=100&fit=crop&fm=jpg" loading="lazy" alt="">
+                                    </picture>
+                                    <h5 class="m-b-0">Picpay</h5>
+                                </div>
+                            </div>*@
+                        </div>
+                        <div class="action text-xs-right m-t-1">
+                            <a href="@Url.Action("Pagamento","Home")" class="btn btn-default">Veja Mais <i class="fa fa-plus"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
-</section>
+    <footer>
+        <div class="footer-main">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="texto-footer" style="word-break:break-word">
+                            <p style="text-align:justify">A <strong>Ei Sorteei</strong> &eacute; um site de sorteios, da Modalidade Filantropia Premi&aacute;vel regulamentada na Lei Federal n. 13.019/14 art. 84 b , 84 c.</p>
+                            <p style="text-align:justify"><strong>Comprando com a PPr&ecirc;mios</strong> voc&ecirc; ir&aacute; contribuir para o desenvolvimento e custeio de diversas entidades&nbsp;filantr&oacute;picas. A PPremios &eacute; subsidi&aacute;ria da&nbsp;<strong>MP5 MARKETING E CONSULTORIA LTDA </strong>inscrita no&nbsp;CNPJ:. <strong>30.439.054/0001-19</strong>, com atua&ccedil;&atilde;o em todo territ&oacute;rio nacional de forma digital.</p>
+                            <p style="text-align:justify">
+                                Consulte regulamento&nbsp;<a href="@Url.Action("Regulamento","")">Clicando Aqui</a><br />
+                                <strong>Proibido a venda&nbsp;para menores de 18 anos</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-t-1">
+                    <div class="col-md-4 center-mobile col-xs-12">
+                        <h4>Redes Sociais:</h4>
+                        <ul class="list-redes">
+                            <li>
+                                <a href="https://www.instagram.com/ei_sorteei/" target="_blank">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.facebook.com/Ei-Sorteei-109594700891331/?view_public_for=109594700891331" target="_blank">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://api.whatsapp.com/send?phone=5524999583321" target="_blank">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4 center-mobile col-xs-12 mt-mobile">
+                        <h4>Formas de Pagamento:</h4>
+                        <img class="lazy img-fluid" data-src="https://www.ppremios.com/portal/img/crop?img=9275b348e02a0ff51325231f3f30acf0.png&" alt="Formas de Pagamento:">
+                    </div>
+                    <div class="col-md-4 center-mobile col-xs-12 mt-mobile">
+                        <h4>Segurança:</h4>
+                        <img class="lazy img-fluid" data-src="https://www.ppremios.com/portal/img/crop?img=c7566a39720e042f5e8d3aeaa304b637.png&" alt="Segurança:">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copy">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <p> ©2020 Todos os direitos reservados. CNPJ: 30.439.054/0001-19</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+<div id=loading>
+    <img src=/webfiles/images/loading.svg alt="Loading icon">
+</div>

@@ -29,7 +29,8 @@ namespace EiSorteei.Controllers
                     Id = x.Id,
                     Imagem = _Context.Multimidia.Where(p => p.IdProduto.Equals(x.Id) && p.Status).Select(p=>p.Caminho).ToList(),
                     Nome = x.Nome,
-                    ValorRifa = x.ValorRifa
+                    ValorRifa = x.ValorRifa,
+                    DataSorteio = Convert.ToDateTime(x.DataSorteio)
                 };
 
                 model.Add(data);
@@ -51,6 +52,16 @@ namespace EiSorteei.Controllers
         {
             ViewBag.Message = "Your contact page.";
 
+            return View();
+        }
+
+        public ActionResult Pagamento()
+        {
+            return View();
+        }
+
+        public ActionResult Regulamento()
+        {
             return View();
         }
     }

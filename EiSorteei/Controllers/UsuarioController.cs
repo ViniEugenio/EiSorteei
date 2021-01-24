@@ -141,14 +141,14 @@ namespace EiSorteei.Controllers
         {
             ViewBag.Estados = Estados.GetAllStates();
 
-            if (!Valida(model.Cpf))
+            if (model.Cpf!=null && !Valida(model.Cpf))
             {
                 ModelState.AddModelError("Cpf", "O CPF digitado não é válido!");
             }
 
             if (_Context.Usuario.Any(u => u.Email.Equals(model.Email)))
             {
-                ModelState.AddModelError("Email", "O Email digitado já está sendo usado por outro usuário!");
+                ModelState.AddModelError("Email", "Email em uso!");
             }
 
             if (_Context.Usuario.Any(u => u.Cpf.Equals(model.Cpf)))

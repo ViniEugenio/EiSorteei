@@ -56,7 +56,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/17/2021 19:16:13</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Vendedor/Index.cshtml">
-      <publishTime>01/16/2021 22:40:16</publishTime>
+      <publishTime>01/20/2021 19:03:35</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Vendedor/MinhasVendas.cshtml">
       <publishTime>01/16/2021 17:41:46</publishTime>
@@ -77,10 +77,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/16/2021 17:41:47</publishTime>
     </File>
     <File Include="bin/EiSorteei.dll">
-      <publishTime>01/17/2021 19:28:04</publishTime>
+      <publishTime>01/23/2021 20:14:08</publishTime>
     </File>
     <File Include="bin/EiSorteei.pdb">
-      <publishTime>01/17/2021 19:28:04</publishTime>
+      <publishTime>01/23/2021 20:14:08</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>01/16/2021 17:41:47</publishTime>
@@ -376,8 +376,17 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Content/jquery.datetimepicker.css">
       <publishTime>01/16/2021 17:41:47</publishTime>
     </File>
+    <File Include="Content/lity.min.css">
+      <publishTime>01/20/2021 16:39:38</publishTime>
+    </File>
     <File Include="Content/Site.css">
       <publishTime>01/16/2021 19:42:21</publishTime>
+    </File>
+    <File Include="Content/tema.min.css">
+      <publishTime>01/23/2021 20:12:51</publishTime>
+    </File>
+    <File Include="Content/vendor.min.css">
+      <publishTime>01/20/2021 16:38:17</publishTime>
     </File>
     <File Include="Data/Model1.edmx.diagram">
       <publishTime>01/16/2021 17:41:46</publishTime>
@@ -403,20 +412,122 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Global.asax">
       <publishTime>01/16/2021 17:41:47</publishTime>
     </File>
+    <File Include="Imagens/09f54618e8e513e27a7e933645600827.jpg">
+      <publishTime>01/20/2021 18:13:15</publishTime>
+    </File>
+    <File Include="Imagens/145078dee43f413edfc402eaaa8db01e.jpg">
+      <publishTime>01/20/2021 18:13:15</publishTime>
+    </File>
+    <File Include="Imagens/1543bb8d5ee8eff4091c61d67a341222.jpg">
+      <publishTime>01/20/2021 18:13:15</publishTime>
+    </File>
+    <File Include="Imagens/19fa4328b8893c4235bcafdb6c1408bb.jpg">
+      <publishTime>01/20/2021 18:13:15</publishTime>
+    </File>
+    <File Include="Imagens/25a663a531333ea04e7130620ee9aaf9.jpg">
+      <publishTime>01/20/2021 18:13:15</publishTime>
+    </File>
+    <File Include="Imagens/25c09c269f2017a6923e9f7e1b50343f.png">
+      <publishTime>01/20/2021 18:13:15</publishTime>
+    </File>
+    <File Include="Imagens/3a18bf0219487d70fe1f1889fd1272c6.png">
+      <publishTime>01/20/2021 18:13:15</publishTime>
+    </File>
+    <File Include="Imagens/3b626a7f7b8f0aa4f6caf087aaf6fecb.png">
+      <publishTime>01/20/2021 18:13:15</publishTime>
+    </File>
+    <File Include="Imagens/3bce5991b392b941e57df3a599dc3b83.jpg">
+      <publishTime>01/20/2021 18:13:15</publishTime>
+    </File>
+    <File Include="Imagens/3dd0de39393b789b14fb0b28d728b39e.jpg">
+      <publishTime>01/20/2021 18:13:15</publishTime>
+    </File>
     <File Include="Imagens/47635a9c-62a5-49ca-aede-fda744a4b195-removebg-preview.png">
       <publishTime>01/16/2021 19:07:09</publishTime>
     </File>
     <File Include="Imagens/47635a9c-62a5-49ca-aede-fda744a4b195.jfif">
       <publishTime>01/16/2021 19:04:51</publishTime>
     </File>
+    <File Include="Imagens/5785786878374b5df50d96b83555fadf.jpeg">
+      <publishTime>01/20/2021 18:13:15</publishTime>
+    </File>
+    <File Include="Imagens/595411433ae88b389d3560deb98b96d9.png">
+      <publishTime>01/20/2021 18:13:15</publishTime>
+    </File>
+    <File Include="Imagens/712deea412a16b6ecb3cae55661e5be2.svg">
+      <publishTime>01/20/2021 18:13:15</publishTime>
+    </File>
+    <File Include="Imagens/756b5733c4d75d95f1b1cf2550df1ec6.jpeg">
+      <publishTime>01/20/2021 18:13:15</publishTime>
+    </File>
+    <File Include="Imagens/76e732fa30d11ef13516358a85b1a746.svg">
+      <publishTime>01/20/2021 18:13:15</publishTime>
+    </File>
+    <File Include="Imagens/85412db0f3d70b87e33960e7f2027151.jpeg">
+      <publishTime>01/20/2021 18:13:15</publishTime>
+    </File>
+    <File Include="Imagens/8d64f6117d806c7e8b10a29137a7c021.svg">
+      <publishTime>01/20/2021 18:13:15</publishTime>
+    </File>
+    <File Include="Imagens/9275b348e02a0ff51325231f3f30acf0.png">
+      <publishTime>01/20/2021 18:13:15</publishTime>
+    </File>
+    <File Include="Imagens/9fac368a33491d9fe3724e836224419c.jpg">
+      <publishTime>01/20/2021 18:13:15</publishTime>
+    </File>
+    <File Include="Imagens/a6befd6c12c382b70cd5dfa9fe5b2ae7.jpeg">
+      <publishTime>01/20/2021 18:13:15</publishTime>
+    </File>
+    <File Include="Imagens/ad23bb386249f572e8acff8aac204b74.jpg">
+      <publishTime>01/20/2021 18:13:15</publishTime>
+    </File>
+    <File Include="Imagens/ae452a90bc82923aad2b755167061512.svg">
+      <publishTime>01/20/2021 18:13:15</publishTime>
+    </File>
+    <File Include="Imagens/c6c17aa35681d8c24dfca4e5d8bf95e7.svg">
+      <publishTime>01/20/2021 18:13:15</publishTime>
+    </File>
+    <File Include="Imagens/c7566a39720e042f5e8d3aeaa304b637.png">
+      <publishTime>01/20/2021 18:13:15</publishTime>
+    </File>
     <File Include="Imagens/Cópia de Logo Verde e Branco de Curso Preparatório %281%29.png">
       <publishTime>01/16/2021 17:41:47</publishTime>
+    </File>
+    <File Include="Imagens/d837c411cd53dfc31b6f1afe9235d276.ico">
+      <publishTime>01/20/2021 18:13:15</publishTime>
+    </File>
+    <File Include="Imagens/d9ebd0e59492fd149198077b07c50313.jpeg">
+      <publishTime>01/20/2021 18:13:15</publishTime>
+    </File>
+    <File Include="Imagens/dab915b6af2f391fe4055ead1c0343a2.png">
+      <publishTime>01/20/2021 18:13:15</publishTime>
     </File>
     <File Include="Imagens/download.png">
       <publishTime>01/16/2021 17:41:47</publishTime>
     </File>
+    <File Include="Imagens/e205726a88982557662ca5b2def5362b.jpg">
+      <publishTime>01/20/2021 18:13:15</publishTime>
+    </File>
+    <File Include="Imagens/e46b2c8aa3642d9742ce5c401708977e.jpeg">
+      <publishTime>01/20/2021 18:13:15</publishTime>
+    </File>
+    <File Include="Imagens/e57966964a996d27c5a37683c893192e.jpeg">
+      <publishTime>01/20/2021 18:13:15</publishTime>
+    </File>
+    <File Include="Imagens/ee9362a7b15d748b60a7efc36cce37ce.jpg">
+      <publishTime>01/20/2021 18:13:15</publishTime>
+    </File>
+    <File Include="Imagens/efc0f9e9d90139150c2c6b12e470edb6.svg">
+      <publishTime>01/20/2021 18:13:15</publishTime>
+    </File>
+    <File Include="Imagens/f1ec448cbb74ba2db2e33a383ee4c0b2.jpg">
+      <publishTime>01/20/2021 18:13:15</publishTime>
+    </File>
     <File Include="Imagens/favicon.ico">
       <publishTime>01/16/2021 17:41:46</publishTime>
+    </File>
+    <File Include="Imagens/fd2f8c0237349e323c7e5e77e895858f.jpg">
+      <publishTime>01/20/2021 18:13:15</publishTime>
     </File>
     <File Include="Imagens/pagamento-seguro.png">
       <publishTime>01/16/2021 17:41:47</publishTime>
@@ -426,6 +537,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     </File>
     <File Include="Imagens/user.png">
       <publishTime>01/16/2021 17:41:47</publishTime>
+    </File>
+    <File Include="Imagens/whatsapp.svg">
+      <publishTime>01/20/2021 18:18:59</publishTime>
     </File>
     <File Include="Scripts/bootstrap-datepicker.js">
       <publishTime>01/16/2021 17:41:47</publishTime>
@@ -462,6 +576,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     </File>
     <File Include="Scripts/jquery.mask.min.js">
       <publishTime>01/16/2021 17:41:47</publishTime>
+    </File>
+    <File Include="Scripts/jquery.min.js">
+      <publishTime>01/20/2021 16:38:46</publishTime>
     </File>
     <File Include="Scripts/jquery.validate.js">
       <publishTime>01/16/2021 17:41:47</publishTime>
@@ -631,6 +748,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Scripts/modernizr-2.8.3.js">
       <publishTime>01/16/2021 17:41:47</publishTime>
     </File>
+    <File Include="Scripts/vendor.min.js">
+      <publishTime>01/20/2021 16:39:15</publishTime>
+    </File>
     <File Include="Views/Comprar/Index.cshtml">
       <publishTime>01/16/2021 23:16:19</publishTime>
     </File>
@@ -638,22 +758,25 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/17/2021 17:34:17</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>01/17/2021 18:45:13</publishTime>
+      <publishTime>01/23/2021 20:03:37</publishTime>
+    </File>
+    <File Include="Views/Home/Pagamento.cshtml">
+      <publishTime>01/20/2021 18:15:17</publishTime>
     </File>
     <File Include="Views/Premios/Index.cshtml">
-      <publishTime>01/17/2021 19:06:00</publishTime>
+      <publishTime>01/23/2021 20:04:08</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>01/16/2021 17:41:47</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>01/17/2021 19:22:49</publishTime>
+      <publishTime>01/20/2021 18:28:23</publishTime>
     </File>
     <File Include="Views/Shared/_LayoutComprar.cshtml">
       <publishTime>01/17/2021 19:24:06</publishTime>
     </File>
     <File Include="Views/Usuario/CadastrarUsuario.cshtml">
-      <publishTime>01/17/2021 19:26:38</publishTime>
+      <publishTime>01/20/2021 19:08:06</publishTime>
     </File>
     <File Include="Views/Usuario/Index.cshtml">
       <publishTime>01/17/2021 19:26:12</publishTime>

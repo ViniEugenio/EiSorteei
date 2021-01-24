@@ -12,5 +12,6 @@ namespace EiSorteei.Models
         public List<string> Imagem { get; set; }
         public decimal ValorRifa { get; set; }
         public string Status { get; set; }
+        public DateTime DataSorteio { get; set; }
     }
 }
