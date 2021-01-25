@@ -20,6 +20,7 @@ namespace EiSorteei.Data
         public System.DateTime DataCadastro { get; set; }
         public System.DateTime DataAtualizacao { get; set; }
         public bool Status { get; set; }
+        public string ContaTranferencia { get; set; }
     
         public virtual Usuario Usuario { get; set; }
     }

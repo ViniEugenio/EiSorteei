@@ -374,7 +374,6 @@ C:\Users\Pichau\Desktop\EiSorteei\EiSorteei\bin\pt-br\System.Web.Razor.resources
 C:\Users\Pichau\Desktop\EiSorteei\EiSorteei\bin\pt-br\System.Web.WebPages.resources.dll
 C:\Users\Pichau\Desktop\EiSorteei\EiSorteei\bin\pt-br\System.Web.WebPages.Deployment.resources.dll
 C:\Users\Pichau\Desktop\EiSorteei\EiSorteei\bin\pt-br\System.Web.WebPages.Razor.resources.dll
-C:\Users\Pichau\Desktop\EiSorteei\EiSorteei\obj\Debug\EiSorteei.csprojAssemblyReference.cache
 C:\Users\Pichau\Desktop\EiSorteei\EiSorteei\obj\Debug\EiSorteei.csproj.CoreCompileInputs.cache
 C:\Users\Pichau\Desktop\EiSorteei\EiSorteei\obj\Debug\EiSorteei.csproj.CopyComplete
 C:\Users\Pichau\Desktop\EiSorteei\EiSorteei\obj\Debug\EiSorteei.dll

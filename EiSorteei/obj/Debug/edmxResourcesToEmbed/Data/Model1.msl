@@ -87,6 +87,7 @@
     <EntitySetMapping Name="Vendedor">
       <EntityTypeMapping TypeName="EiSorteeiModel.Vendedor">
         <MappingFragment StoreEntitySet="Vendedor">
+          <ScalarProperty Name="ContaTranferencia" ColumnName="ContaTranferencia" />
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="DataAtualizacao" ColumnName="DataAtualizacao" />
           <ScalarProperty Name="DataCadastro" ColumnName="DataCadastro" />

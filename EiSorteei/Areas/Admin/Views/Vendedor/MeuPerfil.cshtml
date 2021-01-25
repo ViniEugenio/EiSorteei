@@ -88,6 +88,11 @@
                     @Html.EditorFor(model => model.Numero, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(m => m.Numero)
                 </div>
+                <div class="form-group col-lg-12 col-xs-12">
+                    <label for="">Conta para transferência</label>
+                    <input class="form-control" name="ContaTransferencia" value="@ViewBag.Conta"/>
+                    <p class="text-danger">Informe uma conta do Mercado Pago ou código Pix para que seja feito o repasse das suas comissões como vendedor da plataforma. Não informando o campo a acima não será possível fazer a transferência de suas comissões!</p>
+                </div>
             </div>
 
             <div class="row row-flex align-center flex-wrap m-t-2">

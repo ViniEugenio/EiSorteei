@@ -412,7 +412,17 @@ namespace EiSorteei.Areas.Admin.Controllers
 
             try
             {
-                ViewBag.Codigo = _Context.Vendedor.FirstOrDefault(v => v.IdUsuario.Equals(UsuarioLogado.Id)).Codigo;
+                ViewBag.Codigo = _Context.Vendedor.FirstOrDefault(v => v.IdUsuario.Equals(UsuarioLogado.Id)).Codigo;                
+            }
+
+            catch
+            {
+
+            }            
+
+            try
+            {
+                ViewBag.Conta = _Context.Vendedor.FirstOrDefault(v => v.IdUsuario.Equals(UsuarioLogado.Id)).ContaTranferencia;
             }
 
             catch
@@ -425,7 +435,7 @@ namespace EiSorteei.Areas.Admin.Controllers
 
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public ActionResult MeuPerfil(Usuario model, HttpPostedFileBase foto)
+        public ActionResult MeuPerfil(Usuario model, HttpPostedFileBase foto, string ContaTransferencia = "")
         {
             ViewBag.Estados = Estados.GetAllStates();
 
@@ -462,10 +472,13 @@ namespace EiSorteei.Areas.Admin.Controllers
                 }
 
                 _Context.Entry(model).State = System.Data.Entity.EntityState.Modified;
+
+                _Context.Database.ExecuteSqlCommand("update Vendedor set ContaTranferencia='" + ContaTransferencia + "' where IdUsuario =" + model.Id);
+
                 _Context.SaveChanges();
             }
 
-            return View(model);
+            return RedirectToAction("MeuPerfil");
         }
 
 

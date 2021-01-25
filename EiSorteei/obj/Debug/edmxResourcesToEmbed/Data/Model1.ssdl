@@ -87,6 +87,7 @@
     <Property Name="DataCadastro" Type="date" Nullable="false" />
     <Property Name="DataAtualizacao" Type="date" Nullable="false" />
     <Property Name="Status" Type="bit" Nullable="false" />
+    <Property Name="ContaTranferencia" Type="varchar(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="BilhetesCarrinho">
     <Key>
