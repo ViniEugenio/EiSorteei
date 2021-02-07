@@ -3,6 +3,8 @@ using EiSorteei.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 
@@ -22,12 +24,12 @@ namespace EiSorteei.Controllers
 
             List<ProdutoHomeViewModel> model = new List<ProdutoHomeViewModel>();
 
-            foreach(var x in Produtos)
+            foreach (var x in Produtos)
             {
                 ProdutoHomeViewModel data = new ProdutoHomeViewModel()
                 {
                     Id = x.Id,
-                    Imagem = _Context.Multimidia.Where(p => p.IdProduto.Equals(x.Id) && p.Status).Select(p=>p.Caminho).ToList(),
+                    Imagem = _Context.Multimidia.Where(p => p.IdProduto.Equals(x.Id) && p.Status).Select(p => p.Caminho).ToList(),
                     Nome = x.Nome,
                     ValorRifa = x.ValorRifa,
                     DataSorteio = Convert.ToDateTime(x.DataSorteio)

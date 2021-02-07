@@ -52,6 +52,7 @@
                                     else
                                     {
                                         <button class="btn btn-primary" id="CompartilharLink" data-id="@produto.Id"><i class="fa fa-share"></i></button>
+                                        <a class="btn btn-primary" data-id="@produto.Id" id="GerarQrCode" style="color: white;"><i class="fa fa-qrcode"></i></a>
                                     }
 
                                 </td>
@@ -164,6 +165,40 @@
                 }
 
             });
+        });
+
+
+        $("#GerarQrCode").click(function () {
+
+            let Link = "";
+            let Url = window.location.href;
+            Url = Url.replace("/Admin/Produtos", "");
+            let IdProduto = $(this).attr("data-id");
+
+             $.ajax({
+
+                url: "@Url.Action("CodVendedor","Produtos")",
+                method: "POST",
+                success: function (response) {
+
+                    Link = Url + "/Comprar?IdProduto=" + IdProduto + "&CodVendedor=" + response;
+                    console.log(Link);
+
+                    $.ajax({
+                        url: "@Url.Action("GetQrCode","Produtos")",
+                        method:"POST",
+                        data: {
+                            url: Link
+                        },
+                        success: function (response) {
+                            window.open(response.ResponseUri, "_blank");
+                        }
+                    });
+                }
+
+             });
+
+
         });
 
     </script>

@@ -64,6 +64,7 @@
     <EntitySetMapping Name="Usuario">
       <EntityTypeMapping TypeName="EiSorteeiModel.Usuario">
         <MappingFragment StoreEntitySet="Usuario">
+          <ScalarProperty Name="UserImage" ColumnName="UserImage" />
           <ScalarProperty Name="Telefone" ColumnName="Telefone" />
           <ScalarProperty Name="CEP" ColumnName="CEP" />
           <ScalarProperty Name="Status" ColumnName="Status" />
@@ -86,6 +87,7 @@
     <EntitySetMapping Name="Vendedor">
       <EntityTypeMapping TypeName="EiSorteeiModel.Vendedor">
         <MappingFragment StoreEntitySet="Vendedor">
+          <ScalarProperty Name="ContaTranferencia" ColumnName="ContaTranferencia" />
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="DataAtualizacao" ColumnName="DataAtualizacao" />
           <ScalarProperty Name="DataCadastro" ColumnName="DataCadastro" />
@@ -119,6 +121,7 @@
     <EntitySetMapping Name="Compras">
       <EntityTypeMapping TypeName="EiSorteeiModel.Compras">
         <MappingFragment StoreEntitySet="Compras">
+          <ScalarProperty Name="ValorCompra" ColumnName="ValorCompra" />
           <ScalarProperty Name="UrlBoleto" ColumnName="UrlBoleto" />
           <ScalarProperty Name="CodigoVendedor" ColumnName="CodigoVendedor" />
           <ScalarProperty Name="IdCompra" ColumnName="IdCompra" />
@@ -159,6 +162,16 @@
           <ScalarProperty Name="DataCadastro" ColumnName="DataCadastro" />
           <ScalarProperty Name="IdProduto" ColumnName="IdProduto" />
           <ScalarProperty Name="IdOrderBump" ColumnName="IdOrderBump" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OrderBumpsEscolhidos">
+      <EntityTypeMapping TypeName="EiSorteeiModel.OrderBumpsEscolhidos">
+        <MappingFragment StoreEntitySet="OrderBumpsEscolhidos">
+          <ScalarProperty Name="IdOrderBump" ColumnName="IdOrderBump" />
+          <ScalarProperty Name="DataCadastro" ColumnName="DataCadastro" />
+          <ScalarProperty Name="IdBilhete" ColumnName="IdBilhete" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>

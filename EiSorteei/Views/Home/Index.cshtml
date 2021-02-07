@@ -37,7 +37,7 @@
                     foreach (var Imagem in produto.Imagem)
                     {
                         <a href="@Url.Action("Index","Comprar",new { IdProduto=produto.Id})">
-                            <img src="~/Content/ImagemProdutos/@Imagem" alt="@produto.Nome" 
+                            <img src="~/Content/ImagemProdutos/@Imagem" alt="@produto.Nome"
                         </a>
                     }
                 }
@@ -185,20 +185,20 @@
                     </div>
                     <div class="col-lg-6 mt-ipad col-md-12 col-xs-12 mt-mobile">
                         <div class="title-content text-xs-left">
-                            <h4>Contas Bancárias</h4>
+                            <h4>Métodos de Pagamento</h4>
                             @*<p>Veja as contas que você vai poder transferir!</p>*@
                         </div><div id="accordion" role="tablist" aria-multiselectable="true" class="m-t-2">
-                            @*<div class="card">
-                                    <div class="card-header" role="tab" id="heading9">
-                                        <picture>
-                                            <source srcset="https://www.ppremios.com/portal/img/crop?img=e205726a88982557662ca5b2def5362b.jpg&w=80&h=53&q=100&fit=crop&fm=webp" type="image/webp">
-                                            <source srcset="https://www.ppremios.com/portal/img/crop?img=e205726a88982557662ca5b2def5362b.jpg&w=80&h=53&q=100&fit=crop&fm=jpg" type="image/jpeg">
-                                            <img style="height:53px;object-fit:cover" class="img-fluid" src="https://www.ppremios.com/portal/img/crop?img=e205726a88982557662ca5b2def5362b.jpg&w=80&h=53&q=100&fit=crop&fm=jpg" loading="lazy" alt="">
-                                        </picture>
-                                        <h5 class="m-b-0">Banco Itaú</h5>
-                                    </div>
+                            <div class="card">
+                                <div class="card-header" role="tab" id="heading9">
+                                    <picture>
+                                        @*<source srcset="https://www.ppremios.com/portal/img/crop?img=e205726a88982557662ca5b2def5362b.jpg&w=80&h=53&q=100&fit=crop&fm=webp" type="image/webp">
+                                        <source srcset="https://www.ppremios.com/portal/img/crop?img=e205726a88982557662ca5b2def5362b.jpg&w=80&h=53&q=100&fit=crop&fm=jpg" type="image/jpeg">*@
+                                        <img style="height:81px;object-fit:cover" class="img-fluid" src="~/Imagens/logo-pix-icone-1024.png" loading="lazy" alt="">
+                                    </picture>
+                                    <h5 class="m-b-0">PIX</h5>
                                 </div>
-                                <div class="card">
+                            </div>
+                            @*<div class="card">
                                     <div class="card-header" role="tab" id="heading11">
                                         <picture>
                                             <source srcset="https://www.ppremios.com/portal/img/crop?img=d9ebd0e59492fd149198077b07c50313.jpeg&w=80&h=53&q=100&fit=crop&fm=webp" type="image/webp">

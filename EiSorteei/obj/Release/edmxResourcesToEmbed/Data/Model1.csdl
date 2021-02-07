@@ -66,6 +66,15 @@
       <End Role="OrderBump" EntitySet="OrderBump" />
       <End Role="OrderBumps_Produto" EntitySet="OrderBumps_Produto" />
     </AssociationSet>
+    <EntitySet Name="OrderBumpsEscolhidos" EntityType="EiSorteeiModel.OrderBumpsEscolhidos" />
+    <AssociationSet Name="FK__OrderBump__IdBil__5CD6CB2B" Association="EiSorteeiModel.FK__OrderBump__IdBil__5CD6CB2B">
+      <End Role="BilhetesCarrinho" EntitySet="BilhetesCarrinho" />
+      <End Role="OrderBumpsEscolhidos" EntitySet="OrderBumpsEscolhidos" />
+    </AssociationSet>
+    <AssociationSet Name="FK__OrderBump__IdOrd__5DCAEF64" Association="EiSorteeiModel.FK__OrderBump__IdOrd__5DCAEF64">
+      <End Role="OrderBump" EntitySet="OrderBump" />
+      <End Role="OrderBumpsEscolhidos" EntitySet="OrderBumpsEscolhidos" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="CategoriaProduto">
     <Key>
@@ -157,6 +166,7 @@
     <NavigationProperty Name="Produto" Relationship="EiSorteeiModel.FK__Produto__IdUsuar__2E1BDC42" FromRole="Usuario" ToRole="Produto" />
     <NavigationProperty Name="Carrinho" Relationship="EiSorteeiModel.FK__Carrinho__IdUsua__4AB81AF0" FromRole="Usuario" ToRole="Carrinho" />
     <NavigationProperty Name="Vendedor" Relationship="EiSorteeiModel.FK__Vendedor__IdUsua__276EDEB3" FromRole="Usuario" ToRole="Vendedor" />
+    <Property Name="UserImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="Vendedor">
     <Key>
@@ -169,6 +179,7 @@
     <Property Name="DataAtualizacao" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="Status" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="Usuario" Relationship="EiSorteeiModel.FK__Vendedor__IdUsua__276EDEB3" FromRole="Vendedor" ToRole="Usuario" />
+    <Property Name="ContaTranferencia" Type="String" Nullable="false" MaxLength="Max" />
   </EntityType>
   <EntityType Name="BilhetesCarrinho">
     <Key>
@@ -179,6 +190,7 @@
     <Property Name="NumeroBilhete" Type="Int32" Nullable="false" />
     <Property Name="DataCadastro" Type="DateTime" Nullable="false" Precision="0" />
     <NavigationProperty Name="Carrinho" Relationship="EiSorteeiModel.FK__BilhetesC__IdCar__4D94879B" FromRole="BilhetesCarrinho" ToRole="Carrinho" />
+    <NavigationProperty Name="OrderBumpsEscolhidos" Relationship="EiSorteeiModel.FK__OrderBump__IdBil__5CD6CB2B" FromRole="BilhetesCarrinho" ToRole="OrderBumpsEscolhidos" />
   </EntityType>
   <EntityType Name="Carrinho">
     <Key>
@@ -206,6 +218,7 @@
     <Property Name="IdCompra" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="CodigoVendedor" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="UrlBoleto" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="ValorCompra" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
   </EntityType>
   <Association Name="FK__Produto__IdCateg__2F10007B">
     <End Type="EiSorteeiModel.CategoriaProduto" Role="CategoriaProduto" Multiplicity="1" />
@@ -361,6 +374,7 @@
     <Property Name="Status" Type="Boolean" Nullable="false" />
     <Property Name="DataCadastro" Type="DateTime" Nullable="false" Precision="0" />
     <NavigationProperty Name="OrderBumps_Produto" Relationship="EiSorteeiModel.FK__OrderBump__IdOrd__59063A47" FromRole="OrderBump" ToRole="OrderBumps_Produto" />
+    <NavigationProperty Name="OrderBumpsEscolhidos" Relationship="EiSorteeiModel.FK__OrderBump__IdOrd__5DCAEF64" FromRole="OrderBump" ToRole="OrderBumpsEscolhidos" />
   </EntityType>
   <EntityType Name="OrderBumps_Produto">
     <Key>
@@ -394,6 +408,41 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="OrderBumps_Produto">
+        <PropertyRef Name="IdOrderBump" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="OrderBumpsEscolhidos">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdBilhete" Type="Int64" Nullable="false" />
+    <Property Name="DataCadastro" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="BilhetesCarrinho" Relationship="EiSorteeiModel.FK__OrderBump__IdBil__5CD6CB2B" FromRole="OrderBumpsEscolhidos" ToRole="BilhetesCarrinho" />
+    <Property Name="IdOrderBump" Type="Int64" Nullable="false" />
+    <NavigationProperty Name="OrderBump" Relationship="EiSorteeiModel.FK__OrderBump__IdOrd__5DCAEF64" FromRole="OrderBumpsEscolhidos" ToRole="OrderBump" />
+  </EntityType>
+  <Association Name="FK__OrderBump__IdBil__5CD6CB2B">
+    <End Type="EiSorteeiModel.BilhetesCarrinho" Role="BilhetesCarrinho" Multiplicity="1" />
+    <End Type="EiSorteeiModel.OrderBumpsEscolhidos" Role="OrderBumpsEscolhidos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BilhetesCarrinho">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OrderBumpsEscolhidos">
+        <PropertyRef Name="IdBilhete" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__OrderBump__IdOrd__5DCAEF64">
+    <End Type="EiSorteeiModel.OrderBump" Role="OrderBump" Multiplicity="1" />
+    <End Type="EiSorteeiModel.OrderBumpsEscolhidos" Role="OrderBumpsEscolhidos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OrderBump">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OrderBumpsEscolhidos">
         <PropertyRef Name="IdOrderBump" />
       </Dependent>
     </ReferentialConstraint>
