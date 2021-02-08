@@ -37,7 +37,7 @@
                     foreach (var Imagem in produto.Imagem)
                     {
                         <a href="@Url.Action("Index","Comprar",new { IdProduto=produto.Id})">
-                            <img src="~/Content/ImagemProdutos/@Imagem" alt="@produto.Nome"
+                            <img src="~/Content/ImagemProdutosHome/@Imagem" alt="@produto.Nome"
                         </a>
                     }
                 }
@@ -68,7 +68,7 @@
                                 <div class="imagem">
                                     <a href="@Url.Action("Index","Comprar",new { IdProduto=produto.Id})">
                                         <div class="carousel">
-                                            <img style="height:260px;object-fit:cover" class="img-fluid" src="~/Content/ImagemProdutos/@produto.Imagem[0]" loading="lazy" alt="@produto.Nome">
+                                            <img style="height:260px;object-fit:cover" class="img-fluid" src="~/Content/ImagemProdutos/@produto.ImagemProduto[0]" loading="lazy" alt="@produto.Nome">
                                         </div>
                                     </a>
                                 </div>
@@ -192,7 +192,7 @@
                                 <div class="card-header" role="tab" id="heading9">
                                     <picture>
                                         @*<source srcset="https://www.ppremios.com/portal/img/crop?img=e205726a88982557662ca5b2def5362b.jpg&w=80&h=53&q=100&fit=crop&fm=webp" type="image/webp">
-                                        <source srcset="https://www.ppremios.com/portal/img/crop?img=e205726a88982557662ca5b2def5362b.jpg&w=80&h=53&q=100&fit=crop&fm=jpg" type="image/jpeg">*@
+                                            <source srcset="https://www.ppremios.com/portal/img/crop?img=e205726a88982557662ca5b2def5362b.jpg&w=80&h=53&q=100&fit=crop&fm=jpg" type="image/jpeg">*@
                                         <img style="height:81px;object-fit:cover" class="img-fluid" src="~/Imagens/logo-pix-icone-1024.png" loading="lazy" alt="">
                                     </picture>
                                     <h5 class="m-b-0">PIX</h5>

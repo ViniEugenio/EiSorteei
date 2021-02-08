@@ -91,7 +91,59 @@
                     <div class="card">
 
                         <div class="card-header">
-                            <h2>Imagens do Produto</h2>
+                            <h2>Imagens do Produto / Home</h2>
+                            @Html.ValidationMessageFor(model => model.Imagem, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="row form-group">
+
+                                @foreach (var x in ViewBag.ImagensHome)
+                                {
+                                    <div class="col-md-4" id="Imagem-@x.Id">
+
+                                        <img src="~/Content/ImagemProdutosHome/@x.Imagem" alt="Imagem do Prêmio" style="width:290px;height:174px;" />
+
+                                        <div class="form-group">
+                                            <button class="btn btn-danger ExcluirImagem" style="margin-top:5px;" data-id="@x.Id" type="button"><i class='fa fa-trash'></i></button>
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+
+                            <div id="Imagens" class="form-group">
+
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        <input type="file" class="form-control" name="ImagemHome" data-numero="1" onchange="PreviewHome(1)" id="imagem-1" />
+                                    </div>
+
+                                    <div class="col-md-6" style="display:flex; flex-direction:row; justify-content:center;">
+                                        <img id="previewImgHome-1" style="height:120px; width:120px; display:none;" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <button class="btn btn-success" type="button" id="AdicionarHome"><i class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <div class="card">
+
+                        <div class="card-header">
+                            <h2>Imagens do Produto / Página de Vendas</h2>
                             @Html.ValidationMessageFor(model => model.Imagem, "", new { @class = "text-danger" })
                         </div>
 
@@ -237,9 +289,10 @@
         $("#DataSorteio").mask("00/00/0000");
 
         let QuantidadeImagens = 1;
+        let QuantidadeImagensHome = 1;
         let OrdersOpen = false;
-        
-        
+
+
         function Preview(numero) {
 
             var file = $("#imagem-" + numero).get(0).files[0];
@@ -255,6 +308,38 @@
                 reader.readAsDataURL(file);
             }
         }
+
+        function PreviewHome(numero) {
+
+            var file = $("#imagem-" + numero).get(0).files[0];
+
+            if (file) {
+                var reader = new FileReader();
+
+                reader.onload = function () {
+                    $("#previewImgHome-" + numero).attr("src", reader.result);
+                    $("#previewImgHome-" + numero).css("display", "block");
+                }
+
+                reader.readAsDataURL(file);
+            }
+        }
+
+        $("#AdicionarHome").click(function () {
+            QuantidadeImagens++;
+
+            $("#Imagens").append(
+
+                "<div class='form-group row' id='GrupoImagem-" + QuantidadeImagensHome + "'>" +
+                "<div class='col-md-6'><input type='file' class='form-control' name='ImagemHome' data-numero='" + QuantidadeImagensHome + "' onchange='Preview(" + QuantidadeImagensHome + ")' id='imagem-" + QuantidadeImagensHome + "'/>" +
+                "<button class='btn btn-danger' style='margin-top:5px;' type='button' onclick='ExcluirImagem(" + QuantidadeImagensHome + ")'><i class='fa fa-trash'></i></button>" +
+                "</div>" +
+                "<div class='col-md-6' style='display: flex; flex-direction:row; justify-content: center;'><img id='previewImgHome-" + QuantidadeImagensHome + "' style='height:120px; width:120px; display:none;'/></div>" +
+                "</div>"
+
+            );
+
+        });
 
         $("#Adicionar").click(function () {
             QuantidadeImagens++;
@@ -320,7 +405,7 @@
 
                         @foreach(var x in ViewBag.OrderBumps)
                         {
-                            <text>                                
+                            <text>
                                 $("#CheckOrder-@x.Id").prop('checked',true);
                             </text>
                         }

@@ -29,7 +29,8 @@ namespace EiSorteei.Controllers
                 ProdutoHomeViewModel data = new ProdutoHomeViewModel()
                 {
                     Id = x.Id,
-                    Imagem = _Context.Multimidia.Where(p => p.IdProduto.Equals(x.Id) && p.Status).Select(p => p.Caminho).ToList(),
+                    Imagem = _Context.ImagemHome.Where(p => p.IdProduto.Equals(x.Id) && p.Status).Select(p => p.Imagem).ToList(),
+                    ImagemProduto = _Context.Multimidia.Where(p => p.IdProduto.Equals(x.Id) && p.Status).Select(p => p.Caminho).ToList(),
                     Nome = x.Nome,
                     ValorRifa = x.ValorRifa,
                     DataSorteio = Convert.ToDateTime(x.DataSorteio)

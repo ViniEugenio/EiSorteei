@@ -87,7 +87,7 @@
     <Property Name="DataCadastro" Type="date" Nullable="false" />
     <Property Name="DataAtualizacao" Type="date" Nullable="false" />
     <Property Name="Status" Type="bit" Nullable="false" />
-    <Property Name="ContaTranferencia" Type="varchar(max)" Nullable="true" />
+    <Property Name="ContaTranferencia" Type="varchar(max)" />
   </EntityType>
   <EntityType Name="BilhetesCarrinho">
     <Key>
@@ -161,6 +161,16 @@
     <Property Name="DataCadastro" Type="varchar(max)" Nullable="false" />
     <Property Name="NumeroBilhete" Type="varchar(max)" Nullable="false" />
   </EntityType>
+  <EntityType Name="ImagemHome">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdProduto" Type="bigint" Nullable="false" />
+    <Property Name="Imagem" Type="varchar(max)" Nullable="false" />
+    <Property Name="DataCadastro" Type="date" Nullable="false" />
+    <Property Name="Status" Type="bit" Nullable="false" />
+  </EntityType>
   <Association Name="FK__BilhetesC__IdCar__4D94879B">
     <End Role="Carrinho" Type="Self.Carrinho" Multiplicity="1" />
     <End Role="BilhetesCarrinho" Type="Self.BilhetesCarrinho" Multiplicity="*" />
@@ -206,6 +216,18 @@
       </Principal>
       <Dependent Role="Compras">
         <PropertyRef Name="CarrinhoId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ImagemHom__IdPro__6FE99F9F">
+    <End Role="Produto" Type="Self.Produto" Multiplicity="1" />
+    <End Role="ImagemHome" Type="Self.ImagemHome" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Produto">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ImagemHome">
+        <PropertyRef Name="IdProduto" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -356,6 +378,7 @@
     <EntitySet Name="OrderBumps_Produto" EntityType="Self.OrderBumps_Produto" Schema="eisorteei" store:Type="Tables" />
     <EntitySet Name="OrderBumpsEscolhidos" EntityType="Self.OrderBumpsEscolhidos" Schema="eisorteei" store:Type="Tables" />
     <EntitySet Name="TempBilhetes" EntityType="Self.TempBilhetes" Schema="eisorteei" store:Type="Tables" />
+    <EntitySet Name="ImagemHome" EntityType="Self.ImagemHome" Schema="vinicius" store:Type="Tables" />
     <AssociationSet Name="FK__BilhetesC__IdCar__4D94879B" Association="Self.FK__BilhetesC__IdCar__4D94879B">
       <End Role="Carrinho" EntitySet="Carrinho" />
       <End Role="BilhetesCarrinho" EntitySet="BilhetesCarrinho" />
@@ -371,6 +394,10 @@
     <AssociationSet Name="FK__Compras__Carrinh__5070F446" Association="Self.FK__Compras__Carrinh__5070F446">
       <End Role="Carrinho" EntitySet="Carrinho" />
       <End Role="Compras" EntitySet="Compras" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ImagemHom__IdPro__6FE99F9F" Association="Self.FK__ImagemHom__IdPro__6FE99F9F">
+      <End Role="Produto" EntitySet="Produto" />
+      <End Role="ImagemHome" EntitySet="ImagemHome" />
     </AssociationSet>
     <AssociationSet Name="FK__Multimidi__IdPro__31EC6D26" Association="Self.FK__Multimidi__IdPro__31EC6D26">
       <End Role="Produto" EntitySet="Produto" />

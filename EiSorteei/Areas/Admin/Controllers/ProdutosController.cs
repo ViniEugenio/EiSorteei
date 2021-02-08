@@ -46,7 +46,12 @@ namespace EiSorteei.Areas.Admin.Controllers
 
             if (model.Imagem[0] == null)
             {
-                ModelState.AddModelError("Imagem", "Por favor selecione pelo menos uma imagem para o Produto");
+                ModelState.AddModelError("Imagem", "Por favor selecione pelo menos uma imagem para o Produto que aparecerá na tela de Vendas");
+            }
+
+            if (model.ImagemHome[0] == null)
+            {
+                ModelState.AddModelError("ImagemHome", "Por favor selecione pelo menos uma imagem para o Produto que aparecerá na Home");
             }
 
             if (model.DataSorteio != null)
@@ -144,20 +149,50 @@ namespace EiSorteei.Areas.Admin.Controllers
                 }
 
 
-                foreach (var OrderBump in model.OrderBumps)
+                Caminho = Server.MapPath("~/Content/ImagemProdutosHome/");
+                foreach (var imagem in model.ImagemHome)
                 {
-                    OrderBumps_Produto NovoOrderBump = new OrderBumps_Produto()
+                    if (imagem != null)
                     {
-                        DataCadastro = DateTime.Now,
-                        IdOrderBump = OrderBump,
-                        IdProduto = NovoProduto.Id,
-                        Status = true
-                    };
+                        string NomeArquivo = DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString() + DateTime.Now.Millisecond.ToString() + imagem.FileName;
+                        using (var stream = new FileStream(Caminho + NomeArquivo, FileMode.Create))
+                        {
+                            using (Stream inputStream = imagem.InputStream)
+                            {
+                                inputStream.CopyTo(stream);
+                            }
+                        }
 
-                    _Context.OrderBumps_Produto.Add(NovoOrderBump);
-                    _Context.SaveChanges();
+                        ImagemHome NovaMultimidia = new ImagemHome()
+                        {
+                            Imagem = NomeArquivo,
+                            DataCadastro = DateTime.Now,
+                            IdProduto = NovoProduto.Id,
+                            Status = true
+                        };
+
+                        _Context.ImagemHome.Add(NovaMultimidia);
+                        _Context.SaveChanges();
+                    }
+
                 }
 
+                if (model.OrderBumps != null)
+                {
+                    foreach (var OrderBump in model.OrderBumps)
+                    {
+                        OrderBumps_Produto NovoOrderBump = new OrderBumps_Produto()
+                        {
+                            DataCadastro = DateTime.Now,
+                            IdOrderBump = OrderBump,
+                            IdProduto = NovoProduto.Id,
+                            Status = true
+                        };
+
+                        _Context.OrderBumps_Produto.Add(NovoOrderBump);
+                        _Context.SaveChanges();
+                    }
+                }
 
                 return RedirectToAction("Index");
 
@@ -232,6 +267,7 @@ namespace EiSorteei.Areas.Admin.Controllers
 
             ViewBag.OrderBumps = _Context.OrderBump.Join(_Context.OrderBumps_Produto.Where(o => o.Status && o.IdProduto.Equals(Id)), o => o.Id, op => op.IdOrderBump, (o, op) => o).Where(o => o.Status).ToList();
             ViewBag.Imagens = _Context.Multimidia.Where(m => m.IdProduto.Equals(Id) && m.Status).ToList();
+            ViewBag.ImagensHome = _Context.ImagemHome.Where(m => m.IdProduto.Equals(Id) && m.Status).ToList();
 
             LoadViewBags();
             return View(model);
@@ -262,7 +298,15 @@ namespace EiSorteei.Areas.Admin.Controllers
             {
                 if (model.Imagem[0] == null)
                 {
-                    ModelState.AddModelError("Imagem", "Por favor selecione pelo menos uma imagem para o Produto");
+                    ModelState.AddModelError("Imagem", "Por favor selecione pelo menos uma imagem para o Produto para página de Vendas");
+                }
+            }
+
+            if (model.ImagemHome.Count() == 0 && _Context.ImagemHome.Where(m => m.IdProduto.Equals(model.Id)).Count() == 0)
+            {
+                if (model.Imagem[0] == null)
+                {
+                    ModelState.AddModelError("ImagemHome", "Por favor selecione pelo menos uma imagem para o Produto para a Home");
                 }
             }
 
@@ -351,6 +395,33 @@ namespace EiSorteei.Areas.Admin.Controllers
                         };
 
                         _Context.Multimidia.Add(NovaMultimidia);
+                        _Context.SaveChanges();
+                    }
+                }
+
+                Caminho = Server.MapPath("~/Content/ImagemProdutosHome/");
+                foreach (var imagem in model.Imagem)
+                {
+                    if (imagem != null)
+                    {
+                        string NomeArquivo = DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString() + DateTime.Now.Millisecond.ToString() + imagem.FileName;
+                        using (var stream = new FileStream(Caminho + NomeArquivo, FileMode.Create))
+                        {
+                            using (Stream inputStream = imagem.InputStream)
+                            {
+                                inputStream.CopyTo(stream);
+                            }
+                        }
+
+                        ImagemHome NovaMultimidia = new ImagemHome()
+                        {
+                            Imagem = NomeArquivo,
+                            DataCadastro = DateTime.Now,
+                            IdProduto = AlterarProduto.Id,
+                            Status = true
+                        };
+
+                        _Context.ImagemHome.Add(NovaMultimidia);
                         _Context.SaveChanges();
                     }
                 }

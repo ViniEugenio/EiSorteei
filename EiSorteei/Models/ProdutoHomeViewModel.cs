@@ -10,6 +10,7 @@ namespace EiSorteei.Models
         public long Id { get; set; }
         public string Nome { get; set; }
         public List<string> Imagem { get; set; }
+        public List<string> ImagemProduto { get; set; }
         public decimal ValorRifa { get; set; }
         public string Status { get; set; }
         public DateTime DataSorteio { get; set; }

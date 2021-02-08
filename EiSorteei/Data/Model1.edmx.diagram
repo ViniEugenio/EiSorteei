@@ -34,6 +34,8 @@
         <EntityTypeShape EntityType="EiSorteeiModel.OrderBumpsEscolhidos" Width="1.5" PointX="12.625" PointY="10.375" />
         <AssociationConnector Association="EiSorteeiModel.FK__OrderBump__IdBil__5CD6CB2B" />
         <AssociationConnector Association="EiSorteeiModel.FK__OrderBump__IdOrd__5DCAEF64" />
+        <EntityTypeShape EntityType="EiSorteeiModel.ImagemHome" Width="1.5" PointX="5.25" PointY="16.75" />
+        <AssociationConnector Association="EiSorteeiModel.FK__ImagemHom__IdPro__6FE99F9F" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

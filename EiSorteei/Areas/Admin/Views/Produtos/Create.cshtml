@@ -83,7 +83,41 @@
                     <div class="card">
 
                         <div class="card-header">
-                            <h2>Imagens do Produto</h2>
+                            <h2>Imagens do Produto / Home</h2>
+                            @Html.ValidationMessageFor(model => model.ImagemHome, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="card-body">
+
+                            <div id="ImagensHome" class="form-group">
+
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        <input type="file" class="form-control" name="ImagemHome" data-numero="1" onchange="PreviewHome(1)" id="imagemHome-1" accept="image/*" />
+                                    </div>
+
+                                    <div class="col-md-6" style="display:flex; flex-direction:row; justify-content:center;">
+                                        <img id="previewImgHome-1" style="height:120px; width:120px; display:none;" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <button class="btn btn-success" type="button" id="AdicionarHome"><i class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+
+                    <div class="card">
+
+                        <div class="card-header">
+                            <h2>Imagens do Produto / Página de Vendas</h2>
                             @Html.ValidationMessageFor(model => model.Imagem, "", new { @class = "text-danger" })
                         </div>
 
@@ -208,6 +242,7 @@
         $("#DataSorteio").mask("00/00/0000");
 
         let QuantidadeImagens = 1;
+        let QuantidadeImagensHome = 1;
         let OrdersOpen = false;
 
         function Preview(numero) {
@@ -226,6 +261,22 @@
             }
         }
 
+        function PreviewHome(numero) {
+
+            var file = $("#imagemHome-" + numero).get(0).files[0];
+
+            if (file) {
+                var reader = new FileReader();
+
+                reader.onload = function () {
+                    $("#previewImgHome-" + numero).attr("src", reader.result);
+                    $("#previewImgHome-" + numero).css("display", "block");
+                }
+
+                reader.readAsDataURL(file);
+            }
+        }
+
         $("#Adicionar").click(function () {
             QuantidadeImagens++;
 
@@ -236,6 +287,22 @@
                 "<button class='btn btn-danger' style='margin-top:5px;' type='button' onclick='ExcluirImagem(" + QuantidadeImagens + ")'><i class='fa fa-trash'></i></button>" +
                 "</div>" +
                 "<div class='col-md-6' style='display: flex; flex-direction:row; justify-content: center;'><img id='previewImg-" + QuantidadeImagens + "' style='height:120px; width:120px; display:none;'/></div>" +
+                "</div>"
+
+            );
+
+        });
+
+        $("#AdicionarHome").click(function () {
+            QuantidadeImagensHome++;
+
+            $("#ImagensHome").append(
+
+                "<div class='form-group row' id='GrupoImagem-" + QuantidadeImagensHome + "'>" +
+                "<div class='col-md-6'><input type='file' class='form-control' name='ImagemHome' data-numero='" + QuantidadeImagensHome + "' onchange='PreviewHome(" + QuantidadeImagensHome + ")' id='imagemHome-" + QuantidadeImagensHome + "'  accept='image/*'/>" +
+                "<button class='btn btn-danger' style='margin-top:5px;' type='button' onclick='ExcluirImagem(" + QuantidadeImagensHome + ")'><i class='fa fa-trash'></i></button>" +
+                "</div>" +
+                "<div class='col-md-6' style='display: flex; flex-direction:row; justify-content: center;'><img id='previewImgHome-" + QuantidadeImagensHome + "' style='height:120px; width:120px; display:none;'/></div>" +
                 "</div>"
 
             );
@@ -303,12 +370,12 @@
             else {
                 $("#OrderBumpAdicionado-" + id).remove();
             }
-          
+
 
         }
 
         function ExcluirOrderBump(id) {
-            $("#OrderBumpAdicionado-" + id).remove();            
+            $("#OrderBumpAdicionado-" + id).remove();
             $("#CheckOrder-" + id).prop("checked", false);
         }
 
