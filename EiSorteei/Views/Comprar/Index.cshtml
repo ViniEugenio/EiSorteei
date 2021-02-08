@@ -2,8 +2,6 @@
 
 @{
     ViewBag.Title = "EiSorteei";
-    Layout = "~/Views/Shared/_LayoutComprar.cshtml";
-
     string[] Comprados = ViewBag.Comprados;
     string[] Reservados = ViewBag.BilhetesReservados;
     int BilhetesIndisponiveis = Comprados.Count() + Reservados.Count();
@@ -11,9 +9,7 @@
 }
 
 <style>
-    body {
-        background: #1F1F1F;
-    }
+
 
     #Rifas {
         width: 100%;
@@ -22,11 +18,11 @@
     }
 
     .NumeroRifa {
-        background-color: #E0C777;
+        background-color: #5cb85c;
         width: 6%;
         color: #fff;
         margin: 5px;
-        font-size: 28px;
+        font-size: .75rem;
         text-align: center;
         border-radius: 20px;
         transition: all .3s ease-in-out;
@@ -116,173 +112,315 @@
     }
 </style>
 
-<div class="main">
-    <section class="blog-container" style="padding-bottom:0;">
-        <div class="center">
-            <div class="upper-box">
-                <h1>Escolha os números dos seus Bilhetes e boa sorte</h1>
+<div class="main ">
+    <section id="page" class="p-t-3 pb-section section-relative">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="title-content text-xs-center">
+                        <h4>SUPER SORTEIO BMW 320i + R$15.000,00 NA CONTA</h4>
+                        <p>Concorra a um carro sensacional e R$15.000,00 para começar o ano sem dívidas</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row row-flex justify-center flex-wrap m-t-3">
+                <div class="col-lg-7 col-md-10 col-xs-12">
+                    <div class="box-images">
+                        <div class="owl-imagens owl-carousel owl-theme">
+                            <div class="item" style="position:relative">
+                                <img class="owl-lazy" data-src="https://www.ppremios.com/portal/img/crop?img=1543bb8d5ee8eff4091c61d67a341222.jpg&w=640&h=427&q=90&fit=crop&fm=jpg" alt="Imagem do sorteio 27">
+                            </div>
+                            <div class="item" style="position:relative">
+                                <img class="owl-lazy" data-src="https://www.ppremios.com/portal/img/crop?img=09f54618e8e513e27a7e933645600827.jpg&w=640&h=427&q=90&fit=crop&fm=jpg" alt="Imagem do sorteio 28">
+                            </div>
+                            <div class="item" style="position:relative">
+                                <img class="owl-lazy" data-src="https://www.ppremios.com/portal/img/crop?img=145078dee43f413edfc402eaaa8db01e.jpg&w=640&h=427&q=90&fit=crop&fm=jpg" alt="Imagem do sorteio 29">
+                            </div>
+                            <div class="item" style="position:relative">
+                                <img class="owl-lazy" data-src="https://www.ppremios.com/portal/img/crop?img=fd2f8c0237349e323c7e5e77e895858f.jpg&w=640&h=427&q=90&fit=crop&fm=jpg" alt="Imagem do sorteio 30">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="title-content menor">
+                        <h4>Quem você estará ajudando?</h4>
+                        <p>TODAS as vendas de bilhetes irão ajudar o ÁRIA SOCIAL. Conheça mais sobre esta instituição:</p>
+                    </div><div class="instituicao">
+                        <div class="topo">
+                            <img class="lazy" data-src="https://www.ppremios.com/portal/img/crop?img=606fce0f7bd752d13ff9bf9136d545de.png&w=200&h=200&fit=crop&fm=jpg&q=90" alt="Aria Social - Educando e Profissionalizando através da Arte.">
+                            <div class="side">
+                                <h5>Aria Social - Educando e Profissionalizando através da Arte.</h5>
+                                <p>O Aria Espaço de Dança e Arte, localizado em Jaboatão dos Guararapes-PE, foi fundado há 26 anos e, em 2004, ganhou um novo propósito, passando a ser uma instituição sem fins lucrativos (OSCIP) e a se chamar Aria Social, Educando e Profissionalizando Através da Arte. Hoje atende diretamente 450 crianças e jovens em situação de vulnerabilidade social, com idade a partir de 6 anos. Além disso, 2mil famílias já foram impactadas pelo projeto, 4mil alunos já passaram pelo Aria Social e 67% dos alunos ingressaram no ensino superior em áreas afins. </p>
+                                <div class="font-weight-bold">Valor a ser doado: <span>R$</span> 12.000,00</div>
+                            </div>
+                        </div>
+                        <div class="bottom">
+                            <strong class="text-uppercase">Progresso:</strong>
+                            <div class="content-bar">
+                                <div class="info"><span>R$</span> 2.938,80</div>
+                                <div class="bar">
+                                    <div class="progresso" style="width:24.49%"></div>
+                                    <div class="info-percent" style="left:calc(24.49% - 4%)">24.49%</div>
+                                </div>
+                                <div class="info"><span>R$</span> 12.000,00</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-md-12 mt-ipad col-xs-12 mt-mobile">
+                    <div class="box-sorteio-details">
+                        <div class="item">
+                            <i class="fa fa-calendar"></i>
+                            <strong>Data do Sorteio:</strong> 13/02/2021 às 19:00
+                        </div>
+                        <div class="item">
+                            <i class="fas fa-dollar-sign"></i>
+                            <strong>Valor do Bilhete:</strong> <span>R$</span> 40,00
+                        </div>
+                        <hr>
+                        <div class="texto-default">
+                            <h1><strong><span style="font-size:16px">BMW 320I&nbsp;2.0 16V TURBO ACTIVE FLEX 4P AUTOM&Aacute;TICO</span></strong></h1>
+                            <ul>
+                                <li><strong>&nbsp;<span style="color:#f39c12">POT&Ecirc;NCIA:&nbsp;184</span></strong></li>
+                                <li><strong><span style="color:#f39c12">&nbsp;COMBUST&Iacute;VEL:&nbsp;FLEX</span></strong></li>
+                                <li><strong><span style="color:#f39c12"><span style="font-size:14px">&nbsp;Air Bag</span></span></strong></li>
+                                <li><strong><span style="color:#f39c12"><span style="font-size:14px">&nbsp;Alarme</span></span></strong></li>
+                                <li><strong><span style="color:#f39c12"><span style="font-size:14px">&nbsp;Apoio de bra&ccedil;o</span></span></strong></li>
+                                <li><strong><span style="color:#f39c12"><span style="font-size:14px">&nbsp;Banco do motorista com ajuste de altura</span></span></strong></li>
+                                <li><strong><span style="color:#f39c12"><span style="font-size:14px">&nbsp;Bancos em couro</span></span></strong></li>
+                                <li><strong><span style="color:#f39c12"><span style="font-size:14px">&nbsp;Bluetooth</span></span></strong></li>
+                                <li><strong><span style="color:#f39c12"><span style="font-size:14px">&nbsp;Bot&atilde;o Start</span></span></strong></li>
+                                <li><strong><span style="color:#f39c12"><span style="font-size:14px">&nbsp;Brake Light</span></span></strong></li>
+                                <li><strong><span style="color:#f39c12"><span style="font-size:14px">&nbsp;Computador de bordo</span></span></strong></li>
+                                <li><strong><span style="color:#f39c12"><span style="font-size:14px">&nbsp;Desemba&ccedil;ador traseiro</span></span></strong></li>
+                                <li><strong><span style="color:#f39c12"><span style="font-size:14px">&nbsp;Dire&ccedil;&atilde;o Eletrica/Hidr&aacute;ulica</span></span></strong></li>
+                                <li><strong><span style="color:#f39c12"><span style="font-size:14px">&nbsp;Freio ABS</span></span></strong></li>
+                                <li><strong><span style="color:#f39c12"><span style="font-size:14px">&nbsp;Retrovisor fotocr&ocirc;mico</span></span></strong></li>
+                                <li><strong><span style="color:#f39c12"><span style="font-size:14px">&nbsp;Retrovisor Rebat&iacute;vel</span></span></strong></li>
+                                <li><strong><span style="color:#f39c12"><span style="font-size:14px">&nbsp;Retrovisores el&eacute;tricos</span></span></strong></li>
+                                <li><strong><span style="color:#f39c12"><span style="font-size:14px">&nbsp;Rodas de liga-leve aro 17</span></span></strong></li>
+                                <li><strong><span style="color:#f39c12"><span style="font-size:14px">&nbsp;Sensor de estacionamento traseiro</span></span></strong></li>
+                                <li><strong><span style="color:#f39c12"><span style="font-size:14px">&nbsp;Sistema ISOFIX</span></span></strong></li>
+                            </ul>
+                            <p><strong><span style="color:#f39c12"><span style="font-size:14px">Se voc&ecirc; quiser garantir esse present&atilde;o, compre seu bilhete e tor&ccedil;a muito. Boa sorte!</span></span></strong></p>
+                        </div>
+                        <hr>
+                        <h5><i class="fas fa-trophy"></i> Lista de Prêmios</h5>
+                        <ul class="list-premios">
+                            <li>
+                                Uma BMW 320i + R$ 15.000,00 NA CONTA
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row m-t-3">
+                <div class="col-xs-12 m-b-3">
+                    <div class="title-content text-xs-center">
+                        <h4>Como Funciona</h4>
+                        <p>Veja abaixo como é fácil!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row row-flex justify-center flex-wrap">
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="motivo-item">
+                        <div class="number noselect">1</div>
+                        <div class="imagem">
+                            <img class="lazy" data-src="https://www.ppremios.com/portal/img/crop?img=712deea412a16b6ecb3cae55661e5be2.svg&" alt="Selecione os números">
+                        </div>
+                        <h5>Selecione os números</h5>
+                        <p>Escolha quantos quiser! Quanto mais, mais chances de ganhar.</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="motivo-item">
+                        <div class="number noselect">2</div>
+                        <div class="imagem">
+                            <img class="lazy" data-src="https://www.ppremios.com/portal/img/crop?img=76e732fa30d11ef13516358a85b1a746.svg&" alt="Faça o pagamento">
+                        </div>
+                        <h5>Faça o pagamento</h5>
+                        <p>Escolha uma das formas de pagamento disponíveis.</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="motivo-item">
+                        <div class="number noselect">3</div>
+                        <div class="imagem">
+                            <img class="lazy" data-src="https://www.ppremios.com/portal/img/crop?img=8d64f6117d806c7e8b10a29137a7c021.svg&" alt="Aguarde o sorteio">
+                        </div>
+                        <h5>Aguarde o sorteio</h5>
+                        <p>Agora é aguardar o sorteio pela Loteria Federal e boa sorte!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row m-t-2">
+                <div class="col-xs-12">
+                    <ul class="lista-clock">
+                        <span id="clock"></span>
+                        <li class="numero efeito3">
+                            <div class="tempo" id="dia">111</div>
+                            <span class="desc">Dias</span>
+                        </li>
+                        <li class="numero efeito3">
+                            <div class="tempo" id="hora">111</div>
+                            <span class="desc">Horas</span>
+                        </li>
+                        <li class="numero efeito3">
+                            <div class="tempo" id="minuto">111</div>
+                            <span class="desc">Minutos</span>
+                        </li>
+                        <li class="numero efeito3">
+                            <div class="tempo" id="segundo">111</div>
+                            <span class="desc">Segundos</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row m-t-3">
+                <div class="col-xs-12">
+                    <div class="title-content text-xs-center">
+                        <h4>Escolha aqui seus números da sorte</h4>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+            <div class="row m-t-1">
+                <div class="col-xs-12">
+                    <h5 class="font-weight-bold">
+                        <i class="fa fa-filter"></i>
+                        Filtrar números da sorte
+                    </h5>
+                    <ul class="list-filters">
+                        <li>
+                            <a href="javascript:void(0)" click="filtrar(0,$event)" :class="{ 'active' : filterStatus == 0}" class="btn btn-success"><span>(6604)</span> Disponíveis</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" click="filtrar(99,$event)" :class="{ 'active' : filterStatus == 99}" class="btn btn-default"><span>(10000)</span> Todos</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" click="filtrar(1,$event)" :class="{ 'active' : filterStatus == 1}" class="btn btn-warning"><span>(947)</span> Reservados</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" click="filtrar(2,$event)" :class="{ 'active' : filterStatus == 2}" class="btn btn-primary"><span>(2449)</span> Pago</a>
+                        </li>
+                    </ul>
+
+                    <div id="Rifas" class="row">
+
+                        @for (int x = 1; x <= Model.RangeCodigo; x++)
+                        {
+                            if (Comprados.Contains(x.ToString()))
+                            {
+                                <span class="NumeroRifa" data-numero="@x" style="background-color:red;">@x</span>
+                            }
+
+                            else if (Reservados.Contains(x.ToString()))
+                            {
+                                <span class="NumeroRifa" data-numero="@x" style="background-color:gray;">@x</span>
+                            }
+
+                            else
+                            {
+                                <span class="NumeroRifa Comprar" data-numero="@x" id="RifaNumero-@x">@x</span>
+                            }
+
+                        }
+
+                    </div>
+
+                </div>
             </div>
         </div>
     </section>
+</div>
 
-    <section style="z-index:0;">
+<div id="myModal2" class="modal">
 
-        @if (Model.Video != null)
-        {
-            <div class="form-group" style="margin-top:20px;" align="center">
-                <button class="btn btn-default" id="btnImagens" style="background-color: #E0C777; margin-top:10px;"><i class="fas fa-images"></i> Imagens</button>
-                <button class="btn btn-default" id="btnVideo" style="margin-top: 10px;"><i class="fas fa-video"></i> Vídeo</button>
+    <!-- Modal content -->
+    <div class="modal-content" style=" width: 57%; justify-content: flex-start; height: 50%;">
+        <i class="fas fa-times" style="float:right; align-self:flex-end; cursor:pointer;" id="Fechar"></i>
+        <h2>Atenção <i class="fas fa-exclamation"></i></h2>
+        <p> Bilhetes Selecionadas: <span id="RifasSelecionadas"></span></p>
+
+        @*<div class="form-group">
+                <strong>Forma de Pagamento</strong>
             </div>
-        }
-
-        <div class="carousel form-group" align="center" style="margin-top:20px; z-index:0;" id="Imagens">
-
-            @foreach (var x in ViewBag.Imagens)
-            {
-                <div><img src="~/Content/ImagemProdutos/@x.Caminho" alt="Imagem do Produto" style="width:30%;" class="imagem_produto" /></div>
-            }
-
-        </div>
-
-        @if (Model.Video != null)
-        {
-            <div class="form-group" align="center" style="margin-top:20px; display:none;" id="Video">
-                <div align="center" class="form-group">
-                    <video controls style="width:70%;">
-                        <source src="~/Content/VideoProdutos/@Model.Video" type="video/mp4">
-                    </video>
+            <div class="form-group">
+                <span class="NumeroRifa" style="padding:10px; font-size: 16px;">Cartão de Crédito</span>
+                <span class="NumeroRifa" style="padding:10px; font-size: 16px; background-color:lightgray;">Boleto</span>
+            </div>
+            <div class="form-group" style="width:80%; text-align:start;">
+                <div class="row">
+                    <div class="col-md-12 form-group">
+                        <strong>Número do Cartão</strong>
+                        <input type="text" class="form-control" placeholder="Digite o número do seu cartão" id="NumeroCartao" />
+                        <span class="ErroComprar" id="ErroNumero">Campo Obrigatório</span>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <strong>Nome do Titular</strong>
+                        <input type="text" class="form-control" placeholder="Digite o nome do Titulo do Cartão" id="TituloCartao" />
+                        <span class="ErroComprar" id="ErroTitulo">Campo Obrigatório</span>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <strong>CPF</strong>
+                        <input type="text" class="form-control" placeholder="Digite o CPF do dono do Cartão" id="CPFCartao" />
+                        <span class="ErroComprar" id="ErroCPF">Campo Obrigatório</span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <strong>Data de Vencimento</strong>
+                        <input type="text" class="form-control" placeholder="Digite a data de Vencimento do Cartão, Ex: 11/@DateTime.Now.Year.ToString()[2]@DateTime.Now.Year.ToString()[3]" id="DataCartao" />
+                        <span class="ErroComprar" id="ErroData">Campo Obrigatório</span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <strong>CVV</strong>
+                        <input type="text" class="form-control" placeholder="Digite o nome do Titulo do Cartão" maxlength="3" id="CVVCartao" />
+                        <span class="ErroComprar" id="ErroCVV">Campo Obrigatório</span>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <strong>Código do Vendedor</strong>
+                        <input type="text" class="form-control" placeholder="Digite o Código do Vendedor" maxlength="8" id="CodigoVendedor" />
+                        <span class="ErroComprar" id="ErroComprador">Campo Obrigatório</span>
+                    </div>
                 </div>
+            </div>*@
+
+        <div class="row form-group">
+            <div style="margin-top:12px;" class="col-md-6">
+                <p><strong>Valor Total: R$ <span id="ValorFinal"></span></strong></p>
+                <button class="btn btn-success" id="EfetuarPagamento" style="width:50%;">Efetuar Pagamento</button>
             </div>
-        }
 
-
-
-    </section>
-
-    <div class="informacoes">
-
-        <div align="center" id="Arrows">
-            <i class="fas fa-chevron-left fa-2x" id="prev"></i>
-            <i class="fas fa-chevron-right fa-2x" id="next"></i>
+            <div style="width:20%;" id="MercadoPagoImagem" class="col-md-6">
+                <img src="~/Imagens/pagamento-seguro.png" style="width:100%;" />
+            </div>
         </div>
 
-        <h5 align="center">Informações Importante</h5>
-        <p align="center">Confira abaixo as formas de pagamento, regras, contatos e tudo sobre o sorteio</p>
 
-        <div class="form-group text-center">
-            <button class="btn btn-default" id="btnInformacoes" style="background-color: #E0C777; margin-top:10px;"><i class="fas fa-info"></i> Informações do Item</button>
-            <button class="btn btn-default" id="btnDadosPagamento" style="margin-top: 10px;"><i class="fas fa-search-dollar"></i> Dados de Pagamento</button>
-            <button class="btn btn-default" id="btnRegulamento" style="margin-top: 10px;"><i class="fas fa-cogs"></i> Regulamento/Descrição</button>
-            <button class="btn btn-default" id="btnContato" style="margin-top: 10px;"><i class="fas fa-envelope"></i> Contato</button>
+
+    </div>
+</div>
+
+<div id="Quantidade" style="padding-left:35px; display:none; background-color:#222; color:white;">
+    <div style="display:flex; flex-direction:row; flex-wrap:wrap; width:100%;">
+        <div id="RifasEscolhidas" style="display:flex; flex-direction:row; flex-wrap:wrap; width:40%;"></div>
+
+        <div class="text-center" id="ValorTotalRifa">
+            <strong><span id="QuantidadeTotal"></span>x R$ <span id="ValorRifa"></span> = R$ <span id="ValorTotal"></span></strong>
+            <div style="margin-top:10px;">
+                <button class="btn btn-success" id="AbrirModal">Finalizar Compra</button>
+            </div>
         </div>
 
-        <div id="DadosPagamento" class="box_premio" style="display:none;">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ut nisl non ligula auctor faucibus. Vestibulum ante ipsum primis in
-            faucibus orci luctus et ultrices posuere cubilia curae; Morbi vitae turpis at purus viverra finibus. Sed suscipit orci lacus, in volutpat sapien
-            tincidunt ut. In hac habitasse platea dictumst. Aliquam laoreet aliquet odio, vel finibus risus. Orci varius natoque penatibus et magnis dis parturient montes,
-            nascetur ridiculus mus. Fusce tincidunt leo in tortor fringilla, sed pretium lorem sodales. Nam finibus volutpat mattis. Morbi gravida at justo vitae pulvinar.
-            Vivamus sed leo sed quam mattis euismod sit amet non velit.
-        </div>
-
-        <div id="Regulamento" style="display:none;" class="box_premio">
-            <div style="margin-left:30px;">
-                @Html.Raw(Model.Descricao)
-            </div>
-
-        </div>
-
-        <div id="InformacoesItem" class="box_premio row text-center">
-            <div class="col-md-12 text-center form-group">
-                <h3><i class="fas fa-trophy"></i> Prêmio: @Model.Nome</h3>
-                <h4><i class="fas fa-tags"></i> Categoria: @ViewBag.Categoria</h4>
-            </div>
-            <div class="col-md-4 form-group">
-                <strong>Valor Unitário: R$ @Math.Round(Model.ValorRifa, 2)</strong>
-            </div>
-            <div class="col-md-4 form-group">
-                <strong>Total: @Model.RangeCodigo</strong>
-            </div>
-            <div class="col-md-4 form-group">
-                <strong><i class="fas fa-hourglass-start"></i> Reservados/Comprados: @BilhetesIndisponiveis</strong>
-            </div>
-
-            <div class="col-md-4 form-group">
-                <strong><i class="fas fa-calendar"></i> Data do Sorteio: @Model.DataSorteio.Value.ToString("dd/MM/yyyy")</strong>
-            </div>
-
-            <div class="col-md-4 form-group">
-                <strong><i class="fas fa-map-marker-alt"></i> Cidade: @Usuario.Cidade</strong>
-            </div>
-
-            <div class="col-md-4 form-group">
-                <strong><i class="far fa-map"></i> Estado: @Usuario.Estado</strong>
-            </div>
-
-        </div>
-
-        <div id="Contato" style="display:none;" class="box_premio text-center">
-
-            <p><i class="fas fa-envelope"></i> <strong>Email: @Usuario.Email</strong></p>
-
-            <p><i class="fas fa-phone"></i> <strong>Telefone: @Usuario.Telefone</strong></p>
-
-        </div>
-
-        <div style="display:flex; flex-direction:row; align-items:center; justify-content:center; width:20%; margin:auto; margin-bottom:50px;">
-            <div style="margin:auto; width:100%; margin-right:20px; display:flex; flex-direction:column;">
-                <strong class="text-center">Comprados</strong>
-                <div class="NumeroRifa" style="height:40px; width:100%; background-color:red;">
-                    <span id="CountComprados">@ViewBag.CountComprados</span>
-                </div>
-            </div>
-
-            <div style="margin:auto; width:100%; margin-right:20px; display:flex; flex-direction:column;">
-                <strong class="text-center">Reservados</strong>
-                <div class="NumeroRifa" style="height:40px; width:100%; background-color:gray;">
-                    <span id="CountReservados">@ViewBag.BilhetesReservados.Length</span>
-                </div>
-            </div>
-
-            <div style="margin: auto; width: 100%; margin-right: 20px; display: flex; flex-direction: column;">
-                <strong class="text-center">Selecionados</strong>
-                <div class="NumeroRifa" style="height:40px; width:100%; background-color:rgb(37, 202, 23);">
-                    <span id="CountSelecionados">0</span>
-                </div>
-            </div>
-
-        </div>
-
-        <div id="Rifas" class="row">
-
-            @for (int x = 1; x <= Model.RangeCodigo; x++)
-            {
-                if (Comprados.Contains(x.ToString()))
-                {
-                    <span class="NumeroRifa" data-numero="@x" style="background-color:red;">@x</span>
-                }
-
-                else if (Reservados.Contains(x.ToString()))
-                {
-                    <span class="NumeroRifa" data-numero="@x" style="background-color:gray;">@x</span>
-                }
-
-                else
-                {
-                    <span class="NumeroRifa Comprar" data-numero="@x" id="RifaNumero-@x">@x</span>
-                }
-
-            }
-
-        </div>
     </div>
 </div>
 
 
+<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 
 
-@section Scripts{
 
-    <script>
+<script>
 
         $(document).ready(function () {
 
@@ -309,7 +447,7 @@
 
                 if (background == "rgb(37, 202, 23)") {
 
-                    $(this).css("background-color", "#E0C777");
+                    $(this).css("background-color", "#5cb85c");
 
                     Rifas = Rifas.filter(item => item !== numero[0].outerText);
 
@@ -570,6 +708,6 @@
 
 
 
-    </script>
+</script>
 
-}
+
